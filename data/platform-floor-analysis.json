@@ -2,35 +2,35 @@
   "confidence_floor": 0.3,
   "conditions": {
     "C0-minimal": {
-      "n_runs": 12,
+      "n_runs": 30,
       "floor_p50_ms": {
-        "point": 1227.8,
+        "point": 1694.4,
         "ci95": [
-          1194.5,
-          1661.1
+          1461.2,
+          1827.7
         ],
-        "ci_width": 466.7
+        "ci_width": 366.5
       },
       "floor_p95_ms": {
-        "point": 1761.2,
+        "point": 1961.2,
         "ci95": [
-          1361.1,
-          1994.5
+          1927.8,
+          2000.0
         ]
       },
-      "min_resolvable_model_difference_ms": 466.7,
+      "min_resolvable_model_difference_ms": 366.5,
       "substrate_reliability": {
-        "early_deaths": 0,
-        "n_runs": 12,
-        "rate_pct": 0.0,
+        "early_deaths": 3,
+        "n_runs": 30,
+        "rate_pct": 10.0,
         "wilson_ci_pct": [
-          0.0,
-          24.2
+          3.5,
+          25.6
         ],
         "meaning": "substrate failure floor under every Lens M product's reliability figure: a product's own contribution is only claimable where its interval separates from this one",
         "attribution_caveat": "NOT yet attributable to the platform: the death signature (~1-2s of output then stall) matches the rig-side send starvation bug found on the Decart path (slow VP8 encode). The minimal-rig profile comparison discriminates: near-zero early deaths there implicates rig load; ~equal rate implicates the substrate. Until then this is a rig+substrate combined rate."
       },
-      "delivery": "chunk-bursty (p95 gap 112 ms vs 33.3 ms frame period; TTFF/stall interpretation must account for chunking)"
+      "delivery": "chunk-bursty (p95 gap 107 ms vs 33.3 ms frame period; TTFF/stall interpretation must account for chunking)"
     },
     "C0": {
       "n_runs": 30,
@@ -105,20 +105,20 @@
       "ci_width": 333.2
     },
     "minimal_p50": {
-      "point": 1227.8,
+      "point": 1694.4,
       "ci95": [
-        1194.5,
-        1661.1
+        1461.2,
+        1827.7
       ],
-      "ci_width": 466.7
+      "ci_width": 366.5
     },
-    "rig_sensitivity_ms": 466.7,
+    "rig_sensitivity_ms": 0.1,
     "cis_overlap": true,
-    "verdict": "indeterminate: point delta ~467 ms is suggestive of a rig component but CIs overlap at this N - more minimal-profile runs would resolve it"
+    "verdict": "no meaningful rig contribution: the floor is platform-dominated and every Lens M product is latency-bound by Reactor rather than by rig or model choices"
   },
   "early_death_attribution": {
     "standard": "6/30",
-    "minimal": "0/12",
-    "verdict": "consistent with rig-load attribution (zero deaths at minimal send load; signature matches the known VP8 send-starvation bug) but NOT conclusive: intervals overlap at these Ns. Treat the standard-profile rate as rig+substrate combined until a larger minimal sample separates them."
+    "minimal": "3/30",
+    "verdict": "early deaths persist at minimal load - substrate-attributed"
   }
 }
