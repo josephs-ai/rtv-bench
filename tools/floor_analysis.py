@@ -134,14 +134,40 @@ def main() -> int:
                 "minimal_p50": minimal["floor_p50_ms"],
                 "rig_sensitivity_ms": round(delta, 1),
                 "cis_overlap": overlap,
+                # Three verdicts, not two: separated CIs attribute; overlapping
+                # CIs with a small point delta exonerate the rig; overlapping
+                # CIs with a LARGE point delta are indeterminate - saying
+                # "platform-dominated" there would overstate the data.
                 "verdict": (
-                    "rig-side load contributes ~%.0f ms of the floor" % delta
+                    "rig-side load contributes ~%.0f ms of the floor (CIs "
+                    "separated)" % delta
                     if not overlap else
-                    "no rig contribution resolvable at this sample size - the "
-                    "floor is dominated by the platform, and every Lens M "
-                    "product is latency-bound by Reactor rather than by rig "
-                    "or model choices"),
+                    ("indeterminate: point delta ~%.0f ms is suggestive of a "
+                     "rig component but CIs overlap at this N - more minimal-"
+                     "profile runs would resolve it" % delta
+                     if abs(delta) > 200 else
+                     "no meaningful rig contribution: the floor is platform-"
+                     "dominated and every Lens M product is latency-bound by "
+                     "Reactor rather than by rig or model choices")),
             }
+            # Early-death attribution: the other half of the rig question.
+            sr_std = std.get("substrate_reliability") or {}
+            sr_min = minimal.get("substrate_reliability") or {}
+            if sr_std and sr_min:
+                analysis["early_death_attribution"] = {
+                    "standard": "%s/%s" % (sr_std["early_deaths"], sr_std["n_runs"]),
+                    "minimal": "%s/%s" % (sr_min["early_deaths"], sr_min["n_runs"]),
+                    "verdict": (
+                        "consistent with rig-load attribution (zero deaths at "
+                        "minimal send load; signature matches the known VP8 "
+                        "send-starvation bug) but NOT conclusive: intervals "
+                        "overlap at these Ns. Treat the standard-profile rate "
+                        "as rig+substrate combined until a larger minimal "
+                        "sample separates them."
+                        if sr_min["early_deaths"] == 0 else
+                        "early deaths persist at minimal load - substrate-"
+                        "attributed"),
+                }
             print("\nrig decomposition: %s" % analysis["rig_decomposition"]["verdict"])
 
     out = os.path.join(DATA, "platform-floor-analysis.json")

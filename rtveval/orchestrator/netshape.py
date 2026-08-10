@@ -69,6 +69,15 @@ def _run(cmd: List[str]) -> str:
     return subprocess.run(cmd, check=True, capture_output=True, text=True).stdout
 
 
+def _default_interface() -> str:
+    out = subprocess.run(["route", "-n", "get", "default"],
+                         capture_output=True, text=True).stdout
+    for line in out.splitlines():
+        if "interface:" in line:
+            return line.split(":", 1)[1].strip()
+    return "en0"
+
+
 class DummynetShaper:
     """dnctl/pfctl application. Every mutation is followed by a read-back."""
 
@@ -81,11 +90,24 @@ class DummynetShaper:
         oneway_ms = cond.rtt_ms // 2
         _run(["sudo", "dnctl", "pipe", str(self.PIPE), "config",
               "delay", "%dms" % oneway_ms, "plr", "%g" % (cond.loss_pct / 100.0)])
-        # pf anchor routing all traffic through the pipe; idempotent reload.
-        rules = "dummynet in all pipe %d\ndummynet out all pipe %d\n" % (self.PIPE, self.PIPE)
-        subprocess.run(["sudo", "pfctl", "-a", "rtveval", "-f", "-"],
+        # A pf anchor is inert unless the MAIN ruleset references it (verified
+        # live: pipe configured, probe unchanged). Merge the stock pf.conf
+        # with our dummynet-anchor hook, then load rules into the anchor.
+        main = ('include "/etc/pf.conf"\n'
+                'dummynet-anchor "rtveval"\n'
+                'anchor "rtveval"\n')
+        subprocess.run(["sudo", "pfctl", "-q", "-f", "-"],
+                       input=main, check=True, capture_output=True, text=True)
+        # Scope to the default-route interface. With VPN tunnels present, an
+        # unscoped "all" matches the same packet on utunX AND en0, applying
+        # the delay twice (verified live: +219 ms for a 100 ms condition).
+        iface = _default_interface()
+        rules = ("dummynet in on %s all pipe %d\n"
+                 "dummynet out on %s all pipe %d\n"
+                 % (iface, self.PIPE, iface, self.PIPE))
+        subprocess.run(["sudo", "pfctl", "-q", "-a", "rtveval", "-f", "-"],
                        input=rules, check=True, capture_output=True, text=True)
-        subprocess.run(["sudo", "pfctl", "-E"], check=True, capture_output=True, text=True)
+        subprocess.run(["sudo", "pfctl", "-E"], check=False, capture_output=True, text=True)
         return self.read_back()
 
     def read_back(self) -> str:
@@ -95,7 +117,10 @@ class DummynetShaper:
             return "dnctl list failed: %s" % e
 
     def clear(self) -> None:
-        subprocess.run(["sudo", "pfctl", "-a", "rtveval", "-F", "all"],
+        subprocess.run(["sudo", "pfctl", "-q", "-a", "rtveval", "-F", "all"],
+                       check=False, capture_output=True)
+        # Restore the stock ruleset so the dummynet-anchor hook is gone too.
+        subprocess.run(["sudo", "pfctl", "-q", "-f", "/etc/pf.conf"],
                        check=False, capture_output=True)
         subprocess.run(["sudo", "dnctl", "-q", "flush"], check=False, capture_output=True)
 
