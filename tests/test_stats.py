@@ -110,6 +110,24 @@ def test_bradley_terry():
     print("  Bradley-Terry strengths: %s" % ["%.2f" % s for s in strengths])
 
 
+def test_amendment_log_matches_code():
+    """A silent edit to the pre-registered rubric must fail here: every
+    RUBRIC_VERSION needs a matching entry in the amendment log."""
+    import re
+    repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    log_path = os.path.join(repo, rubrics.AMENDMENT_LOG)
+    assert os.path.exists(log_path), "amendment log missing: %s" % rubrics.AMENDMENT_LOG
+    with open(log_path) as f:
+        versions = re.findall(r"^## v([\d.]+) ", f.read(), re.M)
+    assert versions, "amendment log has no entries"
+    assert versions[0] == rubrics.RUBRIC_VERSION, (
+        "rubric code is v%s but the newest amendment entry is v%s - a rubric "
+        "change without a logged amendment is a silent edit to a pre-registered "
+        "document" % (rubrics.RUBRIC_VERSION, versions[0]))
+    print("  rubric v%s has a matching amendment-log entry (newest of %d)"
+          % (rubrics.RUBRIC_VERSION, len(versions)))
+
+
 def test_intra_rater():
     dev, flag = stats.intra_rater_deviation(4, 2)
     assert flag and dev == 2

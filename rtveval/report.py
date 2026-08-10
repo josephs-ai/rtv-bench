@@ -125,6 +125,34 @@ class ProductTriple(NamedTuple):
                    self.latency.headline()))
 
 
+def coverage_statement(evaluated: Dict[str, str], unreachable: Dict[str, str],
+                       requested_total: int) -> str:
+    """Front-matter, not a limitations appendix: 'we evaluated N of the M
+    products requested' is the first thing the reader must see, with any
+    empty category named in the same breath. Takes {product: category} maps.
+    """
+    lines = ["## Coverage", ""]
+    n, m = len(evaluated), requested_total
+    lines.append("**This report evaluates %d of the %d products requested.**" % (n, m))
+    if unreachable:
+        for product, why in sorted(unreachable.items()):
+            lines.append("- **%s** was not evaluated: %s" % (product, why))
+        evaluated_cats = set(evaluated.values())
+        # A category with nothing reachable is a headline fact, not a footnote.
+        missing_cats = {c for c in _requested_categories(unreachable)
+                        if c not in evaluated_cats}
+        for cat in sorted(missing_cats):
+            lines.append("- **The %s category is empty**: no product in it was "
+                         "reachable. No conclusions about this category appear "
+                         "anywhere in this report." % cat.replace("_", " "))
+    return "\n".join(lines)
+
+
+def _requested_categories(unreachable: Dict[str, str]) -> set:
+    from .routing import BY_KEY
+    return {BY_KEY[p].category for p in unreachable if p in BY_KEY}
+
+
 def reliability_table(title: str, rates: Dict[str, Rate]) -> Table:
     """Reliability is lens-free in presentation but each rate keeps its N and
     CI; separability is stated pairwise, never implied."""

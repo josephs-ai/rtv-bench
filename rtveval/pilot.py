@@ -33,11 +33,13 @@ class GateResult(NamedTuple):
     passed: bool
     blockers: List[str]
     evidence: Dict[str, dict]
+    warnings: List[str] = []
 
     def __str__(self) -> str:
+        w = "".join("\n  ! %s" % x for x in self.warnings)
         if self.passed:
-            return "pilot gate PASSED (%d evidence files)" % len(self.evidence)
-        return "pilot gate BLOCKED:\n" + "\n".join("  - %s" % b for b in self.blockers)
+            return "pilot gate PASSED (%d evidence files)%s" % (len(self.evidence), w)
+        return "pilot gate BLOCKED:\n" + "\n".join("  - %s" % b for b in self.blockers) + w
 
 
 class GateError(RuntimeError):
@@ -107,6 +109,34 @@ CHECKS: Dict[str, tuple] = {
 }
 
 
+# Stages a human should have watched by eye before quality capture starts.
+# Non-blocking - the point is that skipping eyes-on-video is a VISIBLE choice.
+EYEBALL_STAGES_BEFORE_C = ("reel", "conform")
+
+
+def _eyeball_warnings(data_dir: str) -> List[str]:
+    path = os.path.join(data_dir, "eyeball-log.jsonl")
+    seen = set()
+    problems = []
+    if os.path.exists(path):
+        with open(path) as f:
+            for line in f:
+                if line.strip():
+                    rec = json.loads(line)
+                    seen.add(rec["stage"])
+                    if rec.get("verdict") == "problem":
+                        problems.append("eyeball log has an UNRESOLVED problem at "
+                                        "stage %r: %s" % (rec["stage"], rec["notes"]))
+    warnings = list(problems)
+    for stage in EYEBALL_STAGES_BEFORE_C:
+        if stage not in seen:
+            warnings.append("no human has watched %r-stage video by eye "
+                            "(tools/eyeball.py %s <dir>) - every number can be "
+                            "internally consistent while the output is visibly "
+                            "wrong" % (stage, stage))
+    return warnings
+
+
 def evaluate(data_dir: str = DATA_DIR) -> GateResult:
     blockers: List[str] = []
     evidence: Dict[str, dict] = {}
@@ -117,7 +147,8 @@ def evaluate(data_dir: str = DATA_DIR) -> GateResult:
             blockers.append(problem)
         elif doc is not None:
             evidence[key] = doc
-    return GateResult(passed=not blockers, blockers=blockers, evidence=evidence)
+    return GateResult(passed=not blockers, blockers=blockers, evidence=evidence,
+                      warnings=_eyeball_warnings(data_dir))
 
 
 def require_for_campaign_c(data_dir: str = DATA_DIR) -> dict:

@@ -22,6 +22,13 @@ from .routing import DIGITAL_HUMAN, GENERATION, V2V
 RUBRIC_VERSION = "1.0"
 RUBRIC_FROZEN_DATE = "2026-08-10"
 
+# Any change to this module's dimensions, weights, or descriptors bumps
+# RUBRIC_VERSION and adds an entry to docs/rubric-amendments.md - the test
+# suite cross-checks the two, so a silent edit to a pre-registered document
+# fails CI rather than passing review. Amending is legitimate (a rater trial
+# proving descriptors ambiguous is exactly the case); amending silently is not.
+AMENDMENT_LOG = "docs/rubric-amendments.md"
+
 # Variants, in report order.
 LIVE_PRODUCTION = "live_production"
 OFFLINE_STYLISED = "offline_stylised"

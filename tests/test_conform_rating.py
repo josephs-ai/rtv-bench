@@ -171,6 +171,18 @@ def test_knife_edge_margin_flagged():
           % notes[0][notes[0].index("KNIFE-EDGE"):][:60])
 
 
+def test_coverage_statement_is_front_matter():
+    evaluated = {"Lucy 2.5": "v2v", "Xmax X2.0": "v2v",
+                 "LingBot-World 2": "generation", "Happy Oyster": "generation"}
+    unreachable = {"pixverse-r1": "partner waitlist not granted by day 3",
+                   "vidu-s1": "enterprise beta application unanswered"}
+    md = report.coverage_statement(evaluated, unreachable, requested_total=6)
+    assert "4 of the 6 products" in md
+    assert "digital human category is empty" in md
+    assert "No conclusions about this category" in md
+    print("  coverage: '4 of 6' + empty digital-human category stated up front")
+
+
 def test_product_card_declares_spec_facts():
     card = report.ProductCard("Vidu S1", "P", "540p", 25.0, "vidu-s1@beta3",
                               input_conform_id="9f2a1c04d7e1")
