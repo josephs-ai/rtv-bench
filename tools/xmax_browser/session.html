@@ -13,6 +13,13 @@
   <video id="out" width="640" height="360" muted autoplay playsinline></video>
 </div>
 <canvas id="comp" width="1280" height="360" style="display:none"></canvas>
+<script type="importmap">
+{"imports": {
+  "@volcengine/rtc": "./vendor/volc-rtc.esm.js",
+  "cos-js-sdk-v5": "./vendor/stub-cos.js",
+  "heic-to/csp": "./vendor/stub-heic.js"
+}}
+</script>
 <script type="module">
 /* Composite session driver - two modes:
      ?mode=loopback&seconds=20&run=N   local RTCPeerConnection pair; measures
@@ -27,7 +34,13 @@
 const q = new URLSearchParams(location.search);
 const mode = q.get("mode") || "loopback";
 const seconds = parseFloat(q.get("seconds") || "20");
-const status = t => document.getElementById("status").textContent = t;
+const status = t => {
+  document.getElementById("status").textContent = t;
+  fetch("/log?m=" + encodeURIComponent(t)).catch(() => {});
+};
+window.addEventListener("error", e => status("JS ERROR: " + e.message));
+window.addEventListener("unhandledrejection",
+                        e => status("REJECTION: " + (e.reason?.message || e.reason)));
 
 const src = document.getElementById("src"), sctx = src.getContext("2d");
 const out = document.getElementById("out");

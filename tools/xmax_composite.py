@@ -52,6 +52,15 @@ class UploadHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=PAGE_DIR, **kw)
 
+    def do_GET(self):
+        if self.path.startswith("/log"):
+            import urllib.parse
+            q = urllib.parse.parse_qs(self.path.split("?", 1)[1] if "?" in self.path else "")
+            print("  [page] %s" % q.get("m", ["?"])[0][:180])
+            self.send_response(204); self.end_headers()
+            return
+        super().do_GET()
+
     def do_POST(self):
         if self.path.startswith("/upload"):
             length = int(self.headers["Content-Length"])
