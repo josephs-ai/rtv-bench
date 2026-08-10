@@ -70,6 +70,9 @@ class RunRow:
     capture_path: Optional[str] = None
     clip_id: Optional[str] = None
     prompt_id: Optional[str] = None
+    # Which deterministic conform produced this run's input (reel/conform.py).
+    # Two rows with different conform ids are not pixel-identical inputs.
+    input_conform_id: Optional[str] = None
 
     @property
     def effective_outcome(self) -> str:

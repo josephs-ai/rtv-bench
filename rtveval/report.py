@@ -136,17 +136,59 @@ def reliability_table(title: str, rates: Dict[str, Rate]) -> Table:
     return t
 
 
+# Below this CI gap (in probability), a separability claim is one or two runs
+# from flipping and must not carry weight in the executive summary.
+KNIFE_EDGE_MARGIN = 0.005
+
+
 def separability_notes(rates: Dict[str, Rate]) -> List[str]:
-    """One sentence per pair, from the CI rule and nothing else."""
+    """One sentence per pair, from the CI rule and nothing else.
+
+    Separable pairs state their margin; a knife-edge margin (the 99%-vs-95%
+    at N=300 case: intervals disjoint by ~0.15 pp, two runs either way flips
+    it) is flagged inline so the summary cannot quietly lean on it.
+    """
     notes = []
     items = sorted(rates.items())
     for i, (pa, ra) in enumerate(items):
         for pb, rb in items[i + 1:]:
             if ra.separable_from(rb):
+                hi, lo = (ra, rb) if ra.point > rb.point else (rb, ra)
                 better = pa if ra.point > rb.point else pb
-                notes.append("%s vs %s: intervals do not overlap - %s is more "
-                             "reliable at this sample size." % (pa, pb, better))
+                margin = hi.lo - lo.hi
+                note = ("%s vs %s: intervals do not overlap (margin %.2f pp) - "
+                        "%s is more reliable at this sample size."
+                        % (pa, pb, margin * 100, better))
+                if margin < KNIFE_EDGE_MARGIN:
+                    note += (" KNIFE-EDGE: a shift of one or two runs flips "
+                             "this; report it, but do not lean on it in the "
+                             "executive summary.")
+                notes.append(note)
             else:
                 notes.append("%s vs %s: no reliability difference detectable at "
                              "this sample size." % (pa, pb))
     return notes
+
+
+class ProductCard(NamedTuple):
+    """Declared spec facts live here - and only here. Resolution and fps never
+    enter aesthetic scores: rating clips are normalized to one display size,
+    and the reader weighs 540p against 1080p with the facts in front of them
+    rather than a rater doing it unconsciously as 'composition'."""
+
+    product: str
+    lens: str
+    declared_resolution: str  # e.g. "960p"
+    declared_fps: float
+    resolved_version: str
+    input_conform_id: Optional[str] = None
+
+    def markdown(self) -> str:
+        conform = (" | input conform `%s`" % self.input_conform_id
+                   if self.input_conform_id else "")
+        return ("**%s** *(Lens %s, `%s`)* - Declared: %s @ %g fps%s\n"
+                "*Resolution and fps are reported facts; rating clips were "
+                "normalized to a common display size and these do not enter "
+                "aesthetic scores.*"
+                % (self.product, self.lens, self.resolved_version,
+                   self.declared_resolution, self.declared_fps, conform))
