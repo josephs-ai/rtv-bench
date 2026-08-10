@@ -203,7 +203,7 @@ def test_gate_passes_and_dictates_capture_policy():
         {"product_key": "happy-oyster", "declared_contract": "text_directed",
          "confirmed_contract": "text_directed", "accepts_text_steer": True},
         {"product_key": "lingbot-world-2", "declared_contract": "movement_driven",
-         "confirmed_contract": "movement_driven", "accepts_text_steer": False}]})
+         "confirmed_contract": "text_directed", "accepts_text_steer": True}]})
 
     policy = pilot.require_for_campaign_c(d)
     assert policy["capture"] == "ffv1_lossless"

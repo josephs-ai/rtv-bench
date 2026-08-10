@@ -153,37 +153,34 @@ def test_same_contract_rankable():
 
 
 def test_cross_contract_ranking_refused():
+    # Probe showed LingBot accepts text direction, so the generation pair now
+    # shares a contract; the refusal mechanism is exercised across v2v vs text.
     try:
-        capability.assert_common_contract(["lingbot-world-2", "happy-oyster"])
+        capability.assert_common_contract(["lucy-2.5", "happy-oyster"])
         raise AssertionError("cross-contract ranking allowed")
     except capability.ContractViolation as e:
         assert "not performing the same task" in str(e)
-        print("  LingBot(movement) vs Happy Oyster(text): ranking refused")
+        print("  Lucy(v2v) vs Happy Oyster(text): ranking refused")
 
 
-def test_generation_ranking_plan_splits():
+def test_generation_ranking_plan_after_probe():
+    # Post-probe: LingBot evaluated text-directed -> ONE generation group.
     plan = capability.generation_ranking_plan(["lingbot-world-2", "happy-oyster"])
-    assert not plan["single_ranking"]
-    assert len(plan["groups"]) == 2
-    assert "no ranking is made across groups" in plan["note"]
-    print("  generation cohort splits into %d contract groups, no cross-rank"
-          % len(plan["groups"]))
+    assert plan["single_ranking"], plan["groups"]
+    print("  post-probe: lingbot + happy-oyster share text_directed, one ranking")
 
-    # If PixVerse lands (text-directed), it groups WITH Happy Oyster.
-    plan2 = capability.generation_ranking_plan(
-        ["happy-oyster", "pixverse-r1", "lingbot-world-2"])
-    groups = plan2["groups"]
-    assert set(groups["text_directed"]) == {"happy-oyster", "pixverse-r1"}
-    assert groups["movement_driven"] == ["lingbot-world-2"]
-    print("  with PixVerse: text group {happy-oyster, pixverse}, movement {lingbot}")
+    # The split mechanism still works when contracts genuinely differ.
+    plan2 = capability.generation_ranking_plan(["lucy-2.5", "happy-oyster"])
+    assert not plan2["single_ranking"] and len(plan2["groups"]) == 2
+    print("  mechanism intact: v2v vs text still splits, no cross-rank")
 
 
 def test_probe_record_flags_mismatch():
     ok = capability.probe_record("happy-oyster", "text_directed", True, "took G7 steer")
     assert ok.matches_declared and ok.accepts_text_steer
-    bad = capability.probe_record("lingbot-world-2", "text_directed", True,
-                                  "unexpectedly accepted text")
-    assert not bad.matches_declared  # declared movement_driven, probe says text
+    bad = capability.probe_record("lingbot-world-2", "movement_driven", False,
+                                  "hypothetical regression to WASD-only")
+    assert not bad.matches_declared  # routing now says text_directed
     print("  probe record confirms match / surfaces mismatch vs declared")
 
 
