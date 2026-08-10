@@ -16,8 +16,8 @@ TIMEOUT_S = 30
 
 # Tried in order until one returns a parseable list of models.
 CANDIDATE_PATHS = (
+    "/models",  # live-confirmed 2026-08-10
     "/v1/models",
-    "/models",
     "/api/v1/models",
     "/v1/model/list",
     "/v1/catalog",
@@ -33,11 +33,40 @@ class ProbeError(RuntimeError):
     pass
 
 
-def _request(url: str, api_key: str) -> Tuple[int, Any]:
+def mint_token(base_url: str, api_key: str) -> str:
+    """Exchange the long-lived rk_ API key for a short-lived JWT.
+
+    Live-verified 2026-08-10: POST /tokens with header `Reactor-API-Key`
+    returns {"jwt", "expires_at"}. The raw API key is NEVER a valid Bearer
+    token - sending it yields "Invalid or expired token", which reads like a
+    bad key but is actually a missing exchange step.
+    """
+    req = urllib.request.Request(
+        base_url + "/tokens", data=b"{}",
+        headers={"Reactor-API-Key": api_key.strip(),
+                 "Content-Type": "application/json",
+                 "Accept": "application/json",
+                 "User-Agent": USER_AGENT},
+        method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT_S) as resp:
+            body = json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        raise ProbeError("token mint failed: HTTP %d %s"
+                         % (e.code, e.read(200).decode("utf-8", "replace")))
+    except urllib.error.URLError as e:
+        raise ProbeError("cannot reach %s/tokens: %s" % (base_url, e.reason))
+    jwt = body.get("jwt") or body.get("token")
+    if not jwt:
+        raise ProbeError("token mint returned no jwt field: %s" % sorted(body))
+    return jwt
+
+
+def _request(url: str, bearer_token: str) -> Tuple[int, Any]:
     req = urllib.request.Request(
         url,
         headers={
-            "Authorization": "Bearer %s" % api_key,
+            "Authorization": "Bearer %s" % bearer_token,
             "Accept": "application/json",
             "User-Agent": USER_AGENT,
         },
@@ -91,9 +120,11 @@ def fetch_catalog(base_url: str, api_key: str, path: Optional[str] = None,
                   max_pages: int = 20) -> Dict[str, Any]:
     """Return {"path", "entries", "pages", "attempts"}.
 
-    `attempts` records every path tried and what came back, so a failed probe is
-    still a reportable result rather than a shrug.
+    Mints a JWT from the API key first (see mint_token), then walks candidate
+    catalog paths with it. `attempts` records every path tried and what came
+    back, so a failed probe is still a reportable result rather than a shrug.
     """
+    api_key = mint_token(base_url, api_key)  # exchange; Bearer wants the JWT
     attempts: List[Dict[str, Any]] = []
     paths = (path,) if path else CANDIDATE_PATHS
 

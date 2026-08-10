@@ -38,36 +38,46 @@ PRODUCTS: List[Product] = [
         planned_lens="P",
     ),
     # Routing changed 2026-08-10: user elected to run Xmax via Reactor rather
-    # than obtain the self-serve native key. Consequence: Xmax is Lens M, so
-    # the Lucy-vs-Xmax V2V LATENCY head-to-head crosses lenses and cannot
-    # share a table unless a bridge exists. Note the native key remains the
-    # cheapest possible bridge: Xmax on both routes would give the sec 2.1
-    # Reactor delta directly, even if Lucy is absent from the catalog.
+    # than obtain the self-serve native key. Probe confirmed `xmax/x2`
+    # (75b9886b-1fb5-4bb3-873a-6a44f5b8c70d) in the catalog.
+    # Probe also showed Lucy is NOT on Reactor - so Xmax-on-both-routes is now
+    # the ONLY possible sec 2.1 bridge. Without the self-serve native key,
+    # Lens M and Lens P latencies cannot be reconciled and the Lucy-vs-Xmax
+    # latency head-to-head cannot be made.
     Product(
         key="xmax-x2.0",
         display="Xmax X2.0",
         category=V2V,
         vendor="Xmax",
-        aliases=("xmax", "x2.0", "x2-0"),
+        aliases=("xmax", "x2.0", "x2-0", "x2"),
         planned_route="reactor",
         planned_lens="M",
     ),
+    # Probe 2026-08-10: catalog id `reactor/lingbot-world-2`
+    # (356908d6-a8d5-470f-9a28-3c99a7b0c074). NOTE: v1 (`reactor/lingbot`) is
+    # ALSO served - the alias here is deliberately exact so v1 can never
+    # match; pinning the wrong generation would violate hard rule 5 silently.
     Product(
         key="lingbot-world-2",
         display="LingBot-World 2",
         category=GENERATION,
         vendor="Ant",
-        aliases=("lingbot", "ling-bot", "lingguang", "world 2", "world-2"),
+        aliases=("lingbot-world-2", "lingbot world 2", "lingbot-world-v2"),
         planned_route="reactor",
         planned_lens="M",
     ),
+    # Probe 2026-08-10: NOT FOUND in the Reactor catalog under any alias.
+    # Undescribed candidates exist (reactor/hy-world, omnidreams, livecore,
+    # worldcore) - "hy-world" is initials-compatible but that is a guess, not
+    # a routing decision. UNRESOLVED until Reactor support confirms the
+    # mapping; if absent, the report's coverage statement applies.
     Product(
         key="happy-oyster",
         display="Happy Oyster",
         category=GENERATION,
         vendor="Alibaba",
-        aliases=("happy oyster", "happy-oyster", "oyster", "kuaile", "haoshi"),
-        planned_route="reactor",
+        aliases=("happy oyster", "happy-oyster", "oyster"),
+        planned_route="reactor-UNRESOLVED",
         planned_lens="M",
     ),
     Product(
