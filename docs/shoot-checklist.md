@@ -38,6 +38,12 @@ conform path is a downscale (conform.py refuses upscales). 4K60 recommended;
 1440p60 minimum. Locked exposure and white balance except where the stressor
 IS the change (V4). Tripod except V8.
 
+**One camera setup, one framerate, all ten clips.** Mixed source framerates
+would leave the conform recipe honest about itself while the inputs remain
+temporally non-identical — motion cadence, shutter, frame timing — which is
+precisely the confound the conform path exists to eliminate. If a clip must be
+reshot later, reshoot it with the same body, lens, and framerate settings.
+
 | ID | Clip | Reshoot-prone |
 |---|---|---|
 | V1 | Static face close-up, even light | |
