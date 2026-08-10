@@ -1,0 +1,32 @@
+# Core harness: orchestration, capture bookkeeping, analysis.
+# Everything here is needed to run campaigns and produce the report tables.
+
+# --- API access ---
+httpx>=0.27              # native vendor APIs + Reactor
+websockets>=12.0         # real-time streaming products are ws-based
+tenacity>=8.2            # exponential backoff, capped at 3 attempts (addendum Part 8)
+
+# --- run records / data ---
+pydantic>=2.7            # runs.csv + ratings.csv schemas (spec Part H)
+pandas>=2.2
+numpy>=1.26
+scipy>=1.13
+
+# --- statistics the spec mandates ---
+statsmodels>=0.14        # Wilson score intervals (spec Part B.2)
+krippendorff>=0.8        # inter-rater agreement, ordinal (spec Part G)
+choix>=0.3.5             # Bradley-Terry on forced-choice data (spec Part G)
+
+# --- frame-level work: classification, capture integrity ---
+# Deliberately NO opencv here. PyAV and opencv-python each vendor their own
+# libavdevice; importing both in one process duplicates ObjC classes and macOS
+# warns of "spurious casting failures and mysterious crashes". The core harness
+# runs unattended overnight, so it decodes with PyAV only. OpenCV arrives with
+# insightface in the separate metrics env, which is an offline pass.
+av>=12.0                 # frame-accurate decode, CFR verification
+imagehash>=4.3           # perceptual hashing -> dropped/duplicate frames
+pillow>=10.3
+
+# --- reporting ---
+matplotlib>=3.8          # degradation curves C0->C3
+tqdm>=4.66

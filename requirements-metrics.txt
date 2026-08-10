@@ -1,0 +1,29 @@
+# Computed quality proxies (spec Part D). Heavy — torch and model weights.
+# Installed separately so the core harness stays quick to provision on a lane.
+#
+# Metric -> implementation:
+#   Temporal flicker   LPIPS (AlexNet backbone)        lpips
+#   Motion fidelity    RAFT optical flow EPE           torchvision.models.optical_flow.raft_large
+#   Identity pres.     ArcFace cosine sim + slope      insightface (onnxruntime)
+#   Prompt adherence   CLIP ViT-L/14                   open_clip_torch
+#   Lip-sync           SyncNet LSE-C / LSE-D           NOT ON PyPI - see note below
+#
+# SyncNet has no pip distribution. It needs the syncnet_python repo plus its
+# pretrained weights, vendored under third_party/. Only required if Vidu S1
+# (digital human) becomes reachable — gated at time of writing.
+#
+# INSTALL INTO .venv-metrics, NOT .venv. insightface pulls in opencv-python,
+# which conflicts with PyAV's bundled libavdevice (see requirements.txt). The
+# two never share a process: the harness captures, this pass measures.
+#   uv venv --python 3.12 .venv-metrics
+#   VIRTUAL_ENV=.venv-metrics uv pip install -r requirements-metrics.txt
+
+-r requirements.txt
+
+torch>=2.3               # MPS backend on Apple Silicon
+torchvision>=0.18        # RAFT lives here; avoids a separate flow repo
+lpips>=0.1.4
+open_clip_torch>=2.24
+insightface>=0.7.3       # ArcFace
+onnxruntime>=1.18        # insightface runtime
+scikit-image>=0.23       # SSIM and friends, cross-checks
