@@ -120,5 +120,6 @@
     "standard": "6/30",
     "minimal": "3/30",
     "verdict": "early deaths persist at minimal load - substrate-attributed"
-  }
+  },
+  "VANTAGE_STALE": "Measured from the pre-2026-08-10-evening network vantage (VPN exit, ~200ms baseline RTT, CloudFront SIN edge). The client vantage changed mid-study (Barcelona). Per plan sec 12 (server proximity = dominant confounder), ALL floor calibrations must be RE-RUN from the pinned final vantage before any campaign, and no number in this file may be subtracted from a campaign measurement made elsewhere."
 }
