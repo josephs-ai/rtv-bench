@@ -66,18 +66,25 @@ PRODUCTS: List[Product] = [
         planned_route="reactor",
         planned_lens="M",
     ),
-    # Probe 2026-08-10: NOT FOUND in the Reactor catalog under any alias.
-    # Undescribed candidates exist (reactor/hy-world, omnidreams, livecore,
-    # worldcore) - "hy-world" is initials-compatible but that is a guess, not
-    # a routing decision. UNRESOLVED until Reactor support confirms the
-    # mapping; if absent, the report's coverage statement applies.
+    # Resolved 2026-08-10: served on Reactor but UNLISTED - GET /models omits
+    # it, yet POST /sessions creates fine (201, session verified + deleted).
+    # Ids from the @reactor-models/happy-oyster SDK bundle:
+    #   reactor/happy-oyster-adventure  (exploration / camera control)
+    #   reactor/happy-oyster-director   (text-steered, pause/rewind)
+    # Eval target: DIRECTOR - the generation prompt set (G1-G7, incl. the G7
+    # mid-stream steer) is text-driven, which is director mode's contract.
+    # Session response carries model.version + server_version + cluster: use
+    # those for the run row (hard rule 5). NOTE the catalog re-check in
+    # ReactorAdapter._resolve_version will NOT find unlisted models - resolve
+    # via session response instead for this product.
     Product(
         key="happy-oyster",
         display="Happy Oyster",
         category=GENERATION,
         vendor="Alibaba",
-        aliases=("happy oyster", "happy-oyster", "oyster"),
-        planned_route="reactor-UNRESOLVED",
+        aliases=("happy-oyster-director", "happy-oyster-adventure",
+                 "happy oyster", "happy-oyster"),
+        planned_route="reactor",
         planned_lens="M",
     ),
     Product(
