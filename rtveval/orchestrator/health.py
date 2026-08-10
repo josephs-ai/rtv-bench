@@ -95,8 +95,69 @@ def control_ping(host: str = "1.1.1.1", port: int = 443,
                            % (host, port, e), t0, _utcnow())
 
 
+# The vantage is part of the rig. Discovered the hard way: the VPN tunnel
+# rotated mid-calibration and its churn masqueraded as platform jitter for
+# an entire dataset. Tolerance matches the overnight runner's.
+VANTAGE_DRIFT_TOLERANCE_MS = 40.0
+TURN_HOST = "turn.us-east-1.aws.prod.reactor.inc"
+
+
+def turn_udp_check(host: str = TURN_HOST, port: int = 3478,
+                   timeout_s: float = 4.0) -> CheckResult:
+    """WebRTC media path liveness: a STUN binding request must get a reply.
+    TCP-only reachability is NOT enough - media rides UDP, and a TCP-fine/
+    UDP-dead tunnel produces sessions that establish and streams that never
+    flow (observed live)."""
+    t0 = time.monotonic()
+    try:
+        ip = socket.gethostbyname(host)
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.settimeout(timeout_s)
+        s.sendto(b'\x00\x01\x00\x00!\x12\xa4B' + b'\x00' * 12, (ip, port))
+        s.recvfrom(1024)
+        return CheckResult("turn_udp", True, "%s:%d STUN reply" % (host, port),
+                           t0, _utcnow())
+    except Exception as e:
+        return CheckResult("turn_udp", False,
+                           "%s:%d no STUN reply (%s) - media path dead"
+                           % (host, port, type(e).__name__), t0, _utcnow())
+
+
+def vantage_drift_check(session_baseline_rtt_ms: float,
+                        probe: Callable[[], Optional[float]] = None,
+                        tolerance_ms: float = VANTAGE_DRIFT_TOLERANCE_MS) -> CheckResult:
+    """The tunnel-churn guard: current baseline RTT vs the SESSION's pinned
+    baseline. Drift beyond tolerance means the vantage moved - every affected
+    run is E (rig), not data."""
+    from . import netshape
+
+    t0 = time.monotonic()
+    rtt = (probe or netshape.probe_rtt_ms)()
+    if rtt is None:
+        return CheckResult("vantage_drift", False, "RTT probe failed", t0, _utcnow())
+    drift = abs(rtt - session_baseline_rtt_ms)
+    ok = drift <= tolerance_ms
+    return CheckResult("vantage_drift", ok,
+                       "rtt %.1f ms vs session baseline %.1f (drift %.1f, "
+                       "tolerance %.0f)%s" % (rtt, session_baseline_rtt_ms, drift,
+                                              tolerance_ms,
+                                              "" if ok else " - VANTAGE MOVED"),
+                       t0, _utcnow())
+
+
 def preflight(grab_frame: Callable[[], Optional[np.ndarray]],
-              ping_host: str = "1.1.1.1", **kw) -> RigEvidence:
-    """Run between runs (addendum Part 8). Cheap enough to be unconditional."""
-    return RigEvidence(checks=[playhead_check(grab_frame, **kw),
-                               control_ping(host=ping_host)])
+              ping_host: str = "1.1.1.1",
+              session_baseline_rtt_ms: Optional[float] = None,
+              check_turn_udp: bool = False, **kw) -> RigEvidence:
+    """Run between runs (addendum Part 8). Cheap enough to be unconditional.
+
+    Campaign runners pass session_baseline_rtt_ms (pinned at campaign start)
+    and check_turn_udp=True for any WebRTC product, adding the vantage guards
+    to rig evidence - a tunnel switch then classifies runs E instead of
+    letting churn impersonate product behaviour."""
+    checks = [playhead_check(grab_frame, **kw), control_ping(host=ping_host)]
+    if session_baseline_rtt_ms is not None:
+        checks.append(vantage_drift_check(session_baseline_rtt_ms))
+    if check_turn_udp:
+        checks.append(turn_udp_check())
+    return RigEvidence(checks=checks)

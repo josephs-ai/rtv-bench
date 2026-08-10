@@ -175,6 +175,19 @@ def test_playhead_catches_frozen_source():
     print("  advancing source: passed (%s)" % r.detail)
 
 
+def test_vantage_drift_taints_as_rig_evidence():
+    """Tunnel churn -> E, not data. 30ms drift passes; 80ms fails."""
+    ok = health.vantage_drift_check(200.0, probe=lambda: 230.0)
+    assert ok.ok, ok.detail
+    moved = health.vantage_drift_check(200.0, probe=lambda: 280.0)
+    assert not moved.ok and "VANTAGE MOVED" in moved.detail
+    ev = health.RigEvidence(checks=[moved])
+    assert ev.rig_failed  # -> automatic E on positive evidence
+    dead = health.vantage_drift_check(200.0, probe=lambda: None)
+    assert not dead.ok
+    print("  drift 30ms ok; 80ms -> rig evidence -> E; dead probe fails")
+
+
 # --- 5. E-adjudication -------------------------------------------------------
 
 def _mk_result(stop_reason, n_events=100):
