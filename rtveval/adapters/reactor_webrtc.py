@@ -69,6 +69,35 @@ class ReactorWebRTCAdapter(Adapter):
             raise RuntimeError("Reactor config incomplete: set %s and "
                                "REACTOR_BASE_URL" % self.cfg.key_env)
 
+        # RTVEVAL_FORCE_TURN_TCP=1: keep ONLY the turns/tcp relay URI in the
+        # fetched ICE list. aiortc uses the FIRST TURN uri per server entry -
+        # on a UDP-blocked tunnel that is the dead turn:3478, so the working
+        # TLS relay is never tried (verified live: allocation over :443
+        # succeeds while every UDP probe dies). All Lens M media then rides
+        # the same TCP relay: within-lens comparisons stay same-substrate,
+        # and the floor calibration measures the same path the products use.
+        import os
+        if os.environ.get("RTVEVAL_FORCE_TURN_TCP") == "1":
+            from reactor_sdk.transport import webrtc as _w
+            if not getattr(_w, "_rtveval_tcp_patch", False):
+                orig = _w._transform_ice_servers
+
+                def tcp_only(response):
+                    filtered = []
+                    for entry in response.get("ice_servers", []):
+                        uris = [u for u in entry.get("uris", [])
+                                if "transport=tcp" in u]
+                        if uris:
+                            filtered.append({**entry, "uris": uris})
+                    return orig({"ice_servers": filtered or
+                                 response.get("ice_servers", [])})
+
+                _w._transform_ice_servers = tcp_only
+                _w._rtveval_tcp_patch = True
+            self.turn_mode = "turn-tls-tcp-forced"
+        else:
+            self.turn_mode = "default"
+
         self.reactor = Reactor(self.model_name, api_key=self.cfg.api_key.strip(),
                                api_url=self.cfg.base_url)
         self.reactor.set_frame_callback(self._dispatch_frame)  # BEFORE connect

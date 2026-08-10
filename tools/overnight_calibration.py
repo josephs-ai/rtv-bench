@@ -42,8 +42,16 @@ DRIFT_TOLERANCE_MS = 40.0
 
 
 def turn_udp_ok() -> bool:
+    """Media-path liveness. Under RTVEVAL_FORCE_TURN_TCP=1 the media rides the
+    TLS relay on 443, so the check is TCP reachability of the relay instead of
+    a UDP STUN reply (which this tunnel will never give)."""
     try:
         ip = socket.gethostbyname(TURN_HOST)
+        if os.environ.get("RTVEVAL_FORCE_TURN_TCP") == "1":
+            t = socket.socket(); t.settimeout(4)
+            ok = t.connect_ex((ip, 443)) == 0
+            t.close()
+            return ok
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.settimeout(4)
         s.sendto(b'\x00\x01\x00\x00!\x12\xa4B' + b'\x00' * 12, (ip, 3478))
@@ -117,7 +125,11 @@ def _save(summary):
 def main() -> int:
     summary = {"started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                "purpose": ("full recalibration from pinned vantage after "
-                           "tunnel-switch contamination"), "arms": []}
+                           "tunnel-switch contamination"),
+               "media_transport": ("turn-tls-tcp-forced"
+                                   if os.environ.get("RTVEVAL_FORCE_TURN_TCP") == "1"
+                                   else "default"),
+               "arms": []}
 
     pre = vantage()
     print("preflight: rtt=%s ms, TURN UDP=%s" % (pre["baseline_rtt_ms"], pre["turn_udp"]))
