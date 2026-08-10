@@ -56,7 +56,16 @@ PRODUCTS: List[Product] = [
         planned_lens="P",
         interaction_contract=V2V_TRANSFORM,
     ),
-    # DECISION (2026-08-10, final): Xmax runs via Reactor only; no native key.
+    # UPDATE (2026-08-10, later): user obtained the native key after all, and
+    # api.xmaxai.com/open/api/v1 verified live (session created+closed; model
+    # 'x2.0', modelUid x2-wgqxxnhmsu; media = ByteRTC room join). Xmax is now
+    # DUAL-ROUTED: Lens M via Reactor (xmax/x2) AND Lens P via native - which
+    # revives the sec 2.1 bridge measurement and the measured Lucy-vs-Xmax
+    # Lens P head-to-head. Native media plane is VolcEngine ByteRTC (no
+    # official Python SDK - transport approach TBD; /offline-task API exists
+    # as a non-realtime fallback for quality captures).
+    # Superseded decision below kept for the record:
+    # DECISION (2026-08-10, earlier): Xmax runs via Reactor only; no native key.
     # Probe confirmed `xmax/x2` (75b9886b-...) in the catalog; Lucy is NOT on
     # Reactor, so no dual-routed bridge exists. Instead, the echo platform-
     # floor calibration (tools/echo_calibration.py, data/platform-floor-*.json)
