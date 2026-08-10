@@ -1,0 +1,55 @@
+{
+  "sidecar_version": 1,
+  "reel_path": "echo-cal.mp4",
+  "n_frames": 600,
+  "fps_cfr": 30.0,
+  "width": 640,
+  "height": 360,
+  "flash": {
+    "frames": [
+      30,
+      60,
+      90,
+      120,
+      150,
+      180,
+      210,
+      240,
+      270,
+      300,
+      330,
+      360,
+      390,
+      420,
+      450,
+      480,
+      510,
+      540,
+      570
+    ],
+    "interval_ms": 1000.0,
+    "intensity": 90,
+    "duration_frames": 1
+  },
+  "block_strip": {
+    "geometry": {
+      "x0": 32,
+      "y0": 0,
+      "block_w": 25,
+      "block_h": 18,
+      "n_blocks": 23
+    },
+    "data_bits": 20,
+    "bit_order": "lsb_first",
+    "parity": "even",
+    "min_ref_contrast": 25.0,
+    "encodes": "frame_index"
+  },
+  "clips": [
+    {
+      "clip_id": "CAL",
+      "start_frame": 0,
+      "end_frame": 600
+    }
+  ]
+}
