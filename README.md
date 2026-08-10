@@ -100,8 +100,27 @@ methodology section.
 - SyncNet is not on PyPI: `tools/prestage_syncnet.py` stages it under
   `third_party/`; integration waits on Vidu S1 access.
 
+## Network conditions on macOS
+
+`tc netem` is Linux; macOS has no netns, so per-lane shaping is replaced by
+**time-blocked global phases** (dnctl/pfctl dummynet), with phase boundaries
+landing on round boundaries — every product gets identical exposure to every
+condition, at the cost of concurrent multi-condition lanes. The condition
+recorded per run is the **applied state** (dnctl read-back + live RTT probe
+against a session baseline), never the schedule's intention; a failed
+verification is rig evidence → E. Day-1 checklist: grant NOPASSWD sudo for
+exactly `dnctl` and `pfctl`.
+
+## Overnight caveat (verify day 1)
+
+The virtual camera on macOS is OBS Virtual Camera — GUI-launched. Before the
+first unattended window, verify it survives hours without the session dying
+(screen lock, App Nap, sleep all disabled). If it freezes, the playhead
+positive control catches it (two grabs 1 s apart must differ) and runs
+classify E rather than producing garbage.
+
 ## Not built yet
 
-Product adapters (Decart / Xmax / Reactor streaming), orchestrator (durable
-queue, lanes, netem, spend cap), capture rig, auto-classifier, rating tool,
-report generation. Routing decisions wait on the catalog probe.
+Rating tool (blinded presentation, hidden repeats), campaign drivers wiring
+queue+adapters+capture together, report document assembly. Routing decisions
+wait on the catalog probe.
