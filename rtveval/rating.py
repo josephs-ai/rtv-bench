@@ -221,13 +221,18 @@ def pair_plan(rater_id: str, shuffle_seed: int, side_seed: int,
     Both seeds are logged in every presentation row.
     """
     order_rng = random.Random("%d:%s:pairs" % (shuffle_seed, rater_id))
-    side_rng = random.Random("%d:%s:sides" % (side_seed, rater_id))
 
     ordered = list(pairs)
     order_rng.shuffle(ordered)
     out = []
     for i, (a, b) in enumerate(ordered):
-        left, right = (a, b) if side_rng.random() < 0.5 else (b, a)
+        # Side is a pure function of (side_seed, rater, THE PAIR) - never of
+        # its position. A sequential side stream over shuffled order would
+        # couple the two seeds: reshuffling silently reassigns sides. (Caught
+        # by test before it could bias anything.)
+        pair_rng = random.Random("%d:%s:%s" % (side_seed, rater_id,
+                                               "|".join(sorted((a, b)))))
+        left, right = (a, b) if pair_rng.random() < 0.5 else (b, a)
         out.append(PairPresentation(i, left, right, side_seed))
     return out
 
