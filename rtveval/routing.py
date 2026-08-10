@@ -37,14 +37,20 @@ PRODUCTS: List[Product] = [
         planned_route="decart-native",
         planned_lens="P",
     ),
+    # Routing changed 2026-08-10: user elected to run Xmax via Reactor rather
+    # than obtain the self-serve native key. Consequence: Xmax is Lens M, so
+    # the Lucy-vs-Xmax V2V LATENCY head-to-head crosses lenses and cannot
+    # share a table unless a bridge exists. Note the native key remains the
+    # cheapest possible bridge: Xmax on both routes would give the sec 2.1
+    # Reactor delta directly, even if Lucy is absent from the catalog.
     Product(
         key="xmax-x2.0",
         display="Xmax X2.0",
         category=V2V,
         vendor="Xmax",
         aliases=("xmax", "x2.0", "x2-0"),
-        planned_route="xmax-native",
-        planned_lens="P",
+        planned_route="reactor",
+        planned_lens="M",
     ),
     Product(
         key="lingbot-world-2",
