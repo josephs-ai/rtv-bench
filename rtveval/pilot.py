@@ -101,11 +101,33 @@ def _check_raters(doc: Optional[dict]) -> Optional[str]:
     return None
 
 
+def _check_contracts(doc: Optional[dict]) -> Optional[str]:
+    """Each generation product's interaction contract confirmed by a real
+    probe (capability.probe_record), not assumed. G1-G7 presume text
+    direction; running a movement-driven model through them unprobed scores
+    measurement error as product failure."""
+    if doc is None:
+        return ("interaction-contracts.json missing - probe what each "
+                "generation product actually accepts (text direction? G7 "
+                "mid-stream steer?) before any Campaign C generation run")
+    probes = doc.get("probes")
+    if not probes:
+        return "interaction-contracts.json has no probes"
+    mismatched = [p["product_key"] for p in probes
+                  if p.get("confirmed_contract") != p.get("declared_contract")]
+    if mismatched:
+        return ("probed contract differs from routing.py for: %s - update "
+                "routing (and the ranking groups) before Campaign C"
+                % ", ".join(mismatched))
+    return None
+
+
 CHECKS: Dict[str, tuple] = {
     "encoder_contamination": ("encoder-contamination.json", _check_encoder),
     "method_crosscheck": ("method-crosscheck.json", _check_crosscheck),
     "band_separation": ("band-separation.json", _check_bands),
     "rater_agreement": ("rater-trial.json", _check_raters),
+    "interaction_contracts": ("interaction-contracts.json", _check_contracts),
 }
 
 

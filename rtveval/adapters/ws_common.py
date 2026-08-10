@@ -50,10 +50,20 @@ class StreamSession:
                  classify_message: Callable[[Any], Tuple[str, Optional[Dict]]],
                  refusal_matcher: Callable[[str], Optional[str]],
                  first_frame_timeout_s: float = FIRST_FRAME_TIMEOUT_S,
-                 stall_timeout_s: float = STALL_TIMEOUT_S):
+                 stall_timeout_s: float = STALL_TIMEOUT_S,
+                 token_manager=None,
+                 reconnect_margin_s: float = 5.0):
         """`classify_message(raw)` -> (kind, meta) where kind is one of
         "frame" | "control" | "error", and meta for frames may carry
-        nbytes/width/height. This is the only protocol-specific seam."""
+        nbytes/width/height. This is the only protocol-specific seam.
+
+        `token_manager` (optional, an auth.TokenManager) shares one refresh
+        path across providers. For transports that carry the token IN the
+        connection (Decart's JWT in the wss URL), a token cannot be swapped on
+        a live socket - so `token_expiring()` lets a long run (the 10-min soak)
+        signal the adapter to reconnect before the token lapses, rather than
+        the session dying mid-stream. `reconnect_margin_s` is how far ahead of
+        expiry that signal fires."""
         self.ws = ws
         self.info = info
         self.semantics = semantics
@@ -61,10 +71,20 @@ class StreamSession:
         self.refusal_matcher = refusal_matcher
         self.first_frame_timeout_s = first_frame_timeout_s
         self.stall_timeout_s = stall_timeout_s
+        self.token_manager = token_manager
+        self.reconnect_margin_s = reconnect_margin_s
 
         self.events: List[FrameEvent] = []
         self.request_clock: Optional[float] = None
         self._stop_requested = asyncio.Event()
+
+    def token_expiring(self) -> bool:
+        """True when the in-connection token is close enough to expiry that a
+        long run should reconnect. False (never expiring) when no token manager
+        is attached or the transport refreshes out-of-band."""
+        if self.token_manager is None:
+            return False
+        return self.token_manager.seconds_remaining() <= self.reconnect_margin_s
 
     def request_stop(self) -> None:
         """The orchestrator's stop signal. For OPEN_ENDED streams this is the

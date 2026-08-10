@@ -180,7 +180,7 @@ def test_zero_byte_capture_fails():
 def test_gate_blocks_without_evidence():
     d = tempfile.mkdtemp(prefix="gate-")
     r = pilot.evaluate(d)
-    assert not r.passed and len(r.blockers) == 4
+    assert not r.passed and len(r.blockers) == 5
     try:
         pilot.require_for_campaign_c(d)
         raise AssertionError("gate passed with no evidence")
@@ -199,6 +199,11 @@ def test_gate_passes_and_dictates_capture_policy():
     put("method-crosscheck.json", {"worst_abs_disagreement_ms": 9.1})
     put("band-separation.json", {"bands_occupied": 3})
     put("rater-trial.json", {"alpha": 0.74})
+    put("interaction-contracts.json", {"probes": [
+        {"product_key": "happy-oyster", "declared_contract": "text_directed",
+         "confirmed_contract": "text_directed", "accepts_text_steer": True},
+        {"product_key": "lingbot-world-2", "declared_contract": "movement_driven",
+         "confirmed_contract": "movement_driven", "accepts_text_steer": False}]})
 
     policy = pilot.require_for_campaign_c(d)
     assert policy["capture"] == "ffv1_lossless"
