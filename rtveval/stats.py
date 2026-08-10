@@ -45,6 +45,103 @@ def wilson(successes: int, n: int, confidence: float = 0.95) -> Rate:
 
 
 # --------------------------------------------------------------------------
+# Platform-floor uncertainty (Lens M decomposition)
+# --------------------------------------------------------------------------
+
+class FloorEstimate(NamedTuple):
+    stat: str  # "p50" | "p95"
+    point_ms: float
+    lo_ms: float
+    hi_ms: float
+    n_runs: int
+    n_samples: int
+
+    @property
+    def width_ms(self) -> float:
+        return self.hi_ms - self.lo_ms
+
+
+def cluster_bootstrap_floor(run_samples: Sequence[Sequence[float]],
+                            stat: str = "p50", n_boot: int = 5000,
+                            confidence: float = 0.95,
+                            seed: int = 20260810) -> FloorEstimate:
+    """CI for the platform floor by resampling RUNS, not samples.
+
+    Lag samples within one run share a session (correlated); the observed
+    1.6x session-to-session spread is the variance that matters. A naive
+    per-sample bootstrap would understate the interval badly.
+    """
+    import random
+
+    clusters = [list(c) for c in run_samples if c]
+    if len(clusters) < 3:
+        raise ValueError("need >=3 runs with samples for a run-level bootstrap")
+
+    def statistic(pooled: List[float]) -> float:
+        s = sorted(pooled)
+        if stat == "p50":
+            return s[len(s) // 2]
+        if stat == "p95":
+            return s[max(0, int(round(0.95 * len(s))) - 1)]
+        raise ValueError(stat)
+
+    rng = random.Random(seed)
+    boots = []
+    for _ in range(n_boot):
+        chosen = [clusters[rng.randrange(len(clusters))] for _ in clusters]
+        boots.append(statistic([x for c in chosen for x in c]))
+    boots.sort()
+    alpha = 1 - confidence
+    lo = boots[int(alpha / 2 * n_boot)]
+    hi = boots[min(n_boot - 1, int((1 - alpha / 2) * n_boot))]
+    pooled = [x for c in clusters for x in c]
+    return FloorEstimate(stat=stat, point_ms=statistic(pooled), lo_ms=lo,
+                         hi_ms=hi, n_runs=len(clusters), n_samples=len(pooled))
+
+
+class Decomposition(NamedTuple):
+    """model latency minus platform floor, with the floor's uncertainty
+    propagated. Interval arithmetic - conservative on purpose."""
+
+    model_ms: float
+    floor: FloorEstimate
+    point_ms: float
+    lo_ms: float
+    hi_ms: float
+    resolvable: bool
+    statement: str
+
+
+def decompose_lens_m(model_ms: float, floor: FloorEstimate,
+                     min_meaningful_ms: float = 0.0) -> Decomposition:
+    """The report's Lens M sentence, with honesty built in.
+
+    `resolvable` is False when the propagated interval includes
+    min_meaningful_ms or below - i.e. when platform variance swallows the
+    model contribution. That is a legitimate finding and the statement says
+    it, instead of publishing a decomposition that looks precise and isn't.
+    """
+    point = model_ms - floor.point_ms
+    lo = model_ms - floor.hi_ms
+    hi = model_ms - floor.lo_ms
+    resolvable = lo > min_meaningful_ms
+    if resolvable:
+        statement = ("~%.0f ms model contribution (95%% CI %.0f-%.0f ms) after "
+                     "subtracting the platform floor (%.0f ms, CI %.0f-%.0f, "
+                     "n=%d runs)" % (point, lo, hi, floor.point_ms,
+                                     floor.lo_ms, floor.hi_ms, floor.n_runs))
+    else:
+        statement = ("platform variance exceeds the model contribution that can "
+                     "be resolved: measured %.0f ms against a floor of %.0f ms "
+                     "(CI %.0f-%.0f); the model-only estimate spans %.0f-%.0f ms "
+                     "and is not reportable as a number" %
+                     (model_ms, floor.point_ms, floor.lo_ms, floor.hi_ms, lo, hi))
+    return Decomposition(model_ms=model_ms, floor=floor, point_ms=point,
+                         lo_ms=lo, hi_ms=hi, resolvable=resolvable,
+                         statement=statement)
+
+
+# --------------------------------------------------------------------------
 # Quality aggregation (Spec Part F)
 # --------------------------------------------------------------------------
 

@@ -36,11 +36,18 @@ import numpy as np
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(REPO, "data")
 CLIP_DIR = os.path.join(DATA, "echo-clip")
-CLIP = os.path.join(CLIP_DIR, "echo-cal.mp4")
+CLIP = os.path.join(CLIP_DIR, "echo-cal.mp4")  # overridden by --profile
 
 CLIP_SECONDS = 20
 CLIP_FPS = 30.0
 CLIP_W, CLIP_H = 640, 360
+
+# --profile minimal: strip the send side down - tiny frames, minimal encode
+# load - to separate OUR rig's contribution from Reactor's platform.
+PROFILES = {
+    "standard": (640, 360, "echo-cal.mp4"),
+    "minimal": (256, 144, "echo-cal-minimal.mp4"),
+}
 
 
 def ensure_clip():
@@ -204,7 +211,13 @@ def main():
     ap.add_argument("--condition", default="C0")
     ap.add_argument("--pause", type=float, default=2.0,
                     help="seconds between runs - do not hammer the platform")
+    ap.add_argument("--profile", choices=sorted(PROFILES), default="standard")
     args = ap.parse_args()
+    global CLIP_W, CLIP_H, CLIP
+    CLIP_W, CLIP_H, fname = PROFILES[args.profile]
+    CLIP = os.path.join(CLIP_DIR, fname)
+    args.condition = "%s-%s" % (args.condition, args.profile) \
+        if args.profile != "standard" else args.condition
     return asyncio.run(main_async(args))
 
 
