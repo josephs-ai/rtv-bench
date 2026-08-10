@@ -56,13 +56,15 @@ PRODUCTS: List[Product] = [
         planned_lens="P",
         interaction_contract=V2V_TRANSFORM,
     ),
-    # Routing changed 2026-08-10: user elected to run Xmax via Reactor rather
-    # than obtain the self-serve native key. Probe confirmed `xmax/x2`
-    # (75b9886b-1fb5-4bb3-873a-6a44f5b8c70d) in the catalog.
-    # Probe also showed Lucy is NOT on Reactor - so Xmax-on-both-routes is now
-    # the ONLY possible sec 2.1 bridge. Without the self-serve native key,
-    # Lens M and Lens P latencies cannot be reconciled and the Lucy-vs-Xmax
-    # latency head-to-head cannot be made.
+    # DECISION (2026-08-10, final): Xmax runs via Reactor only; no native key.
+    # Probe confirmed `xmax/x2` (75b9886b-...) in the catalog; Lucy is NOT on
+    # Reactor, so no dual-routed bridge exists. Instead, the echo platform-
+    # floor calibration (tools/echo_calibration.py, data/platform-floor-*.json)
+    # decomposes every Lens M latency into platform + model. Consequence for
+    # the report: Lucy-vs-Xmax latency is a DERIVED-APPROXIMATE comparison
+    # (Xmax minus floor vs Lucy measured), labelled as such - never presented
+    # as a measured head-to-head. Within Lens M (Xmax/LingBot/Happy Oyster)
+    # comparisons are same-substrate and clean.
     Product(
         key="xmax-x2.0",
         display="Xmax X2.0",
