@@ -1,0 +1,413 @@
+{
+  "condition": "C1",
+  "model": "reactor/echo",
+  "lens": "M",
+  "n_runs": 30,
+  "n_ok_runs": 0,
+  "n_lag_samples": 0,
+  "platform_floor_ms": {
+    "p50": null,
+    "p95": null,
+    "mean": null,
+    "jitter_sigma": null
+  },
+  "delivery": "unknown",
+  "gap_stats_ms": {
+    "median_p50": null,
+    "median_p95": null,
+    "frame_period": 33.333333333333336
+  },
+  "note": "Floor includes SDK decode before the timestamp - identical treatment for every Lens M product, so subtraction is valid within Lens M.",
+  "runs": [
+    {
+      "run": 0,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 1,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 2,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 3,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 4,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 5,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 6,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 7,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 8,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 9,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 10,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 11,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 12,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 13,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 14,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 15,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 16,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 17,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 18,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 19,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 20,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 21,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 22,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 23,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 24,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 25,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 26,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 27,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 28,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 29,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "confidence_floor": 0.3,
+  "conditions": {
+    "C0-minimal": {
+      "n_runs": 40,
+      "floor_p50_ms": {
+        "point": 961.1,
+        "ci95": [
+          927.8,
+          961.1
+        ],
+        "ci_width": 33.3
+      },
+      "floor_p95_ms": {
+        "point": 1961.0,
+        "ci95": [
+          961.2,
+          1961.2
+        ]
+      },
+      "min_resolvable_model_difference_ms": 33.3,
+      "substrate_reliability": {
+        "early_deaths": 0,
+        "n_runs": 40,
+        "excluded_credits_depleted": 0,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          0.0,
+          8.8
+        ],
+        "meaning": "substrate failure floor under every Lens M product's reliability figure: a product's own contribution is only claimable where its interval separates from this one",
+        "attribution_caveat": "NOT yet attributable to the platform: the death signature (~1-2s of output then stall) matches the rig-side send starvation bug found on the Decart path (slow VP8 encode). The minimal-rig profile comparison discriminates: near-zero early deaths there implicates rig load; ~equal rate implicates the substrate. Until then this is a rig+substrate combined rate."
+      },
+      "delivery": "chunk-bursty (p95 gap 69 ms vs 33.3 ms frame period; TTFF/stall interpretation must account for chunking)"
+    },
+    "C0": {
+      "n_runs": 40,
+      "floor_p50_ms": {
+        "point": 1927.7,
+        "ci95": [
+          1894.4,
+          1961.0
+        ],
+        "ci_width": 66.5
+      },
+      "floor_p95_ms": {
+        "point": 1961.2,
+        "ci95": [
+          1961.2,
+          2094.3
+        ]
+      },
+      "min_resolvable_model_difference_ms": 66.5,
+      "substrate_reliability": {
+        "early_deaths": 0,
+        "n_runs": 40,
+        "excluded_credits_depleted": 0,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          0.0,
+          8.8
+        ],
+        "meaning": "substrate failure floor under every Lens M product's reliability figure: a product's own contribution is only claimable where its interval separates from this one",
+        "attribution_caveat": "NOT yet attributable to the platform: the death signature (~1-2s of output then stall) matches the rig-side send starvation bug found on the Decart path (slow VP8 encode). The minimal-rig profile comparison discriminates: near-zero early deaths there implicates rig load; ~equal rate implicates the substrate. Until then this is a rig+substrate combined rate."
+      },
+      "delivery": "chunk-bursty (p95 gap 113 ms vs 33.3 ms frame period; TTFF/stall interpretation must account for chunking)"
+    },
+    "C1": {
+      "n_runs": 0,
+      "error": "need >=3 runs with samples for a run-level bootstrap",
+      "substrate_reliability": {
+        "early_deaths": 0,
+        "n_runs": 0,
+        "excluded_credits_depleted": 30,
+        "meaning": "no billable attempts - arm did not run"
+      },
+      "delivery": "unknown"
+    },
+    "C2": {
+      "n_runs": 24,
+      "floor_p50_ms": {
+        "point": 1727.7,
+        "ci95": [
+          1594.5,
+          1827.8
+        ],
+        "ci_width": 233.3
+      },
+      "floor_p95_ms": {
+        "point": 1994.5,
+        "ci95": [
+          1927.8,
+          2094.5
+        ]
+      },
+      "min_resolvable_model_difference_ms": 233.3,
+      "substrate_reliability": {
+        "early_deaths": 2,
+        "n_runs": 24,
+        "excluded_credits_depleted": 6,
+        "rate_pct": 8.3,
+        "wilson_ci_pct": [
+          2.3,
+          25.8
+        ],
+        "meaning": "substrate failure floor under every Lens M product's reliability figure: a product's own contribution is only claimable where its interval separates from this one",
+        "attribution_caveat": "NOT yet attributable to the platform: the death signature (~1-2s of output then stall) matches the rig-side send starvation bug found on the Decart path (slow VP8 encode). The minimal-rig profile comparison discriminates: near-zero early deaths there implicates rig load; ~equal rate implicates the substrate. Until then this is a rig+substrate combined rate."
+      },
+      "delivery": "chunk-bursty (p95 gap 105 ms vs 33.3 ms frame period; TTFF/stall interpretation must account for chunking)"
+    },
+    "C3": {
+      "n_runs": 0,
+      "error": "need >=3 runs with samples for a run-level bootstrap",
+      "substrate_reliability": {
+        "early_deaths": 0,
+        "n_runs": 0,
+        "excluded_credits_depleted": 30,
+        "meaning": "no billable attempts - arm did not run"
+      },
+      "delivery": "unknown"
+    }
+  },
+  "rig_decomposition": {
+    "standard_p50": {
+      "point": 1927.7,
+      "ci95": [
+        1894.4,
+        1961.0
+      ],
+      "ci_width": 66.5
+    },
+    "minimal_p50": {
+      "point": 961.1,
+      "ci95": [
+        927.8,
+        961.1
+      ],
+      "ci_width": 33.3
+    },
+    "rig_sensitivity_ms": 966.6,
+    "cis_overlap": false,
+    "verdict": "rig-side load contributes ~967 ms of the floor (CIs separated)"
+  },
+  "early_death_attribution": {
+    "standard": "0/40",
+    "minimal": "0/40",
+    "verdict": "consistent with rig-load attribution (zero deaths at minimal send load; signature matches the known VP8 send-starvation bug) but NOT conclusive: intervals overlap at these Ns. Treat the standard-profile rate as rig+substrate combined until a larger minimal sample separates them."
+  }
+}

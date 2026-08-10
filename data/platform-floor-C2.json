@@ -1,0 +1,1082 @@
+{
+  "condition": "C2",
+  "model": "reactor/echo",
+  "lens": "M",
+  "n_runs": 30,
+  "n_ok_runs": 23,
+  "n_lag_samples": 254,
+  "platform_floor_ms": {
+    "p50": 1727.7,
+    "p95": 1994.5,
+    "mean": 1661.5,
+    "jitter_sigma": 289.0
+  },
+  "delivery": "chunk-bursty (p95 gap 105 ms vs 33.3 ms frame period; TTFF/stall interpretation must account for chunking)",
+  "gap_stats_ms": {
+    "median_p50": 31.29,
+    "median_p95": 104.84,
+    "frame_period": 33.333333333333336
+  },
+  "note": "Floor includes SDK decode before the timestamp - identical treatment for every Lens M product, so subtraction is valid within Lens M.",
+  "runs": [
+    {
+      "run": 0,
+      "stop_reason": "source_exhausted",
+      "n_frames": 527,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 3476.466917010839,
+        "transport_connecting_ms": 5923.683417000575,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1827.79,
+        1827.71,
+        1794.31,
+        1761.15,
+        1727.69,
+        1694.44,
+        1661.13,
+        1627.68,
+        1627.83,
+        1627.73,
+        1627.82,
+        1627.7,
+        1627.72
+      ],
+      "lag_confidences": [
+        0.987,
+        0.99,
+        0.989,
+        0.987,
+        0.99,
+        0.987,
+        0.987,
+        0.99,
+        0.988,
+        0.988,
+        0.987,
+        0.988,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 31.63,
+        "p95": 102.18,
+        "max": 649.07
+      }
+    },
+    {
+      "run": 1,
+      "stop_reason": "source_exhausted",
+      "n_frames": 586,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2172.8319999965606,
+        "transport_connecting_ms": 6536.213084007613,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1994.49,
+        1961.13,
+        1961.05,
+        1961.16,
+        1961.01,
+        1961.14,
+        1961.02,
+        1961.17,
+        1961.08,
+        1961.13,
+        1961.02,
+        1961.16
+      ],
+      "lag_confidences": [
+        0.989,
+        0.99,
+        0.989,
+        0.989,
+        0.987,
+        0.988,
+        0.989,
+        0.987,
+        0.988,
+        0.987,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 31.29,
+        "p95": 101.38,
+        "max": 533.88
+      }
+    },
+    {
+      "run": 2,
+      "stop_reason": "source_exhausted",
+      "n_frames": 566,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2314.2127500032075,
+        "transport_connecting_ms": 5880.52470900584,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1261.14,
+        1261.14,
+        1261.06,
+        1261.16,
+        1161.0,
+        1127.83,
+        1061.04,
+        1027.83,
+        1000.0,
+        1000.0
+      ],
+      "lag_confidences": [
+        0.987,
+        0.989,
+        0.989,
+        0.988,
+        0.987,
+        0.99,
+        0.987,
+        0.989,
+        0.987,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 25.82,
+        "p95": 103.76,
+        "max": 595.82
+      }
+    },
+    {
+      "run": 3,
+      "stop_reason": "source_exhausted",
+      "n_frames": 568,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2447.866791000706,
+        "transport_connecting_ms": 5496.756291002384,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1927.81,
+        1894.39,
+        1861.24,
+        1861.0,
+        1861.15,
+        1861.03,
+        1827.8,
+        1827.82,
+        1627.71,
+        2027.83,
+        2027.7
+      ],
+      "lag_confidences": [
+        0.989,
+        0.987,
+        0.988,
+        0.987,
+        0.988,
+        0.988,
+        0.986,
+        0.988,
+        0.987,
+        0.987,
+        0.99
+      ],
+      "gaps_ms": {
+        "p50": 32.31,
+        "p95": 96.73,
+        "max": 482.19
+      }
+    },
+    {
+      "run": 4,
+      "stop_reason": "source_exhausted",
+      "n_frames": 407,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2320.4262090002885,
+        "transport_connecting_ms": 5608.767417012132,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1661.17,
+        1494.47,
+        1366.67,
+        1627.68,
+        1861.16,
+        1627.83,
+        1627.69,
+        1627.71
+      ],
+      "lag_confidences": [
+        0.99,
+        0.986,
+        0.989,
+        0.983,
+        0.972,
+        0.987,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 34.63,
+        "p95": 125.43,
+        "max": 1025.04
+      }
+    },
+    {
+      "run": 5,
+      "stop_reason": "source_exhausted",
+      "n_frames": 550,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2146.830707992194,
+        "transport_connecting_ms": 5666.645000004792,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1866.67,
+        1866.67,
+        1827.72,
+        1761.15,
+        1694.46,
+        1694.49,
+        1594.35,
+        1594.43,
+        1594.48,
+        1594.32,
+        1494.5,
+        1461.06,
+        1427.83,
+        1427.69,
+        1427.7
+      ],
+      "lag_confidences": [
+        0.986,
+        0.988,
+        0.988,
+        0.989,
+        0.989,
+        0.987,
+        0.987,
+        0.987,
+        0.988,
+        0.99,
+        0.987,
+        0.987,
+        0.989,
+        0.988,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 27.58,
+        "p95": 107.0,
+        "max": 644.35
+      }
+    },
+    {
+      "run": 6,
+      "stop_reason": "source_exhausted",
+      "n_frames": 417,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2391.8034579983214,
+        "transport_connecting_ms": 6018.256041992572,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1160.98,
+        1127.82,
+        1127.72,
+        1361.14,
+        1361.16,
+        1361.01,
+        1294.49,
+        1294.35
+      ],
+      "lag_confidences": [
+        0.987,
+        0.989,
+        0.988,
+        0.987,
+        0.988,
+        0.99,
+        0.987,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 33.27,
+        "p95": 131.42,
+        "max": 567.68
+      }
+    },
+    {
+      "run": 7,
+      "stop_reason": "source_exhausted",
+      "n_frames": 290,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2423.0323340016184,
+        "transport_connecting_ms": 5368.693457989139,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        2127.77,
+        1961.19,
+        2061.18,
+        1761.07,
+        1894.43
+      ],
+      "lag_confidences": [
+        0.981,
+        0.99,
+        0.983,
+        0.988,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 41.13,
+        "p95": 182.14,
+        "max": 949.75
+      }
+    },
+    {
+      "run": 8,
+      "stop_reason": "source_exhausted",
+      "n_frames": 585,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2119.810707998113,
+        "transport_connecting_ms": 6592.044832999818,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1900.0,
+        1861.01,
+        1727.69,
+        1627.79,
+        1627.81,
+        1627.69,
+        1627.84,
+        1561.16,
+        1561.02,
+        1561.04
+      ],
+      "lag_confidences": [
+        0.988,
+        0.987,
+        0.989,
+        0.987,
+        0.988,
+        0.99,
+        0.986,
+        0.989,
+        0.99,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 31.11,
+        "p95": 96.8,
+        "max": 466.56
+      }
+    },
+    {
+      "run": 9,
+      "stop_reason": "source_exhausted",
+      "n_frames": 589,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2157.1897090034327,
+        "transport_connecting_ms": 5751.870791995316,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1927.8,
+        1927.81,
+        1927.72,
+        1894.48,
+        1861.0,
+        1827.82,
+        1827.7,
+        1794.48,
+        1761.15,
+        1761.02,
+        1761.16,
+        1727.83,
+        1727.71,
+        1694.46
+      ],
+      "lag_confidences": [
+        0.988,
+        0.989,
+        0.988,
+        0.989,
+        0.989,
+        0.988,
+        0.988,
+        0.988,
+        0.988,
+        0.988,
+        0.988,
+        0.989,
+        0.989,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 30.49,
+        "p95": 109.75,
+        "max": 489.31
+      }
+    },
+    {
+      "run": 10,
+      "stop_reason": "source_exhausted",
+      "n_frames": 556,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2626.9567499984987,
+        "transport_connecting_ms": 5335.373458001413,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1761.03,
+        1694.44,
+        1694.49,
+        1661.01,
+        1627.73,
+        1627.81,
+        1627.69
+      ],
+      "lag_confidences": [
+        0.99,
+        0.99,
+        0.987,
+        0.992,
+        0.99,
+        0.986,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 29.59,
+        "p95": 111.05,
+        "max": 463.87
+      }
+    },
+    {
+      "run": 11,
+      "stop_reason": "source_exhausted",
+      "n_frames": 531,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2538.426458995673,
+        "transport_connecting_ms": 5349.13724999933,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        927.71,
+        1127.81,
+        1127.65,
+        1127.8,
+        1127.69,
+        1127.8,
+        1061.16,
+        1061.03,
+        1061.16,
+        1027.82,
+        1027.71,
+        961.05
+      ],
+      "lag_confidences": [
+        0.989,
+        0.988,
+        0.988,
+        0.989,
+        0.987,
+        0.989,
+        0.987,
+        0.99,
+        0.986,
+        0.987,
+        0.989,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 31.58,
+        "p95": 110.65,
+        "max": 772.11
+      }
+    },
+    {
+      "run": 12,
+      "stop_reason": "source_exhausted",
+      "n_frames": 592,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2085.02995899471,
+        "transport_connecting_ms": 5664.253666996956,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1894.48,
+        1894.45,
+        1894.38,
+        1861.26,
+        1860.99,
+        1861.14,
+        1861.04,
+        1861.16,
+        1827.83,
+        1827.69,
+        1794.39,
+        1794.5,
+        1794.36,
+        1794.39
+      ],
+      "lag_confidences": [
+        0.987,
+        0.989,
+        0.988,
+        0.987,
+        0.99,
+        0.988,
+        0.991,
+        0.986,
+        0.985,
+        0.99,
+        0.989,
+        0.987,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 30.76,
+        "p95": 101.87,
+        "max": 716.08
+      }
+    },
+    {
+      "run": 13,
+      "stop_reason": "source_exhausted",
+      "n_frames": 558,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2138.147833989933,
+        "transport_connecting_ms": 5622.375040999032,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1894.36,
+        1794.45,
+        1761.16,
+        1727.69,
+        1661.1,
+        1661.17,
+        1661.03,
+        1661.05
+      ],
+      "lag_confidences": [
+        0.989,
+        0.989,
+        0.987,
+        0.989,
+        0.989,
+        0.988,
+        0.989,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 31.63,
+        "p95": 108.13,
+        "max": 519.23
+      }
+    },
+    {
+      "run": 14,
+      "stop_reason": "source_exhausted",
+      "n_frames": 583,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2685.9173749980982,
+        "transport_connecting_ms": 5046.531332991435,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1994.51,
+        1961.13,
+        1961.16,
+        1961.07,
+        1961.16,
+        1961.0,
+        1961.17,
+        1961.02,
+        1961.16,
+        1961.1,
+        1927.81,
+        1794.35
+      ],
+      "lag_confidences": [
+        0.989,
+        0.987,
+        0.988,
+        0.989,
+        0.987,
+        0.987,
+        0.988,
+        0.988,
+        0.988,
+        0.987,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 31.39,
+        "p95": 92.26,
+        "max": 500.79
+      }
+    },
+    {
+      "run": 15,
+      "stop_reason": "source_exhausted",
+      "n_frames": 526,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2411.0284999915166,
+        "transport_connecting_ms": 5329.650957995909,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1694.44,
+        1661.11,
+        1561.17,
+        1594.49,
+        1594.35,
+        1594.48,
+        1594.44,
+        1594.51,
+        1594.51,
+        1594.39,
+        1594.49,
+        1594.35,
+        1594.38
+      ],
+      "lag_confidences": [
+        0.988,
+        0.988,
+        0.984,
+        0.989,
+        0.988,
+        0.987,
+        0.987,
+        0.987,
+        0.989,
+        0.988,
+        0.985,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 25.41,
+        "p95": 99.28,
+        "max": 504.09
+      }
+    },
+    {
+      "run": 16,
+      "stop_reason": "source_exhausted",
+      "n_frames": 526,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2715.535249997629,
+        "transport_connecting_ms": 5267.923334002262,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1461.06,
+        1261.14,
+        1260.99,
+        1261.16,
+        1094.36,
+        1094.49,
+        1061.14
+      ],
+      "lag_confidences": [
+        0.99,
+        0.987,
+        0.987,
+        0.989,
+        0.987,
+        0.988,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 32.04,
+        "p95": 104.84,
+        "max": 460.13
+      }
+    },
+    {
+      "run": 17,
+      "stop_reason": "source_exhausted",
+      "n_frames": 570,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 1887.1039169898722,
+        "transport_connecting_ms": 6260.204582998995,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1594.45,
+        1494.47,
+        1494.4,
+        1427.68,
+        1427.83,
+        1394.38,
+        1294.45
+      ],
+      "lag_confidences": [
+        0.989,
+        0.988,
+        0.989,
+        0.988,
+        0.989,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 31.75,
+        "p95": 95.61,
+        "max": 499.17
+      }
+    },
+    {
+      "run": 18,
+      "stop_reason": "source_exhausted",
+      "n_frames": 568,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2361.3386249926407,
+        "transport_connecting_ms": 4928.453915999853,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        2227.8,
+        2227.8,
+        2194.38,
+        2094.47,
+        2027.64,
+        2027.83,
+        2027.71,
+        2027.82,
+        1994.44,
+        1994.49,
+        1994.38,
+        1994.48,
+        1994.39,
+        1994.5,
+        1994.35,
+        1994.38
+      ],
+      "lag_confidences": [
+        0.989,
+        0.987,
+        0.989,
+        0.987,
+        0.987,
+        0.988,
+        0.987,
+        0.987,
+        0.987,
+        0.988,
+        0.99,
+        0.986,
+        0.99,
+        0.986,
+        0.989,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 28.18,
+        "p95": 106.31,
+        "max": 441.4
+      }
+    },
+    {
+      "run": 19,
+      "stop_reason": "source_exhausted",
+      "n_frames": 465,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2195.261750006466,
+        "transport_connecting_ms": 5856.895874996553,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1794.47,
+        1427.8,
+        1594.33,
+        1594.48,
+        1594.35,
+        1594.5,
+        1561.16,
+        1561.16,
+        1561.01,
+        1561.04
+      ],
+      "lag_confidences": [
+        0.988,
+        0.99,
+        0.988,
+        0.988,
+        0.987,
+        0.989,
+        0.987,
+        0.989,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 32.71,
+        "p95": 102.41,
+        "max": 708.01
+      }
+    },
+    {
+      "run": 20,
+      "stop_reason": "source_exhausted",
+      "n_frames": 561,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2233.9455830078805,
+        "transport_connecting_ms": 5477.963334007654,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1466.67,
+        1294.47,
+        1294.36,
+        1261.16,
+        1261.1,
+        1227.82,
+        1227.69,
+        1227.83,
+        1194.38,
+        1194.5,
+        1194.36,
+        1094.38
+      ],
+      "lag_confidences": [
+        0.989,
+        0.988,
+        0.989,
+        0.987,
+        0.989,
+        0.987,
+        0.99,
+        0.984,
+        0.989,
+        0.987,
+        0.989,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 22.74,
+        "p95": 119.58,
+        "max": 491.97
+      }
+    },
+    {
+      "run": 21,
+      "stop_reason": "source_exhausted",
+      "n_frames": 591,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2818.139124996378,
+        "transport_connecting_ms": 5777.913166995859,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1994.48,
+        1961.12,
+        1961.05,
+        1927.93,
+        1894.44,
+        1861.17,
+        1827.69,
+        1761.13,
+        1761.16,
+        1761.02,
+        1761.17,
+        1761.07,
+        1761.14,
+        1761.02,
+        1761.05
+      ],
+      "lag_confidences": [
+        0.988,
+        0.988,
+        0.989,
+        0.988,
+        0.989,
+        0.987,
+        0.991,
+        0.986,
+        0.988,
+        0.99,
+        0.987,
+        0.99,
+        0.987,
+        0.99,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 26.62,
+        "p95": 98.81,
+        "max": 838.07
+      }
+    },
+    {
+      "run": 22,
+      "stop_reason": "source_exhausted",
+      "n_frames": 590,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2148.7785419885768,
+        "transport_connecting_ms": 6468.338167003822,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1861.14,
+        1861.05,
+        1861.14,
+        1860.98,
+        1827.8,
+        1794.35,
+        1794.5,
+        1794.44,
+        1794.49,
+        1794.35,
+        1794.49,
+        1794.38,
+        1761.16,
+        1761.02,
+        1727.72
+      ],
+      "lag_confidences": [
+        0.987,
+        0.988,
+        0.988,
+        0.99,
+        0.987,
+        0.987,
+        0.989,
+        0.988,
+        0.987,
+        0.99,
+        0.986,
+        0.989,
+        0.987,
+        0.99,
+        0.986
+      ],
+      "gaps_ms": {
+        "p50": 23.58,
+        "p95": 106.73,
+        "max": 510.1
+      }
+    },
+    {
+      "run": 23,
+      "error": "RuntimeError: Failed to poll SDP answer: 404 {\"error\":\"not found: connection not found\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 24,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 25,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 26,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 27,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 28,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "run": 29,
+      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "n_frames": 0,
+      "lag_samples_ms": [],
+      "lag_confidences": [],
+      "stop_reason": "exception",
+      "gaps_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    }
+  ]
+}

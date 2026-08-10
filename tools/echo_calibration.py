@@ -184,6 +184,14 @@ async def main_async(args):
                 statistics.median(r["lag_samples_ms"])) if r["lag_samples_ms"] else "no lags"
             print("run %02d: %s frames=%d %s" % (i, r["stop_reason"], r["n_frames"], ok))
         except Exception as e:
+            if "credits_depleted" in str(e):
+                print("CREDITS DEPLETED - aborting arm (no point burning "
+                      "attempts against an empty account)")
+                runs.append({"run": i, "error": "RuntimeError: credits_depleted",
+                             "n_frames": 0, "lag_samples_ms": [],
+                             "lag_confidences": [], "stop_reason": "exception",
+                             "gaps_ms": {"p50": None, "p95": None, "max": None}})
+                break
             r = {"run": i, "error": "%s: %s" % (type(e).__name__, e),
                  "n_frames": 0, "lag_samples_ms": [], "lag_confidences": [],
                  "stop_reason": "exception", "gaps_ms": {"p50": None, "p95": None, "max": None}}

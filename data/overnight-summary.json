@@ -1,0 +1,136 @@
+{
+  "started_utc": "2026-08-10T17:41:49Z",
+  "purpose": "full recalibration from pinned vantage after tunnel-switch contamination",
+  "media_transport": "turn-tls-tcp-forced",
+  "arms": [
+    {
+      "label": "floor-C0",
+      "rc": 0,
+      "minutes": 25.5,
+      "vantage_before": {
+        "utc": "2026-08-10T17:41:58Z",
+        "baseline_rtt_ms": 268.394,
+        "turn_udp": true
+      },
+      "vantage_after": {
+        "utc": "2026-08-10T18:07:28Z",
+        "baseline_rtt_ms": 248.303,
+        "turn_udp": true
+      },
+      "rtt_drift_ms": 20.1,
+      "VANTAGE_TAINTED": false
+    },
+    {
+      "label": "floor-C0-minimal",
+      "rc": 0,
+      "minutes": 24.7,
+      "vantage_before": {
+        "utc": "2026-08-10T18:07:33Z",
+        "baseline_rtt_ms": 278.24,
+        "turn_udp": true
+      },
+      "vantage_after": {
+        "utc": "2026-08-10T18:32:14Z",
+        "baseline_rtt_ms": 274.898,
+        "turn_udp": true
+      },
+      "rtt_drift_ms": 3.3,
+      "VANTAGE_TAINTED": false
+    },
+    {
+      "label": "floor-C1",
+      "rc": 0,
+      "minutes": 20.1,
+      "vantage_before": {
+        "utc": "2026-08-10T18:32:29Z",
+        "baseline_rtt_ms": 290.549,
+        "turn_udp": true
+      },
+      "vantage_after": {
+        "utc": "2026-08-10T18:52:34Z",
+        "baseline_rtt_ms": 330.924,
+        "turn_udp": true
+      },
+      "rtt_drift_ms": 40.4,
+      "VANTAGE_TAINTED": true
+    },
+    {
+      "label": "floor-C2",
+      "rc": 0,
+      "minutes": 17.1,
+      "vantage_before": {
+        "utc": "2026-08-10T18:52:50Z",
+        "baseline_rtt_ms": 365.684,
+        "turn_udp": true
+      },
+      "vantage_after": {
+        "utc": "2026-08-10T19:09:54Z",
+        "baseline_rtt_ms": 346.618,
+        "turn_udp": true
+      },
+      "rtt_drift_ms": 19.1,
+      "VANTAGE_TAINTED": false
+    },
+    {
+      "label": "floor-C3",
+      "rc": 0,
+      "minutes": 3.0,
+      "vantage_before": {
+        "utc": "2026-08-10T19:16:22Z",
+        "baseline_rtt_ms": 481.041,
+        "turn_udp": true
+      },
+      "vantage_after": {
+        "utc": "2026-08-10T19:19:24Z",
+        "baseline_rtt_ms": 453.677,
+        "turn_udp": true
+      },
+      "rtt_drift_ms": 27.4,
+      "VANTAGE_TAINTED": false
+    },
+    {
+      "label": "floor-C1",
+      "rc": 0,
+      "minutes": 2.4,
+      "vantage_before": {
+        "utc": "2026-08-10T19:19:42Z",
+        "baseline_rtt_ms": 315.462,
+        "turn_udp": true
+      },
+      "vantage_after": {
+        "utc": "2026-08-10T19:22:08Z",
+        "baseline_rtt_ms": 314.09,
+        "turn_udp": true
+      },
+      "rtt_drift_ms": 1.4,
+      "VANTAGE_TAINTED": false
+    },
+    {
+      "label": "generation-pilot",
+      "rc": 1,
+      "minutes": 0.5,
+      "vantage_before": {
+        "utc": "2026-08-10T19:22:15Z",
+        "baseline_rtt_ms": 275.391,
+        "turn_udp": true
+      },
+      "vantage_after": {
+        "utc": "2026-08-10T19:22:47Z",
+        "baseline_rtt_ms": 291.92,
+        "turn_udp": true
+      },
+      "rtt_drift_ms": 16.5,
+      "VANTAGE_TAINTED": false
+    }
+  ],
+  "preflight": {
+    "utc": "2026-08-10T17:41:53Z",
+    "baseline_rtt_ms": 391.573,
+    "turn_udp": true
+  },
+  "resumed_utc": "2026-08-10T19:16:03Z",
+  "notes": [
+    "03:09 kill mid floor-C3 left C3 shaping armed (found + cleared on resume); C3 rerun, C1 rerun (was VANTAGE_TAINTED), pilot run here"
+  ],
+  "finished_utc": "2026-08-10T19:22:48Z"
+}

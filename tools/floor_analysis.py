@@ -42,10 +42,18 @@ def load_floors():
     return docs
 
 
+def account_exhausted(r):
+    """402 credits_depleted is OUR account, not the product: E-class,
+    excluded from every denominator (same logic as rig evidence)."""
+    return "credits_depleted" in (r.get("error") or "")
+
+
 def run_clusters(doc):
     """Per-run lists of trusted lag samples."""
     out = []
     for r in doc.get("runs", []):
+        if account_exhausted(r):
+            continue
         lags = [l for l, c in zip(r.get("lag_samples_ms", []),
                                   r.get("lag_confidences", []))
                 if c >= CONFIDENCE_FLOOR]
@@ -58,9 +66,11 @@ def substrate_reliability(doc):
 
     An echo run 'died early' if it stalled with under half the expected
     frames - the observed failure shape (35 and 141 of ~575)."""
-    runs = doc.get("runs", [])
+    runs = [r for r in doc.get("runs", []) if not account_exhausted(r)]
+    excluded_402 = len(doc.get("runs", [])) - len(runs)
     if not runs:
-        return None
+        return {"early_deaths": 0, "n_runs": 0, "excluded_credits_depleted": excluded_402,
+                "meaning": "no billable attempts - arm did not run"}
     expected = max((r.get("n_frames", 0) for r in runs), default=0)
     deaths = sum(1 for r in runs
                  if r.get("n_frames", 0) < expected * 0.5
@@ -69,6 +79,7 @@ def substrate_reliability(doc):
     rate = stats.wilson(deaths, n)
     return {
         "early_deaths": deaths, "n_runs": n,
+        "excluded_credits_depleted": excluded_402,
         "rate_pct": round(rate.point * 100, 1),
         "wilson_ci_pct": [round(rate.lo * 100, 1), round(rate.hi * 100, 1)],
         "meaning": ("substrate failure floor under every Lens M product's "
@@ -115,11 +126,16 @@ def main() -> int:
         print("[%s] %s" % (name, json.dumps(
             {k: v for k, v in entry.items() if k != "substrate_reliability"},
             default=str)[:220]))
-        if entry.get("substrate_reliability"):
-            sr = entry["substrate_reliability"]
-            print("      substrate failures: %d/%d = %.1f%% (CI %s-%s%%)"
+        sr = entry.get("substrate_reliability") or {}
+        if "rate_pct" in sr:
+            print("      substrate failures: %d/%d = %.1f%% (CI %s-%s%%)%s"
                   % (sr["early_deaths"], sr["n_runs"], sr["rate_pct"],
-                     sr["wilson_ci_pct"][0], sr["wilson_ci_pct"][1]))
+                     sr["wilson_ci_pct"][0], sr["wilson_ci_pct"][1],
+                     " [+%d runs excluded: credits_depleted]"
+                     % sr["excluded_credits_depleted"]
+                     if sr.get("excluded_credits_depleted") else ""))
+        elif sr:
+            print("      %s" % sr.get("meaning", ""))
 
     # Rig decomposition: standard vs minimal at the same condition.
     for name in list(analysis["conditions"]):
