@@ -1,0 +1,120 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>composite session driver</title>
+<style>
+ body{margin:0;background:#000;color:#9f9;font:12px monospace}
+ #status{position:fixed;top:4px;left:8px;z-index:9}
+ .row{display:flex}
+ canvas,video{width:640px;height:360px;background:#111}
+</style>
+<div id="status">boot</div>
+<div class="row">
+  <canvas id="src" width="640" height="360"></canvas>
+  <video id="out" width="640" height="360" muted autoplay playsinline></video>
+</div>
+<canvas id="comp" width="1280" height="360" style="display:none"></canvas>
+<script type="module">
+/* Composite session driver - two modes:
+     ?mode=loopback&seconds=20&run=N   local RTCPeerConnection pair; measures
+                                       the render+composite chain's own delay
+                                       and run-to-run variance (residual bound)
+     ?mode=xmax&seconds=20&key=tk-...  Xmax X2.0 via their SDK (temp key);
+                                       the Lens P bridge measurement path
+   The page draws source canvas AND output video onto ONE composite canvas in
+   the same rAF callback, records the composite with MediaRecorder, and POSTs
+   the webm to the serving process. Same-frame compositing = whatever shares a
+   recorded frame was rendered at the same instant (the sec 5.2 property). */
+const q = new URLSearchParams(location.search);
+const mode = q.get("mode") || "loopback";
+const seconds = parseFloat(q.get("seconds") || "20");
+const status = t => document.getElementById("status").textContent = t;
+
+const src = document.getElementById("src"), sctx = src.getContext("2d");
+const out = document.getElementById("out");
+const comp = document.getElementById("comp"), cctx = comp.getContext("2d");
+
+/* Source animation: drifting gradient + moving block + 1 Hz luminance flash.
+   Flash = +90 additive over the whole pane for exactly 2 rAF frames. */
+/* APERIODIC flash schedule: a perfectly periodic flash train lets xcorr lock
+   onto the wrong period (observed live: a run reporting true lag + exactly
+   1000 ms). Jittered intervals (700-1300 ms, deterministic LCG so runs are
+   reproducible) make the correlation peak unique at any lag. */
+let t0 = performance.now(), flashUntil = 0, nextFlash = 1500;
+let lcg = 12345;
+function nextInterval() {
+  lcg = (lcg * 1103515245 + 12345) & 0x7fffffff;
+  return 700 + (lcg % 600);
+}
+function drawSource(now) {
+  const t = (now - t0) / 1000;
+  const g = sctx.createLinearGradient(0, 0, 640, 0);
+  const base = 60 + 25 * Math.sin(t / 3);
+  g.addColorStop(0, `rgb(${base},${base+15},${base+35})`);
+  g.addColorStop(1, `rgb(${base+30},${base+20},${base}) `);
+  sctx.fillStyle = g; sctx.fillRect(0, 0, 640, 360);
+  sctx.fillStyle = "#333";
+  sctx.fillRect(200 + 140 * Math.sin(t / 1.5), 140, 160, 120);
+  if (now - t0 >= nextFlash) { flashUntil = now + 34; nextFlash += nextInterval(); }
+  if (now < flashUntil) {
+    sctx.fillStyle = "rgba(255,255,255,0.38)"; sctx.fillRect(0, 0, 640, 360);
+  }
+}
+
+function compositeLoop(now) {
+  drawSource(now);
+  cctx.drawImage(src, 0, 0, 640, 360);
+  cctx.drawImage(out, 640, 0, 640, 360);
+  requestAnimationFrame(compositeLoop);
+}
+
+async function record() {
+  const stream = comp.captureStream(60);
+  const rec = new MediaRecorder(stream, {mimeType: "video/webm;codecs=vp8",
+                                         videoBitsPerSecond: 12_000_000});
+  const chunks = [];
+  rec.ondataavailable = e => chunks.push(e.data);
+  const done = new Promise(res => rec.onstop = res);
+  rec.start();
+  status(mode + ": recording " + seconds + "s");
+  await new Promise(r => setTimeout(r, seconds * 1000));
+  rec.stop(); await done;
+  const blob = new Blob(chunks, {type: "video/webm"});
+  status("uploading " + (blob.size / 1e6).toFixed(1) + " MB");
+  await fetch("/upload?run=" + (q.get("run") || "0") + "&mode=" + mode,
+              {method: "POST", body: blob});
+  status("DONE");
+}
+
+async function startLoopback() {
+  const pc1 = new RTCPeerConnection(), pc2 = new RTCPeerConnection();
+  pc1.onicecandidate = e => e.candidate && pc2.addIceCandidate(e.candidate);
+  pc2.onicecandidate = e => e.candidate && pc1.addIceCandidate(e.candidate);
+  pc2.ontrack = e => { out.srcObject = e.streams[0]; };
+  for (const tr of src.captureStream(60).getTracks()) pc1.addTrack(tr, new MediaStream());
+  const offer = await pc1.createOffer(); await pc1.setLocalDescription(offer);
+  await pc2.setRemoteDescription(offer);
+  const ans = await pc2.createAnswer(); await pc2.setLocalDescription(ans);
+  await pc1.setRemoteDescription(ans);
+  status("loopback up");
+}
+
+async function startXmax() {
+  const key = q.get("key");
+  if (!key) { status("ERROR: no temp key"); return; }
+  const {createXmaxClient, models} = await import("./vendor/index.js");
+  const client = createXmaxClient({apiKey: key});
+  const stream = src.captureStream(30);
+  await client.realtime.connect(stream, {
+    model: models.realtime("x2.0"),
+    prompt: q.get("prompt") || "subtle warm cinematic grade",
+    onRemoteStream: s => { out.srcObject = s; status("xmax stream up"); },
+  });
+  status("xmax connected, awaiting stream");
+}
+
+requestAnimationFrame(compositeLoop);
+(mode === "xmax" ? startXmax() : startLoopback())
+  .then(() => new Promise(r => setTimeout(r, 1500)))   // let output settle
+  .then(record)
+  .catch(e => status("ERROR: " + e.message));
+</script>

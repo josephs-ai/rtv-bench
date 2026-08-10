@@ -1,0 +1,18 @@
+{
+  "measured_utc": "2026-08-10T15:45:26Z",
+  "method": "in-page WebRTC loopback through the identical composite chain; per-run p50s",
+  "runs": 8,
+  "per_run_p50_ms": [
+    33.3,
+    30.5,
+    33.3,
+    33.3,
+    33.3,
+    33.4,
+    33.4,
+    33.3
+  ],
+  "chain_delay_p50_ms": 33.3,
+  "residual_bound_ms": 1.9,
+  "note": "chain_delay is SUBTRACTED as the rig offset; residual_bound is the +- carried by every composite figure (summarise() refuses composite results without it)"
+}
