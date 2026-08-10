@@ -1,0 +1,1255 @@
+{
+  "condition": "C0",
+  "model": "reactor/echo",
+  "lens": "M",
+  "n_runs": 30,
+  "n_ok_runs": 30,
+  "n_lag_samples": 312,
+  "platform_floor_ms": {
+    "p50": 1694.5,
+    "p95": 1961.2,
+    "mean": 1685.9,
+    "jitter_sigma": 270.1
+  },
+  "delivery": "chunk-bursty (p95 gap 113 ms vs 33.3 ms frame period; TTFF/stall interpretation must account for chunking)",
+  "gap_stats_ms": {
+    "median_p50": 31.51,
+    "median_p95": 112.54,
+    "frame_period": 33.333333333333336
+  },
+  "note": "Floor includes SDK decode before the timestamp - identical treatment for every Lens M product, so subtraction is valid within Lens M.",
+  "runs": [
+    {
+      "run": 0,
+      "stop_reason": "source_exhausted",
+      "n_frames": 553,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 3138.4700830021757,
+        "transport_connecting_ms": 9441.41962499998,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1927.8,
+        1927.72,
+        1727.7,
+        1727.82,
+        1727.7,
+        1727.82,
+        1727.69,
+        1494.27
+      ],
+      "lag_confidences": [
+        0.989,
+        0.988,
+        0.991,
+        0.987,
+        0.988,
+        0.988,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 32.0,
+        "p95": 109.47,
+        "max": 568.93
+      }
+    },
+    {
+      "run": 1,
+      "stop_reason": "stall",
+      "n_frames": 38,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2803.486500000872,
+        "transport_connecting_ms": 9463.367083000776,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        733.45
+      ],
+      "lag_confidences": [
+        0.057
+      ],
+      "gaps_ms": {
+        "p50": 31.43,
+        "p95": 240.8,
+        "max": 2101.96
+      }
+    },
+    {
+      "run": 2,
+      "stop_reason": "source_exhausted",
+      "n_frames": 564,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2824.0928329978487,
+        "transport_connecting_ms": 10095.010917000764,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1361.18,
+        1361.0,
+        1361.19,
+        1361.04,
+        1361.19,
+        1361.11,
+        1361.15,
+        1361.02,
+        1361.15,
+        1227.73,
+        1227.82,
+        1194.36
+      ],
+      "lag_confidences": [
+        0.987,
+        0.988,
+        0.989,
+        0.988,
+        0.987,
+        0.988,
+        0.987,
+        0.988,
+        0.987,
+        0.988,
+        0.988,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 31.91,
+        "p95": 110.9,
+        "max": 948.4
+      }
+    },
+    {
+      "run": 3,
+      "stop_reason": "source_exhausted",
+      "n_frames": 553,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2424.5517090021167,
+        "transport_connecting_ms": 9526.76870799769,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1561.13,
+        1561.13,
+        1561.05,
+        1527.84,
+        1527.66,
+        1527.82,
+        1527.74,
+        1527.81,
+        1527.74,
+        1527.82,
+        1527.7,
+        1527.82,
+        1527.73,
+        1527.85,
+        1527.69,
+        1527.73
+      ],
+      "lag_confidences": [
+        0.986,
+        0.989,
+        0.989,
+        0.988,
+        0.987,
+        0.988,
+        0.987,
+        0.988,
+        0.988,
+        0.987,
+        0.989,
+        0.988,
+        0.988,
+        0.986,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 31.25,
+        "p95": 113.43,
+        "max": 1405.27
+      }
+    },
+    {
+      "run": 4,
+      "stop_reason": "source_exhausted",
+      "n_frames": 592,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2470.8440829999745,
+        "transport_connecting_ms": 9723.635875001492,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1861.13,
+        1861.05,
+        1861.15,
+        1861.0,
+        1861.16,
+        1861.05,
+        1861.16,
+        1827.82,
+        1827.69,
+        1827.83,
+        1827.73,
+        1827.82,
+        1827.69,
+        1827.71
+      ],
+      "lag_confidences": [
+        0.989,
+        0.987,
+        0.987,
+        0.988,
+        0.989,
+        0.987,
+        0.988,
+        0.987,
+        0.99,
+        0.987,
+        0.988,
+        0.987,
+        0.986,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 32.02,
+        "p95": 110.36,
+        "max": 367.46
+      }
+    },
+    {
+      "run": 5,
+      "stop_reason": "source_exhausted",
+      "n_frames": 521,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1210.7064579977305,
+        "transport_connecting_ms": 6681.922541996755,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1694.47,
+        1694.38,
+        1661.27,
+        1661.01,
+        1661.15,
+        1661.02,
+        1494.49,
+        1494.45,
+        1494.49,
+        1494.34,
+        1494.51,
+        1427.72,
+        1427.82,
+        1427.69,
+        1427.72
+      ],
+      "lag_confidences": [
+        0.989,
+        0.989,
+        0.986,
+        0.989,
+        0.988,
+        0.989,
+        0.988,
+        0.988,
+        0.988,
+        0.989,
+        0.988,
+        0.988,
+        0.988,
+        0.989,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 32.15,
+        "p95": 107.78,
+        "max": 1961.75
+      }
+    },
+    {
+      "run": 6,
+      "stop_reason": "source_exhausted",
+      "n_frames": 595,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1149.4127089972608,
+        "transport_connecting_ms": 6755.303374993673,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1894.46,
+        1894.39,
+        1894.46,
+        1894.34,
+        1894.5,
+        1894.37,
+        1894.52,
+        1894.44,
+        1894.49,
+        1894.36,
+        1894.5,
+        1894.42,
+        1894.49,
+        1894.38,
+        1894.38
+      ],
+      "lag_confidences": [
+        0.989,
+        0.986,
+        0.988,
+        0.986,
+        0.989,
+        0.988,
+        0.988,
+        0.988,
+        0.988,
+        0.989,
+        0.987,
+        0.987,
+        0.988,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 30.0,
+        "p95": 111.83,
+        "max": 476.41
+      }
+    },
+    {
+      "run": 7,
+      "stop_reason": "source_exhausted",
+      "n_frames": 594,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1177.8259589991649,
+        "transport_connecting_ms": 6917.489041996305,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1961.16,
+        1961.13,
+        1961.05,
+        1961.14,
+        1961.0,
+        1961.15,
+        1961.03,
+        1961.17,
+        1961.12,
+        1961.16,
+        1961.03,
+        1961.14,
+        1961.07,
+        1961.14,
+        1961.02,
+        1961.06
+      ],
+      "lag_confidences": [
+        0.987,
+        0.988,
+        0.988,
+        0.989,
+        0.987,
+        0.989,
+        0.988,
+        0.987,
+        0.989,
+        0.987,
+        0.989,
+        0.987,
+        0.989,
+        0.988,
+        0.99,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 31.0,
+        "p95": 114.0,
+        "max": 376.74
+      }
+    },
+    {
+      "run": 8,
+      "stop_reason": "source_exhausted",
+      "n_frames": 582,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1062.1309999987716,
+        "transport_connecting_ms": 6530.313999995997,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1933.33,
+        1933.33,
+        1894.61,
+        1894.32,
+        1661.18,
+        1661.03,
+        1661.14,
+        1661.08,
+        1661.15,
+        1661.06,
+        1661.15,
+        1661.06,
+        1661.16,
+        1661.02,
+        1661.04
+      ],
+      "lag_confidences": [
+        0.987,
+        0.989,
+        0.989,
+        0.99,
+        0.989,
+        0.989,
+        0.988,
+        0.987,
+        0.989,
+        0.989,
+        0.987,
+        0.99,
+        0.987,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 31.84,
+        "p95": 111.46,
+        "max": 370.8
+      }
+    },
+    {
+      "run": 9,
+      "stop_reason": "source_exhausted",
+      "n_frames": 596,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1165.3781670029275,
+        "transport_connecting_ms": 12161.017874997924,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1927.79,
+        1927.72,
+        1927.82,
+        1927.66,
+        1927.82,
+        1927.71,
+        1927.81,
+        1927.75,
+        1927.86,
+        1927.69,
+        1927.83,
+        1927.76,
+        1927.84,
+        1927.7,
+        1927.72
+      ],
+      "lag_confidences": [
+        0.988,
+        0.988,
+        0.989,
+        0.986,
+        0.988,
+        0.989,
+        0.988,
+        0.986,
+        0.987,
+        0.99,
+        0.985,
+        0.988,
+        0.987,
+        0.99,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 32.15,
+        "p95": 103.47,
+        "max": 1043.75
+      }
+    },
+    {
+      "run": 10,
+      "stop_reason": "stall",
+      "n_frames": 40,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1048.080000000482,
+        "transport_connecting_ms": 7447.508500001277,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        0.0
+      ],
+      "lag_confidences": [
+        0.25
+      ],
+      "gaps_ms": {
+        "p50": 29.76,
+        "p95": 235.68,
+        "max": 2071.09
+      }
+    },
+    {
+      "run": 11,
+      "stop_reason": "source_exhausted",
+      "n_frames": 588,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1131.7095420017722,
+        "transport_connecting_ms": 6536.042083003849,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1933.33,
+        1794.48,
+        1794.33,
+        1794.49,
+        1794.37,
+        1661.16,
+        1661.1,
+        1661.15,
+        1661.02,
+        1661.18,
+        1661.08,
+        1661.16,
+        1661.02,
+        1661.04
+      ],
+      "lag_confidences": [
+        0.989,
+        0.988,
+        0.989,
+        0.988,
+        0.99,
+        0.989,
+        0.989,
+        0.988,
+        0.99,
+        0.986,
+        0.987,
+        0.988,
+        0.989,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 31.21,
+        "p95": 116.83,
+        "max": 381.72
+      }
+    },
+    {
+      "run": 12,
+      "stop_reason": "source_exhausted",
+      "n_frames": 532,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1760.1677080019726,
+        "transport_connecting_ms": 6701.215249995585,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1561.16,
+        1561.14,
+        1461.09,
+        1427.93,
+        1427.68,
+        1427.83,
+        1427.69,
+        1427.83,
+        1427.8,
+        1427.83,
+        1427.69,
+        1427.85
+      ],
+      "lag_confidences": [
+        0.988,
+        0.989,
+        0.988,
+        0.988,
+        0.986,
+        0.987,
+        0.987,
+        0.989,
+        0.987,
+        0.987,
+        0.989,
+        0.984
+      ],
+      "gaps_ms": {
+        "p50": 31.29,
+        "p95": 113.78,
+        "max": 1217.48
+      }
+    },
+    {
+      "run": 13,
+      "stop_reason": "stall",
+      "n_frames": 33,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1725.4584170004819,
+        "transport_connecting_ms": 6605.579666000267,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        733.25
+      ],
+      "lag_confidences": [
+        0.136
+      ],
+      "gaps_ms": {
+        "p50": 32.73,
+        "p95": 96.37,
+        "max": 2231.69
+      }
+    },
+    {
+      "run": 14,
+      "stop_reason": "source_exhausted",
+      "n_frames": 593,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1037.8809169997112,
+        "transport_connecting_ms": 6763.000958002522,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1961.13,
+        1961.14,
+        1961.08,
+        1961.17,
+        1961.0,
+        1961.15,
+        1961.04,
+        1961.14,
+        1961.12,
+        1961.15,
+        1961.02,
+        1961.17,
+        1961.07,
+        1961.17,
+        1961.04,
+        1827.72
+      ],
+      "lag_confidences": [
+        0.987,
+        0.988,
+        0.99,
+        0.988,
+        0.988,
+        0.989,
+        0.986,
+        0.987,
+        0.988,
+        0.987,
+        0.988,
+        0.986,
+        0.989,
+        0.986,
+        0.989,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 31.5,
+        "p95": 112.54,
+        "max": 376.05
+      }
+    },
+    {
+      "run": 15,
+      "stop_reason": "stall",
+      "n_frames": 10,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1251.408292002452,
+        "transport_connecting_ms": 6597.070374999021,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        0.0
+      ],
+      "lag_confidences": [
+        0.5
+      ],
+      "gaps_ms": {
+        "p50": 29.59,
+        "p95": null,
+        "max": 137.14
+      }
+    },
+    {
+      "run": 16,
+      "stop_reason": "source_exhausted",
+      "n_frames": 584,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1086.015375003626,
+        "transport_connecting_ms": 6539.004790996842,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1827.83,
+        1827.8,
+        1661.04,
+        1661.15,
+        1660.99,
+        1627.88,
+        1627.71,
+        1627.82,
+        1627.79,
+        1627.83,
+        1627.68,
+        1627.85,
+        1627.74,
+        1627.82,
+        1527.71,
+        1527.72
+      ],
+      "lag_confidences": [
+        0.988,
+        0.988,
+        0.989,
+        0.989,
+        0.987,
+        0.988,
+        0.988,
+        0.988,
+        0.987,
+        0.987,
+        0.989,
+        0.989,
+        0.989,
+        0.986,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 31.51,
+        "p95": 112.78,
+        "max": 684.18
+      }
+    },
+    {
+      "run": 17,
+      "stop_reason": "source_exhausted",
+      "n_frames": 575,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1003.5667079937411,
+        "transport_connecting_ms": 6522.000000004482,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1994.48,
+        1961.14,
+        1961.14,
+        1961.05,
+        1961.14,
+        1961.03,
+        1961.14,
+        1961.03,
+        1961.16,
+        1961.09
+      ],
+      "lag_confidences": [
+        0.989,
+        0.988,
+        0.989,
+        0.989,
+        0.988,
+        0.986,
+        0.989,
+        0.988,
+        0.989,
+        0.976
+      ],
+      "gaps_ms": {
+        "p50": 31.81,
+        "p95": 111.77,
+        "max": 364.49
+      }
+    },
+    {
+      "run": 18,
+      "stop_reason": "source_exhausted",
+      "n_frames": 532,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1227.3227499972563,
+        "transport_connecting_ms": 6517.967916995985,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        994.37,
+        927.82,
+        927.75,
+        1061.2,
+        1061.11,
+        1061.16,
+        1061.01,
+        1061.16,
+        1061.07,
+        1061.17,
+        1061.02,
+        1061.05
+      ],
+      "lag_confidences": [
+        0.987,
+        0.99,
+        0.987,
+        0.989,
+        0.987,
+        0.987,
+        0.989,
+        0.988,
+        0.986,
+        0.987,
+        0.989,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 32.48,
+        "p95": 110.64,
+        "max": 1311.76
+      }
+    },
+    {
+      "run": 19,
+      "stop_reason": "source_exhausted",
+      "n_frames": 597,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 947.5586249973276,
+        "transport_connecting_ms": 9397.904666999239,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1994.51,
+        1961.14,
+        1961.05,
+        1961.15,
+        1961.0,
+        1961.16,
+        1961.02,
+        1961.14,
+        1961.11,
+        1961.16,
+        1961.03,
+        1961.15,
+        1961.07,
+        1961.18,
+        1961.03,
+        1961.06
+      ],
+      "lag_confidences": [
+        0.989,
+        0.989,
+        0.988,
+        0.988,
+        0.987,
+        0.989,
+        0.987,
+        0.989,
+        0.988,
+        0.988,
+        0.989,
+        0.981,
+        0.989,
+        0.989,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 32.03,
+        "p95": 105.31,
+        "max": 363.29
+      }
+    },
+    {
+      "run": 20,
+      "stop_reason": "source_exhausted",
+      "n_frames": 548,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1149.3935830003466,
+        "transport_connecting_ms": 6872.334583000338,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1561.14,
+        1527.76,
+        1494.59,
+        1494.31,
+        1494.5,
+        1494.37,
+        1461.11,
+        1461.16,
+        1461.03,
+        1461.21,
+        1461.07,
+        1327.83,
+        1327.69,
+        1327.74
+      ],
+      "lag_confidences": [
+        0.988,
+        0.99,
+        0.986,
+        0.988,
+        0.989,
+        0.991,
+        0.989,
+        0.987,
+        0.989,
+        0.988,
+        0.989,
+        0.987,
+        0.99,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 27.95,
+        "p95": 109.94,
+        "max": 1765.32
+      }
+    },
+    {
+      "run": 21,
+      "stop_reason": "stall",
+      "n_frames": 466,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1045.11508300493,
+        "transport_connecting_ms": 6611.877832998289,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1894.51,
+        1894.4,
+        1894.5,
+        1894.37,
+        1894.48,
+        1894.36,
+        1894.53,
+        1894.44,
+        1894.49,
+        1894.36,
+        1894.49
+      ],
+      "lag_confidences": [
+        0.989,
+        0.989,
+        0.985,
+        0.987,
+        0.989,
+        0.987,
+        0.987,
+        0.988,
+        0.989,
+        0.989,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 31.72,
+        "p95": 112.61,
+        "max": 2093.65
+      }
+    },
+    {
+      "run": 22,
+      "stop_reason": "source_exhausted",
+      "n_frames": 574,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1039.6720419958,
+        "transport_connecting_ms": 7532.472792001499,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1961.15,
+        1961.12,
+        1961.06,
+        1861.16,
+        1827.65,
+        1827.82,
+        1827.71,
+        1827.82,
+        1827.78,
+        1827.82,
+        1827.7,
+        1827.83,
+        1827.73,
+        1827.84,
+        1827.68
+      ],
+      "lag_confidences": [
+        0.989,
+        0.989,
+        0.989,
+        0.989,
+        0.986,
+        0.989,
+        0.987,
+        0.988,
+        0.988,
+        0.988,
+        0.99,
+        0.988,
+        0.989,
+        0.987,
+        0.99
+      ],
+      "gaps_ms": {
+        "p50": 32.22,
+        "p95": 112.84,
+        "max": 500.22
+      }
+    },
+    {
+      "run": 23,
+      "stop_reason": "source_exhausted",
+      "n_frames": 512,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1064.4764160024351,
+        "transport_connecting_ms": 6682.095707998087,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1561.16,
+        1561.14,
+        1561.07,
+        1561.13,
+        1561.02,
+        1561.15,
+        1561.05,
+        1561.15,
+        1561.12,
+        1561.18,
+        1561.01,
+        1561.16,
+        1327.84,
+        1327.7,
+        1327.72
+      ],
+      "lag_confidences": [
+        0.987,
+        0.986,
+        0.989,
+        0.987,
+        0.987,
+        0.989,
+        0.988,
+        0.988,
+        0.989,
+        0.988,
+        0.989,
+        0.988,
+        0.989,
+        0.987,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 31.71,
+        "p95": 114.25,
+        "max": 1285.76
+      }
+    },
+    {
+      "run": 24,
+      "stop_reason": "source_exhausted",
+      "n_frames": 569,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1009.8480409942567,
+        "transport_connecting_ms": 6721.466666997003,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1194.51,
+        1194.45,
+        1194.49,
+        1194.36,
+        1194.49,
+        1194.39,
+        1194.49,
+        1194.38,
+        1194.37
+      ],
+      "lag_confidences": [
+        0.989,
+        0.988,
+        0.987,
+        0.991,
+        0.988,
+        0.991,
+        0.988,
+        0.99,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 31.51,
+        "p95": 109.52,
+        "max": 662.97
+      }
+    },
+    {
+      "run": 25,
+      "stop_reason": "source_exhausted",
+      "n_frames": 458,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1336.4099579994217,
+        "transport_connecting_ms": 7212.088749998657,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1627.8,
+        1627.73,
+        1594.58,
+        1694.5,
+        1694.36,
+        1694.48,
+        1694.45,
+        1694.51,
+        1694.37
+      ],
+      "lag_confidences": [
+        0.989,
+        0.988,
+        0.989,
+        0.989,
+        0.987,
+        0.991,
+        0.987,
+        0.988,
+        0.989
+      ],
+      "gaps_ms": {
+        "p50": 1.18,
+        "p95": 144.55,
+        "max": 1283.47
+      }
+    },
+    {
+      "run": 26,
+      "stop_reason": "source_exhausted",
+      "n_frames": 568,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1101.0877080043429,
+        "transport_connecting_ms": 8142.937165997864,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        2000.0,
+        1727.72,
+        1727.85,
+        1727.67
+      ],
+      "lag_confidences": [
+        0.989,
+        0.989,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 30.12,
+        "p95": 114.31,
+        "max": 1469.78
+      }
+    },
+    {
+      "run": 27,
+      "stop_reason": "stall",
+      "n_frames": 35,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1673.7702090031235,
+        "transport_connecting_ms": 7992.0292910028365,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        667.0
+      ],
+      "lag_confidences": [
+        0.031
+      ],
+      "gaps_ms": {
+        "p50": 34.68,
+        "p95": 113.49,
+        "max": 2140.85
+      }
+    },
+    {
+      "run": 28,
+      "stop_reason": "stall",
+      "n_frames": 141,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2344.8836669995217,
+        "transport_connecting_ms": 6908.949292002944,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1494.42
+      ],
+      "lag_confidences": [
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 29.32,
+        "p95": 151.96,
+        "max": 2264.04
+      }
+    },
+    {
+      "run": 29,
+      "stop_reason": "source_exhausted",
+      "n_frames": 560,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1320.4648750033812,
+        "transport_connecting_ms": 6871.141333002015,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1894.45,
+        1861.13,
+        1861.04,
+        1694.62,
+        1694.33,
+        1694.49,
+        1694.37,
+        1694.5,
+        1661.16,
+        1661.04,
+        1727.58
+      ],
+      "lag_confidences": [
+        0.988,
+        0.989,
+        0.99,
+        0.988,
+        0.988,
+        0.989,
+        0.989,
+        0.988,
+        0.989,
+        0.989,
+        0.988
+      ],
+      "gaps_ms": {
+        "p50": 30.05,
+        "p95": 111.28,
+        "max": 1172.77
+      }
+    }
+  ]
+}

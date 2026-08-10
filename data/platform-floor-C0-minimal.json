@@ -1,0 +1,493 @@
+{
+  "condition": "C0-minimal",
+  "model": "reactor/echo",
+  "lens": "M",
+  "n_runs": 12,
+  "n_ok_runs": 12,
+  "n_lag_samples": 110,
+  "platform_floor_ms": {
+    "p50": 1227.8,
+    "p95": 1761.2,
+    "mean": 1367.5,
+    "jitter_sigma": 259.6
+  },
+  "delivery": "chunk-bursty (p95 gap 112 ms vs 33.3 ms frame period; TTFF/stall interpretation must account for chunking)",
+  "gap_stats_ms": {
+    "median_p50": 31.15,
+    "median_p95": 112.1,
+    "frame_period": 33.333333333333336
+  },
+  "note": "Floor includes SDK decode before the timestamp - identical treatment for every Lens M product, so subtraction is valid within Lens M.",
+  "runs": [
+    {
+      "run": 0,
+      "stop_reason": "source_exhausted",
+      "n_frames": 588,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1536.2923329957994,
+        "transport_connecting_ms": 6639.703792003274,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1661.13,
+        1661.14,
+        1661.05,
+        1661.14,
+        1660.99,
+        1661.16,
+        1661.03,
+        1661.15,
+        1661.11,
+        1661.15,
+        1661.04,
+        1661.17,
+        1661.07,
+        1661.16,
+        1661.02,
+        1661.01
+      ],
+      "lag_confidences": [
+        0.986,
+        0.987,
+        0.989,
+        0.987,
+        0.986,
+        0.989,
+        0.986,
+        0.988,
+        0.988,
+        0.988,
+        0.99,
+        0.985,
+        0.99,
+        0.988,
+        0.99,
+        0.986
+      ],
+      "gaps_ms": {
+        "p50": 32.19,
+        "p95": 104.28,
+        "max": 357.76
+      }
+    },
+    {
+      "run": 1,
+      "stop_reason": "source_exhausted",
+      "n_frames": 598,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1067.1452500027954,
+        "transport_connecting_ms": 6949.285458998929,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        0.0
+      ],
+      "lag_confidences": [
+        0.014
+      ],
+      "gaps_ms": {
+        "p50": 28.01,
+        "p95": 113.21,
+        "max": 896.62
+      }
+    },
+    {
+      "run": 2,
+      "stop_reason": "source_exhausted",
+      "n_frames": 546,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1119.9289159994805,
+        "transport_connecting_ms": 7100.871999995434,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1194.49,
+        1194.48,
+        1194.47,
+        1194.38,
+        1194.44,
+        1194.33,
+        1194.47,
+        1194.37,
+        1194.49,
+        1194.45,
+        1194.51,
+        1261.16,
+        1261.06,
+        1261.16,
+        1261.02,
+        1261.02
+      ],
+      "lag_confidences": [
+        0.989,
+        0.986,
+        0.989,
+        0.988,
+        0.987,
+        0.988,
+        0.988,
+        0.988,
+        0.988,
+        0.988,
+        0.988,
+        0.986,
+        0.988,
+        0.987,
+        0.989,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 31.95,
+        "p95": 113.57,
+        "max": 1045.18
+      }
+    },
+    {
+      "run": 3,
+      "stop_reason": "source_exhausted",
+      "n_frames": 595,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 993.5650000043097,
+        "transport_connecting_ms": 6625.055041993619,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        0.0
+      ],
+      "lag_confidences": [
+        0.021
+      ],
+      "gaps_ms": {
+        "p50": 31.49,
+        "p95": 104.85,
+        "max": 358.98
+      }
+    },
+    {
+      "run": 4,
+      "stop_reason": "source_exhausted",
+      "n_frames": 579,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1048.0831669992767,
+        "transport_connecting_ms": 6706.898292002734,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1361.19,
+        1361.01,
+        1361.14,
+        1361.03,
+        1361.12,
+        1361.11,
+        1361.16,
+        1361.03,
+        1361.16,
+        1361.09,
+        1361.16,
+        1361.01,
+        1361.04
+      ],
+      "lag_confidences": [
+        0.986,
+        0.986,
+        0.984,
+        0.988,
+        0.989,
+        0.988,
+        0.986,
+        0.989,
+        0.986,
+        0.987,
+        0.986,
+        0.991,
+        0.987
+      ],
+      "gaps_ms": {
+        "p50": 31.42,
+        "p95": 112.65,
+        "max": 461.98
+      }
+    },
+    {
+      "run": 5,
+      "stop_reason": "source_exhausted",
+      "n_frames": 563,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1271.247000004223,
+        "transport_connecting_ms": 6946.54512499983,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1333.33,
+        1294.48,
+        1294.4,
+        1294.46,
+        1061.01,
+        1061.15,
+        1061.03,
+        1061.14,
+        1061.11,
+        1061.16,
+        1061.03,
+        1061.15,
+        1061.06,
+        1061.11,
+        1061.03,
+        1061.05
+      ],
+      "lag_confidences": [
+        0.989,
+        0.987,
+        0.989,
+        0.984,
+        0.986,
+        0.988,
+        0.988,
+        0.988,
+        0.989,
+        0.987,
+        0.988,
+        0.987,
+        0.987,
+        0.984,
+        0.99,
+        0.986
+      ],
+      "gaps_ms": {
+        "p50": 31.06,
+        "p95": 116.02,
+        "max": 852.45
+      }
+    },
+    {
+      "run": 6,
+      "stop_reason": "source_exhausted",
+      "n_frames": 591,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1173.894375002419,
+        "transport_connecting_ms": 6573.2247500054655,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1994.48,
+        1994.48,
+        1961.04,
+        1961.16,
+        1961.0,
+        1761.15,
+        1761.04,
+        1761.14,
+        1761.11,
+        1761.17,
+        1761.04,
+        1761.17,
+        1761.07,
+        1761.16,
+        1761.03,
+        1761.02
+      ],
+      "lag_confidences": [
+        0.988,
+        0.982,
+        0.989,
+        0.986,
+        0.988,
+        0.988,
+        0.988,
+        0.988,
+        0.989,
+        0.986,
+        0.987,
+        0.986,
+        0.989,
+        0.986,
+        0.989,
+        0.984
+      ],
+      "gaps_ms": {
+        "p50": 32.06,
+        "p95": 111.55,
+        "max": 361.85
+      }
+    },
+    {
+      "run": 7,
+      "stop_reason": "source_exhausted",
+      "n_frames": 598,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 2852.937750001729,
+        "transport_connecting_ms": 10898.65266700508,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        0.0
+      ],
+      "lag_confidences": [
+        0.014
+      ],
+      "gaps_ms": {
+        "p50": 19.32,
+        "p95": 110.46,
+        "max": 1334.05
+      }
+    },
+    {
+      "run": 8,
+      "stop_reason": "source_exhausted",
+      "n_frames": 574,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1102.4838339944836,
+        "transport_connecting_ms": 7408.196709002368,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1194.48,
+        1194.49,
+        1194.48,
+        1194.37,
+        1194.47,
+        1194.36,
+        1194.49,
+        1194.37,
+        1194.48,
+        1194.43,
+        1194.5,
+        1194.36,
+        1194.49,
+        1194.4,
+        1194.48,
+        1194.36,
+        1194.37
+      ],
+      "lag_confidences": [
+        0.989,
+        0.986,
+        0.988,
+        0.994,
+        0.986,
+        0.988,
+        0.987,
+        0.988,
+        0.988,
+        0.988,
+        0.987,
+        0.989,
+        0.982,
+        0.989,
+        0.985,
+        0.99,
+        0.986
+      ],
+      "gaps_ms": {
+        "p50": 29.26,
+        "p95": 105.15,
+        "max": 685.59
+      }
+    },
+    {
+      "run": 9,
+      "stop_reason": "stall",
+      "n_frames": 441,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1075.625666002452,
+        "transport_connecting_ms": 6786.0572499994305,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        0.0
+      ],
+      "lag_confidences": [
+        0.019
+      ],
+      "gaps_ms": {
+        "p50": 28.49,
+        "p95": 114.87,
+        "max": 2141.21
+      }
+    },
+    {
+      "run": 10,
+      "stop_reason": "source_exhausted",
+      "n_frames": 551,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1044.564875002834,
+        "transport_connecting_ms": 6600.990167004056,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1227.81,
+        1227.76,
+        1227.81,
+        1194.49,
+        1194.33,
+        1194.48,
+        1194.37,
+        1194.49,
+        1194.44,
+        1194.5,
+        1194.37,
+        1194.5,
+        1194.4,
+        1194.48,
+        1194.34,
+        1194.39
+      ],
+      "lag_confidences": [
+        0.989,
+        0.985,
+        0.987,
+        0.989,
+        0.986,
+        0.987,
+        0.988,
+        0.989,
+        0.989,
+        0.989,
+        0.989,
+        0.986,
+        0.989,
+        0.985,
+        0.989,
+        0.986
+      ],
+      "gaps_ms": {
+        "p50": 31.07,
+        "p95": 107.56,
+        "max": 1453.0
+      }
+    },
+    {
+      "run": 11,
+      "stop_reason": "source_exhausted",
+      "n_frames": 552,
+      "resolved_version": "0.0.0@1.20260805.20969",
+      "connect_timings": {
+        "session_creation_ms": 1059.713834001741,
+        "transport_connecting_ms": 7659.608375004609,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        0.0
+      ],
+      "lag_confidences": [
+        0.023
+      ],
+      "gaps_ms": {
+        "p50": 31.23,
+        "p95": 114.49,
+        "max": 1458.42
+      }
+    }
+  ]
+}

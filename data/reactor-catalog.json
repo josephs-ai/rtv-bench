@@ -1,0 +1,193 @@
+{
+  "attempts": [
+    {
+      "body_head": null,
+      "count": 15,
+      "path": "/models",
+      "status": 200
+    }
+  ],
+  "base_url": "https://api.reactor.inc",
+  "entries": [
+    {
+      "created_at": 1777886058,
+      "description": "Brightness: the platform's minimal template model. Generates animated\ngradient video frames plus a swept audio tone, with a client-controllable\nbrightness multiplier, pause state, and configurable resolution\n(480p-1440p). CPU-only; no weights.\n",
+      "id": "c72da247-f38b-45ac-9b49-e050a8b46828",
+      "is_gpu": false,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/brightness",
+      "public_pricing": false,
+      "status": "active"
+    },
+    {
+      "created_at": 1771539177,
+      "description": "Echo passes the client's webcam and microphone straight back over WebRTC,\noptionally applying a real-time video effect (grayscale, sepia, edges,\ninvert, blur, pixelate) and an uploaded overlay image. CPU-only; the\nplatform's always-on smoke-test model.\n",
+      "id": "3d24e9b2-5a6d-4045-a92a-d0cba22e66b5",
+      "is_gpu": false,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/echo",
+      "public_pricing": false,
+      "status": "active"
+    },
+    {
+      "created_at": 1772830959,
+      "description": "Interactive, single-GPU autoregressive text-to-video world model. Streams\ngenerated video chunk by chunk over WebRTC from a text prompt (optionally\nseeded by an uploaded image), steerable mid-stream, with a real-time ESRGAN\nsuper-resolution pass on the displayed frames.\n",
+      "gpu_count": 1,
+      "gpu_type": "NVIDIA_B200",
+      "id": "75c908ff-ffa2-4360-9fd6-85b181dd2d43",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/helios",
+      "public_pricing": true,
+      "status": "active"
+    },
+    {
+      "created_at": 1771539177,
+      "gpu_type": "NVIDIA_B200",
+      "id": "08625345-2beb-4fe9-8f32-0451ed5dee6f",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/hy-world",
+      "public_pricing": false,
+      "status": "active"
+    },
+    {
+      "created_at": 1776859713,
+      "description": "LingBot-World: interactive, multi-GPU image-to-video world model on the\nWAN i2v-A14B fast path. Seeds from an uploaded image and autoregressively\nstreams camera-controllable video over WebRTC, steerable mid-stream, with\nan optional ESRGAN/SPAN super-resolution pass. Runs DeepSpeed-Ulysses\nsequence parallelism across the pod's GPUs.\n",
+      "gpu_count": 4,
+      "gpu_type": "NVIDIA_B200",
+      "id": "c5ef2965-36f0-4da8-b629-60953f12d605",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/lingbot",
+      "public_pricing": true,
+      "status": "active"
+    },
+    {
+      "created_at": 1783389987,
+      "description": "LingBot-World V2: interactive, multi-GPU image-to-video world model on the\nWAN i2v-A14B fast path. Seeds from an uploaded image and autoregressively\nstreams camera-controllable video over WebRTC, steerable mid-stream, with\nan optional ESRGAN/SPAN super-resolution pass. V2 adds native 4x4\ncamera-pose layer control and DiT kernel optimisations over v1. Runs\nDeepSpeed-Ulysses sequence parallelism across the pod's GPUs.\n",
+      "gpu_count": 4,
+      "gpu_type": "NVIDIA_B200",
+      "id": "356908d6-a8d5-470f-9a28-3c99a7b0c074",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/lingbot-world-2",
+      "public_pricing": true,
+      "status": "active"
+    },
+    {
+      "created_at": 1771539177,
+      "gpu_type": "NVIDIA_B200",
+      "id": "617a72d7-c0d5-4c5d-a329-00cfd0c62ea0",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/livecore",
+      "public_pricing": false,
+      "status": "active"
+    },
+    {
+      "created_at": 1782329529,
+      "gpu_type": "NVIDIA_B200",
+      "id": "9d05916d-c5ad-4687-b8cb-88b497e9808f",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/longlive",
+      "public_pricing": false,
+      "status": "active"
+    },
+    {
+      "created_at": 1779833592,
+      "description": "LongLive 2.0: interactive, single-GPU image-to-video world model on the\nWan2.2-TI2V-5B path. Seeds from an uploaded image and autoregressively\nstreams 1280x704 video over WebRTC with multi-shot scene cuts and\nmid-stream prompt steering, with optional VFI and super-resolution passes.\n",
+      "gpu_count": 1,
+      "gpu_type": "NVIDIA_B200",
+      "id": "8c2e8240-43c8-4599-9cea-409dfe3d9d35",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/longlive-v2",
+      "public_pricing": true,
+      "status": "active"
+    },
+    {
+      "created_at": 1782329529,
+      "gpu_type": "NVIDIA_B200",
+      "id": "1b47a973-4334-4180-995a-c198d2a2067e",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/morpheus",
+      "public_pricing": false,
+      "status": "active"
+    },
+    {
+      "created_at": 1774815925,
+      "description": "Morpheus V4: real-time autoregressive text-to-video model. Streams\ngenerated 1280x720 video chunk by chunk over WebRTC from a text prompt,\nsteerable mid-stream. Runs multi-GPU (causal + bidirectional fast-forward\ngenerators on a Wan VAE / UMT5 / CLIP stack).\n",
+      "gpu_count": 2,
+      "gpu_type": "NVIDIA_B200",
+      "id": "5bb36c3e-52d3-4ca9-ade0-093d5ef846a7",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/morpheus-v4",
+      "public_pricing": false,
+      "status": "active"
+    },
+    {
+      "created_at": 1782098003,
+      "id": "162edf27-3735-4ffc-986c-af98630e0e3c",
+      "is_gpu": false,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/omnidreams",
+      "public_pricing": false,
+      "status": "active"
+    },
+    {
+      "created_at": 1781044268,
+      "description": "Interactive, single-GPU streaming video editor. Transforms the client's\nlive camera stream chunk by chunk from a text prompt, steerable mid-stream,\non the self-forcing fixed-RoPE SANA V2V path.\n",
+      "gpu_count": 1,
+      "gpu_type": "NVIDIA_B200",
+      "id": "3f39b140-e0b4-4861-af69-f0b27884ee3a",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/sana-streaming",
+      "public_pricing": true,
+      "status": "active"
+    },
+    {
+      "created_at": 1771539177,
+      "gpu_type": "NVIDIA_B200",
+      "id": "edc93f2d-b304-4933-881a-3892a834901a",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "reactor/worldcore",
+      "public_pricing": false,
+      "status": "active"
+    },
+    {
+      "created_at": 1783619510,
+      "description": "X2: streaming video-to-video editing. The client streams a source video\nand the model re-renders it live, guided by a text prompt (character\nswap / insertion), an optional reference image of the character or\nobject to put into the scene, and an optional drag pointer that steers\nthe motion of the edited subject. Causal block-streaming Wan2.2-based\nDiT: 4 frames per block, KV/VAE caches carried across blocks.\n",
+      "gpu_count": 1,
+      "gpu_type": "NVIDIA_B200",
+      "id": "75b9886b-1fb5-4bb3-873a-6a44f5b8c70d",
+      "is_gpu": true,
+      "is_owned": false,
+      "is_public": true,
+      "name": "xmax/x2",
+      "public_pricing": true,
+      "status": "active"
+    }
+  ],
+  "pages": 1,
+  "path": "/models"
+}
