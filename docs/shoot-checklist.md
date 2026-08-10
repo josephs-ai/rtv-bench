@@ -44,18 +44,24 @@ temporally non-identical — motion cadence, shutter, frame timing — which is
 precisely the confound the conform path exists to eliminate. If a clip must be
 reshot later, reshoot it with the same body, lens, and framerate settings.
 
-| ID | Clip | Reshoot-prone |
-|---|---|---|
-| V1 | Static face close-up, even light | |
-| V2 | Fast head/body motion | ✱ |
-| V3 | Hand occluding face, then removed | ✱✱ |
-| V4 | Hard lighting change mid-clip | ✱✱ |
-| V5 | Second person enters frame (consent for both!) | ✱ |
-| V6 | Fine texture — hair, mesh fabric | |
-| V7 | Printed text / logo held to camera | |
-| V8 | Rapid horizontal pan | ✱ |
-| V9 | Hard scene cut | ✱✱ |
-| V10 | 60 s sustained single take | ✱ (fatigue) |
+| ID | Clip | Takes | Notes |
+|---|---|---|---|
+| V1 | Static face close-up, even light | 2 | different distances |
+| V2 | Fast head/body motion | 3 | head / arms / whole body |
+| V3 | Occlusion, then removed | 3 | hand, object, walk-behind ✱✱ |
+| V4 | Hard lighting change mid-clip | 2 | off->on and on->off ✱✱ |
+| V5 | Second person enters frame (consent for both!) | 2 | slow / fast entry ✱ |
+| V6 | Fine texture | 3 | hair, fabric weave, mesh |
+| V7 | Printed text / logo held to camera | 2 | large and small text |
+| V8 | Rapid horizontal pan | 2 | medium and fast ✱ |
+| V9 | Hard scene cut | 2 | ✱✱ |
+| V10 | 60 s sustained single take | 4 | the differentiator - different activity each ✱ |
+
+**25 clips total — multiple takes per stressor, not new stressor types.** The
+stressor list stays as pre-registered; each rubric dimension gets 2-3
+independent exemplars so no dimension score is hostage to a single take.
+Shoot runs ~2 h. Campaign C storage scales ~2.5x: provision 250-400 GB
+before capture night.
 
 Anchor-R (digital human): the same performer reading scripts S1–S4 on camera,
 same framing as the avatar products' output; this is the "real filmed
