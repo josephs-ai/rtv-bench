@@ -78,11 +78,23 @@ def classify(result: StreamResult,
     if result.semantics is DurationSemantics.FIXED:
         if result.duration_intended_s is None:
             raise ValueError("FIXED semantics require duration_intended_s")
-        actual_s = result.events[-1].wall_clock - result.events[0].wall_clock
-        if actual_s < result.duration_intended_s * EARLY_TEARDOWN_FRACTION:
+        # Termination time, not frame count. Real echo runs delivered 555/600
+        # frames (startup subscription loss): the delivery SPAN (18.5s) fails
+        # a 95% check against 19s intended, but the stream ran the full wall
+        # duration - that is dropped frames (a D, via capture quality), not a
+        # termination. F is reserved for streams that STOPPED early.
+        # When did the OUTPUT end, relative to the request? Wall-clock alone is
+        # also wrong: a hung connection idling until the deadline reaper would
+        # count as "ran full duration" while its output died at 8 s.
+        last_frame_s = result.events[-1].wall_clock - result.request_clock
+        if last_frame_s < result.duration_intended_s * EARLY_TEARDOWN_FRACTION:
             return Classification(F, [
-                "ended at %.1f s of %.1f s intended (%.0f%% rule)"
-                % (actual_s, result.duration_intended_s, EARLY_TEARDOWN_FRACTION * 100)])
+                "output ended at %.1f s of %.1f s intended (%.0f%% rule)"
+                % (last_frame_s, result.duration_intended_s,
+                   EARLY_TEARDOWN_FRACTION * 100)])
+        # Startup loss reaches D through the Spec's own criterion - dropped
+        # frames >5% via capture quality - not through a new TTFF rule; the
+        # Spec keeps TTFF "report raw, contextual".
     else:  # OPEN_ENDED - generation
         # Failure is a stall or the server hanging up before OUR stop signal.
         stalls = stall_events(result.events)
