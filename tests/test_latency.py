@@ -147,6 +147,35 @@ def test_digital_human_audio_to_lip():
     print("  digital human: p50 %.1f ms (true %.1f), n=%d" % (res.p50_ms, expected, res.n))
 
 
+def test_capture_path_enforcement():
+    """Composite figures cannot exist without a jitter bound, and never mix
+    with SDK-path figures."""
+    from rtveval.latency.base import CapturePath, LatencySample, Method, summarise
+    comp = [LatencySample(1500.0, Interval.V2V_FRAME_TO_FRAME,
+                          Method.IMPULSE_XCORR, 1.0,
+                          capture_path=CapturePath.COMPOSITE_CAPTURE)
+            for _ in range(5)]
+    try:
+        summarise(comp, lens="P")
+        raise AssertionError("composite without residual bound minted")
+    except ValueError as e:
+        assert "residual_bound_ms" in str(e)
+        print("  composite without measured bound: refused")
+
+    r = summarise(comp, lens="P", residual_bound_ms=85.0)
+    assert "composite_capture" in r.headline() and "+-85" in r.headline()
+    print("  with bound: %s" % r.headline()[-45:])
+
+    mixed = comp[:2] + [LatencySample(1500.0, Interval.V2V_FRAME_TO_FRAME,
+                                      Method.IMPULSE_XCORR, 1.0)]
+    try:
+        summarise(mixed, lens="P", residual_bound_ms=85.0)
+        raise AssertionError("mixed capture paths accepted")
+    except ValueError as e:
+        assert "capture paths" in str(e)
+        print("  composite + sdk_callback in one summary: refused")
+
+
 def test_summarise_refuses_to_mix_intervals():
     from rtveval.latency.base import LatencySample, Method
     mixed = [

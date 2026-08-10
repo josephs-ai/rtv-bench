@@ -245,6 +245,20 @@ def test_table_rejects_mixed_intervals():
         print("  audio-to-lip into frame-to-frame table: refused")
 
 
+def test_table_rejects_mixed_capture_paths():
+    from rtveval.latency.base import CapturePath
+    t = report.Table("V2V latency", lens="P", columns=["Product", "Latency"])
+    sdk = _latres("P")
+    comp = sdk._replace(capture_path=CapturePath.COMPOSITE_CAPTURE,
+                        residual_bound_ms=85.0)
+    t.add_row([report.Cell("Lucy"), report.latency_cell(sdk)])
+    try:
+        t.add_row([report.Cell("Xmax native"), report.latency_cell(comp)])
+        raise AssertionError("mixed capture paths accepted in table")
+    except report.LensViolation:
+        print("  composite cell into sdk-path table: refused")
+
+
 def test_contested_dimension_cannot_rank():
     contested = Agreement(alpha=0.41, gate="contested")
     try:

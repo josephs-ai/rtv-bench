@@ -50,6 +50,22 @@ class Method(enum.Enum):
     EXTERNAL_HIGHSPEED = "external_highspeed"  # 240fps phone, closed products
 
 
+class CapturePath(enum.Enum):
+    """WHERE the frames were captured - orthogonal to Method (the extraction
+    algorithm). The composite path (browser client rendered to screen, OBS
+    recording input+output) also uses impulse extraction, so Method alone
+    cannot separate it from SDK-callback figures. These are not comparable:
+    the composite adds browser compositor scheduling and vsync alignment -
+    VARIABLE delay that a static loopback offset does not capture. Composite
+    results therefore require a measured residual jitter bound at
+    construction; without one they cannot exist (see summarise()).
+    """
+
+    SDK_CALLBACK = "sdk_callback"          # in-process frame callback
+    COMPOSITE_CAPTURE = "composite_capture"  # vcam -> browser -> OBS composite
+    EXTERNAL_CAMERA = "external_camera"    # 240fps phone on screen
+
+
 # Which instrument is authoritative for each interval.
 PRIMARY_METHOD = {
     Interval.V2V_FRAME_TO_FRAME: Method.IMPULSE_XCORR,
@@ -72,6 +88,7 @@ class LatencySample(NamedTuple):
     # Samples below the caller's confidence floor are dropped and counted.
     confidence: float
     event_index: Optional[int] = None
+    capture_path: CapturePath = CapturePath.SDK_CALLBACK
 
 
 class LatencyResult(NamedTuple):
@@ -85,18 +102,32 @@ class LatencyResult(NamedTuple):
     jitter_ms: float  # sigma
     rig_offset_ms: float  # subtracted already; recorded for the report
     dropped_low_confidence: int
+    capture_path: CapturePath = CapturePath.SDK_CALLBACK
+    # Measured run-to-run variability of the capture path itself, from running
+    # the path against a known-latency reference. REQUIRED for composite
+    # results - the browser/compositor jitter is a range, not a constant.
+    residual_bound_ms: Optional[float] = None
 
     def headline(self) -> str:
-        return "p95 %.0f ms [Lens %s] (%s, %s, n=%d)" % (
-            self.p95_ms, self.lens, self.interval.label, self.method.value, self.n)
+        tag = ""
+        if self.capture_path is not CapturePath.SDK_CALLBACK:
+            tag = " [%s, residual +-%.0f ms]" % (self.capture_path.value,
+                                                 self.residual_bound_ms or 0)
+        return "p95 %.0f ms [Lens %s] (%s, %s, n=%d)%s" % (
+            self.p95_ms, self.lens, self.interval.label, self.method.value,
+            self.n, tag)
 
 
 def summarise(samples: List[LatencySample], lens: str, rig_offset_ms: float = 0.0,
-              min_confidence: float = 0.0) -> LatencyResult:
+              min_confidence: float = 0.0,
+              residual_bound_ms: Optional[float] = None) -> LatencyResult:
     """Reduce samples to the reportable five-number summary.
 
-    Refuses to mix intervals or methods - that would be the latency equivalent
-    of a cross-lens table.
+    Refuses to mix intervals, methods, or capture paths - each would be the
+    latency equivalent of a cross-lens table. Composite-capture results
+    additionally REQUIRE residual_bound_ms: the browser/compositor delay is
+    variable, so a composite figure without its measured jitter range is not
+    a number, and this constructor will not mint one.
     """
     import statistics
 
@@ -105,10 +136,22 @@ def summarise(samples: List[LatencySample], lens: str, rig_offset_ms: float = 0.
 
     intervals = {s.interval for s in samples}
     methods = {s.method for s in samples}
+    paths = {s.capture_path for s in samples}
     if len(intervals) > 1:
         raise ValueError("cannot mix intervals: %s" % ", ".join(i.value for i in intervals))
     if len(methods) > 1:
         raise ValueError("cannot mix methods: %s" % ", ".join(m.value for m in methods))
+    if len(paths) > 1:
+        raise ValueError("cannot mix capture paths: %s - composite and "
+                         "SDK-path figures are different measurements"
+                         % ", ".join(p.value for p in paths))
+    path = paths.pop()
+    if path is not CapturePath.SDK_CALLBACK and residual_bound_ms is None:
+        raise ValueError(
+            "%s results require a measured residual_bound_ms: run the capture "
+            "path against a known-latency reference (echo) and pass the "
+            "run-to-run variance. A static offset does not bound compositor/"
+            "vsync jitter." % path.value)
 
     kept = [s for s in samples if s.confidence >= min_confidence]
     dropped = len(samples) - len(kept)
@@ -134,4 +177,6 @@ def summarise(samples: List[LatencySample], lens: str, rig_offset_ms: float = 0.
         jitter_ms=statistics.pstdev(lags) if n > 1 else 0.0,
         rig_offset_ms=rig_offset_ms,
         dropped_low_confidence=dropped,
+        capture_path=path,
+        residual_bound_ms=residual_bound_ms,
     )

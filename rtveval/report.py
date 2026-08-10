@@ -14,7 +14,7 @@ cannot exist, let alone render:
 """
 from typing import Dict, List, NamedTuple, Optional, Sequence
 
-from .latency.base import Interval, LatencyResult
+from .latency.base import CapturePath, Interval, LatencyResult
 from .stats import Agreement, CONTESTED, Rate
 
 
@@ -30,6 +30,7 @@ class Cell(NamedTuple):
     text: str
     lens: Optional[str] = None
     interval: Optional[Interval] = None
+    capture_path: Optional[CapturePath] = None
 
 
 class Table:
@@ -44,6 +45,7 @@ class Table:
         self.columns = list(columns)
         self.rows: List[List[Cell]] = []
         self._interval: Optional[Interval] = None
+        self._capture_path: Optional[CapturePath] = None
 
     def add_row(self, cells: Sequence[Cell]) -> None:
         if len(cells) != len(self.columns):
@@ -61,6 +63,15 @@ class Table:
                         "table %r mixes latency intervals %s and %s - these are "
                         "different measurements" % (self.title, self._interval.value,
                                                     c.interval.value))
+            if c.capture_path is not None:
+                if self._capture_path is None:
+                    self._capture_path = c.capture_path
+                elif c.capture_path is not self._capture_path:
+                    raise LensViolation(
+                        "table %r mixes capture paths %s and %s - composite and "
+                        "SDK-path figures are different measurements and do not "
+                        "share a table" % (self.title, self._capture_path.value,
+                                           c.capture_path.value))
         self.rows.append(list(cells))
 
     def markdown(self) -> str:
@@ -73,9 +84,13 @@ class Table:
 
 
 def latency_cell(res: LatencyResult) -> Cell:
-    return Cell(text="p95 %.0f ms (p50 %.0f, sigma %.0f, n=%d)"
-                % (res.p95_ms, res.p50_ms, res.jitter_ms, res.n),
-                lens=res.lens, interval=res.interval)
+    text = "p95 %.0f ms (p50 %.0f, sigma %.0f, n=%d)" % (
+        res.p95_ms, res.p50_ms, res.jitter_ms, res.n)
+    if res.capture_path is not CapturePath.SDK_CALLBACK:
+        text += " [%s +-%.0f ms]" % (res.capture_path.value,
+                                     res.residual_bound_ms or 0)
+    return Cell(text=text, lens=res.lens, interval=res.interval,
+                capture_path=res.capture_path)
 
 
 class RankingClaim(NamedTuple):

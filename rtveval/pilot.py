@@ -113,8 +113,15 @@ def _check_contracts(doc: Optional[dict]) -> Optional[str]:
     probes = doc.get("probes")
     if not probes:
         return "interaction-contracts.json has no probes"
+    # Compare the probe's finding against CURRENT routing - routing is the
+    # living truth and is expected to be updated when a probe surprises us
+    # (the probe file keeps declared_contract as the historical record of
+    # what was believed at probe time).
+    from . import routing
     mismatched = [p["product_key"] for p in probes
-                  if p.get("confirmed_contract") != p.get("declared_contract")]
+                  if p["product_key"] in routing.BY_KEY
+                  and p.get("confirmed_contract")
+                  != routing.BY_KEY[p["product_key"]].interaction_contract]
     if mismatched:
         return ("probed contract differs from routing.py for: %s - update "
                 "routing (and the ranking groups) before Campaign C"

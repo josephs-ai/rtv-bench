@@ -88,6 +88,10 @@ PRODUCTS: List[Product] = [
     # (356908d6-a8d5-470f-9a28-3c99a7b0c074). NOTE: v1 (`reactor/lingbot`) is
     # ALSO served - the alias here is deliberately exact so v1 can never
     # match; pinning the wrong generation would violate hard rule 5 silently.
+    # Contract probe 2026-08-10 (vendor SDK 0.3.3): HYBRID - movement surface
+    # plus mid-stream set_prompt/set_image. Evaluated in TEXT-DIRECTED mode so
+    # it groups with Happy Oyster Director; the movement surface is documented
+    # as present-but-unexercised. See data/interaction-contracts.json.
     Product(
         key="lingbot-world-2",
         display="LingBot-World 2",
@@ -96,7 +100,7 @@ PRODUCTS: List[Product] = [
         aliases=("lingbot-world-2", "lingbot world 2", "lingbot-world-v2"),
         planned_route="reactor",
         planned_lens="M",
-        interaction_contract=MOVEMENT_DRIVEN,
+        interaction_contract=TEXT_DIRECTED,
     ),
     # Resolved 2026-08-10: served on Reactor but UNLISTED - GET /models omits
     # it, yet POST /sessions creates fine (201, session verified + deleted).

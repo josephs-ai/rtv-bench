@@ -1,0 +1,79 @@
+{
+  "probed_utc": "2026-08-10T10:28:56Z",
+  "method": "session reachability + resolved version via live REST (create->poll->delete, no media); command vocabulary from the vendors' published SDKs (@reactor-models/lingbot-world-2@0.3.3, @reactor-models/happy-oyster@0.3.0) - coordinator capabilities carry tracks only (protocol_version 0.0.0)",
+  "probes": [
+    {
+      "product_key": "lingbot-world-2",
+      "model_name": "reactor/lingbot-world-2",
+      "declared_contract": "movement_driven",
+      "confirmed_contract": "text_directed",
+      "accepts_text_steer": true,
+      "matches_declared": false,
+      "commands": [
+        "pause",
+        "reset",
+        "resume",
+        "set_attn_window",
+        "set_camera_pose",
+        "set_image",
+        "set_kv_cache_reset",
+        "set_look_horizontal",
+        "set_look_vertical",
+        "set_move_lateral",
+        "set_move_longitudinal",
+        "set_prompt",
+        "set_rotation_speed_deg",
+        "set_seed",
+        "start",
+        "trigger_kv_cache_reset"
+      ],
+      "text_commands": [
+        "set_prompt",
+        "set_image"
+      ],
+      "movement_commands": [
+        "set_camera_pose",
+        "set_look_horizontal",
+        "set_look_vertical",
+        "set_move_lateral",
+        "set_move_longitudinal",
+        "set_rotation_speed_deg"
+      ],
+      "note": "HYBRID: full movement surface AND mid-stream set_prompt/set_image. G1-G7 incl. the G7 text steer are expressible. Eval mode: TEXT-DIRECTED (image seed + set_prompt steers; movement surface left at defaults and documented as unexercised). routing.py updated from movement_driven.",
+      "evidence": "vendor SDK @reactor-models/lingbot-world-2@0.3.3 dist"
+    },
+    {
+      "product_key": "happy-oyster",
+      "model_name": "reactor/happy-oyster-director",
+      "declared_contract": "text_directed",
+      "confirmed_contract": "text_directed",
+      "accepts_text_steer": true,
+      "matches_declared": true,
+      "commands": [
+        "attach_world",
+        "create_world",
+        "end_travel",
+        "get_credentials",
+        "get_state",
+        "move"
+      ],
+      "text_commands": [
+        "create_world"
+      ],
+      "movement_commands": [
+        "move"
+      ],
+      "note": "Director mode: create_world(prompt) text direction; the 'move' command belongs to adventure mode (separate model id, not evaluated). Matches declared.",
+      "evidence": "vendor SDK @reactor-models/happy-oyster@0.3.0 dist"
+    }
+  ],
+  "ranking_plan": {
+    "groups": {
+      "text_directed": [
+        "lingbot-world-2",
+        "happy-oyster"
+      ]
+    },
+    "note": "Both generation products accept text direction: run both in text-directed mode and rank within one group. LingBot's movement surface is documented as present-but-unexercised."
+  }
+}
