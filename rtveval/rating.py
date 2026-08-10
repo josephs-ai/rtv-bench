@@ -199,3 +199,126 @@ class SessionJournal:
             if p.order_index not in done:
                 return p
         return None
+
+class PairPresentation(NamedTuple):
+    order_index: int
+    left_blind_id: str
+    right_blind_id: str
+    # Which side each product landed on is logged so side bias is checkable
+    # afterward: if raters favour a side, that is a finding about the tool.
+    side_seed: int
+
+
+def pair_plan(rater_id: str, shuffle_seed: int, side_seed: int,
+              pairs: Sequence[Tuple[str, str]]) -> List[PairPresentation]:
+    """Pairwise session plan with per-pair side randomization.
+
+    Two INDEPENDENT random streams by design:
+      - shuffle_seed orders the pairs (shared shape with session_plan);
+      - side_seed decides left/right per pair, independently - so re-seeding
+        the shuffle never silently changes side assignments, and the side
+        stream can be audited on its own.
+    Both seeds are logged in every presentation row.
+    """
+    order_rng = random.Random("%d:%s:pairs" % (shuffle_seed, rater_id))
+    side_rng = random.Random("%d:%s:sides" % (side_seed, rater_id))
+
+    ordered = list(pairs)
+    order_rng.shuffle(ordered)
+    out = []
+    for i, (a, b) in enumerate(ordered):
+        left, right = (a, b) if side_rng.random() < 0.5 else (b, a)
+        out.append(PairPresentation(i, left, right, side_seed))
+    return out
+
+
+def side_bias(records: Sequence[dict]) -> dict:
+    """Post-session check: wins by side, with the Wilson interval. A CI that
+    excludes 0.5 is a tool finding, reported before any product conclusion."""
+    from .stats import wilson
+
+    left_wins = sum(1 for r in records if r.get("winner_side") == "left")
+    decided = sum(1 for r in records if r.get("winner_side") in ("left", "right"))
+    if decided == 0:
+        return {"decided": 0}
+    rate = wilson(left_wins, decided)
+    biased = rate.hi < 0.5 or rate.lo > 0.5
+    return {"decided": decided, "left_wins": left_wins,
+            "left_rate": round(rate.point, 3),
+            "ci95": [round(rate.lo, 3), round(rate.hi, 3)],
+            "side_bias_detected": biased}
+
+
+PAIR_VIEWER_HTML = """<!doctype html>
+<meta charset="utf-8">
+<title>pairwise</title>
+<style>
+ body{font-family:system-ui;margin:1rem;background:#111;color:#eee}
+ .row{display:flex;gap:8px}.row video{width:49%%;background:#000}
+ .bar{margin:12px 0;display:flex;gap:12px;align-items:center}
+ button{font-size:1.1rem;padding:8px 20px}
+ #seek{flex:1}
+</style>
+<h3 id="title"></h3>
+<div class="row">
+  <video id="L" muted preload="auto"></video>
+  <video id="R" muted preload="auto"></video>
+</div>
+<div class="bar">
+  <button id="play">play</button>
+  <input type="range" id="seek" min="0" max="1000" value="0">
+  <span id="t">0.0s</span>
+</div>
+<div class="bar">
+  <button data-w="left">LEFT is better</button>
+  <button data-w="tie">no preference</button>
+  <button data-w="right">RIGHT is better</button>
+</div>
+<script>
+// SYNCHRONIZED playback: one transport drives both videos. Two independent
+// players would let raters compare different moments, turning temporal-
+// coherence judgments into noise. L is the clock; R chases it.
+const plan = %(plan_json)s;
+let idx = 0, records = [];
+const L = document.getElementById('L'), R = document.getElementById('R');
+const play = document.getElementById('play'), seek = document.getElementById('seek');
+function load() {
+  const p = plan[idx];
+  document.getElementById('title').textContent = 'pair ' + (idx+1) + ' / ' + plan.length;
+  L.src = p.left_blind_id + '.mp4'; R.src = p.right_blind_id + '.mp4';
+  L.currentTime = 0; R.currentTime = 0;
+}
+function syncR() { if (Math.abs(R.currentTime - L.currentTime) > 0.05) R.currentTime = L.currentTime; }
+setInterval(() => { if (!L.paused) syncR(); }, 200);
+play.onclick = () => { if (L.paused) { L.play(); R.play(); play.textContent='pause'; }
+                       else { L.pause(); R.pause(); play.textContent='play'; } };
+L.ontimeupdate = () => { seek.value = 1000 * L.currentTime / (L.duration || 1);
+                         document.getElementById('t').textContent = L.currentTime.toFixed(1) + 's'; };
+seek.oninput = () => { L.currentTime = seek.value / 1000 * (L.duration || 0); syncR(); };
+document.querySelectorAll('[data-w]').forEach(b => b.onclick = () => {
+  const p = plan[idx];
+  records.push({order_index: p.order_index, left: p.left_blind_id,
+                right: p.right_blind_id, winner_side: b.dataset.w,
+                t: Date.now() / 1000});
+  idx += 1;
+  if (idx >= plan.length) { done(); } else { load(); }
+});
+function done() {
+  document.body.innerHTML = '<h3>done - copy this into the journal:</h3><pre>' +
+    JSON.stringify(records, null, 1) + '</pre>';
+}
+load();
+</script>
+"""
+
+
+def write_pair_viewer(plan: Sequence[PairPresentation], out_dir: str) -> str:
+    """Static pairwise viewer next to the blinded clips. No product name can
+    appear here - the plan carries blind ids only (audit_no_leaks covers the
+    whole served tree, this file included)."""
+    doc = [p._asdict() for p in plan]
+    html = PAIR_VIEWER_HTML % {"plan_json": json.dumps(doc)}
+    path = os.path.join(out_dir, "pairwise.html")
+    with open(path, "w") as f:
+        f.write(html)
+    return path

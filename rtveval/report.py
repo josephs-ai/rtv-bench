@@ -225,13 +225,20 @@ class ProductCard(NamedTuple):
     declared_fps: float
     resolved_version: str
     input_conform_id: Optional[str] = None
+    # When the eval exercises a SUBSET of the product's interaction surface
+    # (LingBot: text-directed mode only, movement/camera unexercised), the
+    # reader learns it here - on the card - not in an evidence JSON.
+    scope_note: Optional[str] = None
 
     def markdown(self) -> str:
         conform = (" | input conform `%s`" % self.input_conform_id
                    if self.input_conform_id else "")
-        return ("**%s** *(Lens %s, `%s`)* - Declared: %s @ %g fps%s\n"
-                "*Resolution and fps are reported facts; rating clips were "
-                "normalized to a common display size and these do not enter "
-                "aesthetic scores.*"
-                % (self.product, self.lens, self.resolved_version,
-                   self.declared_resolution, self.declared_fps, conform))
+        md = ("**%s** *(Lens %s, `%s`)* - Declared: %s @ %g fps%s\n"
+              "*Resolution and fps are reported facts; rating clips were "
+              "normalized to a common display size and these do not enter "
+              "aesthetic scores.*"
+              % (self.product, self.lens, self.resolved_version,
+                 self.declared_resolution, self.declared_fps, conform))
+        if self.scope_note:
+            md += "\n*Scope: %s*" % self.scope_note
+        return md

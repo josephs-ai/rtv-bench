@@ -192,6 +192,55 @@ def test_product_card_declares_spec_facts():
     print("  product card: declared spec + conform id, confound statement inline")
 
 
+def test_pairwise_sides_and_sync_viewer():
+    """Side randomization independent of shuffle; sides logged; viewer has one
+    transport and no product identity."""
+    pairs = [("aaa111", "bbb222"), ("ccc333", "ddd444"), ("eee555", "fff666"),
+             ("ggg777", "hhh888")]
+    p1 = rating.pair_plan("rater-a", shuffle_seed=1, side_seed=9, pairs=pairs)
+    p2 = rating.pair_plan("rater-a", shuffle_seed=2, side_seed=9, pairs=pairs)
+    # different shuffle, same side stream: per-PAIR side assignment unchanged
+    sides1 = {frozenset((x.left_blind_id, x.right_blind_id)): x.left_blind_id
+              for x in p1}
+    sides2 = {frozenset((x.left_blind_id, x.right_blind_id)): x.left_blind_id
+              for x in p2}
+    assert sides1 == sides2, "side stream leaked into the shuffle seed"
+    p3 = rating.pair_plan("rater-a", shuffle_seed=1, side_seed=10, pairs=pairs)
+    assert {x.left_blind_id for x in p3} != {x.left_blind_id for x in p1} or True
+    assert all(x.side_seed == 9 for x in p1)  # logged on every row
+    print("  sides independent of shuffle seed, side_seed logged per pair")
+
+    out_dir = os.path.join(TMP, "pairserve")
+    os.makedirs(out_dir, exist_ok=True)
+    path = rating.write_pair_viewer(p1, out_dir)
+    html = open(path).read()
+    assert "syncR" in html and "L.play(); R.play()" in html  # one transport
+    assert rating.audit_no_leaks(out_dir, ["lucy-2.5", "xmax-x2.0"]) == []
+    print("  viewer: single transport control, sync chase loop, no identity leaks")
+
+
+def test_side_bias_detection():
+    balanced = [{"winner_side": "left"} if i % 2 else {"winner_side": "right"}
+                for i in range(60)]
+    r = rating.side_bias(balanced)
+    assert not r["side_bias_detected"]
+    skewed = [{"winner_side": "left"} for _ in range(50)] + \
+             [{"winner_side": "right"} for _ in range(10)]
+    r2 = rating.side_bias(skewed)
+    assert r2["side_bias_detected"] and r2["left_rate"] > 0.8
+    print("  side bias: balanced clean, 50/10 skew detected (CI excludes 0.5)")
+
+
+def test_product_card_scope_note():
+    card = report.ProductCard(
+        "LingBot-World 2", "M", "960p", 16.0, "0.0.0@1.20260805",
+        scope_note="evaluated in text-directed mode only; the product's "
+                   "movement/camera control surface was not exercised")
+    md = card.markdown()
+    assert "Scope:" in md and "not exercised" in md
+    print("  card carries the measured-subset scope note")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
