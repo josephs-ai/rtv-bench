@@ -3,25 +3,65 @@
 
     .venv/bin/python tools/udp_hunt.py
 
-It probes Reactor's TURN relay every 5 s and prints OPEN/BLOCKED. Switch
-servers in Astrill until you see OPEN, then leave the VPN alone and tell
-Claude to launch the overnight run. Ctrl-C to stop.
+Each round fires a 30-probe UDP burst and prints the LOSS RATE - because
+"UDP open" is not enough: single probes survive loss that kills sustained
+video. Verdicts:
+
+    CLEAN  (>=97% delivered)  - video will flow; pin this server
+    LOSSY  (80-97%)           - video will stutter or starve; keep looking
+    BLOCKED (<80%)            - move on
+
+Switch servers in Astrill until you see CLEAN twice in a row, then leave
+the VPN alone and tell Claude which server it is. Ctrl-C to stop.
 """
+import os
 import socket
+import struct
 import time
 
-HOST = "turn.us-east-1.aws.prod.reactor.inc"
+TARGETS = [("stun.cloudflare.com", 3478),
+           ("turn.us-east-1.aws.prod.reactor.inc", 3478)]
+BURST = 30
+
+
+def burst(host, port):
+    try:
+        ip = socket.gethostbyname(host)
+    except OSError:
+        return None
+    ok = 0
+    for _ in range(BURST):
+        req = struct.pack("!HHI12s", 0x0001, 0, 0x2112A442, os.urandom(12))
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.settimeout(1.0)
+        try:
+            s.sendto(req, (ip, port))
+            s.recvfrom(1024)
+            ok += 1
+        except Exception:
+            pass
+        finally:
+            s.close()
+        time.sleep(0.03)
+    return ok / BURST
+
 
 while True:
-    try:
-        ip = socket.gethostbyname(HOST)
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.settimeout(3)
-        s.sendto(b'\x00\x01\x00\x00!\x12\xa4B' + b'\x00' * 12, (ip, 3478))
-        s.recvfrom(1024)
-        print(time.strftime("%H:%M:%S"), "TURN UDP: *** OPEN *** - pin this server!")
-    except socket.timeout:
-        print(time.strftime("%H:%M:%S"), "TURN UDP: blocked - try another server")
-    except Exception as e:
-        print(time.strftime("%H:%M:%S"), "probe error:", type(e).__name__)
-    time.sleep(5)
+    parts = []
+    worst = 1.0
+    for host, port in TARGETS:
+        r = burst(host, port)
+        if r is None:
+            parts.append("%s: DNS fail" % host.split(".")[1])
+            worst = 0.0
+            continue
+        parts.append("%s: %d%%" % (host.split(".")[1], round(r * 100)))
+        worst = min(worst, r)
+    if worst >= 0.97:
+        verdict = "*** CLEAN *** - pin this server!"
+    elif worst >= 0.80:
+        verdict = "LOSSY - video will starve, keep looking"
+    else:
+        verdict = "BLOCKED - try another server"
+    print("%s  %s  -> %s" % (time.strftime("%H:%M:%S"), " | ".join(parts), verdict))
+    time.sleep(2)
