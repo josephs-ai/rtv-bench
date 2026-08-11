@@ -1,0 +1,62 @@
+{
+  "IMG_1720.MOV": {
+    "tag": "V1",
+    "note": "static face (trim arm-reach at ends)"
+  },
+  "IMG_1719.MOV": {
+    "tag": "V2",
+    "note": "fast head/body motion"
+  },
+  "IMG_1718.MOV": {
+    "tag": "V3",
+    "note": "hand occlusion - clean"
+  },
+  "IMG_1721.MOV": {
+    "tag": "SPARE",
+    "note": "intended V4 but brightness is gradual (135->145, no hard switch) - kept as spare motion take"
+  },
+  "IMG_1722.MOV": {
+    "tag": "V5",
+    "note": "exit/re-entry - textbook (empty mid-frame)"
+  },
+  "IMG_1724.MOV": {
+    "tag": "V6",
+    "note": "hair texture - excellent strand detail"
+  },
+  "IMG_1725.MOV": {
+    "tag": "V7",
+    "note": "text: bilingual take (CN folder + FT)"
+  },
+  "IMG_1726.MOV": {
+    "tag": "V7-zh",
+    "note": "text: Chinese-only take"
+  },
+  "IMG_1727.MOV": {
+    "tag": "V7-en",
+    "note": "text: English-only take"
+  },
+  "IMG_1723.MOV": {
+    "tag": "V8",
+    "note": "rapid pan"
+  },
+  "IMG_1728.MOV": {
+    "tag": "V9-raw",
+    "note": "room A -> walk -> room B; hard cut to be spliced digitally"
+  },
+  "IMG_1729.MOV": {
+    "tag": "V9-alt",
+    "note": "multi-room walk, backup for splice"
+  },
+  "IMG_1731.MOV": {
+    "tag": "V10",
+    "note": "62s sustained take"
+  },
+  "IMG_1730.MOV": {
+    "tag": "S-read-A",
+    "note": "38s reading, 2-3 script segments (which scripts? ask)"
+  },
+  "IMG_1732.MOV": {
+    "tag": "S-read-B",
+    "note": "38s reading; AUDIO OK but 1080p30 (wrong camera mode)"
+  }
+}
