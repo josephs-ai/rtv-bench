@@ -55,6 +55,9 @@
   <input id="prompt" type="text" placeholder="type any style prompt and press Enter…"
          value="oil painting style, thick impasto brush strokes, warm palette">
   <button id="apply">Apply to both</button>
+  <button id="refbtn" title="upload a clothing/reference image for the model to put on you (Xmax try-on)">Upload ref</button>
+  <input id="reffile" type="file" accept="image/*" style="display:none">
+  <button id="langbtn" title="auto-translate: English prompt -> Chinese for Xmax, Chinese -> English for Lucy">译 Auto-translate: OFF</button>
   <button id="crop" title="zoom in ~14% to push edge watermarks out of view">Hide watermarks</button>
   <button id="reveal">Reveal sides</button>
 </div>
@@ -67,10 +70,11 @@
     <div class="tag" id="t1">B</div><div class="st" id="s1">idle</div></div>
 </div>
 <video id="cam" muted autoplay playsinline></video>
+<script src="./vendor/cos-umd.js"></script>
 <script type="importmap">
 {"imports": {
   "@volcengine/rtc": "./vendor/volc-rtc.esm.js",
-  "cos-js-sdk-v5": "./vendor/stub-cos.js",
+  "cos-js-sdk-v5": "./vendor/cos-real.js",
   "heic-to/csp": "./vendor/stub-heic.js"
 }}
 </script>
@@ -182,19 +186,21 @@ async function startLucy() {
   lucyWs.send(JSON.stringify({type: "offer", sdp: pc.localDescription.sdp}));
   sendLucyPrompt();
 }
-function sendLucyPrompt() {
+function sendLucyPrompt(text) {
   if (lucyWs?.readyState === 1)
     lucyWs.send(JSON.stringify({type: "prompt",
-      prompt: document.getElementById("prompt").value, enhance_prompt: false}));
+      prompt: text ?? document.getElementById("prompt").value,
+      enhance_prompt: false}));
 }
 
 /* ---------------- Xmax: vendored SDK, temp key --------------------------- */
-let xmaxSession;
+let xmaxSession, xmaxApi;
 async function startXmax() {
   const i = side.xmax;
   st(i, "connecting SDK...");
   const {createXmaxClient, models} = await import("./vendor/index.js");
   const xmaxClient = createXmaxClient({apiKey: xmaxKey});
+  xmaxApi = xmaxClient;
   /* connect() returns the session object; live updates go through it */
   xmaxSession = await xmaxClient.realtime.connect(
     new MediaStream([cam.getVideoTracks()[0].clone()]), {
@@ -240,13 +246,54 @@ document.getElementById("prompt").addEventListener("keydown", e => {
   if (e.key === "Enter") document.getElementById("apply").click();
 });
 
+/* ------- reference image (Xmax try-on; Lucy's protocol has no ref API) --- */
+let refUrl = null;
+document.getElementById("refbtn").onclick =
+  () => document.getElementById("reffile").click();
+document.getElementById("reffile").onchange = async e => {
+  const f = e.target.files[0];
+  if (!f || !xmaxApi) return;
+  st(side.xmax, "uploading reference image...");
+  try {
+    const up = await (xmaxApi.files?.uploadImage ? xmaxApi.files.uploadImage(f)
+                                                 : xmaxApi.uploadImage(f));
+    refUrl = up.url;
+    document.getElementById("refbtn").textContent = "Ref: " + f.name.slice(0, 14);
+    st(side.xmax, "reference uploaded - hit Apply");
+    st(side.lucy, "note: Lucy's realtime API has no reference-image input");
+  } catch (err) { st(side.xmax, "ref upload failed: " + err.message); }
+};
+
+/* ------- optional EN<->ZH auto-translation via local /translate ---------- */
+let autoLang = false;
+document.getElementById("langbtn").onclick = () => {
+  autoLang = !autoLang;
+  document.getElementById("langbtn").textContent =
+    "译 Auto-translate: " + (autoLang ? "ON" : "OFF");
+};
+async function bothLanguages(text) {
+  if (!autoLang) return {en: text, zh: text};
+  try {
+    const r = await fetch("/translate", {method: "POST", body: text});
+    if (!r.ok) throw new Error("translate " + r.status);
+    return await r.json();   // {en, zh}
+  } catch (e) {
+    gst("translate unavailable (" + e.message + ") - using original");
+    return {en: text, zh: text};
+  }
+}
+
 document.getElementById("apply").onclick = async () => {
-  sendLucyPrompt();
-  /* session.set() is the SDK's live change-condition path */
+  const raw = document.getElementById("prompt").value;
+  const t = await bothLanguages(raw);
+  sendLucyPrompt(t.en);
   if (xmaxSession) {
     try {
-      await xmaxSession.set({prompt: document.getElementById("prompt").value});
-      st(side.xmax, "prompt updated live");
+      const ctx = {prompt: t.zh};
+      if (refUrl) ctx.refImageUrl = refUrl;
+      await xmaxSession.set(ctx);
+      st(side.xmax, "applied" + (autoLang ? " (zh)" : "")
+                    + (refUrl ? " + reference" : ""));
     } catch (e) { st(side.xmax, "prompt update failed: " + e.message); }
   }
 };
@@ -257,6 +304,21 @@ if (q.get("snap")) setTimeout(() => {   // auto-exercise live prompt update
   document.getElementById("prompt").value = "black and white film noir, heavy grain";
   document.getElementById("apply").click();
 }, 18000);
+if (q.get("snap")) setTimeout(async () => {  // auto-exercise ref upload path
+  try {
+    const c = document.createElement("canvas"); c.width = c.height = 256;
+    const x = c.getContext("2d");
+    x.fillStyle = "#c33"; x.fillRect(0, 0, 256, 256);
+    x.fillStyle = "#fff"; x.fillRect(60, 40, 136, 180);  // a "shirt"
+    const blob = await new Promise(r => c.toBlob(r, "image/png"));
+    const up = await (xmaxApi.files?.uploadImage
+      ? xmaxApi.files.uploadImage(new File([blob], "shirt.png", {type: "image/png"}))
+      : xmaxApi.uploadImage(new File([blob], "shirt.png", {type: "image/png"})));
+    gst("REF UPLOAD OK: " + up.url.slice(0, 60));
+    await xmaxSession.set({prompt: "wearing this red shirt", refImageUrl: up.url});
+    gst("REF SET OK");
+  } catch (e) { gst("REF TEST FAILED: " + e.message); }
+}, 24000);
 if (q.get("snap")) setTimeout(() => {
   const c = document.createElement("canvas");
   c.width = 1280; c.height = 400;

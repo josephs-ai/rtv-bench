@@ -9,12 +9,40 @@ Needs: DECART_API_KEY + XMAX_API_KEY in .env; VPN able to reach
 api.decart.ai; *.xmaxai.com split-routing exclusion in place.
 """
 import http.server
+import json
 import os
 import subprocess
 import sys
 import tempfile
 import threading
 import urllib.parse
+
+_translate_cache = {}
+
+
+def translate_both(text):
+    """One Claude call -> {'en': ..., 'zh': ...} for the prompt. Cached, so
+    re-applying the same prompt costs nothing."""
+    if text in _translate_cache:
+        return _translate_cache[text]
+    import anthropic
+    client = anthropic.Anthropic()
+    response = client.messages.create(
+        model="claude-opus-5",
+        max_tokens=400,
+        output_config={"format": {"type": "json_schema", "schema": {
+            "type": "object",
+            "properties": {"en": {"type": "string"}, "zh": {"type": "string"}},
+            "required": ["en", "zh"], "additionalProperties": False}}},
+        messages=[{"role": "user", "content":
+                   "This is a style/content prompt for a live video generation "
+                   "model. Give faithful English and Chinese versions of it "
+                   "(translate whichever direction is needed; keep artistic "
+                   "terms natural in each language): %s" % text}],
+    )
+    out = json.loads(next(b.text for b in response.content if b.type == "text"))
+    _translate_cache[text] = out
+    return out
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO)
@@ -50,6 +78,19 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*a, directory=WEBROOT, **kw)
 
     def do_POST(self):
+        if self.path.startswith("/translate"):
+            n = int(self.headers.get("Content-Length", 0))
+            text = self.rfile.read(n).decode("utf-8", "replace")[:500]
+            try:
+                body = json.dumps(translate_both(text)).encode()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(body)
+            except Exception as e:
+                print("  [translate] failed: %s" % str(e)[:120])
+                self.send_response(502); self.end_headers()
+            return
         if self.path.startswith("/snap"):
             n = int(self.headers.get("Content-Length", 0))
             with open("/tmp/liveab-snap.png", "wb") as f:
