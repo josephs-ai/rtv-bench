@@ -1,0 +1,192 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>worlds A/B - LingBot vs Happy Oyster</title>
+<style>
+ :root{--panel:#ffffff14;--line:#ffffff2a;--txt:#f4f6fb;
+   --dim:#b9c0d4;--acc:#34d399;--acc2:#22d3ee}
+ *{box-sizing:border-box}
+ html,body{height:100%}
+ @keyframes drift{0%{background-position:0% 50%}50%{background-position:100% 50%}
+   100%{background-position:0% 50%}}
+ body{margin:0;color:var(--txt);display:flex;flex-direction:column;
+   font:14px/1.4 -apple-system,"SF Pro Text",system-ui,sans-serif;
+   background:linear-gradient(130deg,#062a24,#0f2027,#123a3a,#0a1f2e,#0d3320);
+   background-size:400% 400%;animation:drift 25s ease infinite}
+ #bar{padding:12px 16px;display:flex;gap:10px;align-items:center}
+ .logo{font-weight:700;letter-spacing:.08em;font-size:15px;
+   background:linear-gradient(90deg,var(--acc),var(--acc2));
+   -webkit-background-clip:text;background-clip:text;color:transparent}
+ #gst{color:var(--dim);font-size:12.5px}
+ .row{display:flex;gap:10px;padding:0 16px 12px;flex:1 1 auto;min-height:0}
+ .pane{flex:1;position:relative;background:#04100dcc;min-height:0;
+   border-radius:18px;overflow:hidden;border:1px solid var(--line);
+   box-shadow:0 12px 40px #00000066;display:flex;flex-direction:column}
+ .head{display:flex;gap:8px;align-items:center;padding:9px 12px;
+   border-bottom:1px solid var(--line)}
+ .head b{font-size:14px}
+ .modebtn{margin-left:auto}
+ button{background:var(--panel);color:var(--txt);border:1px solid var(--line);
+   border-radius:10px;padding:7px 13px;font:13px inherit;cursor:pointer;
+   backdrop-filter:blur(14px);transition:all .2s}
+ button:hover{border-color:var(--acc)}
+ button.active{background:linear-gradient(90deg,var(--acc),var(--acc2));
+   color:#04211c;border:none;font-weight:650}
+ .view{flex:1;min-height:0;position:relative;background:#000}
+ .view img{width:100%;height:100%;object-fit:contain;display:block}
+ .st{position:absolute;bottom:10px;left:12px;background:#000a;
+   backdrop-filter:blur(8px);padding:5px 11px;font-size:12px;color:var(--dim);
+   max-width:92%;border-radius:8px}
+ .wasdhint{position:absolute;top:10px;right:12px;background:#000a;
+   backdrop-filter:blur(8px);padding:6px 11px;font-size:11.5px;
+   color:var(--dim);border-radius:8px;display:none;text-align:right}
+ .ctl{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+ .ctl input{flex:1;background:var(--panel);color:var(--txt);
+   border:1px solid var(--line);border-radius:10px;padding:9px 13px;
+   font:14px inherit;outline:none;backdrop-filter:blur(14px)}
+ .ctl input:focus{border-color:var(--acc)}
+ .focused{outline:2px solid var(--acc)}
+</style>
+<div id="bar">
+  <span class="logo">WORLDS&nbsp;A/B</span>
+  <span id="gst">connecting to bridge…</span>
+</div>
+<div class="row">
+  <div class="pane" id="p0">
+    <div class="head"><b>LingBot-World 2</b><span style="color:var(--dim);font-size:12px">蚂蚁 · Ant</span>
+      <span class="modebtn"><button data-pane="0" data-mode="director" class="active">Director</button>
+      <button data-pane="0" data-mode="wasd">WASD</button></span></div>
+    <div class="view"><img id="v0"><div class="st" id="s0">idle</div>
+      <div class="wasdhint" id="h0">click pane to grab keys<br>W/S move · A/D strafe · ←→↑↓ look</div></div>
+    <div class="ctl"><input id="in0" placeholder="describe the world, Enter to steer (set_prompt)…">
+      <button data-send="0">Send</button></div>
+  </div>
+  <div class="pane" id="p1">
+    <div class="head"><b>Happy Oyster</b><span style="color:var(--dim);font-size:12px">阿里 · Alibaba</span>
+      <span class="modebtn"><button data-pane="1" data-mode="director" class="active">Director</button>
+      <button data-pane="1" data-mode="wasd">WASD</button></span></div>
+    <div class="view"><img id="v1"><div class="st" id="s1">idle</div>
+      <div class="wasdhint" id="h1">click pane to grab keys<br>WASD move · ←→↑↓ camera · Space jump<br>Shift sprint · F attack</div></div>
+    <div class="ctl"><input id="in1" placeholder="describe a world, Enter to create (create_world)…">
+      <button data-send="1">Send</button></div>
+  </div>
+</div>
+<script>
+const q = new URLSearchParams(location.search);
+const ws = new WebSocket("ws://127.0.0.1:" + q.get("ws"));
+ws.binaryType = "arraybuffer";
+const gst = t => document.getElementById("gst").textContent = t;
+const st = (i, t) => document.getElementById("s" + i).textContent = t;
+const mode = {0: "director", 1: "director"};
+let focusPane = null;
+
+ws.onopen = () => gst("bridge connected - worlds are starting (first frames can take 1-3 min)");
+ws.onclose = () => gst("BRIDGE GONE - rerun: .venv/bin/python tools/worlds_ab.py");
+ws.onmessage = ev => {
+  if (typeof ev.data === "string") {
+    const m = JSON.parse(ev.data);
+    if (m.status !== undefined) st(m.pane, m.status);
+    return;
+  }
+  const bytes = new Uint8Array(ev.data);
+  const pane = bytes[0];
+  const blob = new Blob([bytes.subarray(1)], {type: "image/jpeg"});
+  const img = document.getElementById("v" + pane);
+  const old = img.dataset.url;
+  img.src = img.dataset.url = URL.createObjectURL(blob);
+  if (old) URL.revokeObjectURL(old);
+  st(pane, mode[pane] === "wasd" ? "live - click pane to drive" : "live");
+};
+
+const send = obj => ws.readyState === 1 && ws.send(JSON.stringify(obj));
+
+for (const b of document.querySelectorAll("[data-mode]")) {
+  b.onclick = () => {
+    const pane = +b.dataset.pane, m = b.dataset.mode;
+    mode[pane] = m;
+    for (const x of b.parentElement.querySelectorAll("button"))
+      x.classList.toggle("active", x === b);
+    document.getElementById("h" + pane).style.display =
+      m === "wasd" ? "" : "none";
+    send({pane: pane, kind: "mode", mode: m});
+  };
+}
+for (const b of document.querySelectorAll("[data-send]")) {
+  b.onclick = () => {
+    const pane = +b.dataset.send;
+    const inp = document.getElementById("in" + pane);
+    if (inp.value.trim()) send({pane: pane, kind: "director",
+                                prompt: inp.value.trim()});
+  };
+}
+for (const i of [0, 1]) {
+  document.getElementById("in" + i).addEventListener("keydown", e => {
+    e.stopPropagation();
+    if (e.key === "Enter")
+      document.querySelector('[data-send="' + i + '"]').click();
+  });
+  document.getElementById("p" + i).addEventListener("click", e => {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "BUTTON") return;
+    focusPane = i;
+    for (const j of [0, 1])
+      document.getElementById("p" + j).classList.toggle("focused", j === i);
+  });
+}
+
+/* ---------------- WASD control state ------------------------------------- */
+const held = new Set();
+function lingbotAxes() {
+  const lon = held.has("w") ? "forward" : held.has("s") ? "back" : "idle";
+  const lat = held.has("a") ? "strafe_left" : held.has("d") ? "strafe_right" : "idle";
+  const lh = held.has("ArrowLeft") ? "left" : held.has("ArrowRight") ? "right" : "idle";
+  const lv = held.has("ArrowUp") ? "up" : held.has("ArrowDown") ? "down" : "idle";
+  send({pane: 0, kind: "cmd", cmd: "set_move_longitudinal",
+        args: {move_longitudinal: lon}});
+  send({pane: 0, kind: "cmd", cmd: "set_move_lateral",
+        args: {move_lateral: lat}});
+  send({pane: 0, kind: "cmd", cmd: "set_look_horizontal",
+        args: {look_horizontal: lh}});
+  send({pane: 0, kind: "cmd", cmd: "set_look_vertical",
+        args: {look_vertical: lv}});
+}
+function hoCommand() {
+  const t = held.has("w") && held.has("a") ? "Front_Left"
+    : held.has("w") && held.has("d") ? "Front_Right"
+    : held.has("s") && held.has("a") ? "Back_Left"
+    : held.has("s") && held.has("d") ? "Back_Right"
+    : held.has("w") ? "Front" : held.has("s") ? "Back"
+    : held.has("a") ? "Left" : held.has("d") ? "Right" : "None";
+  const r = held.has("ArrowLeft") ? "Mouse_Left"
+    : held.has("ArrowRight") ? "Mouse_Right"
+    : held.has("ArrowUp") ? "Mouse_Up"
+    : held.has("ArrowDown") ? "Mouse_Down" : "None";
+  const i = held.has(" ") ? "Jump" : held.has("Shift") ? "Sprint"
+    : held.has("f") ? "Attack" : "None";
+  send({pane: 1, kind: "cmd", cmd: "move",
+        args: {translation: t, rotation: r, interaction: i}});
+}
+function pushControls() {
+  if (focusPane === 0 && mode[0] === "wasd") lingbotAxes();
+  if (focusPane === 1 && mode[1] === "wasd") hoCommand();
+}
+/* HO holds are resent server-shape every 250ms (SDK does 300ms) */
+setInterval(() => {
+  if (focusPane === 1 && mode[1] === "wasd" && held.size) hoCommand();
+}, 250);
+
+const KEYS = ["w", "a", "s", "d", "f", " ", "Shift",
+              "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+document.addEventListener("keydown", e => {
+  const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  if (!KEYS.includes(k) || focusPane === null) return;
+  if (mode[focusPane] !== "wasd") return;
+  e.preventDefault();
+  if (held.has(k)) return;
+  held.add(k);
+  pushControls();
+});
+document.addEventListener("keyup", e => {
+  const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  if (!held.delete(k)) return;
+  pushControls();
+});
+</script>

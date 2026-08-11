@@ -32,7 +32,8 @@ class ReactorWebRTCAdapter(Adapter):
                  semantics: DurationSemantics,
                  cfg: Optional[config.ProviderConfig] = None,
                  prompt_command: str = "prompt",
-                 first_frame_timeout_s: float = 30.0):
+                 first_frame_timeout_s: float = 30.0,
+                 stall_timeout_s: float = None):
         """`model_name` is the exact serving id (e.g. `reactor/echo`,
         `xmax/x2`, `reactor/lingbot-world-2`, `reactor/happy-oyster-director`)
         - from the probe or the vendor SDK, never guessed.
@@ -44,6 +45,7 @@ class ReactorWebRTCAdapter(Adapter):
         self.cfg = cfg or config.reactor()
         self.prompt_command = prompt_command
         self.first_frame_timeout_s = first_frame_timeout_s
+        self.stall_timeout_s = stall_timeout_s  # None = CallbackSession default
         self.reactor = None
         self.info: Optional[ConnectionInfo] = None
         self.session: Optional[CallbackSession] = None
@@ -180,9 +182,10 @@ class ReactorWebRTCAdapter(Adapter):
 
         await self._wait_ready()
 
-        self.session = CallbackSession(
-            self.info, self.semantics,
-            first_frame_timeout_s=self.first_frame_timeout_s)
+        kw = {"first_frame_timeout_s": self.first_frame_timeout_s}
+        if self.stall_timeout_s is not None:
+            kw["stall_timeout_s"] = self.stall_timeout_s
+        self.session = CallbackSession(self.info, self.semantics, **kw)
 
         @self.reactor.on_error
         def _on_error(err):  # SDK error event -> session
