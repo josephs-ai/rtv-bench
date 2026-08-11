@@ -171,13 +171,14 @@ function sendLucyPrompt() {
 }
 
 /* ---------------- Xmax: vendored SDK, temp key --------------------------- */
-let xmaxClient;
+let xmaxSession;
 async function startXmax() {
   const i = side.xmax;
   st(i, "connecting SDK...");
   const {createXmaxClient, models} = await import("./vendor/index.js");
-  xmaxClient = createXmaxClient({apiKey: xmaxKey});
-  await xmaxClient.realtime.connect(
+  const xmaxClient = createXmaxClient({apiKey: xmaxKey});
+  /* connect() returns the session object; live updates go through it */
+  xmaxSession = await xmaxClient.realtime.connect(
     new MediaStream([cam.getVideoTracks()[0].clone()]), {
       model: models.realtime("x2.0"),
       /* SDK reads options.context.prompt; a top-level prompt is silently
@@ -223,11 +224,10 @@ document.getElementById("prompt").addEventListener("keydown", e => {
 
 document.getElementById("apply").onclick = async () => {
   sendLucyPrompt();
-  /* realtime.set() is the SDK's live change-condition path */
-  if (xmaxClient) {
+  /* session.set() is the SDK's live change-condition path */
+  if (xmaxSession) {
     try {
-      await xmaxClient.realtime.set(
-        {prompt: document.getElementById("prompt").value});
+      await xmaxSession.set({prompt: document.getElementById("prompt").value});
       st(side.xmax, "prompt updated live");
     } catch (e) { st(side.xmax, "prompt update failed: " + e.message); }
   }
@@ -235,6 +235,10 @@ document.getElementById("apply").onclick = async () => {
 
 /* debug self-screenshot: with ?snap=1, POST a composite of both panes +
    camera after 30s so the serving process can verify rendering headlessly */
+if (q.get("snap")) setTimeout(() => {   // auto-exercise live prompt update
+  document.getElementById("prompt").value = "black and white film noir, heavy grain";
+  document.getElementById("apply").click();
+}, 18000);
 if (q.get("snap")) setTimeout(() => {
   const c = document.createElement("canvas");
   c.width = 1280; c.height = 400;
