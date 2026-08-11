@@ -54,7 +54,13 @@ window.addEventListener("unhandledrejection",
 const swap = Math.random() < 0.5;          // eyeball-blinding coin flip
 const side = {lucy: swap ? 1 : 0, xmax: swap ? 0 : 1};
 const vid = i => document.getElementById("v" + i);
-const st  = (i, t) => document.getElementById("s" + i).textContent = t;
+const names = {[side.lucy]: "lucy", [side.xmax]: "xmax"};
+const st  = (i, t) => {
+  document.getElementById("s" + i).textContent = t;
+  fetch("/log?m=" + encodeURIComponent(names[i] + ": " + t)).catch(()=>{});
+};
+window.addEventListener("error",
+  e => gst("JS ERROR: " + e.message + " @" + e.lineno));
 document.getElementById("reveal").onclick = () => {
   document.getElementById("t" + side.lucy).textContent = "Lucy 2.5 (Decart)";
   document.getElementById("t" + side.xmax).textContent = "Xmax X2.0";
@@ -62,8 +68,16 @@ document.getElementById("reveal").onclick = () => {
 
 let cam;
 async function camera() {
-  cam = await navigator.mediaDevices.getUserMedia(
-    {video: {width: 1280, height: 720, frameRate: 30}, audio: false});
+  try {
+    cam = await navigator.mediaDevices.getUserMedia(
+      {video: {width: 1280, height: 720, frameRate: 30}, audio: false});
+  } catch (e) {
+    gst("CAMERA BLOCKED (" + e.name + "). Fix: System Settings > Privacy & "
+        + "Security > Camera > enable Google Chrome, then rerun.");
+    st(0, "no camera - nothing to send");
+    st(1, "no camera - nothing to send");
+    throw e;
+  }
   document.getElementById("cam").srcObject = cam;
 }
 

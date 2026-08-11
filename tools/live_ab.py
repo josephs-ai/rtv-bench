@@ -79,12 +79,16 @@ def main():
            % (port, urllib.parse.quote(decart), urllib.parse.quote(xmax)))
     print("serving on port %d - launching Chrome (camera permission "
           "auto-granted; close the window to end the sessions)" % port)
-    proc = subprocess.Popen(
-        [CHROME, "--autoplay-policy=no-user-gesture-required",
-         "--use-fake-ui-for-media-stream",
-         "--user-data-dir=" + tempfile.mkdtemp(prefix="chrome-ab-"),
-         "--window-size=1400,600", url],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    args = [CHROME, "--autoplay-policy=no-user-gesture-required",
+            "--use-fake-ui-for-media-stream",
+            "--user-data-dir=" + tempfile.mkdtemp(prefix="chrome-ab-"),
+            "--window-size=1400,600"]
+    if "--debug" in sys.argv:
+        # headless smoke test with a synthetic camera - shows page logs here
+        args += ["--headless=new", "--use-fake-device-for-media-stream"]
+    args.append(url)
+    proc = subprocess.Popen(args,
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     print("NOTE: both sessions bill while the window is open "
           "(Lucy generation ticks + Xmax points). Ctrl-C here also stops.")
     try:
