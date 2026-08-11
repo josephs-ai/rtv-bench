@@ -1,0 +1,62 @@
+{
+  "40e5475708a7": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-texture.mkv",
+      "capture_path": "data/pilot-captures/happy-oyster-texture.mkv",
+      "category": "generation",
+      "prompt_text": "extreme close-up of wind rippling through tall grass beside a knitted wool blanket, intricate fine detail"
+    },
+    "is_hidden_repeat": false
+  },
+  "e923e20f4291": {
+    "item": {
+      "product_key": "lingbot-world-2",
+      "run_id": "lingbot-world-2-motion.mkv",
+      "capture_path": "data/pilot-captures/lingbot-world-2-motion.mkv",
+      "category": "generation",
+      "prompt_text": "a crowded festival street at night, dancers spinning, fast camera movement, confetti falling everywhere"
+    },
+    "is_hidden_repeat": false
+  },
+  "23f852c6994f": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-static.mkv",
+      "capture_path": "data/pilot-captures/happy-oyster-static.mkv",
+      "category": "generation",
+      "prompt_text": "a still life of ceramic bowls on a wooden table, soft window light, completely still scene, nothing moves"
+    },
+    "is_hidden_repeat": false
+  },
+  "0ca92005bcd3": {
+    "item": {
+      "product_key": "lingbot-world-2",
+      "run_id": "lingbot-world-2-static.mkv",
+      "capture_path": "data/pilot-captures/lingbot-world-2-static.mkv",
+      "category": "generation",
+      "prompt_text": "a still life of ceramic bowls on a wooden table, soft window light, completely still scene, nothing moves"
+    },
+    "is_hidden_repeat": false
+  },
+  "c479eba2d2f9": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-motion.mkv",
+      "capture_path": "data/pilot-captures/happy-oyster-motion.mkv",
+      "category": "generation",
+      "prompt_text": "a crowded festival street at night, dancers spinning, fast camera movement, confetti falling everywhere"
+    },
+    "is_hidden_repeat": false
+  },
+  "558de2ddfb2a": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-static.mkv",
+      "capture_path": "data/pilot-captures/happy-oyster-static.mkv",
+      "category": "generation",
+      "prompt_text": "a still life of ceramic bowls on a wooden table, soft window light, completely still scene, nothing moves"
+    },
+    "is_hidden_repeat": true
+  }
+}

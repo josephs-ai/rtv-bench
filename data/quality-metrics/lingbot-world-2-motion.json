@@ -1,0 +1,41 @@
+{
+  "run_id": "lingbot-world-2-motion",
+  "n_frames": 400,
+  "fps_assumed": 16.0,
+  "sweep": {
+    "flicker_lpips": 0.05073220829535557,
+    "flicker_masked_out": false,
+    "identity": null,
+    "clip_adherence": 0.2667955342266295,
+    "motion_epe": null,
+    "blink": null
+  },
+  "vbench": {
+    "temporal_flickering": 0.9857770573592146,
+    "subject_consistency": 0.5288912504539223
+  },
+  "models_present": [
+    "clip_fn",
+    "face_embed_fn",
+    "flow_fn",
+    "lpips_fn"
+  ],
+  "note": "raw supporting values; anchor-relative 1-5 scoring requires Anchor-0/Anchor-R footage (Spec D.1)",
+  "motion_jerk": {
+    "pops_per_min": 91.2,
+    "n_pops": 38,
+    "n_frames": 200
+  },
+  "long_horizon": {
+    "early_vs_last": 0.8526131510734558,
+    "min": 0.7396830320358276,
+    "drift": [
+      -0.5040421438932882,
+      0.8409707590937614,
+      0.9473330974578857,
+      0.8526131510734558,
+      40
+    ]
+  },
+  "wall_s": 2943.9
+}
