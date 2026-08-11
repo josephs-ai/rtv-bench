@@ -44,6 +44,22 @@ PROMPTS = {
                 "a knitted wool blanket, intricate fine detail"),
 }
 
+# i2v prompt overrides (dry-run finding #2, 2026-08-11): LingBot is
+# image-to-video - the seed image constrains content, so the prompt MUST
+# describe a continuation of the seed (sky/ground/brown structure), not
+# unrelated content. Prompting "ceramic bowls" over a landscape seed is a
+# contradictory stimulus: the model animates the seed and prompt-adherence
+# scoring becomes an artefact of our protocol, not a product measurement.
+# Campaign C stimulus design must pair every i2v prompt with a matching seed.
+PROMPTS_I2V = {
+    "static": ("a quiet landscape with a wooden structure under a hazy sky, "
+               "completely still scene, nothing moves"),
+    "motion": ("wind storm sweeps across the landscape, debris flying past "
+               "the wooden structure, fast moving clouds"),
+    "texture": ("rain falling on the landscape, ripples and droplets on "
+                "every surface, fine detail"),
+}
+
 TARGETS = [
     # (product_key, model_name, drive_style)
     ("lingbot-world-2", "reactor/lingbot-world-2", "lingbot"),
@@ -214,7 +230,8 @@ async def main_async(args):
     os.makedirs(OUTDIR, exist_ok=True)
     results = []
     for product_key, model_name, style in TARGETS:
-        for content, prompt in PROMPTS.items():
+        prompt_set = PROMPTS_I2V if style == "lingbot" else PROMPTS
+        for content, prompt in prompt_set.items():
             print("capturing %s / %s ..." % (product_key, content))
             try:
                 m = await one_capture(product_key, model_name, style, content,
