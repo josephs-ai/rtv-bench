@@ -69,6 +69,20 @@ class Pane:
             return
         self.last_frame_at = now
         self.frames += 1
+        # placeholder detection: HO streams an animated COLOUR FIELD while
+        # the world generates server-side (1-3+ min). Say so, or the wait
+        # reads as broken.
+        if self.frames % 20 == 1:
+            try:
+                flat = float(frame.std(axis=(0, 1)).mean()) < 12.0
+            except Exception:
+                flat = False
+            if flat != getattr(self, "_flat", None):
+                self._flat = flat
+                self.log(self.idx,
+                         "world still GENERATING - this colour field is the "
+                         "product's loading screen (can take 1-3+ min)"
+                         if flat else "world content live")
         try:
             from PIL import Image
             img = Image.fromarray(frame)
