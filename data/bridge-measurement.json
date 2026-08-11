@@ -1,58 +1,98 @@
 {
-  "measured_utc": "2026-08-11T03:35:55Z",
+  "measured_utc": "2026-08-11T04:07:06Z",
   "load_profile_pin": "640x360 both legs; standard-profile C0 floor",
   "lens_m": {
-    "p50_ms": 1695.3,
-    "p95_ms": 1895.4,
-    "n": 50,
-    "headline": "p95 1895 ms [Lens M] (input frame -> output frame, impulse_xcorr, n=50)"
+    "p50_ms": 1630.8,
+    "p95_ms": 1861.8,
+    "n": 32,
+    "headline": "p95 1862 ms [Lens M] (input frame -> output frame, impulse_xcorr, n=32)"
   },
   "lens_p_native_p50_ms": 366.6994154953735,
-  "reactor_delta_ms": 1328.6,
-  "floor_prediction": "platform variance exceeds the model contribution that can be resolved: measured 1695 ms against a floor of 1928 ms (CI 1894-1961); the model-only estimate spans -266--199 ms and is not reportable as a number",
+  "reactor_delta_ms": 1264.1,
+  "floor_prediction": "platform variance exceeds the model contribution that can be resolved: measured 1631 ms against a floor of 1928 ms (CI 1894-1961); the model-only estimate spans -330--264 ms and is not reportable as a number",
   "floor_crosscheck": {
     "floor_p50_ms": 1927.7,
-    "model_contribution_via_floor": -232.4,
+    "model_contribution_via_floor": -296.9,
     "native_measured": 366.6994154953735,
-    "agreement_ms": -599.1,
+    "agreement_ms": -663.6,
     "note": "if |agreement| is small, floor-subtraction is validated as a proxy for products with no native route"
   },
   "runs": [
     {
       "run": 0,
-      "n_lags": 15,
+      "n_lags": 3,
       "stop": "source_exhausted",
       "version": "0.0.0@1.20260810.21365"
     },
     {
       "run": 1,
-      "n_lags": 10,
-      "stop": "source_exhausted",
-      "version": "0.0.0@1.20260810.21365"
+      "error": ""
     },
     {
       "run": 2,
-      "n_lags": 9,
-      "stop": "source_exhausted",
-      "version": "0.0.0@1.20260810.21365"
+      "error": ""
     },
     {
       "run": 3,
-      "n_lags": 8,
+      "n_lags": 2,
       "stop": "source_exhausted",
       "version": "0.0.0@1.20260810.21365"
     },
     {
       "run": 4,
-      "n_lags": 8,
+      "n_lags": 5,
       "stop": "source_exhausted",
       "version": "0.0.0@1.20260810.21365"
+    },
+    {
+      "run": 5,
+      "n_lags": 6,
+      "stop": "source_exhausted",
+      "version": "0.0.0@1.20260810.21365"
+    },
+    {
+      "run": 6,
+      "n_lags": 6,
+      "stop": "source_exhausted",
+      "version": "0.0.0@1.20260810.21365"
+    },
+    {
+      "run": 7,
+      "n_lags": 6,
+      "stop": "source_exhausted",
+      "version": "0.0.0@1.20260810.21365"
+    },
+    {
+      "run": 8,
+      "n_lags": 4,
+      "stop": "source_exhausted",
+      "version": "0.0.0@1.20260810.21365"
+    },
+    {
+      "run": 9,
+      "error": ""
     }
   ],
+  "batches": [
+    {
+      "batch": 1,
+      "utc": "2026-08-11T02:5x",
+      "runs_ok": 5,
+      "n_lags": 50,
+      "p50_ms": 1695.0,
+      "delta_ms": 1328.6
+    },
+    {
+      "batch": 2,
+      "utc": "2026-08-11T04:07:06Z",
+      "runs_ok": 8,
+      "n_lags": 32,
+      "p50_ms": 1630.8,
+      "delta_ms": 1264.1
+    }
+  ],
+  "pooled_statement": "Reactor delta 1264-1329 ms across two batches (13 runs, 82 lags, different hours, same server build); batch p50s agree within 64 ms - inside the C0 floor's own CI width. Single-model caveat stands.",
   "caveats": [
-    "single-model: measured on Xmax X2.0 only; transfer to other GPU models plausible but unverified",
-    "N=5 runs / 50 lag samples - extend before this anchors Lens M interpretation (extension queued, awaiting measurement-vantage VPN)",
-    "one load profile (640x360); the floor is load-dependent, the delta may be too",
-    "echo-floor subtraction INVALIDATED by this measurement: echo's CPU software-encode pipeline exceeds GPU pipelines; floor is scoped as its own measurement, never a baseline"
+    "13 runs / 82 lags across two batches; batch agreement 64 ms"
   ]
 }

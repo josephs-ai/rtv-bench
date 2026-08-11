@@ -125,7 +125,7 @@ class DummynetShaper:
         subprocess.run(["sudo", "dnctl", "-q", "flush"], check=False, capture_output=True)
 
 
-def probe_rtt_ms(host: str = "1.1.1.1", count: int = 5) -> Optional[float]:
+def probe_rtt_ms(host: str = "1.1.1.1", count: int = 9) -> Optional[float]:
     """Median ICMP RTT - the live verification that shaping is in force."""
     try:
         out = subprocess.run(["ping", "-c", str(count), "-q", host],
@@ -139,11 +139,16 @@ def probe_rtt_ms(host: str = "1.1.1.1", count: int = 5) -> Optional[float]:
 def verify(cond: Condition, baseline_rtt_ms: float, shaper: DummynetShaper,
            probe: Callable[[], Optional[float]] = probe_rtt_ms,
            tolerance_ms: float = 30.0) -> AppliedState:
-    """Applied-state verification: the probe RTT must sit near baseline+delta.
+    """Applied-state verification via the DELTA BAND, not absolute RTT.
 
-    `baseline_rtt_ms` is measured once per session at C0 - the same probe with
-    nothing applied - so verification tests the SHAPER's contribution, not the
-    absolute path quality.
+    A fixed +-30ms absolute check trips constantly on VPN-tunnel jitter (three
+    arms skipped that way). What actually distinguishes the failure modes:
+      - shaping silently absent  -> delta ~ 0
+      - shaping applied twice    -> delta ~ 2x target (the utun/en0 bug)
+      - shaping in force         -> delta ~ target
+    So: (shaped - baseline) must land in [0.5x, 1.75x + 30ms] of the target.
+    Callers should pass a baseline measured seconds before apply (median-of-
+    many pings), not a session-old one.
     """
     rtt = probe()
     dn = shaper.read_back()
@@ -151,11 +156,16 @@ def verify(cond: Condition, baseline_rtt_ms: float, shaper: DummynetShaper,
         return AppliedState(cond.condition_id, False, dn, None,
                             "probe produced no RTT - cannot verify shaping", _utcnow())
 
-    expected = baseline_rtt_ms + cond.rtt_ms
-    ok = abs(rtt - expected) <= tolerance_ms
-    detail = "probe %.1f ms vs expected %.1f +- %.0f" % (rtt, expected, tolerance_ms)
+    delta = rtt - baseline_rtt_ms
+    lo, hi = 0.5 * cond.rtt_ms, 1.75 * cond.rtt_ms + 30.0
+    ok = lo <= delta <= hi
+    detail = ("delta %.1f ms vs target %d (band %.0f-%.0f; probe %.1f, "
+              "baseline %.1f)" % (delta, cond.rtt_ms, lo, hi, rtt, baseline_rtt_ms))
+    if not ok:
+        detail += (" - SHAPING NOT IN FORCE" if delta < lo
+                   else " - SHAPING DOUBLED?")
     return AppliedState(cond.condition_id, ok, dn, rtt,
-                        detail if ok else detail + " - SHAPING NOT IN FORCE", _utcnow())
+                        detail, _utcnow())
 
 
 def as_check(state: AppliedState) -> CheckResult:
