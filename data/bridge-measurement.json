@@ -48,5 +48,11 @@
       "stop": "source_exhausted",
       "version": "0.0.0@1.20260810.21365"
     }
+  ],
+  "caveats": [
+    "single-model: measured on Xmax X2.0 only; transfer to other GPU models plausible but unverified",
+    "N=5 runs / 50 lag samples - extend before this anchors Lens M interpretation (extension queued, awaiting measurement-vantage VPN)",
+    "one load profile (640x360); the floor is load-dependent, the delta may be too",
+    "echo-floor subtraction INVALIDATED by this measurement: echo's CPU software-encode pipeline exceeds GPU pipelines; floor is scoped as its own measurement, never a baseline"
   ]
 }

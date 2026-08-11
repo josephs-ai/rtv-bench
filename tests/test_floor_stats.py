@@ -112,21 +112,20 @@ def test_lag_drift_slope():
     print("  drift: +200ms/min recovered; flat ~0; too-few samples -> None")
 
 
-def test_lens_m_section_is_floor_led():
+def test_lens_m_section_post_bridge_claims():
     from rtveval import report
     floor = stats.FloorEstimate("p50", 1927.7, 1894.4, 1961.0, 40, 350)
-    decos = {
-        "xmax-x2.0": stats.decompose_lens_m(2300.0, floor),
-        "lingbot-world-2": stats.decompose_lens_m(1950.0, floor),
-    }
-    md = report.lens_m_latency_section(floor, decos,
-                                       bridge_note="floor-subtraction agrees "
-                                       "with native within 40 ms")
-    # the floor leads; models are deltas; the unresolvable one says so
-    assert md.index("platform floor") < md.index("xmax")
-    assert "platform variance exceeds" in md  # lingbot at 1950 vs 1894-1961 CI
-    assert "Bridge validation" in md
-    print("  section leads with floor; unresolvable model renders honesty line")
+    bridge = {"lens_p_native_p50_ms": 367.0, "lens_m": {"p50_ms": 1695.0},
+              "reactor_delta_ms": 1328.6,
+              "runs": [{"n_lags": 10}, {"n_lags": 8}, {"error": "x"}]}
+    md = report.lens_m_latency_section(floor, {"xmax-x2.0": 1695.0,
+                                               "lingbot-world-2": 2100.0},
+                                       bridge)
+    assert "NOT a baseline for GPU-served products" in md
+    assert "[Lens M, raw]" in md and "not recoverable" in md
+    assert "one model at one load profile" in md  # single-model caveat
+    assert "decompos" not in md.lower()  # no decomposition claims survive
+    print("  post-bridge claims: floor scoped, raw figures, caveat, no decomposition")
 
 
 if __name__ == "__main__":

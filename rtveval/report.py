@@ -168,31 +168,52 @@ def _requested_categories(unreachable: Dict[str, str]) -> set:
     return {BY_KEY[p].category for p in unreachable if p in BY_KEY}
 
 
-def lens_m_latency_section(floor, decompositions: Dict[str, "object"],
-                           bridge_note: Optional[str] = None) -> str:
-    """The Lens M latency section, floor-led by construction.
+def lens_m_latency_section(floor, raw_p50s: Dict[str, float],
+                           bridge: Optional[dict] = None) -> str:
+    """The Lens M latency section - claims constrained to what survived the
+    bridge cross-check.
 
-    Rationale (measured, not stylistic): the platform floor (1928 ms) is ~5x
-    the entire native latency of the one dual-routed model (367 ms). Raw Lens
-    M figures therefore mostly describe Reactor, not the models - so the
-    section LEADS with the floor as the finding, and models appear only as
-    deltas against it. `decompositions` maps product -> stats.Decomposition;
-    unresolvable ones render their own honesty sentence.
+    The echo floor FAILED as a subtractable baseline (echo runs on a CPU-only
+    pod with software encode; its 1928 ms EXCEEDS the one GPU model's total
+    round trip). So this section:
+      - reports the floor as ITS OWN measurement with scope stated,
+      - reports models as RAW Lens M figures (same substrate, comparable to
+        each other and nothing else),
+      - states platform dominance via the bridge (the one model with both
+        legs), with its single-model caveat,
+      - and explicitly says model-only figures are not recoverable.
     """
     lines = [
-        "### Lens M latency: the platform is the number",
+        "### Lens M latency: platform-dominated, model-only figures not recoverable",
         "",
-        "**Reactor platform floor: %.0f ms (95%% CI %.0f-%.0f, n=%d runs).**"
+        "**CPU-pipeline reference (echo): %.0f ms (95%% CI %.0f-%.0f, n=%d runs).**"
         % (floor.point_ms, floor.lo_ms, floor.hi_ms, floor.n_runs),
-        "Absolute Lens M latency is dominated by the serving platform, not the "
-        "models. Model contributions below are deltas against this floor; "
-        "differences under ~%.0f ms are not resolvable." % floor.width_ms,
+        "Scope: the cost of Reactor's session + transport + CPU software-encode "
+        "pipeline. It is NOT a baseline for GPU-served products, whose hardware "
+        "encode path differs - the bridge cross-check showed a GPU model's "
+        "entire round trip below this figure.",
+        "",
+        "Raw Lens M figures (same substrate; comparable to each other only):",
         "",
     ]
-    for product, deco in sorted(decompositions.items()):
-        lines.append("- **%s**: %s" % (product, deco.statement))
-    if bridge_note:
-        lines += ["", "*Bridge validation: %s*" % bridge_note]
+    for product, p50 in sorted(raw_p50s.items()):
+        lines.append("- **%s**: p50 %.0f ms [Lens M, raw]" % (product, p50))
+    if bridge:
+        lines += [
+            "",
+            "**Platform share, measured on the one dual-routed model (Xmax "
+            "X2.0):** native %.0f ms vs via-Reactor %.0f ms - the platform "
+            "accounts for ~%.0f%%%% of the Lens M figure (Reactor delta %.0f ms, "
+            "n=%d runs). *Caveat: measured on one model at one load profile; "
+            "transfer to other models is plausible but unverified.*"
+            % (bridge["lens_p_native_p50_ms"], bridge["lens_m"]["p50_ms"],
+               100.0 * bridge["reactor_delta_ms"] / bridge["lens_m"]["p50_ms"],
+               bridge["reactor_delta_ms"], sum(1 for r in bridge["runs"]
+                                               if r.get("n_lags"))),
+        ]
+    lines += ["", "Model-only latency figures for products without a native "
+              "route are **not recoverable** from these measurements and are "
+              "not reported."]
     return "\n".join(lines)
 
 
