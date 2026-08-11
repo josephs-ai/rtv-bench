@@ -48,6 +48,11 @@
 </style>
 <div id="bar">
   <span class="logo">WORLDS&nbsp;A/B</span>
+  <button id="syncbtn" title="one prompt + one set of keys drives BOTH worlds">Sync: OFF</button>
+  <input id="syncin" placeholder="one prompt for both worlds — Enter sends to LingBot and Happy Oyster…"
+         style="flex:1;display:none;background:var(--panel);color:var(--txt);
+                border:1px solid var(--line);border-radius:10px;padding:9px 13px;
+                font:14px inherit;outline:none;backdrop-filter:blur(14px)">
   <span id="gst">connecting to bridge…</span>
   <button style="margin-left:auto" onclick="alert('The V2V page (Lucy vs Xmax with your camera) runs from:\n\n  .venv/bin/python tools/live_ab.py')">V2V ↗</button>
 </div>
@@ -79,6 +84,21 @@ const gst = t => document.getElementById("gst").textContent = t;
 const st = (i, t) => document.getElementById("s" + i).textContent = t;
 const mode = {0: "director", 1: "director"};
 let focusPane = null;
+let sync = false;
+document.getElementById("syncbtn").onclick = () => {
+  sync = !sync;
+  document.getElementById("syncbtn").textContent = "Sync: " + (sync ? "ON" : "OFF");
+  document.getElementById("syncin").style.display = sync ? "" : "none";
+  for (const j of [0, 1])
+    document.getElementById("p" + j).classList.toggle("focused", sync);
+  if (sync) { focusPane = null; document.getElementById("syncin").focus(); }
+};
+document.getElementById("syncin").addEventListener("keydown", e => {
+  e.stopPropagation();
+  if (e.key !== "Enter") return;
+  const v = e.target.value.trim();
+  if (v) for (const j of [0, 1]) send({pane: j, kind: "director", prompt: v});
+});
 
 ws.onopen = () => gst("bridge connected - worlds are starting (first frames can take 1-3 min)");
 ws.onclose = () => gst("BRIDGE GONE - rerun: .venv/bin/python tools/worlds_ab.py");
@@ -166,20 +186,21 @@ function hoCommand() {
         args: {translation: t, rotation: r, interaction: i}});
 }
 function pushControls() {
-  if (focusPane === 0 && mode[0] === "wasd") lingbotAxes();
-  if (focusPane === 1 && mode[1] === "wasd") hoCommand();
+  if ((sync || focusPane === 0) && mode[0] === "wasd") lingbotAxes();
+  if ((sync || focusPane === 1) && mode[1] === "wasd") hoCommand();
 }
 /* HO holds are resent server-shape every 250ms (SDK does 300ms) */
 setInterval(() => {
-  if (focusPane === 1 && mode[1] === "wasd" && held.size) hoCommand();
+  if ((sync || focusPane === 1) && mode[1] === "wasd" && held.size) hoCommand();
 }, 250);
 
 const KEYS = ["w", "a", "s", "d", "f", " ", "Shift",
               "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
 document.addEventListener("keydown", e => {
   const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-  if (!KEYS.includes(k) || focusPane === null) return;
-  if (mode[focusPane] !== "wasd") return;
+  if (!KEYS.includes(k)) return;
+  if (!sync && (focusPane === null || mode[focusPane] !== "wasd")) return;
+  if (sync && mode[0] !== "wasd" && mode[1] !== "wasd") return;
   e.preventDefault();
   if (held.has(k)) return;
   held.add(k);

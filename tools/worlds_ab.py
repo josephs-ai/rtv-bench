@@ -95,11 +95,23 @@ class Pane:
                                  # kill a healthy interactive session
                                  stall_timeout_s=600.0)
         a.frame_tap = self._tap
-        await a.connect()
-        await a._wait_ready()
+        try:
+            # a hung pod must not wedge the pane forever (observed live:
+            # -adventure sat in "connecting" indefinitely)
+            await asyncio.wait_for(self._establish(a), timeout=90.0)
+        except Exception as e:
+            try:
+                await a.close()
+            except Exception:
+                pass
+            self.log(self.idx, "connect FAILED (%s) - send a prompt or "
+                     "re-click the mode to retry"
+                     % (type(e).__name__ if not str(e) else str(e)[:80]))
+            return
         self.adapter = a
         self.log(self.idx, "session ready - starting world (can take a "
                            "minute or two)...")
+
         if self.cfg["key"] == "lingbot":
             from tools.generation_pilot import drive_lingbot
             await drive_lingbot(a.reactor, first_prompt)
@@ -124,6 +136,10 @@ class Pane:
 
         run_task.add_done_callback(_done)
         self.log(self.idx, "world requested - waiting for frames")
+
+    async def _establish(self, a):
+        await a.connect()
+        await a._wait_ready()
 
     async def disconnect(self):
         if self.adapter is not None:
@@ -153,7 +169,9 @@ class Pane:
                     self.log(self.idx, "new world requested")
             elif kind == "mode":
                 want = msg.get("mode")
-                if want not in ("director", "wasd") or want == self.mode:
+                if want not in ("director", "wasd"):
+                    return
+                if want == self.mode and self.adapter is not None:
                     return
                 self.mode = want
                 if self.cfg["director_model"] != self.cfg["wasd_model"]:
