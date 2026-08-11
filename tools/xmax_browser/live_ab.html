@@ -55,6 +55,7 @@
   <input id="prompt" type="text" placeholder="type any style prompt and press Enter…"
          value="oil painting style, thick impasto brush strokes, warm palette">
   <button id="apply">Apply to both</button>
+  <button id="crop" title="zoom in ~14% to push edge watermarks out of view">Hide watermarks</button>
   <button id="reveal">Reveal sides</button>
 </div>
 <div id="chips"></div>
@@ -95,6 +96,15 @@ const st  = (i, t) => {
 };
 window.addEventListener("error",
   e => gst("JS ERROR: " + e.message + " @" + e.lineno));
+let cropped = false;
+document.getElementById("crop").onclick = () => {
+  cropped = !cropped;
+  for (const v of [vid(0), vid(1)])
+    { v.style.transform = cropped ? "scale(1.14)" : "";
+      v.style.objectFit = cropped ? "cover" : "contain"; }
+  document.getElementById("crop").textContent =
+    cropped ? "Show full frame" : "Hide watermarks";
+};
 document.getElementById("reveal").onclick = () => {
   document.getElementById("t" + side.lucy).textContent = "Lucy 2.5 (Decart)";
   document.getElementById("t" + side.xmax).textContent = "Xmax X2.0";

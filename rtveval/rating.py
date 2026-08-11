@@ -57,11 +57,20 @@ def blind_id(secret: bytes, product_key: str, run_id: str) -> str:
 def normalize_and_blind(items: Sequence[RatingItem], secret: bytes,
                         out_dir: str, key_path: str,
                         display: Tuple[int, int] = (1920, 1080),
+                        crop_margin: float = 0.0,
                         runner=subprocess.run) -> List[BlindClip]:
     """Re-encode every clip to one display size + codec under a blinded name.
 
     `key_path` (the blind_id -> product mapping) MUST be outside `out_dir`;
     refused otherwise - the mapping must never sit in the served tree.
+
+    `crop_margin` crops that fraction off EVERY edge before scaling. Found
+    live 2026-08-11: at least one provider stamps a moving "AI generated"
+    watermark near the frame edge - a naked provider label that defeats
+    blinding. Campaign rating runs use ~0.07; the margin is identical for
+    every product (uniform treatment), recorded in the key file, and a
+    watermark that wanders INTO the interior still requires the eyeball
+    audit to catch - cropping is mitigation, not proof.
     """
     if os.path.commonpath([os.path.abspath(key_path), os.path.abspath(out_dir)]) \
             == os.path.abspath(out_dir):
@@ -69,9 +78,15 @@ def normalize_and_blind(items: Sequence[RatingItem], secret: bytes,
 
     os.makedirs(out_dir, exist_ok=True)
     w, h = display
-    # scale to fit + pad to canvas: aspect preserved, size identical, no crop.
+    # optional uniform edge crop (watermark margin), then scale to fit + pad:
+    # aspect preserved, size identical for every product.
     vf = ("scale=%d:%d:force_original_aspect_ratio=decrease:flags=lanczos,"
           "pad=%d:%d:(ow-iw)/2:(oh-ih)/2" % (w, h, w, h))
+    if crop_margin > 0:
+        if not 0 < crop_margin < 0.25:
+            raise ValueError("crop_margin out of sane range")
+        vf = ("crop=iw*%.4f:ih*%.4f:(iw-ow)/2:(ih-oh)/2,"
+              % (1 - 2 * crop_margin, 1 - 2 * crop_margin)) + vf
 
     clips, key = [], {}
     for item in items:
@@ -85,7 +100,7 @@ def normalize_and_blind(items: Sequence[RatingItem], secret: bytes,
 
     with open(key_path, "w") as f:
         json.dump({"display": list(display), "normalize_args": NORMALIZE_ARGS,
-                   "key": key}, f, indent=2)
+                   "crop_margin": crop_margin, "key": key}, f, indent=2)
     return clips
 
 
