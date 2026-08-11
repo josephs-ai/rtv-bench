@@ -56,7 +56,14 @@ PAGE = """<!doctype html>
 </div>
 <script>
 async function load() {
-  const r = await fetch("/state");
+  let r;
+  try { r = await fetch("/state"); } catch (e) {
+    document.getElementById("top").textContent =
+      "SERVER NOT RUNNING - rerun: .venv/bin/python tools/rating_session.py "
+      + "--rater joseph  (your progress is saved; it will resume)";
+    setTimeout(load, 2000);
+    return;
+  }
   const s = await r.json();
   document.getElementById("top").textContent = s.done ? "" :
     ("clip " + s.progress + " - " + s.dimension_name +
