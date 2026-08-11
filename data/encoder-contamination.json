@@ -1,0 +1,36 @@
+{
+  "verdict": "INVALID_INPUTS",
+  "threshold": 0.02,
+  "max_frames": 300,
+  "device": "mps",
+  "clips": [
+    {
+      "clip": "happy-oyster-motion",
+      "lossless_lpips": 0.0032113552561605163,
+      "crf12_lpips": 0.0032113552561605163,
+      "delta": 0.0,
+      "relative_delta": 0.0,
+      "lossless_mb": 0.068203,
+      "crf12_mb": 0.007367
+    },
+    {
+      "clip": "happy-oyster-static",
+      "lossless_lpips": 0.0007159411097350328,
+      "crf12_lpips": 0.0007159411097350328,
+      "delta": 0.0,
+      "relative_delta": 0.0,
+      "lossless_mb": 0.065767,
+      "crf12_mb": 0.007087
+    },
+    {
+      "clip": "happy-oyster-texture",
+      "lossless_lpips": 0.005841608132634844,
+      "crf12_lpips": 0.005841608132634844,
+      "delta": 0.0,
+      "relative_delta": 0.0,
+      "lossless_mb": 0.037925,
+      "crf12_mb": 0.004863
+    }
+  ],
+  "invalidation_reason": "Ran on 3 Happy Oyster captures only (106-192 frames, 49-88KB FFV1 - low-entropy early-generation content); LingBot captures were empty (0 frames). The diversity requirement (static/motion/texture across products, healthy captures confirmed by eyeball) is not met; a 0.00% delta on degenerate content proves nothing. Re-run on healthy captures."
+}

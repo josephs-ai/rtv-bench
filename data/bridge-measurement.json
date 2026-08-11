@@ -1,0 +1,52 @@
+{
+  "measured_utc": "2026-08-11T03:35:55Z",
+  "load_profile_pin": "640x360 both legs; standard-profile C0 floor",
+  "lens_m": {
+    "p50_ms": 1695.3,
+    "p95_ms": 1895.4,
+    "n": 50,
+    "headline": "p95 1895 ms [Lens M] (input frame -> output frame, impulse_xcorr, n=50)"
+  },
+  "lens_p_native_p50_ms": 366.6994154953735,
+  "reactor_delta_ms": 1328.6,
+  "floor_prediction": "platform variance exceeds the model contribution that can be resolved: measured 1695 ms against a floor of 1928 ms (CI 1894-1961); the model-only estimate spans -266--199 ms and is not reportable as a number",
+  "floor_crosscheck": {
+    "floor_p50_ms": 1927.7,
+    "model_contribution_via_floor": -232.4,
+    "native_measured": 366.6994154953735,
+    "agreement_ms": -599.1,
+    "note": "if |agreement| is small, floor-subtraction is validated as a proxy for products with no native route"
+  },
+  "runs": [
+    {
+      "run": 0,
+      "n_lags": 15,
+      "stop": "source_exhausted",
+      "version": "0.0.0@1.20260810.21365"
+    },
+    {
+      "run": 1,
+      "n_lags": 10,
+      "stop": "source_exhausted",
+      "version": "0.0.0@1.20260810.21365"
+    },
+    {
+      "run": 2,
+      "n_lags": 9,
+      "stop": "source_exhausted",
+      "version": "0.0.0@1.20260810.21365"
+    },
+    {
+      "run": 3,
+      "n_lags": 8,
+      "stop": "source_exhausted",
+      "version": "0.0.0@1.20260810.21365"
+    },
+    {
+      "run": 4,
+      "n_lags": 8,
+      "stop": "source_exhausted",
+      "version": "0.0.0@1.20260810.21365"
+    }
+  ]
+}

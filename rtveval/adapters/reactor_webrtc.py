@@ -199,7 +199,10 @@ class ReactorWebRTCAdapter(Adapter):
             await self.reactor.publish_track(name, self._player.video)
 
         if prompt:
-            await self.reactor.send_command(self.prompt_command, {"text": prompt})
+            # Vendor SDKs across models agree on the field name: {"prompt": ...}
+            # (X2SetPromptParams, LingbotWorld2SetPromptParams). "text" was a
+            # guess that models silently ignored - zero output, no error.
+            await self.reactor.send_command(self.prompt_command, {"prompt": prompt})
 
         return await self.session.run(duration_intended_s)
 

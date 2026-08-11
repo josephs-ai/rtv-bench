@@ -42,7 +42,8 @@ async def one_run(idx, truth, in_lum):
 
     lum = []
     a = ReactorWebRTCAdapter("xmax-x2.0", XMAX_REACTOR_MODEL,
-                             DurationSemantics.FIXED)
+                             DurationSemantics.FIXED,
+                             prompt_command="set_prompt")
     a.frame_tap = lambda f: lum.append(float(f.mean()))
     await a.connect()
     try:
