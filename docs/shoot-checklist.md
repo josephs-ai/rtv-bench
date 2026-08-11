@@ -50,12 +50,20 @@ reshot later, reshoot it with the same body, lens, and framerate settings.
 | V2 | Fast head/body motion | ✱ |
 | V3 | Hand occluding face, then removed | ✱✱ |
 | V4 | Hard lighting change mid-clip | ✱✱ |
-| V5 | Second person enters frame (consent for both!) | ✱ |
+| V5 | Performer exits frame fully (~3 s empty scene), then re-enters | ✱ |
 | V6 | Fine texture — hair, mesh fabric | |
 | V7 | Printed text / logo held to camera | |
 | V8 | Rapid horizontal pan | ✱ |
 | V9 | Hard scene cut | ✱✱ |
 | V10 | 60 s sustained single take — the differentiator | ✱ |
+
+**V5 amendment (2026-08-11):** original spec was "second person enters
+frame"; no second consenting performer is available. Replaced with a FULL
+exit/re-entry (the harder E.5 stressor: total subject loss and re-lock, vs
+V3's partial occlusion). Consequence stated for the report: multi-person
+identity separation is UNTESTED in this corpus. If a second performer
+becomes available later, shoot the original V5 as an additional clip with
+the same camera/settings and log it as a corpus addition.
 
 **10 clips, ~15 s each (V10 = 60 s+).** Corpus reverted from the 25-clip
 variant (user decision 2026-08-10): one take per stressor, with on-the-day
