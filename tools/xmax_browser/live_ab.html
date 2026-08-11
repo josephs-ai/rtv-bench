@@ -339,7 +339,9 @@ document.getElementById("apply").onclick = async () => {
       if (refUrl) ctx.refImageUrl = refUrl;
       await xmaxSession.set(ctx);
       st(side.xmax, "applied" + (autoLang ? " (zh)" : "")
-                    + (refUrl ? " + reference" : ""));
+         + (refUrl ? " + reference (note: x2.0 accepted it but showed no "
+                     + "visible ref effect in our tests - Lucy side is the "
+                     + "one to watch for the image)" : ""));
     } catch (e) { st(side.xmax, "prompt update failed: " + e.message); }
   }
 };
@@ -509,6 +511,24 @@ document.getElementById("diagbtn").onclick = () => {
   startDiag();
 };
 
+/* debug: ?reftest=start-url|start-key - upload a red reference BEFORE
+   connect so the ref rides the START event; snap verdict is visual */
+async function preUploadRef(mode) {
+  const {createXmaxClient} = await import("./vendor/index.js");
+  const c = createXmaxClient({apiKey: xmaxKey});
+  const cv = document.createElement("canvas"); cv.width = cv.height = 512;
+  const x = cv.getContext("2d");
+  x.fillStyle = "#d81f1f"; x.fillRect(0, 0, 512, 512);
+  x.fillStyle = "#fff"; x.fillRect(140, 100, 232, 320);
+  const blob = await new Promise(r => cv.toBlob(r, "image/png"));
+  const up = await (c.files?.uploadImage ? c.files.uploadImage(new File([blob], "ref.png", {type: "image/png"}))
+                 : c.uploadImage(new File([blob], "ref.png", {type: "image/png"})));
+  refUrl = mode === "start-key" ? up.key : up.url;
+  gst("PRE-REF (" + mode + "): " + refUrl.slice(0, 70));
+  document.getElementById("prompt").value =
+    "the scene is dominated by the bright red and white of the reference image";
+}
+
 (async () => {
   gst("camera...");
   await camera();
@@ -516,6 +536,7 @@ document.getElementById("diagbtn").onclick = () => {
   const jobs = [];
   if (decartKey) jobs.push(startLucy().catch(e => st(side.lucy, "ERR " + e.message)));
   else st(side.lucy, "no decart key passed");
+  if (xmaxKey && q.get("reftest")) await preUploadRef(q.get("reftest")).catch(e => gst("PRE-REF FAIL " + e.message));
   if (xmaxKey) jobs.push(startXmax().catch(e => st(side.xmax, "ERR " + e.message)));
   else st(side.xmax, "no xmax key passed");
   await Promise.allSettled(jobs);

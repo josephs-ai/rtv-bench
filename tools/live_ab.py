@@ -126,7 +126,9 @@ def main():
     port = srv.server_address[1]
     url = ("http://127.0.0.1:%d/live_ab.html?decart=%s&xmax=%s%s"
            % (port, urllib.parse.quote(decart), urllib.parse.quote(xmax),
-              "&snap=1" if "--debug" in sys.argv else ""))
+              ("&snap=1" if "--debug" in sys.argv else "")
+              + next(("&reftest=" + a.split("=", 1)[1]
+                      for a in sys.argv if a.startswith("--reftest=")), "")))
     print("serving on port %d - launching Chrome (camera permission "
           "auto-granted; close the window to end the sessions)" % port)
     args = [CHROME, "--autoplay-policy=no-user-gesture-required",
