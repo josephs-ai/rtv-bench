@@ -1,0 +1,286 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>live A/B - real camera</title>
+<style>
+ :root{--panel:#ffffff14;--line:#ffffff2a;--txt:#f4f6fb;
+   --dim:#b9c0d4;--acc:#8b5cf6;--acc2:#22d3ee}
+ *{box-sizing:border-box}
+ html,body{height:100%}
+ @keyframes drift{0%{background-position:0% 50%}50%{background-position:100% 50%}
+   100%{background-position:0% 50%}}
+ body{margin:0;color:var(--txt);display:flex;flex-direction:column;
+   font:14px/1.4 -apple-system,"SF Pro Text",system-ui,sans-serif;
+   background:linear-gradient(130deg,#0f0c29,#1a1a40,#24243e,#0f2027,#2c1a4d);
+   background-size:400% 400%;animation:drift 25s ease infinite}
+ #bar{padding:12px 16px 8px;display:flex;gap:10px;align-items:center;
+   flex:0 0 auto}
+ #bar .logo{font-weight:700;letter-spacing:.08em;font-size:13px;
+   color:var(--acc);white-space:nowrap}
+ #prompt{flex:1;min-width:200px;background:var(--panel);color:var(--txt);
+   border:1px solid var(--line);border-radius:14px;padding:11px 16px;
+   font:15px inherit;outline:none;backdrop-filter:blur(14px);
+   transition:all .2s}
+ #prompt::placeholder{color:var(--dim)}
+ #prompt:focus{border-color:var(--acc);box-shadow:0 0 0 3px #8b5cf640}
+ button{background:var(--panel);color:var(--txt);border:1px solid var(--line);
+   border-radius:14px;padding:11px 18px;font:14px inherit;cursor:pointer;
+   backdrop-filter:blur(14px);transition:all .2s;white-space:nowrap}
+ button:hover{border-color:var(--acc);transform:translateY(-1px)}
+ #apply{background:linear-gradient(90deg,var(--acc),var(--acc2));
+   color:#fff;border:none;font-weight:650;box-shadow:0 4px 18px #8b5cf655}
+ #apply:hover{filter:brightness(1.1);transform:translateY(-1px)}
+ #chips{padding:0 16px 10px;display:flex;gap:8px;flex-wrap:wrap;flex:0 0 auto}
+ .chip{background:var(--panel);border:1px solid var(--line);color:var(--dim);
+   border-radius:999px;padding:6px 14px;font-size:12.5px;cursor:pointer;
+   backdrop-filter:blur(14px);transition:all .2s}
+ .chip:hover{color:#fff;border-color:var(--acc);transform:translateY(-1px);
+   box-shadow:0 4px 14px #8b5cf640}
+ .row{display:flex;gap:10px;padding:0 16px 12px;flex:1 1 auto;min-height:0}
+ .pane{flex:1;position:relative;background:#05070acc;min-height:0;
+   border-radius:18px;overflow:hidden;border:1px solid var(--line);
+   box-shadow:0 12px 40px #00000066}
+ .pane video{width:100%;height:100%;object-fit:contain;display:block}
+ .tag{position:absolute;top:12px;left:14px;background:#0009;
+   backdrop-filter:blur(6px);padding:5px 14px;font-size:15px;font-weight:600;
+   border-radius:8px;z-index:2}
+ .st{position:absolute;bottom:12px;left:14px;background:#0009;
+   backdrop-filter:blur(6px);padding:5px 12px;font-size:12px;color:var(--dim);
+   max-width:92%;border-radius:8px;z-index:2}
+ #gst{color:var(--dim);font-size:12.5px;padding:0 16px 8px}
+ #cam{position:fixed;right:24px;bottom:24px;width:220px;border-radius:14px;
+   border:1px solid var(--line);box-shadow:0 12px 40px #000a;z-index:5}
+</style>
+<div id="bar">
+  <span class="logo" style="background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:15px">LIVE&nbsp;A/B</span>
+  <input id="prompt" type="text" placeholder="type any style prompt and press Enter…"
+         value="oil painting style, thick impasto brush strokes, warm palette">
+  <button id="apply">Apply to both</button>
+  <button id="crop" title="zoom in ~14% to push edge watermarks out of view">Hide watermarks</button>
+  <button id="reveal">Reveal sides</button>
+</div>
+<div id="chips"></div>
+<div id="gst"></div>
+<div class="row">
+  <div class="pane"><video id="v0" muted autoplay playsinline></video>
+    <div class="tag" id="t0">A</div><div class="st" id="s0">idle</div></div>
+  <div class="pane"><video id="v1" muted autoplay playsinline></video>
+    <div class="tag" id="t1">B</div><div class="st" id="s1">idle</div></div>
+</div>
+<video id="cam" muted autoplay playsinline></video>
+<script type="importmap">
+{"imports": {
+  "@volcengine/rtc": "./vendor/volc-rtc.esm.js",
+  "cos-js-sdk-v5": "./vendor/stub-cos.js",
+  "heic-to/csp": "./vendor/stub-heic.js"
+}}
+</script>
+<script type="module">
+/* Same real camera into Lucy 2.5 (Decart, documented ws signaling) and
+   Xmax X2.0 (vendored SDK, temp key) at once. Sides are randomized at load
+   and hidden until 'reveal' - eyeball first, identity second. Not a
+   measurement: nothing here is recorded or timestamped as evidence. */
+const q = new URLSearchParams(location.search);
+const decartKey = q.get("decart"), xmaxKey = q.get("xmax");
+const gst = t => { document.getElementById("gst").textContent = t;
+                   fetch("/log?m=" + encodeURIComponent(t)).catch(()=>{}); };
+window.addEventListener("unhandledrejection",
+  e => gst("REJECTION: " + (e.reason?.message || e.reason)));
+
+const swap = Math.random() < 0.5;          // eyeball-blinding coin flip
+const side = {lucy: swap ? 1 : 0, xmax: swap ? 0 : 1};
+const vid = i => document.getElementById("v" + i);
+const names = {[side.lucy]: "lucy", [side.xmax]: "xmax"};
+const st  = (i, t) => {
+  document.getElementById("s" + i).textContent = t;
+  fetch("/log?m=" + encodeURIComponent(names[i] + ": " + t)).catch(()=>{});
+};
+window.addEventListener("error",
+  e => gst("JS ERROR: " + e.message + " @" + e.lineno));
+let cropped = false;
+document.getElementById("crop").onclick = () => {
+  cropped = !cropped;
+  for (const v of [vid(0), vid(1)])
+    { v.style.transform = cropped ? "scale(1.14)" : "";
+      v.style.objectFit = cropped ? "cover" : "contain"; }
+  document.getElementById("crop").textContent =
+    cropped ? "Show full frame" : "Hide watermarks";
+};
+document.getElementById("reveal").onclick = () => {
+  document.getElementById("t" + side.lucy).textContent = "Lucy 2.5 (Decart)";
+  document.getElementById("t" + side.xmax).textContent = "Xmax X2.0";
+};
+
+let cam;
+async function camera() {
+  try {
+    cam = await navigator.mediaDevices.getUserMedia(
+      {video: {width: 1280, height: 720, frameRate: 30}, audio: false});
+  } catch (e) {
+    gst("CAMERA BLOCKED (" + e.name + "). Fix: System Settings > Privacy & "
+        + "Security > Camera > enable Google Chrome, then rerun.");
+    st(0, "no camera - nothing to send");
+    st(1, "no camera - nothing to send");
+    throw e;
+  }
+  document.getElementById("cam").srcObject = cam;
+}
+
+/* ---------------- Lucy: documented signaling over /v1/stream ------------- */
+let lucyWs;
+async function startLucy() {
+  const i = side.lucy;
+  st(i, "connecting signaling...");
+  lucyWs = new WebSocket("wss://api.decart.ai/v1/stream?api_key="
+                         + encodeURIComponent(decartKey) + "&model=lucy-2.5");
+  const pc = new RTCPeerConnection();
+  pc.oniceconnectionstatechange = () => {
+    if (["failed", "disconnected"].includes(pc.iceConnectionState))
+      st(i, "media path " + pc.iceConnectionState
+            + " - VPN is likely blocking UDP (use the WireGuard config)");
+  };
+  pc.ontrack = e => {
+    vid(i).srcObject = e.streams[0];
+    st(i, "negotiated - waiting for frames...");
+    setTimeout(() => {
+      st(i, vid(i).videoWidth > 0
+        ? "frames flowing (" + vid(i).videoWidth + "x" + vid(i).videoHeight + ")"
+        : "negotiated but NO FRAMES after 10s - VPN blocking UDP media; "
+          + "switch to the WireGuard config and rerun");
+    }, 10000);
+  };
+  pc.onicecandidate = e => { if (e.candidate)
+    lucyWs.send(JSON.stringify({type: "ice-candidate",
+                                candidate: e.candidate.toJSON()})); };
+  const track = cam.getVideoTracks()[0].clone();
+  const tx = pc.addTransceiver(track, {direction: "sendrecv",
+                                       streams: [new MediaStream([track])]});
+  /* mirror the validated adapter: prefer H264 upstream */
+  if (RTCRtpSender.getCapabilities) {
+    const codecs = RTCRtpSender.getCapabilities("video").codecs;
+    const h264 = codecs.filter(c => /H264/i.test(c.mimeType));
+    if (h264.length && tx.setCodecPreferences)
+      tx.setCodecPreferences([...h264,
+        ...codecs.filter(c => !/H264/i.test(c.mimeType))]);
+  }
+  const pending = [];
+  lucyWs.onmessage = async ev => {
+    const m = JSON.parse(ev.data);
+    if (m.type === "answer") {
+      await pc.setRemoteDescription({type: "answer", sdp: m.sdp});
+      for (const c of pending.splice(0)) await pc.addIceCandidate(c);
+    } else if (m.type === "ice-candidate") {
+      if (pc.remoteDescription) await pc.addIceCandidate(m.candidate);
+      else pending.push(m.candidate);
+    } else if (m.type === "session_id") { st(i, "session " + m.session_id.slice(0, 8));
+    } else if (m.type === "prompt_ack") { st(i, "prompt " + (m.success ? "applied" : "REJECTED"));
+    } else if (m.type === "generation_ended") { st(i, "ENDED: " + m.reason); }
+  };
+  await new Promise((res, rej) => { lucyWs.onopen = res;
+                                    lucyWs.onerror = () => rej(new Error("ws failed")); });
+  const offer = await pc.createOffer();
+  await pc.setLocalDescription(offer);
+  lucyWs.send(JSON.stringify({type: "offer", sdp: pc.localDescription.sdp}));
+  sendLucyPrompt();
+}
+function sendLucyPrompt() {
+  if (lucyWs?.readyState === 1)
+    lucyWs.send(JSON.stringify({type: "prompt",
+      prompt: document.getElementById("prompt").value, enhance_prompt: false}));
+}
+
+/* ---------------- Xmax: vendored SDK, temp key --------------------------- */
+let xmaxSession;
+async function startXmax() {
+  const i = side.xmax;
+  st(i, "connecting SDK...");
+  const {createXmaxClient, models} = await import("./vendor/index.js");
+  const xmaxClient = createXmaxClient({apiKey: xmaxKey});
+  /* connect() returns the session object; live updates go through it */
+  xmaxSession = await xmaxClient.realtime.connect(
+    new MediaStream([cam.getVideoTracks()[0].clone()]), {
+      model: models.realtime("x2.0"),
+      /* SDK reads options.context.prompt; a top-level prompt is silently
+         ignored (found live: output was a passthrough mirror) */
+      context: {prompt: document.getElementById("prompt").value},
+      onRemoteStream: s => {
+        /* fires several times (audio/video arrive as separate streams) -
+           only take streams that actually carry video, never overwrite a
+           playing one with a videoless one */
+        const nv = s.getVideoTracks().length;
+        st(i, "remote stream (video tracks: " + nv + ")");
+        if (nv > 0) {
+          vid(i).srcObject = s;
+          setTimeout(() => st(i, vid(i).videoWidth > 0
+            ? "frames flowing (" + vid(i).videoWidth + "x" + vid(i).videoHeight + ")"
+            : "video track present but no frames after 8s"), 8000);
+        }
+      },
+    });
+}
+
+const PRESETS = [
+  "oil painting style, thick impasto brush strokes, warm palette",
+  "anime style, cel shading, vibrant colors",
+  "cyberpunk neon city, rain, holographic glow",
+  "black and white 1920s film noir, heavy grain",
+  "watercolor sketch, soft pastel washes",
+  "made of LEGO bricks",
+  "vintage comic book, halftone dots, bold ink outlines",
+];
+const chips = document.getElementById("chips");
+for (const p of PRESETS) {
+  const c = document.createElement("span");
+  c.className = "chip"; c.textContent = p.split(",")[0];
+  c.title = p;
+  c.onclick = () => { document.getElementById("prompt").value = p;
+                      document.getElementById("apply").click(); };
+  chips.appendChild(c);
+}
+document.getElementById("prompt").addEventListener("keydown", e => {
+  if (e.key === "Enter") document.getElementById("apply").click();
+});
+
+document.getElementById("apply").onclick = async () => {
+  sendLucyPrompt();
+  /* session.set() is the SDK's live change-condition path */
+  if (xmaxSession) {
+    try {
+      await xmaxSession.set({prompt: document.getElementById("prompt").value});
+      st(side.xmax, "prompt updated live");
+    } catch (e) { st(side.xmax, "prompt update failed: " + e.message); }
+  }
+};
+
+/* debug self-screenshot: with ?snap=1, POST a composite of both panes +
+   camera after 30s so the serving process can verify rendering headlessly */
+if (q.get("snap")) setTimeout(() => {   // auto-exercise live prompt update
+  document.getElementById("prompt").value = "black and white film noir, heavy grain";
+  document.getElementById("apply").click();
+}, 18000);
+if (q.get("snap")) setTimeout(() => {
+  const c = document.createElement("canvas");
+  c.width = 1280; c.height = 400;
+  const x = c.getContext("2d");
+  x.fillStyle = "#222"; x.fillRect(0, 0, 1280, 400);
+  try { x.drawImage(vid(0), 0, 0, 640, 360); } catch {}
+  try { x.drawImage(vid(1), 640, 0, 640, 360); } catch {}
+  try { x.drawImage(document.getElementById("cam"), 540, 340, 200, 60); } catch {}
+  x.fillStyle = "#9f9"; x.font = "16px monospace";
+  x.fillText("A: " + document.getElementById("s0").textContent, 10, 390);
+  x.fillText("B: " + document.getElementById("s1").textContent, 650, 390);
+  c.toBlob(b => fetch("/snap", {method: "POST", body: b}));
+}, 30000);
+
+(async () => {
+  gst("camera...");
+  await camera();
+  gst("connecting both products");
+  const jobs = [];
+  if (decartKey) jobs.push(startLucy().catch(e => st(side.lucy, "ERR " + e.message)));
+  else st(side.lucy, "no decart key passed");
+  if (xmaxKey) jobs.push(startXmax().catch(e => st(side.xmax, "ERR " + e.message)));
+  else st(side.xmax, "no xmax key passed");
+  await Promise.allSettled(jobs);
+  gst("up - wave at the camera; reveal when you've formed an opinion");
+})();
+</script>
