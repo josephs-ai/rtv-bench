@@ -82,7 +82,7 @@ def test_sweep_with_injected_models():
                       clip_fn=lambda f, p: 0.3, sample_every=10)
     assert m.flicker_lpips is not None and abs(m.flicker_lpips - 0.01) < 1e-9
     assert m.identity is not None
-    assert m.clip_adherence == 0.3
+    assert abs(m.clip_adherence - 0.3) < 1e-9  # fp-safe
     assert m.motion_epe is None  # no source frames given: legitimately absent
     print("  sweep runs on injected models; absent models -> None not fake")
 
