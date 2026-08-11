@@ -1,37 +1,53 @@
 {
-  "verdict": "INVALID_INPUTS",
+  "verdict": "lossless_required",
   "threshold": 0.02,
   "max_frames": 300,
   "device": "mps",
   "clips": [
     {
       "clip": "happy-oyster-motion",
-      "lossless_lpips": 0.0032113552561605163,
-      "crf12_lpips": 0.0032113552561605163,
+      "lossless_lpips": 0.0006653190110668992,
+      "crf12_lpips": 0.0006653190110668992,
       "delta": 0.0,
       "relative_delta": 0.0,
-      "lossless_mb": 0.068203,
-      "crf12_mb": 0.007367
+      "lossless_mb": 0.07069,
+      "crf12_mb": 0.00747
     },
     {
       "clip": "happy-oyster-static",
-      "lossless_lpips": 0.0007159411097350328,
-      "crf12_lpips": 0.0007159411097350328,
+      "lossless_lpips": 0.0012915016097180983,
+      "crf12_lpips": 0.0012915016097180983,
       "delta": 0.0,
       "relative_delta": 0.0,
-      "lossless_mb": 0.065767,
-      "crf12_mb": 0.007087
+      "lossless_mb": 0.036881,
+      "crf12_mb": 0.004692
     },
     {
       "clip": "happy-oyster-texture",
-      "lossless_lpips": 0.005841608132634844,
-      "crf12_lpips": 0.005841608132634844,
+      "lossless_lpips": 0.0,
+      "crf12_lpips": 0.0,
       "delta": 0.0,
-      "relative_delta": 0.0,
-      "lossless_mb": 0.037925,
-      "crf12_mb": 0.004863
+      "relative_delta": Infinity,
+      "lossless_mb": 0.073873,
+      "crf12_mb": 0.007668
+    },
+    {
+      "clip": "lingbot-world-2-motion",
+      "lossless_lpips": 0.08939110860228539,
+      "crf12_lpips": 0.0896055834988753,
+      "delta": 0.00021447489658991958,
+      "relative_delta": 0.0023992866845868412,
+      "lossless_mb": 0.11715,
+      "crf12_mb": 0.085597
+    },
+    {
+      "clip": "lingbot-world-2-static",
+      "lossless_lpips": 0.01892983719681617,
+      "crf12_lpips": 0.018574176912186637,
+      "delta": -0.00035566028462953245,
+      "relative_delta": -0.018788343551594377,
+      "lossless_mb": 17.520388,
+      "crf12_mb": 4.525
     }
-  ],
-  "invalidation_reason": "Ran on 3 Happy Oyster captures only (106-192 frames, 49-88KB FFV1 - low-entropy early-generation content); LingBot captures were empty (0 frames). The diversity requirement (static/motion/texture across products, healthy captures confirmed by eyeball) is not met; a 0.00% delta on degenerate content proves nothing. Re-run on healthy captures.",
-  "gate_dependency_note": "Generation captures to date have ZERO temporal content (HO returned a static status/placeholder image on all three prompts - the world generates asynchronously and the real track was never reached). Whether healthy generation output exercises LPIPS enough for this check is UNKNOWN until real generated video exists; if it proves too uniform, this check moves behind Tier-1 footage (4th camera-gated item)."
+  ]
 }

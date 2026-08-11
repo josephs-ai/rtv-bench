@@ -3,25 +3,25 @@
   "model": "reactor/echo",
   "lens": "M",
   "n_runs": 30,
-  "n_ok_runs": 0,
-  "n_lag_samples": 0,
+  "n_ok_runs": 12,
+  "n_lag_samples": 59,
   "platform_floor_ms": {
-    "p50": null,
-    "p95": null,
-    "mean": null,
-    "jitter_sigma": null
+    "p50": 1894.5,
+    "p95": 1961.2,
+    "mean": 1738.1,
+    "jitter_sigma": 334.1
   },
-  "delivery": "unknown",
+  "delivery": "chunk-bursty (p95 gap 295 ms vs 33.3 ms frame period; TTFF/stall interpretation must account for chunking)",
   "gap_stats_ms": {
-    "median_p50": null,
-    "median_p95": null,
+    "median_p50": 1.02,
+    "median_p95": 294.91499999999996,
     "frame_period": 33.333333333333336
   },
   "note": "Floor includes SDK decode before the timestamp - identical treatment for every Lens M product, so subtraction is valid within Lens M.",
   "runs": [
     {
       "run": 0,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -34,7 +34,7 @@
     },
     {
       "run": 1,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -47,7 +47,7 @@
     },
     {
       "run": 2,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -60,7 +60,7 @@
     },
     {
       "run": 3,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -73,20 +73,29 @@
     },
     {
       "run": 4,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "stall",
+      "n_frames": 135,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 24335.511666999082,
+        "transport_connecting_ms": 22042.782083997736,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        961.06
+      ],
+      "lag_confidences": [
+        0.988
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 1.0,
+        "p95": 72.54,
+        "max": 2821.03
       }
     },
     {
       "run": 5,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -99,20 +108,29 @@
     },
     {
       "run": 6,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "stall",
+      "n_frames": 69,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 7834.838791008224,
+        "transport_connecting_ms": 14284.336541997618,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        961.04
+      ],
+      "lag_confidences": [
+        0.988
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 1.01,
+        "p95": 140.87,
+        "max": 2417.59
       }
     },
     {
       "run": 7,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -125,7 +143,7 @@
     },
     {
       "run": 8,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -138,7 +156,7 @@
     },
     {
       "run": 9,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -151,7 +169,7 @@
     },
     {
       "run": 10,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -164,20 +182,29 @@
     },
     {
       "run": 11,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "stall",
+      "n_frames": 85,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 8899.899915995775,
+        "transport_connecting_ms": 10587.935959003516,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        861.04
+      ],
+      "lag_confidences": [
+        0.988
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 1.12,
+        "p95": 454.4,
+        "max": 2464.21
       }
     },
     {
       "run": 12,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -190,20 +217,29 @@
     },
     {
       "run": 13,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "stall",
+      "n_frames": 86,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 3582.6439169904916,
+        "transport_connecting_ms": 19466.708125008154,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        0.0
+      ],
+      "lag_confidences": [
+        0.069
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 1.12,
+        "p95": 882.66,
+        "max": 2200.75
       }
     },
     {
       "run": 14,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -216,20 +252,39 @@
     },
     {
       "run": 15,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "source_exhausted",
+      "n_frames": 365,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 7998.1580000021495,
+        "transport_connecting_ms": 17651.488792005694,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        894.37,
+        1194.51,
+        1127.86,
+        1127.78,
+        1127.83,
+        1127.69
+      ],
+      "lag_confidences": [
+        0.988,
+        0.988,
+        0.989,
+        0.988,
+        0.987,
+        0.989
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 1.05,
+        "p95": 455.65,
+        "max": 1978.96
       }
     },
     {
       "run": 16,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -242,20 +297,29 @@
     },
     {
       "run": 17,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "stall",
+      "n_frames": 49,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 5074.080042002606,
+        "transport_connecting_ms": 18579.829624999547,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        0.0
+      ],
+      "lag_confidences": [
+        0.086
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 1.18,
+        "p95": 509.48,
+        "max": 3361.07
       }
     },
     {
       "run": 18,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -268,7 +332,7 @@
     },
     {
       "run": 19,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -281,7 +345,7 @@
     },
     {
       "run": 20,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -294,7 +358,7 @@
     },
     {
       "run": 21,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -307,7 +371,7 @@
     },
     {
       "run": 22,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -320,46 +384,99 @@
     },
     {
       "run": 23,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "source_exhausted",
+      "n_frames": 232,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 6108.600416991976,
+        "transport_connecting_ms": 14253.7970830017,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1861.15,
+        1827.79,
+        1661.1,
+        1894.5
+      ],
+      "lag_confidences": [
+        0.989,
+        0.988,
+        0.989,
+        0.013
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 1.17,
+        "p95": 790.29,
+        "max": 2099.0
       }
     },
     {
       "run": 24,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "source_exhausted",
+      "n_frames": 582,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 3859.806957989349,
+        "transport_connecting_ms": 13114.621417000308,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1494.42,
+        1494.52,
+        1494.37,
+        1461.04
+      ],
+      "lag_confidences": [
+        0.989,
+        0.989,
+        0.989,
+        0.985
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 1.03,
+        "p95": 204.88,
+        "max": 2175.53
       }
     },
     {
       "run": 25,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "source_exhausted",
+      "n_frames": 562,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2610.48975000449,
+        "transport_connecting_ms": 9402.529042010428,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1900.0,
+        1861.14,
+        1627.9,
+        1627.7,
+        1627.84,
+        1627.73,
+        1794.38,
+        1794.41
+      ],
+      "lag_confidences": [
+        0.988,
+        0.989,
+        0.988,
+        0.99,
+        0.988,
+        0.987,
+        0.989,
+        0.988
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 0.91,
+        "p95": 235.6,
+        "max": 1741.79
       }
     },
     {
       "run": 26,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
+      "error": "TimeoutError: ",
       "n_frames": 0,
       "lag_samples_ms": [],
       "lag_confidences": [],
@@ -372,41 +489,134 @@
     },
     {
       "run": 27,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "source_exhausted",
+      "n_frames": 593,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 2785.5631669954164,
+        "transport_connecting_ms": 19052.644833995146,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1961.12,
+        1961.12,
+        1961.09,
+        1961.14,
+        1961.0,
+        1961.14,
+        1961.06,
+        1961.15,
+        1927.82,
+        1927.7,
+        1927.83,
+        1894.49,
+        1861.05,
+        1861.03
+      ],
+      "lag_confidences": [
+        0.987,
+        0.989,
+        0.987,
+        0.989,
+        0.987,
+        0.989,
+        0.987,
+        0.988,
+        0.988,
+        0.989,
+        0.988,
+        0.988,
+        0.989,
+        0.987
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 0.85,
+        "p95": 250.98,
+        "max": 842.37
       }
     },
     {
       "run": 28,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "source_exhausted",
+      "n_frames": 573,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 3733.59000000346,
+        "transport_connecting_ms": 4024.978708010167,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1927.79,
+        1927.8,
+        1927.74,
+        1927.81,
+        1927.68,
+        1927.82,
+        1927.69,
+        1861.14,
+        1861.01,
+        1827.82,
+        2161.16,
+        2161.04,
+        2161.06
+      ],
+      "lag_confidences": [
+        0.988,
+        0.989,
+        0.989,
+        0.988,
+        0.987,
+        0.989,
+        0.988,
+        0.988,
+        0.991,
+        0.03,
+        0.989,
+        0.987,
+        0.987
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 0.49,
+        "p95": 318.19,
+        "max": 1170.69
       }
     },
     {
       "run": 29,
-      "error": "RuntimeError: Failed to create session: 402 {\"error\":\"credits_depleted\",\"message\":\"Your credits have been depleted. Please add credits to continue.\"}",
-      "n_frames": 0,
-      "lag_samples_ms": [],
-      "lag_confidences": [],
-      "stop_reason": "exception",
+      "stop_reason": "source_exhausted",
+      "n_frames": 477,
+      "resolved_version": "0.0.0@1.20260810.21365",
+      "connect_timings": {
+        "session_creation_ms": 4021.62754200981,
+        "transport_connecting_ms": 10236.629166000057,
+        "total_ms": 0.0
+      },
+      "lag_samples_ms": [
+        1961.12,
+        1961.13,
+        1961.1,
+        1961.16,
+        1794.34,
+        1700.0,
+        1961.17,
+        1961.05,
+        1961.05
+      ],
+      "lag_confidences": [
+        0.988,
+        0.986,
+        0.99,
+        0.987,
+        0.986,
+        0.989,
+        0.988,
+        0.991,
+        0.986
+      ],
       "gaps_ms": {
-        "p50": null,
-        "p95": null,
-        "max": null
+        "p50": 0.99,
+        "p95": 271.64,
+        "max": 1588.27
       }
     }
   ]

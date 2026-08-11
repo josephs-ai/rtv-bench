@@ -1,0 +1,14 @@
+{
+  "placeholder_frames_skipped": 2,
+  "went_live": true,
+  "product": "happy-oyster",
+  "model": "reactor/happy-oyster-director",
+  "content": "texture",
+  "prompt": "extreme close-up of wind rippling through tall grass beside a knitted wool blanket, intricate fine detail",
+  "frames": 125,
+  "stop_reason": "stall",
+  "resolved_version": "0.0.0@1.20260810.21365",
+  "wall_s": 46.9,
+  "errors": [],
+  "capture": "/Users/joseph/rtv-eval/data/pilot-captures/happy-oyster-texture.mkv"
+}

@@ -1,0 +1,14 @@
+{
+  "placeholder_frames_skipped": 2,
+  "went_live": true,
+  "product": "lingbot-world-2",
+  "model": "reactor/lingbot-world-2",
+  "content": "motion",
+  "prompt": "a crowded festival street at night, dancers spinning, fast camera movement, confetti falling everywhere",
+  "frames": 409,
+  "stop_reason": "orchestrator",
+  "resolved_version": "0.0.0@1.20260810.21365",
+  "wall_s": 130.6,
+  "errors": [],
+  "capture": "/Users/joseph/rtv-eval/data/pilot-captures/lingbot-world-2-motion.mkv"
+}

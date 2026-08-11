@@ -1,0 +1,14 @@
+{
+  "placeholder_frames_skipped": 3,
+  "went_live": true,
+  "product": "lingbot-world-2",
+  "model": "reactor/lingbot-world-2",
+  "content": "static",
+  "prompt": "a still life of ceramic bowls on a wooden table, soft window light, completely still scene, nothing moves",
+  "frames": 21,
+  "stop_reason": "stall",
+  "resolved_version": "0.0.0@1.20260810.21365",
+  "wall_s": 136.0,
+  "errors": [],
+  "capture": "/Users/joseph/rtv-eval/data/pilot-captures/lingbot-world-2-static.mkv"
+}
