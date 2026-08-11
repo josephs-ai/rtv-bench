@@ -1,0 +1,30 @@
+{
+  "display": [
+    1280,
+    720
+  ],
+  "normalize_args": [
+    "-c:v",
+    "libx264",
+    "-crf",
+    "18",
+    "-preset",
+    "medium",
+    "-pix_fmt",
+    "yuv420p",
+    "-fps_mode",
+    "cfr",
+    "-an"
+  ],
+  "crop_margin": 0.07,
+  "key": {
+    "c3e058e0796d": {
+      "product_key": "lingbot-world-2",
+      "run_id": "lingbot-world-2-motion.mkv"
+    },
+    "2568f1f9413b": {
+      "product_key": "lingbot-world-2",
+      "run_id": "lingbot-world-2-static.mkv"
+    }
+  }
+}
