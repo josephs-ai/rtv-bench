@@ -1,0 +1,47 @@
+[
+ {
+  "clip_id": "V1",
+  "start_s": 0.0,
+  "end_s": 14.5
+ },
+ {
+  "clip_id": "V2",
+  "start_s": 14.5,
+  "end_s": 29.2
+ },
+ {
+  "clip_id": "V3",
+  "start_s": 29.2,
+  "end_s": 44.2
+ },
+ {
+  "clip_id": "V5",
+  "start_s": 44.2,
+  "end_s": 63.6
+ },
+ {
+  "clip_id": "V6",
+  "start_s": 63.6,
+  "end_s": 79.917
+ },
+ {
+  "clip_id": "V7",
+  "start_s": 79.917,
+  "end_s": 95.017
+ },
+ {
+  "clip_id": "V8",
+  "start_s": 95.017,
+  "end_s": 108.533
+ },
+ {
+  "clip_id": "V9",
+  "start_s": 108.533,
+  "end_s": 124.055
+ },
+ {
+  "clip_id": "V10",
+  "start_s": 124.055,
+  "end_s": 184.555
+ }
+]
