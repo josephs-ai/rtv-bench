@@ -43,6 +43,7 @@ class Method(enum.Enum):
     """
 
     IMPULSE_XCORR = "impulse_xcorr"
+    MOTION_XCORR = "motion_xcorr"   # frame-diff energy; survives hard grades
     BLOCK_STRIP = "block_strip"
     API_TIMESTAMP = "api_timestamp"
     FRAME_DIVERGENCE = "frame_divergence"

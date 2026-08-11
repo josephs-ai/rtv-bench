@@ -177,3 +177,40 @@ def measure(input_lum: np.ndarray, output_lum: np.ndarray, fps: float,
         return [LatencySample(lag_ms=coarse_ms, interval=Interval.V2V_FRAME_TO_FRAME,
                               method=Method.IMPULSE_XCORR, confidence=coarse_conf * 0.5)]
     return samples
+
+
+def motion_xcorr(input_frames_lum, output_frames_lum, fps: float,
+                 max_lag_ms: float = 2000.0):
+    """Global lag from MOTION-energy cross-correlation between panes.
+
+    Why it exists (found live, 2026-08-11): a learned cinematic grade applies
+    LOCAL tone mapping - the global luminance impulse that survives synthetic
+    gamma restyles is destroyed, and per-flash matching locks onto noise at
+    physically impossible lags. Motion is what a V2V product must preserve to
+    be a V2V product, so the frame-difference energy signal survives styles
+    that kill luminance transients.
+
+    Returns (lag_ms, z_confidence) for the whole clip - ONE sample per run;
+    N runs give N samples. Callers must treat z < 4 as unusable.
+    """
+    import numpy as np
+
+    def motion(frames):
+        return np.array([np.abs(np.asarray(frames[i], dtype=np.float64)
+                                - np.asarray(frames[i - 1], dtype=np.float64)).mean()
+                         for i in range(1, len(frames))])
+
+    def zn(x):
+        return (x - x.mean()) / max(x.std(), 1e-9)
+
+    a, b = zn(motion(input_frames_lum)), zn(motion(output_frames_lum))
+    max_lag = max(2, int(max_lag_ms * fps / 1000.0))
+    scores = []
+    for lag in range(0, min(max_lag, len(a) - 8)):
+        n = len(a) - lag
+        scores.append(float(np.dot(a[:n], b[lag:lag + n]) / n))
+    scores = np.asarray(scores)
+    k = int(np.argmax(scores))
+    rest = np.delete(scores, range(max(0, k - 3), min(len(scores), k + 4)))
+    z = float((scores[k] - rest.mean()) / max(rest.std(), 1e-9))
+    return k * 1000.0 / fps, z

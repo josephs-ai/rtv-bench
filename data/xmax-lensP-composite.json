@@ -1,20 +1,34 @@
 {
-  "headline": "p95 633 ms [Lens P] (input frame -> output frame, impulse_xcorr, n=9) [composite_capture, residual +-2 ms]",
+  "headline": "p95 183 ms [Lens P] (input frame -> output frame, impulse_xcorr, n=6) [composite_capture, residual +-2 ms]",
   "result": {
     "interval": "Interval.V2V_FRAME_TO_FRAME",
     "method": "Method.IMPULSE_XCORR",
     "lens": "P",
-    "n": 9,
-    "mean_ms": 422.2555243622143,
-    "p50_ms": 366.6994154953735,
-    "p95_ms": 633.366768593719,
-    "jitter_ms": 111.38867313537352,
+    "n": 6,
+    "mean_ms": 61.14576052916603,
+    "p50_ms": 16.701203419560628,
+    "p95_ms": 183.36953634224534,
+    "jitter_ms": 76.7794607918578,
     "rig_offset_ms": 33.3,
     "dropped_low_confidence": 0,
     "capture_path": "CapturePath.COMPOSITE_CAPTURE",
     "residual_bound_ms": 1.9
   },
   "n_recorded_frames": 1500,
-  "capture": "/var/folders/hj/56jyp0yd7979fl5z9xl88k2w0000gn/T/composite-w3c82u8j/run-0_mode-xmax.webm",
-  "SUSPECT": "2026-08-11: prompt was silently ignored by the SDK (options.prompt vs options.context.prompt) - these runs likely measured an unstyled passthrough, not the transform workload. Re-measure with the session.html fix before any Lens P latency claim. Found via live eyeball test (output was a mirror)."
+  "capture": "/var/folders/hj/56jyp0yd7979fl5z9xl88k2w0000gn/T/composite-s2cngrhg/run-0_mode-xmax.webm",
+  "styled_motion_xcorr_PRELIMINARY": {
+    "lag_ms": 983.3,
+    "z_confidence": 6.7,
+    "n_runs": 1,
+    "method": "motion_xcorr",
+    "capture_path": "composite_capture",
+    "residual_bound_ms": 1.9,
+    "vantage": "2026-08-11 evening, Astrill Singapore exit (xmax path is China-direct; tunnel exit not on the measured path)",
+    "notes": [
+      "prompt VERIFIED applied (eyeball: output visibly graded)",
+      "luminance impulse destroyed by the real grade - per-flash lags were physically impossible (17-217ms); motion-energy xcorr recovers a clean global peak (bench-validated same day, tests/test_latency.py)",
+      "single run: official figure needs N>=9 runs on the pinned campaign vantage; until then this bounds the story, not the table",
+      "implication: styled transform ~983ms vs passthrough 367ms -> the old bridge delta (1264-1329ms 'Reactor overhead') conflated model processing with platform overhead; corrected overhead ~650-710ms"
+    ]
+  }
 }

@@ -140,9 +140,19 @@ async def one_capture(product_key, model_name, style, content, prompt, seconds):
             prev = state["prev"]
             state["prev"] = frame.copy()
             state["waited"] += 1
-            if prev is not None and prev.shape == frame.shape and                     float(np.abs(frame.astype(np.int16)
-                                 - prev.astype(np.int16)).mean()) > 1.0:
-                state["live"] = True  # content moving - start recording
+            moving = (prev is not None and prev.shape == frame.shape and
+                      float(np.abs(frame.astype(np.int16)
+                                   - prev.astype(np.int16)).mean()) > 1.0)
+            # Content gate, hardened AGAIN (2026-08-11): Happy Oyster's
+            # world-generation placeholder is an ANIMATED colour field - it
+            # changes over time, defeating the motion-only gate (three
+            # "healthy" captures were empty mustard rectangles; caught by the
+            # VLM judge + human eyeball). Real content also has SPATIAL
+            # detail; a colour field does not.
+            detailed = float(frame.std(axis=(0, 1)).mean()) > 12.0 and                 float(np.abs(np.diff(frame.mean(axis=2).astype(np.float64),
+                                     axis=1)).mean()) > 1.5
+            if moving and detailed:
+                state["live"] = True  # moving AND spatially structured
             else:
                 return
         writer.write(frame)

@@ -82,6 +82,43 @@ def test_impulse_reports_low_confidence_when_no_signal():
     print("  no-signal: max confidence %.2f (correctly not certain)" % conf)
 
 
+def test_motion_xcorr_survives_local_tone_mapping():
+    """Live finding 2026-08-11: a learned cinematic grade applies LOCAL tone
+    mapping - the luminance impulse dies and per-flash matching returns
+    physically impossible lags. Motion energy must recover the true lag
+    through a transform that destroys luminance monotonicity."""
+    lag_frames, n = 55, 900   # ~917ms at 60fps: the styled-Xmax regime
+    rng2 = np.random.default_rng(21)
+    # scene = moving bright blob on textured background (2D frames this time)
+    frames = []
+    for t in range(n):
+        f = rng2.normal(90, 4, (36, 64))
+        cx = int(32 + 24 * np.sin(t / 37.0))
+        f[10:26, max(0, cx - 6):cx + 6] += 90
+        frames.append(f)
+    delayed = [frames[0]] * lag_frames + frames[:-lag_frames]
+
+    def local_tone_map(f):
+        # non-monotonic local grade: inverts highlights regionally, clips,
+        # re-normalizes per-tile - global luminance impulse would not survive
+        g = f.copy()
+        g[:, :32] = 255 - g[:, :32] * 0.8
+        g[:, 32:] = np.clip(g[:, 32:] * 0.4 + 60, 0, 130)
+        return g + rng2.normal(0, 2, f.shape)
+
+    styled = [local_tone_map(f) for f in delayed]
+    lag_ms, z = impulse.motion_xcorr(frames, styled, FPS)
+    expected = lag_frames * 1000.0 / FPS
+    assert abs(lag_ms - expected) < 34.0, (lag_ms, expected)
+    assert z > 4.0, z
+    # and an unrelated output must NOT produce a confident answer
+    junk = [rng2.normal(100, 6, (36, 64)) for _ in range(n)]
+    _, zj = impulse.motion_xcorr(frames, junk, FPS)
+    assert zj < 4.0, zj
+    print("  motion xcorr: true %.0f ms recovered as %.0f ms (z=%.1f); "
+          "unrelated output z=%.1f refused" % (expected, lag_ms, z, zj))
+
+
 def test_blockstrip_roundtrips_clean():
     for idx, ok in overlay.verify_roundtrip():
         assert ok, idx
