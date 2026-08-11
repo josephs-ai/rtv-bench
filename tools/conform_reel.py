@@ -38,9 +38,10 @@ DATA = os.path.join(REPO, "data")
 INPUT_SPECS = {
     "lucy-2.5": {"spec": conform.InputSpec("lucy-2.5", 1280, 720, 30.0),
                  "status": "CONFIRMED (docs.platform.decart.ai: 720p30)"},
-    "xmax-x2.0": {"spec": None,
-                  "status": "PENDING capability probe - Reactor-served input "
-                            "resolution/fps not yet confirmed"},
+    "xmax-x2.0": {"spec": conform.InputSpec("xmax-x2.0", 1280, 720, 30.0),
+                  "status": "CONFIRMED empirically (live sessions 2026-08-11: "
+                            "720p30 camera ingested for minutes, output "
+                            "1280x736; native path)"},
     "vidu-s1": {"spec": None,
                 "status": "PENDING enterprise-beta access"},
 }
