@@ -69,6 +69,9 @@ def main():
     ap.add_argument("--seed", type=int, default=20260811)
     ap.add_argument("--dry-run", action="store_true",
                     help="build + print the plan, no API calls")
+    ap.add_argument("--audit", action="store_true",
+                    help="artifact-audit mode: taxonomy-constrained anomaly "
+                         "findings instead of rubric scores")
     args = ap.parse_args()
     load_env()
 
@@ -101,7 +104,7 @@ def main():
             print("  %s repeat=%s" % (p.blind_id, p.is_hidden_repeat))
         return 0
 
-    outdir = os.path.join(REPO, "data", "vlm-judge")
+    outdir = os.path.join(REPO, "data", "vlm-judge-audit" if args.audit else "vlm-judge")
     keydir = os.path.join(REPO, "data", "vlm-judge-key")
     os.makedirs(outdir, exist_ok=True)
     os.makedirs(keydir, exist_ok=True)
@@ -119,16 +122,25 @@ def main():
             secs = json.load(open(item.capture_path.replace(".mkv", ".json"))
                              ).get("wall_s", total / 16.0)
             try:
-                result = judge.judge(frames, dims, float(secs), item.prompt_text)
+                if args.audit:
+                    result = judge.audit(frames, float(secs))
+                else:
+                    result = judge.judge(frames, dims, float(secs), item.prompt_text)
             except Exception as e:
                 print("  %s FAILED: %s" % (p.blind_id, str(e)[:120]))
                 continue
             journal.write(journal_line(p, result) + "\n")
             n_ok += 1
-            scores = {d: v["score"] if v["assessable"] else None
-                      for d, v in result["dimensions"].items()}
-            print("  %s -> %s breakdown=%s" % (p.blind_id, scores,
-                                               result["breakdown_observed"]))
+            if args.audit:
+                fs = ["%s(sev%d)" % (f["type"], f["severity"])
+                      for f in result["findings"]]
+                print("  %s -> %s" % (p.blind_id,
+                                      "CLEAN" if result["clean"] else ", ".join(fs)))
+            else:
+                scores = {d: v["score"] if v["assessable"] else None
+                          for d, v in result["dimensions"].items()}
+                print("  %s -> %s breakdown=%s" % (p.blind_id, scores,
+                                                   result["breakdown_observed"]))
     print("%d/%d judgments recorded -> %s" % (n_ok, len(plan), outdir))
     return 0 if n_ok else 1
 

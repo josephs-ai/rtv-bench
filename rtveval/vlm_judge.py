@@ -90,6 +90,73 @@ DIMENSION_SETS = {"v2v": V2V_DIMENSIONS, "generation": GENERATION_DIMENSIONS}
 
 
 # ---------------------------------------------------------------------------
+# Artifact audit mode: hunt AI-edit anomalies against a FIXED taxonomy
+# ---------------------------------------------------------------------------
+
+ARTIFACT_TAXONOMY = [
+    ("identity_morph", "subject gradually becomes a different person/object"),
+    ("boundary_halo", "halo, seam, or matte line around an edited subject"),
+    ("texture_boiling", "surfaces churn or crawl between frames"),
+    ("anatomy_error", "hands/fingers/limbs wrong in count or pose"),
+    ("object_popping", "objects appear, vanish, or teleport without cause"),
+    ("temporal_warp", "background or geometry bends/swims with motion"),
+    ("style_flicker", "style strength pulses on and off"),
+    ("text_gibberish", "signage or text rendered as garbled glyphs"),
+    ("lighting_inconsistency", "shadows or lighting contradict the scene"),
+    ("frozen_patch", "a region stops updating while the rest moves"),
+]
+
+
+def audit_schema() -> dict:
+    ids = [t[0] for t in ARTIFACT_TAXONOMY]
+    return {
+        "type": "object",
+        "properties": {
+            "findings": {"type": "array", "items": {
+                "type": "object",
+                "properties": {
+                    "type": {"type": "string", "enum": ids},
+                    "frames": {"type": "string"},
+                    "severity": {"type": "integer", "enum": [1, 2, 3]},
+                    "description": {"type": "string"},
+                },
+                "required": ["type", "frames", "severity", "description"],
+                "additionalProperties": False,
+            }},
+            "clean": {"type": "boolean"},
+            "notes": {"type": "string"},
+        },
+        "required": ["findings", "clean", "notes"],
+        "additionalProperties": False,
+    }
+
+
+def build_audit_prompt(n_frames: int, clip_seconds: float) -> str:
+    lines = [
+        "You are auditing a video produced or transformed by an AI video "
+        "model, shown as %d frames sampled evenly across %.0f seconds in "
+        "temporal order. You do not know which product made it."
+        % (n_frames, clip_seconds),
+        "Hunt ONLY for the artifact classes listed below. For each one you "
+        "actually observe, report the frame numbers, a severity (1 subtle - "
+        "visible when looking for it; 2 clear - a viewer would notice; "
+        "3 severe - breaks the content), and a concrete description.",
+        "Report NOTHING outside this taxonomy. If the sampled frames show "
+        "none of these, return an empty findings list with clean=true - an "
+        "empty audit of a clean clip is the correct answer, not a failure "
+        "to find something.",
+        "Frame-sampling caveat: per-frame flicker is not observable at this "
+        "sampling rate - only report classes whose evidence is visible in "
+        "the frames you were given.",
+        "",
+        "Artifact classes:",
+    ]
+    for aid, desc in ARTIFACT_TAXONOMY:
+        lines.append("  %s: %s" % (aid, desc))
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
 # Pure logic: frame sampling, blinded plan with hidden repeats, gates
 # ---------------------------------------------------------------------------
 
@@ -375,6 +442,29 @@ class ClaudeJudge:
         out["_model"] = response.model
         out["_usage"] = {"in": response.usage.input_tokens,
                          "out": response.usage.output_tokens}
+        return out
+
+    def audit(self, frames_jpeg: Sequence[bytes], clip_seconds: float) -> dict:
+        """Artifact audit: taxonomy-constrained anomaly findings."""
+        import base64
+        content = []
+        for i, jpg in enumerate(frames_jpeg):
+            content.append({"type": "text", "text": "Frame %d:" % (i + 1)})
+            content.append({"type": "image", "source": {
+                "type": "base64", "media_type": "image/jpeg",
+                "data": base64.standard_b64encode(jpg).decode()}})
+        content.append({"type": "text",
+                        "text": build_audit_prompt(len(frames_jpeg), clip_seconds)})
+        response = self.client.messages.create(
+            model=self.model, max_tokens=self.max_tokens,
+            output_config={"format": {"type": "json_schema",
+                                      "schema": audit_schema()}},
+            messages=[{"role": "user", "content": content}],
+        )
+        if response.stop_reason == "refusal":
+            raise JudgeRefusal("audit refused")
+        out = json.loads(next(b.text for b in response.content if b.type == "text"))
+        out["_model"] = response.model
         return out
 
     def judge_pair(self, frames_a: Sequence[bytes], frames_b: Sequence[bytes],

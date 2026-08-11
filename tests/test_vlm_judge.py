@@ -156,6 +156,22 @@ def test_vbench_port_formulas():
           "clips refuse")
 
 
+def test_artifact_audit_taxonomy_and_schema():
+    from rtveval.vlm_judge import (ARTIFACT_TAXONOMY, audit_schema,
+                                   build_audit_prompt)
+    ids = [t[0] for t in ARTIFACT_TAXONOMY]
+    assert len(ids) == len(set(ids)), "duplicate artifact ids"
+    schema = audit_schema()
+    assert schema["properties"]["findings"]["items"]["properties"]["type"]["enum"] == ids
+    assert schema["properties"]["findings"]["items"]["properties"]["severity"]["enum"] == [1, 2, 3]
+    p = build_audit_prompt(8, 12.0)
+    for aid, _ in ARTIFACT_TAXONOMY:
+        assert aid in p, aid
+    assert "clean=true" in p and "do not know which product" in p
+    assert "NOTHING outside this taxonomy" in p
+    print("  audit: %d-class taxonomy, closed schema, clean-clip path" % len(ids))
+
+
 if __name__ == "__main__":
     for fn in [v for k, v in sorted(globals().items()) if k.startswith("test_")]:
         print(fn.__name__)
