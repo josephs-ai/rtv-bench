@@ -121,10 +121,12 @@ def load_face_mesh():
     scale/framing cancels - the SERIES shape is what av_sync consumes."""
     try:
         import mediapipe as mp
-    except ImportError:
+        mesh = mp.solutions.face_mesh.FaceMesh(
+            static_image_mode=True, max_num_faces=1, refine_landmarks=False)
+    except (ImportError, AttributeError):
+        # newer mediapipe builds drop the legacy solutions API; the Tasks-API
+        # FaceLandmarker port is owed before the shoot's lip-sync pass
         return None, None
-    mesh = mp.solutions.face_mesh.FaceMesh(
-        static_image_mode=True, max_num_faces=1, refine_landmarks=False)
 
     def landmarks(frame):
         res = mesh.process(frame)
