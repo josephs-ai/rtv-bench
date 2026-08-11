@@ -159,7 +159,9 @@ async function startXmax() {
   await xmaxClient.realtime.connect(
     new MediaStream([cam.getVideoTracks()[0].clone()]), {
       model: models.realtime("x2.0"),
-      prompt: document.getElementById("prompt").value,
+      /* SDK reads options.context.prompt; a top-level prompt is silently
+         ignored (found live: output was a passthrough mirror) */
+      context: {prompt: document.getElementById("prompt").value},
       onRemoteStream: s => {
         /* fires several times (audio/video arrive as separate streams) -
            only take streams that actually carry video, never overwrite a
@@ -178,9 +180,14 @@ async function startXmax() {
 
 document.getElementById("apply").onclick = async () => {
   sendLucyPrompt();
-  /* Xmax vendored SDK exposes no live prompt update - reconnect applies it */
-  if (xmaxClient) { try { await xmaxClient.realtime.disconnect(); } catch {}
-                    startXmax().catch(e => st(side.xmax, "ERR " + e.message)); }
+  /* realtime.set() is the SDK's live change-condition path */
+  if (xmaxClient) {
+    try {
+      await xmaxClient.realtime.set(
+        {prompt: document.getElementById("prompt").value});
+      st(side.xmax, "prompt updated live");
+    } catch (e) { st(side.xmax, "prompt update failed: " + e.message); }
+  }
 };
 
 /* debug self-screenshot: with ?snap=1, POST a composite of both panes +

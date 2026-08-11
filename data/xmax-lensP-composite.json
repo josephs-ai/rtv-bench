@@ -15,5 +15,6 @@
     "residual_bound_ms": 1.9
   },
   "n_recorded_frames": 1500,
-  "capture": "/var/folders/hj/56jyp0yd7979fl5z9xl88k2w0000gn/T/composite-w3c82u8j/run-0_mode-xmax.webm"
+  "capture": "/var/folders/hj/56jyp0yd7979fl5z9xl88k2w0000gn/T/composite-w3c82u8j/run-0_mode-xmax.webm",
+  "SUSPECT": "2026-08-11: prompt was silently ignored by the SDK (options.prompt vs options.context.prompt) - these runs likely measured an unstyled passthrough, not the transform workload. Re-measure with the session.html fix before any Lens P latency claim. Found via live eyeball test (output was a mirror)."
 }

@@ -117,10 +117,19 @@ async function startXmax() {
   const {createXmaxClient, models} = await import("./vendor/index.js");
   const client = createXmaxClient({apiKey: key});
   const stream = src.captureStream(30);
+  /* MEASUREMENT-INTEGRITY FIX (2026-08-11): prompt was passed top-level,
+     which the SDK ignores (it reads options.context.prompt) - so earlier
+     composite runs measured an UNSTYLED passthrough, not the transform
+     workload. data/xmax-lensP-composite.json is suspect until re-measured
+     with this fix in force. */
   await client.realtime.connect(stream, {
     model: models.realtime("x2.0"),
-    prompt: q.get("prompt") || "subtle warm cinematic grade",
-    onRemoteStream: s => { out.srcObject = s; status("xmax stream up"); },
+    context: {prompt: q.get("prompt") || "subtle warm cinematic grade"},
+    onRemoteStream: s => {
+      if (s.getVideoTracks().length > 0) {
+        out.srcObject = s; status("xmax stream up");
+      }
+    },
   });
   status("xmax connected, awaiting stream");
 }
