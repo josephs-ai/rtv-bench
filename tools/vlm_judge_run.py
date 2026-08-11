@@ -60,6 +60,50 @@ def extract_frames_jpeg(path, k=8, max_side=768):
     return out, len(frames)
 
 
+def windowed_audit(judge, path, n_windows, frames_per_window, total_secs):
+    """Audit each time window separately -> first_artifact_window/second.
+
+    The post-edit failure mode: the change looks right at first, then decays.
+    A whole-clip audit says WHAT went wrong; the windowed audit says WHEN it
+    started."""
+    import av
+    from rtveval.vlm_judge import sample_frame_indices
+    import io as _io
+    from PIL import Image
+
+    all_frames = []
+    with av.open(path) as c:
+        for f in c.decode(c.streams.video[0]):
+            all_frames.append(f.to_ndarray(format="rgb24"))
+    n = len(all_frames)
+    per = n // n_windows
+    windows = []
+    onset = None
+    for w in range(n_windows):
+        seg = all_frames[w * per:(w + 1) * per] or all_frames[-per:]
+        idx = sample_frame_indices(len(seg), frames_per_window)
+        jpgs = []
+        for i in idx:
+            img = Image.fromarray(seg[i])
+            if max(img.size) > 768:
+                img.thumbnail((768, 768))
+            buf = _io.BytesIO()
+            img.save(buf, format="JPEG", quality=85)
+            jpgs.append(buf.getvalue())
+        r = judge.audit(jpgs, total_secs / n_windows)
+        worst = max([f["severity"] for f in r["findings"]], default=0)
+        windows.append({"window": w, "t0_s": round(w * total_secs / n_windows, 1),
+                        "findings": r["findings"], "clean": r["clean"],
+                        "worst_severity": worst})
+        if onset is None and worst >= 2:
+            onset = round(w * total_secs / n_windows, 1)
+    return {"windows": windows,
+            "first_artifact_s": onset,   # None = clean throughout (censored)
+            "clean": all(w["clean"] for w in windows),
+            "findings": [f for w in windows for f in w["findings"]],
+            "notes": "windowed audit x%d" % n_windows}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("capture_dir")
@@ -72,6 +116,11 @@ def main():
     ap.add_argument("--audit", action="store_true",
                     help="artifact-audit mode: taxonomy-constrained anomaly "
                          "findings instead of rubric scores")
+    ap.add_argument("--windows", type=int, default=1,
+                    help="audit mode: split the clip into N time windows and "
+                         "audit each separately - yields artifact ONSET time "
+                         "(errors mostly appear a while AFTER a live edit, "
+                         "not at the moment of change)")
     args = ap.parse_args()
     load_env()
 
@@ -122,7 +171,11 @@ def main():
             secs = json.load(open(item.capture_path.replace(".mkv", ".json"))
                              ).get("wall_s", total / 16.0)
             try:
-                if args.audit:
+                if args.audit and args.windows > 1:
+                    result = windowed_audit(judge, item.capture_path,
+                                            args.windows, args.frames,
+                                            float(secs))
+                elif args.audit:
                     result = judge.audit(frames, float(secs))
                 else:
                     result = judge.judge(frames, dims, float(secs), item.prompt_text)
@@ -134,8 +187,10 @@ def main():
             if args.audit:
                 fs = ["%s(sev%d)" % (f["type"], f["severity"])
                       for f in result["findings"]]
-                print("  %s -> %s" % (p.blind_id,
-                                      "CLEAN" if result["clean"] else ", ".join(fs)))
+                onset = result.get("first_artifact_s")
+                print("  %s -> %s%s" % (p.blind_id,
+                      "CLEAN" if result["clean"] else ", ".join(fs[:6]),
+                      "" if onset is None else "  [first artifact at %.0fs]" % onset))
             else:
                 scores = {d: v["score"] if v["assessable"] else None
                           for d, v in result["dimensions"].items()}
