@@ -21,28 +21,36 @@ import time
 
 TARGETS = [("stun.cloudflare.com", 3478),
            ("turn.us-east-1.aws.prod.reactor.inc", 3478)]
-BURST = 30
+BURST = 20
 
 
 def burst(host, port):
+    """Fire all probes, then collect replies - a blocked server costs ~1s,
+    not BURST seconds of serial timeouts."""
     try:
         ip = socket.gethostbyname(host)
     except OSError:
         return None
-    ok = 0
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.setblocking(False)
     for _ in range(BURST):
         req = struct.pack("!HHI12s", 0x0001, 0, 0x2112A442, os.urandom(12))
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.settimeout(1.0)
         try:
             s.sendto(req, (ip, port))
+        except OSError:
+            pass
+        time.sleep(0.02)
+    ok = 0
+    deadline = time.time() + 1.5
+    while time.time() < deadline and ok < BURST:
+        try:
             s.recvfrom(1024)
             ok += 1
-        except Exception:
-            pass
-        finally:
-            s.close()
-        time.sleep(0.03)
+        except BlockingIOError:
+            time.sleep(0.02)
+        except OSError:
+            break
+    s.close()
     return ok / BURST
 
 
