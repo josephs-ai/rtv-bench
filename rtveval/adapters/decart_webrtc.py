@@ -7,6 +7,9 @@ peer-to-peer after negotiation. Protocol from docs.platform.decart.ai
   client -> {"type": "offer", "sdp": ...}
             {"type": "ice-candidate", "candidate": {...}}
             {"type": "prompt", "prompt": ..., "enhance_prompt": bool}
+            {"type": "set_image", "image_data": b64|null,
+             "prompt": ..., "enhance_prompt": bool}   # reference image
+             (verified in docs 2026-08-11; try-on is a documented use case)
   server -> {"type": "answer", "sdp": ...}
             {"type": "ice-candidate", ...}
             {"type": "session_id", "session_id": ...}

@@ -201,10 +201,17 @@ async function startLucy() {
   sendLucyPrompt();
 }
 function sendLucyPrompt(text) {
-  if (lucyWs?.readyState === 1)
-    lucyWs.send(JSON.stringify({type: "prompt",
-      prompt: text ?? document.getElementById("prompt").value,
-      enhance_prompt: false}));
+  if (lucyWs?.readyState !== 1) return;
+  const prompt = text ?? document.getElementById("prompt").value;
+  if (refB64) {
+    /* documented: set_image carries the reference AND the instruction */
+    lucyWs.send(JSON.stringify({type: "set_image", image_data: refB64,
+                                prompt: prompt, enhance_prompt: false}));
+    st(side.lucy, "reference + instruction sent (set_image)");
+  } else {
+    lucyWs.send(JSON.stringify({type: "prompt", prompt: prompt,
+                                enhance_prompt: false}));
+  }
 }
 
 /* ---------------- Xmax: vendored SDK, temp key --------------------------- */
@@ -269,19 +276,28 @@ document.getElementById("prompt").addEventListener("keydown", e => {
 });
 
 /* ------- reference image, composer-style (Xmax; Lucy has no ref API) ----- */
-let refUrl = null;
+let refUrl = null, refB64 = null;
 document.getElementById("attach").onclick =
   () => document.getElementById("reffile").click();
 document.getElementById("refx").onclick = () => {
-  refUrl = null;
+  refUrl = null; refB64 = null;
   document.getElementById("refchip").style.display = "none";
+  if (lucyWs?.readyState === 1)
+    lucyWs.send(JSON.stringify({type: "set_image", image_data: null}));
   st(side.xmax, "reference removed - next Apply is prompt-only");
+  st(side.lucy, "reference cleared");
 };
 document.getElementById("reffile").onchange = async e => {
   const f = e.target.files[0];
   if (!f) return;
   document.getElementById("refthumb").src = URL.createObjectURL(f);
   document.getElementById("refchip").style.display = "";
+  refB64 = await new Promise(res => {
+    const rd = new FileReader();
+    rd.onload = () => res(rd.result.split(",")[1]);
+    rd.readAsDataURL(f);
+  });
+  st(side.lucy, "image attached (Lucy set_image ready)");
   if (!xmaxApi) { st(side.xmax, "not connected yet - image will upload on Apply"); }
   st(side.xmax, "uploading reference image...");
   try {
@@ -290,8 +306,6 @@ document.getElementById("reffile").onchange = async e => {
     refUrl = up.url;
     st(side.xmax, "image attached - now tell it what to do (e.g. \"put this "
        + "jacket on me\") and press Enter");
-    st(side.lucy, "note: Lucy's realtime API has no reference-image input - "
-       + "this side gets the text prompt only");
     document.getElementById("prompt").focus();
   } catch (err) { st(side.xmax, "ref upload failed: " + err.message); }
 };
@@ -349,6 +363,13 @@ if (q.get("snap")) setTimeout(async () => {  // auto-exercise ref upload path
     gst("REF UPLOAD OK: " + up.url.slice(0, 60));
     await xmaxSession.set({prompt: "recolor the entire scene to match the reference image", refImageUrl: up.url});
     gst("REF SET OK");
+    refB64 = await new Promise(res => {
+      const rd = new FileReader();
+      rd.onload = () => res(rd.result.split(",")[1]);
+      rd.readAsDataURL(blob);
+    });
+    sendLucyPrompt("recolor the entire scene to match the reference image");
+    gst("LUCY SET_IMAGE SENT");
   } catch (e) { gst("REF TEST FAILED: " + e.message); }
 }, 19000);
 if (q.get("snap")) setTimeout(() => {
