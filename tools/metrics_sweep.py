@@ -98,6 +98,36 @@ def main():
                 frames, dino, sample_every=8)
             out["long_horizon"] = long_horizon_consistency(frames, dino, fps,
                                                            sample_every=8)
+            # post-edit coherence (E.9): when the capture logged a mid-stream
+            # steer, measure whether the change COMMITTED or blends back -
+            # per-frame similarity to the pre-steer reference, fed to
+            # steer_commitment. Recording started at content-live, and
+            # steer_sent_at_s is seconds after live, so the index maps 1:1.
+            steer_s = meta.get("steer_sent_at_s")
+            if steer_s is not None:
+                import numpy as _np
+                from rtveval.quality_metrics import steer_commitment
+                steer_idx = int(steer_s * fps)
+                pre_lo = max(0, steer_idx - int(5 * fps))
+                if steer_idx > pre_lo + 3 and steer_idx < len(frames) - 5:
+                    embs = []
+                    for fr in frames[pre_lo:steer_idx:4]:
+                        e = dino(fr)
+                        if e is not None:
+                            embs.append(e / max(_np.linalg.norm(e), 1e-12))
+                    if embs:
+                        ref = _np.mean(_np.stack(embs), axis=0)
+                        ref /= max(_np.linalg.norm(ref), 1e-12)
+                        sims = []
+                        for fr in frames:
+                            e = dino(fr)
+                            sims.append(float(_np.dot(ref, e / max(
+                                _np.linalg.norm(e), 1e-12)))
+                                if e is not None else 1.0)
+                        out["steer"] = {
+                            "steer_at_s": steer_s,
+                            "commitment": steer_commitment(sims, steer_idx, fps),
+                        }
         out["wall_s"] = round(time.monotonic() - t0, 1)
 
         with open(os.path.join(OUTDIR, name + ".json"), "w") as f:
