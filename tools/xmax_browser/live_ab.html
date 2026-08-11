@@ -1,0 +1,154 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>live A/B - real camera</title>
+<style>
+ body{margin:0;background:#000;color:#9f9;font:13px monospace}
+ #bar{padding:6px 10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+ #bar input[type=text]{flex:1;min-width:240px;background:#111;color:#9f9;
+   border:1px solid #333;padding:5px;font:13px monospace}
+ button{background:#123;color:#9f9;border:1px solid #345;padding:5px 12px;
+   font:13px monospace;cursor:pointer}
+ .row{display:flex;gap:4px;padding:0 4px}
+ .pane{flex:1;position:relative}
+ .pane video{width:100%;background:#111;display:block}
+ .tag{position:absolute;top:6px;left:8px;background:#000a;padding:2px 8px}
+ .st{position:absolute;bottom:6px;left:8px;background:#000a;padding:2px 8px;
+   font-size:11px;max-width:90%}
+ #cam{position:fixed;right:10px;bottom:10px;width:214px;border:1px solid #333;
+   z-index:5}
+</style>
+<div id="bar">
+  <b>LIVE A/B</b>
+  <input id="prompt" type="text"
+         value="oil painting style, thick impasto brush strokes, warm palette">
+  <button id="apply">apply prompt (both)</button>
+  <button id="reveal">reveal sides</button>
+  <span id="gst"></span>
+</div>
+<div class="row">
+  <div class="pane"><video id="v0" muted autoplay playsinline></video>
+    <div class="tag" id="t0">A</div><div class="st" id="s0">idle</div></div>
+  <div class="pane"><video id="v1" muted autoplay playsinline></video>
+    <div class="tag" id="t1">B</div><div class="st" id="s1">idle</div></div>
+</div>
+<video id="cam" muted autoplay playsinline></video>
+<script type="importmap">
+{"imports": {
+  "@volcengine/rtc": "./vendor/volc-rtc.esm.js",
+  "cos-js-sdk-v5": "./vendor/stub-cos.js",
+  "heic-to/csp": "./vendor/stub-heic.js"
+}}
+</script>
+<script type="module">
+/* Same real camera into Lucy 2.5 (Decart, documented ws signaling) and
+   Xmax X2.0 (vendored SDK, temp key) at once. Sides are randomized at load
+   and hidden until 'reveal' - eyeball first, identity second. Not a
+   measurement: nothing here is recorded or timestamped as evidence. */
+const q = new URLSearchParams(location.search);
+const decartKey = q.get("decart"), xmaxKey = q.get("xmax");
+const gst = t => { document.getElementById("gst").textContent = t;
+                   fetch("/log?m=" + encodeURIComponent(t)).catch(()=>{}); };
+window.addEventListener("unhandledrejection",
+  e => gst("REJECTION: " + (e.reason?.message || e.reason)));
+
+const swap = Math.random() < 0.5;          // eyeball-blinding coin flip
+const side = {lucy: swap ? 1 : 0, xmax: swap ? 0 : 1};
+const vid = i => document.getElementById("v" + i);
+const st  = (i, t) => document.getElementById("s" + i).textContent = t;
+document.getElementById("reveal").onclick = () => {
+  document.getElementById("t" + side.lucy).textContent = "Lucy 2.5 (Decart)";
+  document.getElementById("t" + side.xmax).textContent = "Xmax X2.0";
+};
+
+let cam;
+async function camera() {
+  cam = await navigator.mediaDevices.getUserMedia(
+    {video: {width: 1280, height: 720, frameRate: 30}, audio: false});
+  document.getElementById("cam").srcObject = cam;
+}
+
+/* ---------------- Lucy: documented signaling over /v1/stream ------------- */
+let lucyWs;
+async function startLucy() {
+  const i = side.lucy;
+  st(i, "connecting signaling...");
+  lucyWs = new WebSocket("wss://api.decart.ai/v1/stream?api_key="
+                         + encodeURIComponent(decartKey) + "&model=lucy-2.5");
+  const pc = new RTCPeerConnection();
+  pc.ontrack = e => { vid(i).srcObject = e.streams[0]; st(i, "stream up"); };
+  pc.onicecandidate = e => { if (e.candidate)
+    lucyWs.send(JSON.stringify({type: "ice-candidate",
+                                candidate: e.candidate.toJSON()})); };
+  const track = cam.getVideoTracks()[0].clone();
+  const tx = pc.addTransceiver(track, {direction: "sendrecv",
+                                       streams: [new MediaStream([track])]});
+  /* mirror the validated adapter: prefer H264 upstream */
+  if (RTCRtpSender.getCapabilities) {
+    const codecs = RTCRtpSender.getCapabilities("video").codecs;
+    const h264 = codecs.filter(c => /H264/i.test(c.mimeType));
+    if (h264.length && tx.setCodecPreferences)
+      tx.setCodecPreferences([...h264,
+        ...codecs.filter(c => !/H264/i.test(c.mimeType))]);
+  }
+  const pending = [];
+  lucyWs.onmessage = async ev => {
+    const m = JSON.parse(ev.data);
+    if (m.type === "answer") {
+      await pc.setRemoteDescription({type: "answer", sdp: m.sdp});
+      for (const c of pending.splice(0)) await pc.addIceCandidate(c);
+    } else if (m.type === "ice-candidate") {
+      if (pc.remoteDescription) await pc.addIceCandidate(m.candidate);
+      else pending.push(m.candidate);
+    } else if (m.type === "session_id") { st(i, "session " + m.session_id.slice(0, 8));
+    } else if (m.type === "prompt_ack") { st(i, "prompt " + (m.success ? "applied" : "REJECTED"));
+    } else if (m.type === "generation_ended") { st(i, "ENDED: " + m.reason); }
+  };
+  await new Promise((res, rej) => { lucyWs.onopen = res;
+                                    lucyWs.onerror = () => rej(new Error("ws failed")); });
+  const offer = await pc.createOffer();
+  await pc.setLocalDescription(offer);
+  lucyWs.send(JSON.stringify({type: "offer", sdp: pc.localDescription.sdp}));
+  sendLucyPrompt();
+}
+function sendLucyPrompt() {
+  if (lucyWs?.readyState === 1)
+    lucyWs.send(JSON.stringify({type: "prompt",
+      prompt: document.getElementById("prompt").value, enhance_prompt: false}));
+}
+
+/* ---------------- Xmax: vendored SDK, temp key --------------------------- */
+let xmaxClient;
+async function startXmax() {
+  const i = side.xmax;
+  st(i, "connecting SDK...");
+  const {createXmaxClient, models} = await import("./vendor/index.js");
+  xmaxClient = createXmaxClient({apiKey: xmaxKey});
+  await xmaxClient.realtime.connect(
+    new MediaStream([cam.getVideoTracks()[0].clone()]), {
+      model: models.realtime("x2.0"),
+      prompt: document.getElementById("prompt").value,
+      onRemoteStream: s => { vid(i).srcObject = s; st(i, "stream up"); },
+    });
+  st(i, "connected, awaiting stream");
+}
+
+document.getElementById("apply").onclick = async () => {
+  sendLucyPrompt();
+  /* Xmax vendored SDK exposes no live prompt update - reconnect applies it */
+  if (xmaxClient) { try { await xmaxClient.realtime.disconnect(); } catch {}
+                    startXmax().catch(e => st(side.xmax, "ERR " + e.message)); }
+};
+
+(async () => {
+  gst("camera...");
+  await camera();
+  gst("connecting both products");
+  const jobs = [];
+  if (decartKey) jobs.push(startLucy().catch(e => st(side.lucy, "ERR " + e.message)));
+  else st(side.lucy, "no decart key passed");
+  if (xmaxKey) jobs.push(startXmax().catch(e => st(side.xmax, "ERR " + e.message)));
+  else st(side.xmax, "no xmax key passed");
+  await Promise.allSettled(jobs);
+  gst("up - wave at the camera; reveal when you've formed an opinion");
+})();
+</script>
