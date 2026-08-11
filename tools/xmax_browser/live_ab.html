@@ -16,6 +16,8 @@
    flex:0 0 auto}
  #bar .logo{font-weight:700;letter-spacing:.08em;font-size:13px;
    color:var(--acc);white-space:nowrap}
+ #attach{border-radius:50%;width:42px;height:42px;padding:0;font-size:20px;
+   flex:0 0 auto}
  #prompt{flex:1;min-width:200px;background:var(--panel);color:var(--txt);
    border:1px solid var(--line);border-radius:14px;padding:11px 16px;
    font:15px inherit;outline:none;backdrop-filter:blur(14px);
@@ -57,10 +59,14 @@
 </style>
 <div id="bar">
   <span class="logo" style="background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:15px">LIVE&nbsp;A/B</span>
-  <input id="prompt" type="text" placeholder="type any style prompt and press Enter…"
+  <button id="attach" title="attach a reference image (clothes, objects, style) and tell the model what to do with it">＋</button>
+  <span id="refchip" style="display:none;position:relative">
+    <img id="refthumb" style="height:38px;border-radius:8px;border:1px solid var(--line);display:block">
+    <span id="refx" style="position:absolute;top:-7px;right:-7px;background:#f87171;color:#fff;border-radius:50%;width:17px;height:17px;font-size:11px;line-height:17px;text-align:center;cursor:pointer">×</span>
+  </span>
+  <input id="prompt" type="text" placeholder="describe a style — or attach an image and say what to do with it…"
          value="oil painting style, thick impasto brush strokes, warm palette">
   <button id="apply">Apply to both</button>
-  <button id="refbtn" title="upload a clothing/reference image for the model to put on you (Xmax try-on)">Upload ref</button>
   <input id="reffile" type="file" accept="image/*" style="display:none">
   <button id="langbtn" title="auto-translate: English prompt -> Chinese for Xmax, Chinese -> English for Lucy">译 Auto-translate: OFF</button>
   <button id="diagbtn" title="live breakdown tracking: delivered fps, stalls, scene drift vs the first 5s, motion pops">Diagnostics: ON</button>
@@ -215,7 +221,9 @@ async function startXmax() {
       model: models.realtime("x2.0"),
       /* SDK reads options.context.prompt; a top-level prompt is silently
          ignored (found live: output was a passthrough mirror) */
-      context: {prompt: document.getElementById("prompt").value},
+      context: Object.assign(
+        {prompt: document.getElementById("prompt").value},
+        refUrl ? {refImageUrl: refUrl} : {}),
       onRemoteStream: s => {
         /* fires several times (audio/video arrive as separate streams) -
            only take streams that actually carry video, never overwrite a
@@ -260,21 +268,31 @@ document.getElementById("prompt").addEventListener("keydown", e => {
   if (e.key === "Enter") document.getElementById("apply").click();
 });
 
-/* ------- reference image (Xmax try-on; Lucy's protocol has no ref API) --- */
+/* ------- reference image, composer-style (Xmax; Lucy has no ref API) ----- */
 let refUrl = null;
-document.getElementById("refbtn").onclick =
+document.getElementById("attach").onclick =
   () => document.getElementById("reffile").click();
+document.getElementById("refx").onclick = () => {
+  refUrl = null;
+  document.getElementById("refchip").style.display = "none";
+  st(side.xmax, "reference removed - next Apply is prompt-only");
+};
 document.getElementById("reffile").onchange = async e => {
   const f = e.target.files[0];
-  if (!f || !xmaxApi) return;
+  if (!f) return;
+  document.getElementById("refthumb").src = URL.createObjectURL(f);
+  document.getElementById("refchip").style.display = "";
+  if (!xmaxApi) { st(side.xmax, "not connected yet - image will upload on Apply"); }
   st(side.xmax, "uploading reference image...");
   try {
     const up = await (xmaxApi.files?.uploadImage ? xmaxApi.files.uploadImage(f)
                                                  : xmaxApi.uploadImage(f));
     refUrl = up.url;
-    document.getElementById("refbtn").textContent = "Ref: " + f.name.slice(0, 14);
-    st(side.xmax, "reference uploaded - hit Apply");
-    st(side.lucy, "note: Lucy's realtime API has no reference-image input");
+    st(side.xmax, "image attached - now tell it what to do (e.g. \"put this "
+       + "jacket on me\") and press Enter");
+    st(side.lucy, "note: Lucy's realtime API has no reference-image input - "
+       + "this side gets the text prompt only");
+    document.getElementById("prompt").focus();
   } catch (err) { st(side.xmax, "ref upload failed: " + err.message); }
 };
 
@@ -329,10 +347,10 @@ if (q.get("snap")) setTimeout(async () => {  // auto-exercise ref upload path
       ? xmaxApi.files.uploadImage(new File([blob], "shirt.png", {type: "image/png"}))
       : xmaxApi.uploadImage(new File([blob], "shirt.png", {type: "image/png"})));
     gst("REF UPLOAD OK: " + up.url.slice(0, 60));
-    await xmaxSession.set({prompt: "wearing this red shirt", refImageUrl: up.url});
+    await xmaxSession.set({prompt: "recolor the entire scene to match the reference image", refImageUrl: up.url});
     gst("REF SET OK");
   } catch (e) { gst("REF TEST FAILED: " + e.message); }
-}, 24000);
+}, 19000);
 if (q.get("snap")) setTimeout(() => {
   const c = document.createElement("canvas");
   c.width = 1280; c.height = 400;
