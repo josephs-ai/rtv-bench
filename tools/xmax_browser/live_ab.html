@@ -47,6 +47,11 @@
    backdrop-filter:blur(6px);padding:5px 12px;font-size:12px;color:var(--dim);
    max-width:92%;border-radius:8px;z-index:2}
  #gst{color:var(--dim);font-size:12.5px;padding:0 16px 8px}
+ .diag{position:absolute;top:12px;right:14px;background:#000a;
+   backdrop-filter:blur(8px);padding:8px 10px;border-radius:10px;z-index:2;
+   font:11px/1.5 ui-monospace,Menlo,monospace;color:#cfd6e6;min-width:150px}
+ .diag .alert{color:#f87171;font-weight:700}
+ .diag canvas{display:block;margin-top:5px;border-radius:4px;background:#ffffff10}
  #cam{position:fixed;right:24px;bottom:24px;width:220px;border-radius:14px;
    border:1px solid var(--line);box-shadow:0 12px 40px #000a;z-index:5}
 </style>
@@ -58,6 +63,7 @@
   <button id="refbtn" title="upload a clothing/reference image for the model to put on you (Xmax try-on)">Upload ref</button>
   <input id="reffile" type="file" accept="image/*" style="display:none">
   <button id="langbtn" title="auto-translate: English prompt -> Chinese for Xmax, Chinese -> English for Lucy">译 Auto-translate: OFF</button>
+  <button id="diagbtn" title="live breakdown tracking: delivered fps, stalls, scene drift vs the first 5s, motion pops">Diagnostics: ON</button>
   <button id="crop" title="zoom in ~14% to push edge watermarks out of view">Hide watermarks</button>
   <button id="reveal">Reveal sides</button>
 </div>
@@ -65,9 +71,11 @@
 <div id="gst"></div>
 <div class="row">
   <div class="pane"><video id="v0" muted autoplay playsinline></video>
-    <div class="tag" id="t0">A</div><div class="st" id="s0">idle</div></div>
+    <div class="tag" id="t0">A</div><div class="st" id="s0">idle</div>
+    <div class="diag" id="d0" style="display:none"></div></div>
   <div class="pane"><video id="v1" muted autoplay playsinline></video>
-    <div class="tag" id="t1">B</div><div class="st" id="s1">idle</div></div>
+    <div class="tag" id="t1">B</div><div class="st" id="s1">idle</div>
+    <div class="diag" id="d1" style="display:none"></div></div>
 </div>
 <video id="cam" muted autoplay playsinline></video>
 <script src="./vendor/cos-umd.js"></script>
@@ -225,13 +233,19 @@ async function startXmax() {
 }
 
 const PRESETS = [
+  // global restyles
   "oil painting style, thick impasto brush strokes, warm palette",
   "anime style, cel shading, vibrant colors",
   "cyberpunk neon city, rain, holographic glow",
   "black and white 1920s film noir, heavy grain",
-  "watercolor sketch, soft pastel washes",
-  "made of LEGO bricks",
   "vintage comic book, halftone dots, bold ink outlines",
+  // additive / compositional - tests object insertion + spatial adherence
+  "a small red dragon perched on my shoulder",
+  "an anime girl standing next to me waving",
+  "glowing butterflies flying around my head",
+  "a golden crown on my head, royal velvet cape",
+  "a grey cat sitting on the desk in front of me",
+  "fireworks exploding in the sky behind me",
 ];
 const chips = document.getElementById("chips");
 for (const p of PRESETS) {
@@ -333,6 +347,129 @@ if (q.get("snap")) setTimeout(() => {
   c.toBlob(b => fetch("/snap", {method: "POST", body: b}));
 }, 30000);
 
+/* ---- live breakdown tracking -------------------------------------------
+   Browser-weight proxies of the harness instruments (labelled as such):
+     fps        delivered frames (requestVideoFrameCallback), not render fps
+     stall      >500ms without a new frame; breakdown alert at >=2s
+     drift      colour-histogram cosine vs the clip's OWN first 5s (E.8-style
+                long-horizon proxy; the real one uses DINO embeddings)
+     pops       spikes in the 2nd difference of inter-frame change vs the
+                clip's own median (E.7 jerk proxy)
+   'breaking since T' latches at the first sustained drift<0.85 or stall>=2s. */
+class PaneDiag {
+  constructor(i) {
+    this.i = i; this.v = vid(i);
+    this.box = document.getElementById("d" + i);
+    this.cv = document.createElement("canvas");
+    this.cv.width = 96; this.cv.height = 54;
+    this.cx = this.cv.getContext("2d", {willReadFrequently: true});
+    this.spark = document.createElement("canvas");
+    this.spark.width = 150; this.spark.height = 26;
+    this.frames = 0; this.lastFrameAt = 0; this.fps = 0;
+    this.stalls = 0; this.curStall = 0;
+    this.ref = null; this.refN = 0; this.t0 = 0;
+    this.prev = null; this.diffs = []; this.pops = 0;
+    this.driftHist = []; this.breakAt = null; this.lowSince = null;
+    const onFrame = (_, meta) => {
+      this.frames++; this.lastFrameAt = performance.now();
+      this.v.requestVideoFrameCallback(onFrame);
+    };
+    if (this.v.requestVideoFrameCallback) this.v.requestVideoFrameCallback(onFrame);
+    setInterval(() => this.tick(), 250);
+    setInterval(() => { this.fps = this.frames * 2; this.frames = 0; }, 500);
+  }
+  hist(d) {
+    const h = new Float32Array(48);
+    for (let p = 0; p < d.length; p += 16) {  // stride: every 4th px
+      h[d[p] >> 4]++; h[16 + (d[p + 1] >> 4)]++; h[32 + (d[p + 2] >> 4)]++;
+    }
+    let n = 0; for (const x of h) n += x * x;
+    n = Math.sqrt(n) || 1;
+    return h.map(x => x / n);
+  }
+  tick() {
+    if (!this.v.videoWidth) return;
+    const now = performance.now();
+    if (!this.t0) this.t0 = now;
+    const tSec = (now - this.lastFrameAt) / 1000;
+    this.curStall = this.lastFrameAt ? tSec : 0;
+    if (this.curStall > 0.5 && this.curStall < 0.8) this.stalls++;
+    this.cx.drawImage(this.v, 0, 0, 96, 54);
+    const d = this.cx.getImageData(0, 0, 96, 54).data;
+    const h = this.hist(d);
+    // reference = mean histogram of the first 5s
+    if (now - this.t0 < 5000) {
+      if (!this.ref) this.ref = new Float32Array(48);
+      for (let k = 0; k < 48; k++)
+        this.ref[k] = (this.ref[k] * this.refN + h[k]) / (this.refN + 1);
+      this.refN++;
+    }
+    let drift = 1;
+    if (this.ref && now - this.t0 >= 5000) {
+      let dot = 0, na = 0, nb = 0;
+      for (let k = 0; k < 48; k++) { dot += h[k] * this.ref[k];
+        na += h[k] * h[k]; nb += this.ref[k] * this.ref[k]; }
+      drift = dot / Math.sqrt(na * nb || 1);
+      this.driftHist.push(drift);
+      if (this.driftHist.length > 150) this.driftHist.shift();
+    }
+    // pops: jerk in inter-frame change
+    if (this.prev) {
+      let s = 0;
+      for (let p = 0; p < d.length; p += 16) s += Math.abs(d[p] - this.prev[p]);
+      this.diffs.push(s);
+      if (this.diffs.length > 40) this.diffs.shift();
+      if (this.diffs.length > 6) {
+        const j = Math.abs(this.diffs.at(-1) - 2 * this.diffs.at(-2) + this.diffs.at(-3));
+        const med = [...this.diffs].sort((a, b) => a - b)[this.diffs.length >> 1] + 1;
+        if (j > med * 4 && this.fps > 2) this.pops++;
+      }
+    }
+    this.prev = d.slice();
+    // breakdown latch
+    const broken = (drift < 0.85) || this.curStall >= 2;
+    if (broken) { if (!this.lowSince) this.lowSince = now;
+      if (!this.breakAt && now - this.lowSince > 2000)
+        this.breakAt = (now - this.t0) / 1000;
+    } else this.lowSince = null;
+    this.render(drift);
+  }
+  render(drift) {
+    const mm = t => "%d:%02d".replace("%d", Math.floor(t / 60))
+                             .replace("%02d", String(Math.floor(t % 60)).padStart(2, "0"));
+    let html = "fps " + this.fps.toFixed(0)
+      + " · stalls " + this.stalls
+      + (this.curStall > 0.5 ? " <span class=alert>(stalled "
+         + this.curStall.toFixed(1) + "s)</span>" : "")
+      + "<br>drift " + (100 * (1 - drift)).toFixed(1) + "% · pops " + this.pops;
+    if (this.breakAt != null)
+      html += "<br><span class=alert>breaking since " + mm(this.breakAt) + "</span>";
+    this.box.innerHTML = html;
+    this.box.appendChild(this.spark);
+    const g = this.spark.getContext("2d");
+    g.clearRect(0, 0, 150, 26);
+    g.strokeStyle = "#22d3ee"; g.beginPath();
+    this.driftHist.forEach((v, k) => {
+      const x = k * 150 / 150, y = 26 - Math.max(0, Math.min(1, (v - 0.7) / 0.3)) * 24;
+      k ? g.lineTo(x, y) : g.moveTo(x, y);
+    });
+    g.stroke();
+  }
+}
+let diags = null;
+let diagOn = true;
+function startDiag() {
+  if (!diags) diags = [new PaneDiag(0), new PaneDiag(1)];
+  document.getElementById("d0").style.display = diagOn ? "" : "none";
+  document.getElementById("d1").style.display = diagOn ? "" : "none";
+}
+document.getElementById("diagbtn").onclick = () => {
+  diagOn = !diagOn;
+  document.getElementById("diagbtn").textContent =
+    "Diagnostics: " + (diagOn ? "ON" : "OFF");
+  startDiag();
+};
+
 (async () => {
   gst("camera...");
   await camera();
@@ -343,6 +480,7 @@ if (q.get("snap")) setTimeout(() => {
   if (xmaxKey) jobs.push(startXmax().catch(e => st(side.xmax, "ERR " + e.message)));
   else st(side.xmax, "no xmax key passed");
   await Promise.allSettled(jobs);
+  startDiag();
   gst("up - wave at the camera; reveal when you've formed an opinion");
 })();
 </script>
