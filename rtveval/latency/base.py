@@ -118,6 +118,34 @@ class LatencyResult(NamedTuple):
             self.n, tag)
 
 
+def lag_drift_ms_per_min(samples: List[LatencySample], fps: float,
+                         flash_frames: List[int]) -> Optional[float]:
+    """Does the character fall further behind as the session runs?
+
+    Least-squares slope of lag over stream time, in ms of added lag per
+    minute. A product at 300 ms that creeps to 900 ms over a 60 s take is a
+    different real-time experience from one that holds - and a single p50/p95
+    cannot see it. The latency twin of the ArcFace identity-drift slope.
+    Needs >=5 samples spread over >=20 s to mean anything; else None.
+    """
+    pts = [(flash_frames[s.event_index] / fps, s.lag_ms)
+           for s in samples
+           if s.event_index is not None and s.event_index < len(flash_frames)]
+    if len(pts) < 5:
+        return None
+    xs = [p[0] for p in pts]
+    if max(xs) - min(xs) < 20.0:
+        return None
+    n = len(pts)
+    mx = sum(xs) / n
+    my = sum(p[1] for p in pts) / n
+    denom = sum((x - mx) ** 2 for x in xs)
+    if denom < 1e-9:
+        return None
+    slope_per_s = sum((x - mx) * (y - my) for x, y in pts) / denom
+    return slope_per_s * 60.0
+
+
 def summarise(samples: List[LatencySample], lens: str, rig_offset_ms: float = 0.0,
               min_confidence: float = 0.0,
               residual_bound_ms: Optional[float] = None) -> LatencyResult:

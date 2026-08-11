@@ -45,6 +45,82 @@ def wilson(successes: int, n: int, confidence: float = 0.95) -> Rate:
 
 
 # --------------------------------------------------------------------------
+# Session survival: how long until the video breaks down
+# --------------------------------------------------------------------------
+
+class SoakObservation(NamedTuple):
+    """One session's endurance. `died=False` means CENSORED - the session was
+    still alive when the clip ended or the cap hit. Censored runs are not
+    discarded: 'survived at least 600s' is information, and dropping it would
+    bias time-to-breakdown catastrophically low (only deaths would count)."""
+
+    duration_s: float
+    died: bool
+    cause: str = ""  # stall / teardown / quality_collapse (human-flagged) / ""
+
+
+class SurvivalPoint(NamedTuple):
+    t_s: float
+    survival: float  # Kaplan-Meier estimate of P(alive at t)
+    at_risk: int
+
+
+def survival_curve(obs: Sequence[SoakObservation]) -> List[SurvivalPoint]:
+    """Kaplan-Meier product-limit estimator. Handles censoring correctly:
+    a run that ended alive leaves the risk set without counting as a death."""
+    if not obs:
+        return []
+    events = sorted(obs, key=lambda o: o.duration_s)
+    n_risk = len(events)
+    s = 1.0
+    curve: List[SurvivalPoint] = []
+    i = 0
+    while i < len(events):
+        t = events[i].duration_s
+        deaths = censored = 0
+        while i < len(events) and events[i].duration_s == t:
+            if events[i].died:
+                deaths += 1
+            else:
+                censored += 1
+            i += 1
+        if deaths and n_risk:
+            s *= (1.0 - deaths / n_risk)
+            curve.append(SurvivalPoint(t_s=t, survival=s, at_risk=n_risk))
+        n_risk -= deaths + censored
+    return curve
+
+
+class BreakdownSummary(NamedTuple):
+    n: int
+    n_deaths: int
+    median_survival_s: Optional[float]  # None = never dropped below 50%
+    survival_at_cap: Rate  # survived-to-cap fraction with Wilson CI
+    cap_s: float
+
+    def statement(self) -> str:
+        med = ("median time-to-breakdown %.0f s" % self.median_survival_s
+               if self.median_survival_s is not None else
+               "median time-to-breakdown beyond the %.0f s cap (never reached "
+               "50%% failures)" % self.cap_s)
+        return "%s; %s of sessions survive the full %.0f s" % (
+            med, self.survival_at_cap, self.cap_s)
+
+
+def breakdown_summary(obs: Sequence[SoakObservation], cap_s: float) -> BreakdownSummary:
+    """The reportable pair: median survival (if reached) + survive-to-cap rate.
+    'In a perfect world it never breaks' makes survival_at_cap the headline:
+    a perfect product scores 100% with the CI to prove it."""
+    curve = survival_curve(obs)
+    median = next((p.t_s for p in curve if p.survival <= 0.5), None)
+    survived = sum(1 for o in obs if not o.died and o.duration_s >= cap_s * 0.99)
+    return BreakdownSummary(n=len(obs), n_deaths=sum(1 for o in obs if o.died),
+                            median_survival_s=median,
+                            survival_at_cap=wilson(survived, len(obs)),
+                            cap_s=cap_s)
+
+
+# --------------------------------------------------------------------------
 # Platform-floor uncertainty (Lens M decomposition)
 # --------------------------------------------------------------------------
 

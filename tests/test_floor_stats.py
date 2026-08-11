@@ -70,6 +70,48 @@ def test_min_meaningful_threshold():
     print("  min_meaningful gate: 850ms contribution passes, 90ms does not")
 
 
+def test_survival_censoring_not_discarded():
+    """30 runs: 5 die early, 25 survive to the 600s cap. Dropping censored
+    runs would say 'median breakdown ~90s'; Kaplan-Meier says the truth."""
+    obs = ([stats.SoakObservation(60.0 + i * 15, True, "stall") for i in range(5)]
+           + [stats.SoakObservation(600.0, False) for _ in range(25)])
+    b = stats.breakdown_summary(obs, cap_s=600.0)
+    assert b.median_survival_s is None  # never fell below 50% alive
+    assert b.n_deaths == 5
+    assert abs(b.survival_at_cap.point - 25 / 30) < 1e-9
+    assert "beyond the 600 s cap" in b.statement()
+    print("  5 deaths + 25 censored: %s" % b.statement()[:70])
+
+
+def test_survival_median_when_most_die():
+    obs = ([stats.SoakObservation(t, True) for t in (30, 60, 90, 120, 150, 180)]
+           + [stats.SoakObservation(600.0, False) for _ in range(2)])
+    b = stats.breakdown_summary(obs, cap_s=600.0)
+    assert b.median_survival_s == 120.0, b.median_survival_s
+    curve = stats.survival_curve(obs)
+    assert all(0.0 <= p.survival <= 1.0 for p in curve)
+    assert [round(p.survival, 3) for p in curve][:2] == [0.875, 0.75]
+    print("  6/8 die: median survival %.0fs, curve monotone" % b.median_survival_s)
+
+
+def test_lag_drift_slope():
+    from rtveval.latency.base import (Interval, LatencySample, Method,
+                                      lag_drift_ms_per_min)
+    fps = 30.0
+    flashes = [int(t * fps) for t in range(2, 62, 3)]  # every 3s over a minute
+    # lag grows 10 ms per flash = 200 ms/min
+    samples = [LatencySample(300.0 + 10.0 * k, Interval.V2V_FRAME_TO_FRAME,
+                             Method.IMPULSE_XCORR, 1.0, event_index=k)
+               for k in range(len(flashes))]
+    drift = lag_drift_ms_per_min(samples, fps, flashes)
+    assert drift is not None and abs(drift - 200.0) < 5.0, drift
+    flat = [s._replace(lag_ms=300.0) for s in samples]
+    assert abs(lag_drift_ms_per_min(flat, fps, flashes)) < 1.0
+    short = samples[:3]
+    assert lag_drift_ms_per_min(short, fps, flashes) is None
+    print("  drift: +200ms/min recovered; flat ~0; too-few samples -> None")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
