@@ -112,6 +112,23 @@ def test_lag_drift_slope():
     print("  drift: +200ms/min recovered; flat ~0; too-few samples -> None")
 
 
+def test_lens_m_section_is_floor_led():
+    from rtveval import report
+    floor = stats.FloorEstimate("p50", 1927.7, 1894.4, 1961.0, 40, 350)
+    decos = {
+        "xmax-x2.0": stats.decompose_lens_m(2300.0, floor),
+        "lingbot-world-2": stats.decompose_lens_m(1950.0, floor),
+    }
+    md = report.lens_m_latency_section(floor, decos,
+                                       bridge_note="floor-subtraction agrees "
+                                       "with native within 40 ms")
+    # the floor leads; models are deltas; the unresolvable one says so
+    assert md.index("platform floor") < md.index("xmax")
+    assert "platform variance exceeds" in md  # lingbot at 1950 vs 1894-1961 CI
+    assert "Bridge validation" in md
+    print("  section leads with floor; unresolvable model renders honesty line")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

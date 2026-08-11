@@ -168,6 +168,34 @@ def _requested_categories(unreachable: Dict[str, str]) -> set:
     return {BY_KEY[p].category for p in unreachable if p in BY_KEY}
 
 
+def lens_m_latency_section(floor, decompositions: Dict[str, "object"],
+                           bridge_note: Optional[str] = None) -> str:
+    """The Lens M latency section, floor-led by construction.
+
+    Rationale (measured, not stylistic): the platform floor (1928 ms) is ~5x
+    the entire native latency of the one dual-routed model (367 ms). Raw Lens
+    M figures therefore mostly describe Reactor, not the models - so the
+    section LEADS with the floor as the finding, and models appear only as
+    deltas against it. `decompositions` maps product -> stats.Decomposition;
+    unresolvable ones render their own honesty sentence.
+    """
+    lines = [
+        "### Lens M latency: the platform is the number",
+        "",
+        "**Reactor platform floor: %.0f ms (95%% CI %.0f-%.0f, n=%d runs).**"
+        % (floor.point_ms, floor.lo_ms, floor.hi_ms, floor.n_runs),
+        "Absolute Lens M latency is dominated by the serving platform, not the "
+        "models. Model contributions below are deltas against this floor; "
+        "differences under ~%.0f ms are not resolvable." % floor.width_ms,
+        "",
+    ]
+    for product, deco in sorted(decompositions.items()):
+        lines.append("- **%s**: %s" % (product, deco.statement))
+    if bridge_note:
+        lines += ["", "*Bridge validation: %s*" % bridge_note]
+    return "\n".join(lines)
+
+
 def reliability_table(title: str, rates: Dict[str, Rate]) -> Table:
     """Reliability is lens-free in presentation but each rate keeps its N and
     CI; separability is stated pairwise, never implied."""

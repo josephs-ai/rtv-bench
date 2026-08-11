@@ -128,8 +128,9 @@
     "baseline_rtt_ms": 391.573,
     "turn_udp": true
   },
-  "resumed_utc": "2026-08-10T19:16:03Z",
+  "resumed_utc": "2026-08-11T02:34:57Z",
   "notes": [
+    "03:09 kill mid floor-C3 left C3 shaping armed (found + cleared on resume); C3 rerun, C1 rerun (was VANTAGE_TAINTED), pilot run here",
     "03:09 kill mid floor-C3 left C3 shaping armed (found + cleared on resume); C3 rerun, C1 rerun (was VANTAGE_TAINTED), pilot run here"
   ],
   "finished_utc": "2026-08-10T19:22:48Z"
