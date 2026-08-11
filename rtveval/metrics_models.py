@@ -28,6 +28,9 @@ def load_lpips() -> Optional[Callable]:
     net = lpips.LPIPS(net="alex", spatial=True, verbose=False).to(dev).eval()
 
     def to_t(f):
+        # crop to /8 like the RAFT path so spatial maps align with flow masks
+        h, w = f.shape[:2]
+        f = f[:(h // 8) * 8, :(w // 8) * 8]
         x = torch.from_numpy(f.astype(np.float32) / 127.5 - 1.0)
         return x.permute(2, 0, 1).unsqueeze(0).to(dev)
 
