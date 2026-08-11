@@ -64,14 +64,46 @@ CLIPS = {
     "lucy-2.5": os.path.join(DATA, "reel", "input-lucy-2.5.mp4"),
     "xmax-x2.0": os.path.join(DATA, "reel", "input-xmax-x2.0.mp4"),
 }
-USD_PER_S = {"lucy-2.5": 0.005, "xmax-x2.0": 0.008}   # conservative estimates
+USD_PER_S = {"lucy-2.5": 0.004, "xmax-x2.0": 0.004}   # reservation estimates; the cap is the guard
+
+
+def udp_loss_check():
+    """Tunnel loss burst: >12% loss is rig evidence (E), not product data."""
+    import socket, struct, time as _t
+    from rtveval.orchestrator.health import CheckResult
+    try:
+        ip = socket.gethostbyname("stun.cloudflare.com")
+        sk = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sk.setblocking(False)
+        for _ in range(20):
+            try:
+                sk.sendto(struct.pack("!HHI12s", 1, 0, 0x2112A442,
+                                      os.urandom(12)), (ip, 3478))
+            except OSError:
+                pass
+            _t.sleep(0.02)
+        ok = 0
+        deadline = _t.time() + 1.2
+        while _t.time() < deadline and ok < 20:
+            try:
+                sk.recvfrom(1024); ok += 1
+            except BlockingIOError:
+                _t.sleep(0.02)
+        sk.close()
+        loss = 1 - ok / 20
+        return CheckResult("udp_loss", loss <= 0.12,
+                           "burst loss %d%%" % round(loss * 100),
+                           _t.monotonic(), "")
+    except Exception as e:
+        from rtveval.orchestrator.health import CheckResult
+        return CheckResult("udp_loss", False, "probe error %s" % e, 0.0, "")
 
 
 async def run_product_slot(spec, journal, spend, baseline_rtt, args):
     from rtveval.orchestrator import health, runner
 
     def preflight():
-        checks = [health.vantage_drift_check(baseline_rtt)]
+        checks = [health.vantage_drift_check(baseline_rtt), udp_loss_check()]
         return health.RigEvidence(checks=checks)
 
     adapter = make_adapter(spec.product_key)
@@ -129,10 +161,14 @@ async def main_async(args):
     t0 = time.monotonic()
     for r in sorted(by_round):
         specs = by_round[r]
+        # SERIAL lanes: two simultaneous 720p upstreams starve each other
+        # through the single VPN tunnel (smoke r000: Lucy first-frame starved
+        # while Xmax ran). Reliability must not measure our own uplink.
+        results = []
         try:
-            results = await asyncio.gather(
-                *[run_product_slot(s, journal, spend, baseline, args)
-                  for s in specs])
+            for spec in specs:
+                results.append(await run_product_slot(
+                    spec, journal, spend, baseline, args))
         except CapExceeded as e:
             print("SPEND CAP: %s - stopping cleanly at round boundary" % e)
             break
