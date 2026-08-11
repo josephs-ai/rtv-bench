@@ -160,9 +160,20 @@ async function startXmax() {
     new MediaStream([cam.getVideoTracks()[0].clone()]), {
       model: models.realtime("x2.0"),
       prompt: document.getElementById("prompt").value,
-      onRemoteStream: s => { vid(i).srcObject = s; st(i, "stream up"); },
+      onRemoteStream: s => {
+        /* fires several times (audio/video arrive as separate streams) -
+           only take streams that actually carry video, never overwrite a
+           playing one with a videoless one */
+        const nv = s.getVideoTracks().length;
+        st(i, "remote stream (video tracks: " + nv + ")");
+        if (nv > 0) {
+          vid(i).srcObject = s;
+          setTimeout(() => st(i, vid(i).videoWidth > 0
+            ? "frames flowing (" + vid(i).videoWidth + "x" + vid(i).videoHeight + ")"
+            : "video track present but no frames after 8s"), 8000);
+        }
+      },
     });
-  st(i, "connected, awaiting stream");
 }
 
 document.getElementById("apply").onclick = async () => {
@@ -171,6 +182,22 @@ document.getElementById("apply").onclick = async () => {
   if (xmaxClient) { try { await xmaxClient.realtime.disconnect(); } catch {}
                     startXmax().catch(e => st(side.xmax, "ERR " + e.message)); }
 };
+
+/* debug self-screenshot: with ?snap=1, POST a composite of both panes +
+   camera after 30s so the serving process can verify rendering headlessly */
+if (q.get("snap")) setTimeout(() => {
+  const c = document.createElement("canvas");
+  c.width = 1280; c.height = 400;
+  const x = c.getContext("2d");
+  x.fillStyle = "#222"; x.fillRect(0, 0, 1280, 400);
+  try { x.drawImage(vid(0), 0, 0, 640, 360); } catch {}
+  try { x.drawImage(vid(1), 640, 0, 640, 360); } catch {}
+  try { x.drawImage(document.getElementById("cam"), 540, 340, 200, 60); } catch {}
+  x.fillStyle = "#9f9"; x.font = "16px monospace";
+  x.fillText("A: " + document.getElementById("s0").textContent, 10, 390);
+  x.fillText("B: " + document.getElementById("s1").textContent, 650, 390);
+  c.toBlob(b => fetch("/snap", {method: "POST", body: b}));
+}, 30000);
 
 (async () => {
   gst("camera...");
