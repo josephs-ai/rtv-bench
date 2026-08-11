@@ -1,12 +1,14 @@
 {
+  "placeholder_frames_skipped": 2,
+  "went_live": true,
   "product": "happy-oyster",
   "model": "reactor/happy-oyster-director",
   "content": "motion",
   "prompt": "a crowded festival street at night, dancers spinning, fast camera movement, confetti falling everywhere",
-  "frames": 192,
+  "frames": 199,
   "stop_reason": "orchestrator",
   "resolved_version": "0.0.0@1.20260810.21365",
-  "wall_s": 61.3,
+  "wall_s": 63.5,
   "errors": [],
   "capture": "/Users/joseph/rtv-eval/data/pilot-captures/happy-oyster-motion.mkv"
 }
