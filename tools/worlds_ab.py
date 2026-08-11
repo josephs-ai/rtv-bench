@@ -116,9 +116,13 @@ class Pane:
             from tools.generation_pilot import drive_lingbot
             await drive_lingbot(a.reactor, first_prompt)
         else:
-            args = {"prompt": first_prompt, "resolution": "480p"}
+            # payload shapes differ per mode (vendor SDK createWorldPayload):
+            # directing worlds take resolution/layout/narrative; adventure
+            # worlds take only prompt (+ optional perspective)
             if model_name.endswith("adventure"):
-                args["maxExperienceTimeSec"] = 300
+                args = {"prompt": first_prompt}
+            else:
+                args = {"prompt": first_prompt, "resolution": "480p"}
             await a.reactor.send_command("create_world", args)
         run_task = asyncio.create_task(a.run(None, "", None, "worlds-ab"))
 
@@ -164,8 +168,10 @@ class Pane:
                         "set_prompt", {"prompt": prompt})
                     self.log(self.idx, "prompt steered")
                 else:
-                    await self.adapter.reactor.send_command(
-                        "create_world", {"prompt": prompt, "resolution": "480p"})
+                    args = ({"prompt": prompt}
+                            if self.mode == "wasd"
+                            else {"prompt": prompt, "resolution": "480p"})
+                    await self.adapter.reactor.send_command("create_world", args)
                     self.log(self.idx, "new world requested")
             elif kind == "mode":
                 want = msg.get("mode")
