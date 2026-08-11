@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+"""Batch VLM-judge run over captures.
+
+    .venv/bin/python tools/vlm_judge_run.py data/pilot-captures --category generation
+    .venv/bin/python tools/vlm_judge_run.py data/pilot-captures --dry-run
+
+Reads every .mkv with a sibling .json (capture metadata), samples 8 frames,
+builds a blinded plan with hidden repeats, judges each item, and writes:
+  data/vlm-judge/records.jsonl      (blind ids only)
+  data/vlm-judge-key/key.json       (blind id -> item; OUTSIDE the records dir)
+  data/vlm-judge/consistency.json   (hidden-repeat gate result)
+
+Needs ANTHROPIC_API_KEY in the environment or .env. Auxiliary evidence only:
+these scores never enter a ranking until validated against the human panel
+(rtveval.vlm_judge.validate_against_humans).
+"""
+import argparse
+import glob
+import io
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def load_env():
+    envp = os.path.join(REPO, ".env")
+    if os.path.exists(envp):
+        for line in open(envp):
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k, v)
+
+
+def extract_frames_jpeg(path, k=8, max_side=768):
+    """k evenly-spaced frames as JPEG bytes, via PyAV (no decord)."""
+    import av
+    import numpy as np
+    from PIL import Image
+    from rtveval.vlm_judge import sample_frame_indices
+
+    frames = []
+    with av.open(path) as c:
+        stream = c.streams.video[0]
+        for f in c.decode(stream):
+            frames.append(f.to_ndarray(format="rgb24"))
+    idx = sample_frame_indices(len(frames), k)
+    out = []
+    for i in idx:
+        img = Image.fromarray(frames[i])
+        if max(img.size) > max_side:
+            img.thumbnail((max_side, max_side))
+        buf = io.BytesIO()
+        img.save(buf, format="JPEG", quality=85)
+        out.append(buf.getvalue())
+    return out, len(frames)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("capture_dir")
+    ap.add_argument("--category", default="generation",
+                    choices=["generation", "v2v"])
+    ap.add_argument("--frames", type=int, default=8)
+    ap.add_argument("--seed", type=int, default=20260811)
+    ap.add_argument("--dry-run", action="store_true",
+                    help="build + print the plan, no API calls")
+    args = ap.parse_args()
+    load_env()
+
+    from rtveval.vlm_judge import (DIMENSION_SETS, ClaudeJudge, JudgeItem,
+                                   build_plan, journal_line)
+
+    items = []
+    for mkv in sorted(glob.glob(os.path.join(args.capture_dir, "*.mkv"))):
+        metap = mkv.replace(".mkv", ".json")
+        if not os.path.exists(metap):
+            continue
+        meta = json.load(open(metap))
+        if not meta.get("frames"):
+            continue
+        items.append(JudgeItem(
+            product_key=meta.get("product", "unknown"),
+            run_id=os.path.basename(mkv), capture_path=mkv,
+            category=args.category, prompt_text=meta.get("prompt")))
+    if not items:
+        print("no judgeable captures (need .mkv + .json with frames>0)")
+        return 1
+
+    secret = os.urandom(16)
+    plan = build_plan(items, secret, seed=args.seed)
+    dims = DIMENSION_SETS[args.category]
+    print("%d items -> %d judgments (%d hidden repeats)"
+          % (len(items), len(plan), sum(p.is_hidden_repeat for p in plan)))
+    if args.dry_run:
+        for p in plan:
+            print("  %s repeat=%s" % (p.blind_id, p.is_hidden_repeat))
+        return 0
+
+    outdir = os.path.join(REPO, "data", "vlm-judge")
+    keydir = os.path.join(REPO, "data", "vlm-judge-key")
+    os.makedirs(outdir, exist_ok=True)
+    os.makedirs(keydir, exist_ok=True)
+    with open(os.path.join(keydir, "key.json"), "w") as f:
+        json.dump({p.blind_id: {"item": items[p.item_index]._asdict(),
+                                "is_hidden_repeat": p.is_hidden_repeat}
+                   for p in plan}, f, indent=2)
+
+    judge = ClaudeJudge()
+    n_ok = 0
+    with open(os.path.join(outdir, "records.jsonl"), "a") as journal:
+        for p in plan:
+            item = items[p.item_index]
+            frames, total = extract_frames_jpeg(item.capture_path, args.frames)
+            secs = json.load(open(item.capture_path.replace(".mkv", ".json"))
+                             ).get("wall_s", total / 16.0)
+            try:
+                result = judge.judge(frames, dims, float(secs), item.prompt_text)
+            except Exception as e:
+                print("  %s FAILED: %s" % (p.blind_id, str(e)[:120]))
+                continue
+            journal.write(journal_line(p, result) + "\n")
+            n_ok += 1
+            scores = {d: v["score"] if v["assessable"] else None
+                      for d, v in result["dimensions"].items()}
+            print("  %s -> %s breakdown=%s" % (p.blind_id, scores,
+                                               result["breakdown_observed"]))
+    print("%d/%d judgments recorded -> %s" % (n_ok, len(plan), outdir))
+    return 0 if n_ok else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

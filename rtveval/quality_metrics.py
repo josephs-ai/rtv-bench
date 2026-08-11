@@ -105,6 +105,77 @@ def blink_stats(eye_openness: Sequence[float], fps: float,
     return out
 
 
+def motion_jerk(flow_means: Sequence[float], fps: float,
+                mad_k: float = 6.0) -> Optional[dict]:
+    """Physics-pop proxy (supports E.7): rate of discontinuities in global
+    motion. Real motion has bounded acceleration; objects teleporting,
+    appearing, or vanishing spike the SECOND difference of mean flow.
+    Outliers are scored against the clip's own robust scale (MAD), so a
+    fast-but-smooth clip is not penalised for being fast."""
+    x = np.asarray(list(flow_means), dtype=np.float64)
+    if len(x) < 10:
+        return None
+    jerk = np.abs(np.diff(x, n=2))
+    med = np.median(jerk)
+    mad = np.median(np.abs(jerk - med))
+    if mad < 1e-9:
+        return {"pops_per_min": 0.0, "n_pops": 0, "n_frames": len(x)}
+    pops = int(np.sum(jerk > med + mad_k * mad))
+    minutes = len(x) / fps / 60.0
+    return {"pops_per_min": pops / minutes if minutes > 0 else 0.0,
+            "n_pops": pops, "n_frames": len(x)}
+
+
+def long_horizon_consistency(frames: Sequence[np.ndarray],
+                             embed_fn: Callable, fps: float,
+                             early_s: float = 5.0,
+                             sample_every: int = 30) -> Optional[dict]:
+    """E.8 proxy: does the late scene still match the early scene? Cosine
+    similarity of each sampled frame's embedding vs the mean early-window
+    embedding; the SLOPE is the drift finding (same rule as identity, D.2)."""
+    n_early = int(early_s * fps)
+    if len(frames) <= n_early + sample_every:
+        return None
+    early = [embed_fn(f) for f in frames[:n_early:sample_every]]
+    early = [e for e in early if e is not None]
+    if not early:
+        return None
+    ref = np.mean(np.stack(early), axis=0)
+    ref = ref / max(np.linalg.norm(ref), 1e-12)
+    sims = []
+    for i in range(n_early, len(frames), sample_every):
+        e = embed_fn(frames[i])
+        if e is not None:
+            sims.append(float(np.dot(ref, e) / max(np.linalg.norm(e), 1e-12)))
+    if not sims:
+        return None
+    return {"early_vs_last": sims[-1], "min": float(min(sims)),
+            "drift": drift_slope(sims, fps / sample_every)}
+
+
+def steer_commitment(sims_to_pre: Sequence[float], steer_index: int,
+                     fps: float, settle_s: float = 4.0) -> Optional[dict]:
+    """E.9 proxy: after a mid-stream steer, was the change COMMITTED or does
+    the output blend back toward the pre-steer scene? Input is per-frame
+    similarity to a pre-steer reference. Committed = post-settle similarity
+    stays below the midpoint between the pre-steer level and the settled
+    level; revert_fraction counts frames that climb back above it."""
+    sims = np.asarray(list(sims_to_pre), dtype=np.float64)
+    settle = steer_index + int(settle_s * fps)
+    if steer_index < 3 or settle >= len(sims) - 3:
+        return None
+    pre = float(np.median(sims[:steer_index]))
+    settled = float(np.median(sims[settle:settle + max(3, int(fps))]))
+    if pre - settled < 0.05:
+        return {"took_effect": False, "pre": pre, "settled": settled,
+                "revert_fraction": None}
+    midpoint = (pre + settled) / 2.0
+    post = sims[settle:]
+    revert = float(np.mean(post > midpoint))
+    return {"took_effect": True, "pre": pre, "settled": settled,
+            "revert_fraction": revert, "committed": revert < 0.1}
+
+
 # ---------------------------------------------------------------------------
 # The sweep - model callables injected, loaded lazily in .venv-metrics
 # ---------------------------------------------------------------------------

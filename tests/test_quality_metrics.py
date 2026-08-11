@@ -87,6 +87,69 @@ def test_sweep_with_injected_models():
     print("  sweep runs on injected models; absent models -> None not fake")
 
 
+def test_motion_jerk_pops_vs_smooth_speed():
+    from rtveval.quality_metrics import motion_jerk
+    rng2 = __import__("numpy").random.default_rng(3)
+    np = __import__("numpy")
+    # fast but smooth pan: high flow, bounded acceleration -> no pops
+    smooth = 10 + 3 * np.sin(np.arange(240) / 15.0) + rng2.normal(0, 0.05, 240)
+    out = motion_jerk(smooth, fps=24.0)
+    assert out is not None and out["n_pops"] == 0, out
+    # same clip with 3 teleport events (flow discontinuities)
+    poppy = smooth.copy()
+    for i in (60, 120, 180):
+        poppy[i] += 25.0
+    out2 = motion_jerk(poppy, fps=24.0)
+    assert out2["n_pops"] >= 3 and out2["pops_per_min"] > 10, out2
+    print("  jerk: smooth fast pan 0 pops; 3 teleports -> %d pops" % out2["n_pops"])
+
+
+def test_long_horizon_consistency_detects_scene_morph():
+    from rtveval.quality_metrics import long_horizon_consistency
+    np = __import__("numpy")
+    fps = 24.0
+
+    def make(drifting):
+        frames = [np.zeros((4, 4, 3), dtype=np.uint8)] * int(fps * 40)
+        def embed(f, i=[0]):
+            # embedding stub: stable scene vs one that rotates away over time
+            i[0] += 1
+            angle = i[0] * (0.05 if drifting else 0.0)
+            return np.array([np.cos(angle), np.sin(angle), 1.0])
+        return frames, embed
+
+    frames, emb = make(drifting=False)
+    stable = long_horizon_consistency(frames, emb, fps)
+    frames, emb = make(drifting=True)
+    morph = long_horizon_consistency(frames, emb, fps)
+    assert stable["early_vs_last"] > 0.99, stable
+    assert morph["early_vs_last"] < stable["early_vs_last"] - 0.1, morph
+    assert morph["drift"] is not None and morph["drift"].slope_per_min < -0.01
+    print("  long-horizon: stable ~1.0; morphing scene falls to %.2f with "
+          "negative slope" % morph["early_vs_last"])
+
+
+def test_steer_commitment_committed_vs_blendback():
+    from rtveval.quality_metrics import steer_commitment
+    np = __import__("numpy")
+    fps, steer = 24.0, 120
+    n = 480
+    rng3 = np.random.default_rng(5)
+    base = np.ones(n) * 0.95 + rng3.normal(0, 0.005, n)
+    committed = base.copy(); committed[steer + 24:] = 0.4 + rng3.normal(0, 0.01, n - steer - 24)
+    out = steer_commitment(committed, steer, fps)
+    assert out["took_effect"] and out["committed"], out
+    blend = base.copy()
+    t = np.arange(n - steer - 24)
+    blend[steer + 24:] = 0.4 + 0.45 * (np.sin(t / 20.0) > 0)  # oscillates back
+    out2 = steer_commitment(blend, steer, fps)
+    assert out2["took_effect"] and not out2["committed"], out2
+    ignored = steer_commitment(base, steer, fps)
+    assert not ignored["took_effect"]
+    print("  steer: clean commit flagged committed; blend-back and ignored "
+          "steers distinguished")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
