@@ -76,6 +76,42 @@ same framing as the avatar products' output; this is the "real filmed
 reference" every computed metric is anchored against, for every category that
 has a face.
 
+### The scripts (read calmly, newsreader pace, ~30-45 s each; audio ON)
+
+**S1 — Mandarin, plosive-dense** (b/p/m closures drive the lip-sync metric):
+
+> 白伯伯背着帆布背包,慢慢爬上北坡的木板棚。棚边摆着八个白瓷盘,
+> 盘里放满饱满的苹果和半盆枇杷。他拍拍口袋,掏出笔记本,把每笔买卖
+> 都标明白:苹果八块八,枇杷比苹果便宜半块。傍晚,泡一杯薄荷茶,
+> 配一块牛奶面包,静看北边薄雾漫过山坡。
+
+**S2 — English, plosive-dense:**
+
+> "Peter packed a big brown box of paper maps beside the bakery's back
+> door. Bob picked up both bundles, bumped past the pump, and put them
+> by the mailbox. A bright morning breeze pushed the paper about, so
+> Peter pinned each map down with a pebble, then paused to sip a cup of
+> bitter black coffee before beginning the uphill climb back."
+
+**S3 — Mandarin, natural conversational baseline:**
+
+> 今天想跟大家聊一聊我们最近在做的一件事。其实一开始没有想到会这么
+> 复杂,后来慢慢发现,每一个环节都需要认真对待。有些问题看起来很小,
+> 真正解决的时候才知道背后牵扯很多。不过整体来说进展还算顺利,希望
+> 接下来的每一步都能走得更稳一些。
+
+**S4 — alphanumeric and precise articulation (mixed):**
+
+> "Order number 7-0-4-2-9, shipping on August 15th at 9:40 a.m., total
+> 386 dollars. 订单号七零四二九,八月十五日上午九点四十发货,合计
+> 三百八十六元。Confirmation code: B as in Bravo, P as in Papa, M as in
+> Mike, 2-2-8."
+
+Rules for the readings: head-and-shoulders newsreader framing, look at the
+lens, clean audio (quiet room, no fan hum), keep the mouth unobstructed,
+normal pace with natural pauses. One clean take each; redo only if you
+stumble hard or something bangs off-camera.
+
 Pipeline order (so nobody burns flashes on set): **shoot raw → conform to
 master → `render_reel` adds flashes + block strip and writes the ground-truth
 sidecar → conform per product**. The impulse flashes are added in the
