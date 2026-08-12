@@ -1,0 +1,82 @@
+[
+  {
+    "round_index": 16,
+    "product_key": "lucy-2.5",
+    "run_id": "B-lucy-2.5-C0-r0016",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation in same round (xmax F) = shared-path (tunnel throughput sag) evidence; daylight rerun of identical 60s workload completed cleanly (2026-08-12)"
+  },
+  {
+    "round_index": 16,
+    "product_key": "xmax-x2.0",
+    "run_id": "B-xmax-x2.0-C0-r0016",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation (lucy F)"
+  },
+  {
+    "round_index": 17,
+    "product_key": "lucy-2.5",
+    "run_id": "B-lucy-2.5-C0-r0017",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation in same round (xmax E) = shared-path (tunnel throughput sag) evidence; daylight rerun of identical 60s workload completed cleanly (2026-08-12)"
+  },
+  {
+    "round_index": 19,
+    "product_key": "xmax-x2.0",
+    "run_id": "B-xmax-x2.0-C0-r0019",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation (lucy E)"
+  },
+  {
+    "round_index": 36,
+    "product_key": "lucy-2.5",
+    "run_id": "B-lucy-2.5-C0-r0036",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation in same round (xmax E) = shared-path (tunnel throughput sag) evidence; daylight rerun of identical 60s workload completed cleanly (2026-08-12)"
+  },
+  {
+    "round_index": 37,
+    "product_key": "lucy-2.5",
+    "run_id": "B-lucy-2.5-C0-r0037",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation in same round (xmax F) = shared-path (tunnel throughput sag) evidence; daylight rerun of identical 60s workload completed cleanly (2026-08-12)"
+  },
+  {
+    "round_index": 37,
+    "product_key": "xmax-x2.0",
+    "run_id": "B-xmax-x2.0-C0-r0037",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation (lucy F)"
+  },
+  {
+    "round_index": 38,
+    "product_key": "lucy-2.5",
+    "run_id": "B-lucy-2.5-C0-r0038",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation in same round (xmax F) = shared-path (tunnel throughput sag) evidence; daylight rerun of identical 60s workload completed cleanly (2026-08-12)"
+  },
+  {
+    "round_index": 38,
+    "product_key": "xmax-x2.0",
+    "run_id": "B-xmax-x2.0-C0-r0038",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation (lucy F)"
+  },
+  {
+    "round_index": 39,
+    "product_key": "lucy-2.5",
+    "run_id": "B-lucy-2.5-C0-r0039",
+    "from": "F",
+    "to": "E",
+    "reason": "cross-product correlated long-run truncation in same round (xmax E) = shared-path (tunnel throughput sag) evidence; daylight rerun of identical 60s workload completed cleanly (2026-08-12)"
+  }
+]
