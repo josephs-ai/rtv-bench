@@ -78,5 +78,13 @@
     "from": "F",
     "to": "E",
     "reason": "cross-product correlated long-run truncation in same round (xmax E) = shared-path (tunnel throughput sag) evidence; daylight rerun of identical 60s workload completed cleanly (2026-08-12)"
+  },
+  {
+    "round_index": 163,
+    "product_key": "lucy-2.5",
+    "run_id": "B-lucy-2.5-C0-r0163",
+    "from": "F",
+    "to": "E",
+    "reason": "night-2 sentinel measured 1.18 Mbps upstream within 60 s of this run window (throughput.jsonl 2026-08-12T19:08Z) - positive shared-path evidence of tunnel sag; single-lane night so no cross-product correlate available. Sibling F r0149 STANDS (no sub-floor measurement near its window)."
   }
 ]
