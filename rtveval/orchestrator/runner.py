@@ -231,6 +231,17 @@ async def execute_slot(spec: RunSpec, adapter: Adapter, journal: RunJournal,
             if should_retry(outcome, review, attempt):
                 continue
             return rows
+        except Exception:
+            # Session-establishment or transport crash (credit rejection,
+            # DNS, ws refusal...). Release the reservation - a run that never
+            # started cost nothing - and let the campaign driver decide
+            # whether the lane is dead (breaker) or this was a one-off.
+            try:
+                await adapter.close()
+            except Exception:
+                pass
+            spend.reconcile(reservation_id, 0.0)
+            raise
 
         spend.reconcile(reservation_id, actual_s * usd_per_second)
         rig_after = postflight()

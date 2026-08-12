@@ -201,29 +201,56 @@ async def main_async(args):
 
     done = 0
     t0 = time.monotonic()
+    # Circuit breaker: consecutive crashes/E per product park that LANE
+    # (slots stay pending for a future resume - never burned as fake data,
+    # never crash the campaign). Both lanes parked -> stop cleanly so the
+    # chain can move on. Night-2 lesson: a credit rejection at 2 am must
+    # not kill the whole night.
+    streak = {p: 0 for p in products}
+    parked = {}
+    stop_campaign = False
     for r in sorted(by_round):
+        if stop_campaign:
+            break
         specs = by_round[r]
         await ensure_throughput(out_dir=OUT)
         # SERIAL lanes: two simultaneous 720p upstreams starve each other
         # through the single VPN tunnel (smoke r000: Lucy first-frame starved
         # while Xmax ran). Reliability must not measure our own uplink.
-        results = []
-        try:
-            for spec in specs:
-                results.append(await run_product_slot(
-                    spec, journal, spend, baseline, args))
-        except CapExceeded as e:
-            print("SPEND CAP: %s - stopping cleanly at round boundary" % e)
+        for spec in specs:
+            if spec.product_key in parked:
+                continue
+            try:
+                rows = await run_product_slot(
+                    spec, journal, spend, baseline, args)
+            except CapExceeded as e:
+                print("SPEND CAP: %s - stopping cleanly at round boundary" % e)
+                stop_campaign = True
+                break
+            except Exception as e:
+                streak[spec.product_key] += 1
+                print("[slot-crash] %s %s: %s (streak %d, slot left pending)"
+                      % (spec.run_id, type(e).__name__, str(e)[:140],
+                         streak[spec.product_key]))
+            else:
+                q.mark_done(spec.run_id)
+                done += 1
+                last = rows[-1]
+                streak[spec.product_key] = (
+                    streak[spec.product_key] + 1 if last.outcome == "E" else 0)
+                print("[r%03d] %-10s %s %s ttff=%s (%d/%d, %.1f min elapsed)"
+                      % (r, spec.product_key, last.outcome,
+                         ",".join(last.outcome_reasons)[:40] or "-",
+                         getattr(last, "ttff_ms", None), done, len(pending),
+                         (time.monotonic() - t0) / 60))
+            if streak[spec.product_key] >= 4:
+                parked[spec.product_key] = "4 consecutive crash/E"
+                print("[breaker] %s lane PARKED (%s) - remaining slots stay "
+                      "pending for resume" % (spec.product_key,
+                                              parked[spec.product_key]))
+        if len(parked) == len(products):
+            print("[breaker] all lanes parked - stopping campaign cleanly")
             break
-        for s, rows in zip(specs, results):
-            q.mark_done(s.run_id)
-            done += 1
-            last = rows[-1]
-            print("[r%03d] %-10s %s %s ttff=%s (%d/%d, %.1f min elapsed)"
-                  % (r, s.product_key, last.outcome,
-                     ",".join(last.outcome_reasons)[:40] or "-",
-                     getattr(last, "ttff_ms", None), done, len(pending),
-                     (time.monotonic() - t0) / 60))
         if args.smoke and r >= min(by_round) + args.rounds - 1:
             break
 
