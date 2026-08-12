@@ -67,6 +67,48 @@ CLIPS = {
 USD_PER_S = {"lucy-2.5": 0.004, "xmax-x2.0": 0.004}   # reservation estimates; the cap is the guard
 
 
+def upload_mbps():
+    """Sustained-upstream probe: 1.5MB real upload through the tunnel."""
+    import subprocess
+    probe = "/tmp/tp-probe.bin"
+    if not os.path.exists(probe):
+        with open(probe, "wb") as f:
+            f.write(os.urandom(1_500_000))
+    r = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{speed_upload}",
+                        "--max-time", "25", "-X", "POST", "--data-binary",
+                        "@" + probe, "https://speed.cloudflare.com/__up"],
+                       capture_output=True, text=True)
+    try:
+        return float(r.stdout) * 8 / 1e6
+    except ValueError:
+        return 0.0
+
+
+async def ensure_throughput(min_mbps=2.5, out_dir=None):
+    """HOLD the campaign during tunnel-sag windows instead of burning slots
+    into them (night-1 lesson: snapshots of RTT/loss cannot see sustained
+    sag; 10 runs were adjudicated out after the fact - this is the
+    before-the-fact version)."""
+    import time as _t
+    held = 0
+    while True:
+        mbps = await asyncio.get_event_loop().run_in_executor(None, upload_mbps)
+        if out_dir:
+            with open(os.path.join(out_dir, "throughput.jsonl"), "a") as f:
+                f.write(json.dumps({"utc": _t.strftime("%Y-%m-%dT%H:%M:%SZ",
+                        _t.gmtime()), "mbps": round(mbps, 2),
+                        "held_min": held * 2}) + "\n")
+        if mbps >= min_mbps:
+            if held:
+                print("  [sentinel] recovered: %.1f Mbps after %d min hold"
+                      % (mbps, held * 2))
+            return mbps
+        held += 1
+        print("  [sentinel] HOLD: upstream %.1f Mbps < %.1f needed - waiting "
+              "2 min (total held %d min)" % (mbps, min_mbps, held * 2))
+        await asyncio.sleep(120)
+
+
 def udp_loss_check():
     """Tunnel loss burst: >12% loss is rig evidence (E), not product data."""
     import socket, struct, time as _t
@@ -161,6 +203,7 @@ async def main_async(args):
     t0 = time.monotonic()
     for r in sorted(by_round):
         specs = by_round[r]
+        await ensure_throughput(out_dir=OUT)
         # SERIAL lanes: two simultaneous 720p upstreams starve each other
         # through the single VPN tunnel (smoke r000: Lucy first-frame starved
         # while Xmax ran). Reliability must not measure our own uplink.
