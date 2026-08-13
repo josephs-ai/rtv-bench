@@ -1,0 +1,73 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>xmax native lane</title>
+<style>body{margin:0;background:#000}video{width:640px;height:360px;background:#111}</style>
+<video id="srcv" src="/clip.mp4" muted autoplay playsinline loop></video>
+<video id="out" muted autoplay playsinline></video>
+<canvas id="rec" width="1280" height="720" style="display:none"></canvas>
+<script type="importmap">
+{"imports": {
+  "@volcengine/rtc": "./vendor/volc-rtc.esm.js",
+  "cos-js-sdk-v5": "./vendor/stub-cos.js",
+  "heic-to/csp": "./vendor/stub-heic.js"
+}}
+</script>
+<script type="module">
+/* Campaign B native-Xmax lane driver (Lens P-browser).
+   ?key=tk-...&prompt=...&seconds=15&run=B-xmax-native-r0001
+   Plays the real conform reel as the input track, connects the official
+   Xmax SDK natively, records the RAW output track (no compositing), and
+   POSTs the webm back to the python driver. Recording starts the moment
+   connect() resolves, so time-to-first-content is measurable from t=0 of
+   the file. */
+const q = new URLSearchParams(location.search);
+const seconds = parseFloat(q.get("seconds") || "15");
+const log = t => fetch("/log?m=" + encodeURIComponent(t)).catch(() => {});
+window.addEventListener("error", e => log("JS ERROR: " + e.message));
+window.addEventListener("unhandledrejection",
+                        e => log("REJECTION: " + (e.reason?.message || e.reason)));
+
+const srcv = document.getElementById("srcv");
+const out = document.getElementById("out");
+
+async function main() {
+  const key = q.get("key");
+  if (!key) { log("FATAL: no key"); return; }
+  await srcv.play().catch(() => {});
+  // wait until the reel is actually decoding
+  await new Promise(r => srcv.readyState >= 2 ? r() : srcv.onloadeddata = r);
+  const {createXmaxClient, models} = await import("./vendor/index.js");
+  const client = createXmaxClient({apiKey: key});
+  const stream = srcv.captureStream(30);
+  await client.realtime.connect(stream, {
+    model: models.realtime("x2.0"),
+    context: {prompt: q.get("prompt") || ""},
+    onRemoteStream: s => {
+      if (s.getVideoTracks().length > 0) { out.srcObject = s; log("stream up"); }
+    },
+  });
+  log("connected");
+  // A <video> with no srcObject emits no frames, so captureStream on it
+  // would start the file at first REAL frame and destroy the ttff signal.
+  // A canvas emits frames unconditionally: black until the stream lands,
+  // so the leading black run in the file IS the ttff measurement.
+  const cv = document.getElementById("rec"), ctx = cv.getContext("2d");
+  (function draw(){ ctx.drawImage(out, 0, 0, 1280, 720);
+                    requestAnimationFrame(draw); })();
+  const rec = new MediaRecorder(cv.captureStream(30),
+      {mimeType: "video/webm;codecs=vp8", videoBitsPerSecond: 12_000_000});
+  const chunks = [];
+  rec.ondataavailable = e => chunks.push(e.data);
+  const done = new Promise(res => rec.onstop = res);
+  rec.start();
+  log("recording " + seconds + "s");
+  await new Promise(r => setTimeout(r, seconds * 1000));
+  rec.stop(); await done;
+  const blob = new Blob(chunks, {type: "video/webm"});
+  log("uploading " + (blob.size / 1e6).toFixed(1) + "MB");
+  await fetch("/upload?run=" + (q.get("run") || "0"),
+              {method: "POST", body: blob});
+  log("DONE");
+}
+main().catch(e => log("FATAL: " + (e && e.message)));
+</script>
