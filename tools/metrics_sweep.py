@@ -41,6 +41,8 @@ def main():
     ap.add_argument("capture_dir")
     ap.add_argument("--no-dino", action="store_true")
     ap.add_argument("--max-frames", type=int, default=400)
+    ap.add_argument("--force", action="store_true",
+                    help="recompute captures whose metrics file already exists")
     args = ap.parse_args()
 
     from rtveval import vbench_metrics
@@ -66,6 +68,8 @@ def main():
             continue
         meta = json.load(open(metap))
         name = os.path.splitext(os.path.basename(mkv))[0]
+        if not args.force and os.path.exists(os.path.join(OUTDIR, name + ".json")):
+            continue  # incremental: pre-runs + the final chain pass compose
         t0 = time.monotonic()
         frames = load_frames(mkv, args.max_frames)
         if len(frames) < 10:
