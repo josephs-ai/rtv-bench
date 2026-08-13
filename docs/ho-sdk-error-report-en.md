@@ -32,6 +32,7 @@ Date: 2026-08-13 · Context: real-time video product evaluation · Account: Reac
 - Same SDK, same network, same night: **LingBot-World 2 captures succeeded 19/21** → transport and integration are fine.
 - Correct sequencing: we only send `attach_world` after `phase=ready`, matching observed platform behavior.
 - Not a wrong command name: the platform sends no error for unknown commands, so we verified via full message logs.
+- **Not a billing/credits problem**: billing failures on this account reject the session outright with `402 credits_depleted` before any session exists (observed later the same night — a completely different signature). In the failing attach sessions, the session was accepted, the world **generated to completion** (the billed-expensive step), its first frame was rendered and uploaded to your CDN, and the WebRTC track delivered 434 frames — just never the world content. LingBot on the same account and same nights streamed normally, which rules out any account-level billing gate.
 
 ## Current workaround on our side
 
