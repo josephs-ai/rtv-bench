@@ -143,6 +143,7 @@ def udp_loss_check():
 
 async def run_product_slot(spec, journal, spend, baseline_rtt, args):
     from rtveval.orchestrator import health, runner
+    from tools.generation_pilot import FFV1Writer
 
     def preflight():
         checks = [health.vantage_drift_check(baseline_rtt), udp_loss_check()]
@@ -150,13 +151,34 @@ async def run_product_slot(spec, journal, spend, baseline_rtt, args):
 
     adapter = make_adapter(spec.product_key)
     dur = duration_for(spec.round_index)
-    return await runner.execute_slot(
-        spec, adapter, journal, spend,
-        usd_per_second=USD_PER_S[spec.product_key],
-        wall_clock_kill_s=dur + 120.0,
-        preflight=preflight, postflight=preflight,
-        prompt=PROMPT, clip_path=CLIPS[spec.product_key],
-        duration_intended_s=dur)
+
+    # Persist output frames for the quality stack (B v2: physics metrics +
+    # pairwise judge + artifact audit). Same post-decode boundary as C.
+    cap_dir = os.path.join(OUT, "captures")
+    os.makedirs(cap_dir, exist_ok=True)
+    cap_path = os.path.join(cap_dir, spec.run_id + ".mkv")
+    writer = FFV1Writer(cap_path, fps=30.0)
+    adapter.frame_tap = writer.write
+    try:
+        rows = await runner.execute_slot(
+            spec, adapter, journal, spend,
+            usd_per_second=USD_PER_S[spec.product_key],
+            wall_clock_kill_s=dur + 120.0,
+            preflight=preflight, postflight=preflight,
+            prompt=PROMPT, clip_path=CLIPS[spec.product_key],
+            duration_intended_s=dur)
+    finally:
+        writer.close()
+        if writer.n == 0 and os.path.exists(cap_path):
+            os.remove(cap_path)  # dead slot - no empty shells on disk
+        elif writer.n:
+            with open(cap_path.replace(".mkv", ".json"), "w") as f:
+                json.dump({"run_id": spec.run_id, "product": spec.product_key,
+                           "prompt": PROMPT, "fps": 30.0, "frames": writer.n,
+                           "clip": CLIPS[spec.product_key],
+                           "duration_intended_s": dur,
+                           "round_index": spec.round_index}, f, indent=2)
+    return rows
 
 
 async def main_async(args):

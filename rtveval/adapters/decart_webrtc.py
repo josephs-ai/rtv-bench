@@ -183,7 +183,10 @@ class DecartWebRTCAdapter(Adapter):
             except Exception:
                 return
             if self.session is not None:
-                self.session.feed(frame.to_ndarray(format="rgb24"))
+                arr = frame.to_ndarray(format="rgb24")
+                if getattr(self, "frame_tap", None) is not None:
+                    self.frame_tap(arr)
+                self.session.feed(arr)
 
     async def _signal_loop(self) -> None:
         """Post-negotiation signaling: ticks, acks, ended, refusals."""
