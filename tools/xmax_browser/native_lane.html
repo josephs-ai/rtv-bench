@@ -39,13 +39,40 @@ async function main() {
   const {createXmaxClient, models} = await import("./vendor/index.js");
   const client = createXmaxClient({apiKey: key});
   const stream = srcv.captureStream(30);
-  await client.realtime.connect(stream, {
+  const session = await client.realtime.connect(stream, {
     model: models.realtime("x2.0"),
     context: {prompt: q.get("prompt") || ""},
     onRemoteStream: s => {
       if (s.getVideoTracks().length > 0) { out.srcObject = s; log("stream up"); }
     },
   });
+  // Campaign D: live mid-stream edit at ?edit_at= seconds (wall from
+  // stream-up). set() lives on the session object (live_ab lesson);
+  // fall back to client.realtime.set for SDK-version drift.
+  const editText = q.get("edit");
+  if (editText) {
+    const editAt = parseFloat(q.get("edit_at") || "15");
+    const armEdit = () => setTimeout(async () => {
+      try {
+        const form = q.get("edit_form") || "context";
+        const payload = form === "flat" ? {prompt: editText}
+                                        : {context: {prompt: editText}};
+        if (session && session.set) await session.set(payload);
+        else if (client.realtime.set) await client.realtime.set(payload);
+        else throw new Error("no set() on session or realtime");
+        log("EDIT SENT (" + form + ") at " + editAt + "s: " + editText.slice(0, 60));
+      } catch (e) {
+        try {
+          await (session?.set ? session.set({prompt: editText})
+                              : client.realtime.set({prompt: editText}));
+          log("EDIT SENT (flat form) at " + editAt + "s");
+        } catch (e2) { log("EDIT FAILED: " + e2.message); }
+      }
+    }, editAt * 1000);
+    const waitUp = setInterval(() => {
+      if (out.srcObject) { clearInterval(waitUp); armEdit(); }
+    }, 200);
+  }
   log("connected");
   // A <video> with no srcObject emits no frames, so captureStream on it
   // would start the file at first REAL frame and destroy the ttff signal.
