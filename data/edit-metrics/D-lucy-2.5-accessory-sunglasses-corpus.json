@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-accessory-sunglasses-corpus",
+  "product": "lucy-2.5",
+  "edit_id": "accessory-sunglasses",
+  "clip": "conform-corpus.mp4",
+  "kind": "prompt",
+  "fps": 13.69,
+  "edit_frame": 167,
+  "frames": 546,
+  "target_region": "face",
+  "target_delta": 0.38,
+  "commit_latency_s": 1.24,
+  "collateral_index": 0.3,
+  "residue_index": 0.62,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.758,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": 0.959,
+    "flips": 2
+  },
+  "motion_continuity_break": 6.99,
+  "identity": {
+    "pre_post_face_sim": 0.561,
+    "ref_fidelity": null
+  }
+}

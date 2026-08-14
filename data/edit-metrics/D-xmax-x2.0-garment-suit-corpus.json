@@ -1,0 +1,30 @@
+{
+  "name": "D-xmax-x2.0-garment-suit-corpus",
+  "product": "xmax-x2.0",
+  "edit_id": "garment-suit",
+  "clip": "conform-corpus.mp4",
+  "kind": "prompt",
+  "fps": 30.0,
+  "edit_frame": 450,
+  "frames": 1030,
+  "target_region": "torso",
+  "target_delta": 0.553,
+  "commit_latency_s": 1.6,
+  "collateral_index": 0.713,
+  "residue_index": 0.448,
+  "transition": {
+    "baseline_frozen_rate": 0.311,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.122,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": 1.0,
+    "flips": 0
+  },
+  "motion_continuity_break": 0.23,
+  "identity": {
+    "pre_post_face_sim": 0.139,
+    "ref_fidelity": null
+  }
+}

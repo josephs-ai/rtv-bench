@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-character-man-mixkit12892",
+  "product": "lucy-2.5",
+  "edit_id": "character-man",
+  "clip": "conform-mixkit12892.mp4",
+  "kind": "ref",
+  "fps": 13.0,
+  "edit_frame": 164,
+  "frames": 518,
+  "target_region": "person",
+  "target_delta": 0.136,
+  "commit_latency_s": 16.31,
+  "collateral_index": 1.137,
+  "residue_index": 0.845,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.0,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": 0.984,
+    "flips": 2
+  },
+  "motion_continuity_break": 1.11,
+  "identity": {
+    "pre_post_face_sim": 0.34,
+    "ref_fidelity": 0.544
+  }
+}

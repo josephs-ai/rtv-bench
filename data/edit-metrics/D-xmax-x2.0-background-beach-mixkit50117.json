@@ -1,0 +1,30 @@
+{
+  "name": "D-xmax-x2.0-background-beach-mixkit50117",
+  "product": "xmax-x2.0",
+  "edit_id": "background-beach",
+  "clip": "conform-mixkit50117.mp4",
+  "kind": "prompt",
+  "fps": 30.0,
+  "edit_frame": 450,
+  "frames": 1015,
+  "target_region": "background",
+  "target_delta": 0.004,
+  "commit_latency_s": null,
+  "collateral_index": 3.29,
+  "residue_index": 0.994,
+  "transition": {
+    "baseline_frozen_rate": 0.027,
+    "transition_frozen_excess": 0.027,
+    "baseline_glitch_rate": 0.054,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": null,
+    "flips": null
+  },
+  "motion_continuity_break": null,
+  "identity": {
+    "pre_post_face_sim": 0.974,
+    "ref_fidelity": null
+  }
+}

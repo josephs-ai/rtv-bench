@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-garment-suit-mixkit2960",
+  "product": "lucy-2.5",
+  "edit_id": "garment-suit",
+  "clip": "conform-mixkit2960.mp4",
+  "kind": "prompt",
+  "fps": 13.85,
+  "edit_frame": 191,
+  "frames": 552,
+  "target_region": "torso",
+  "target_delta": 0.583,
+  "commit_latency_s": 2.38,
+  "collateral_index": 0.024,
+  "residue_index": 0.421,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.206,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": 0.994,
+    "flips": 2
+  },
+  "motion_continuity_break": 1.48,
+  "identity": {
+    "pre_post_face_sim": 0.973,
+    "ref_fidelity": null
+  }
+}

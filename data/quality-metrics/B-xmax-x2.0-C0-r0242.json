@@ -1,0 +1,47 @@
+{
+  "run_id": "B-xmax-x2.0-C0-r0242",
+  "n_frames": 400,
+  "fps_assumed": 30.0,
+  "sweep": {
+    "flicker_lpips": 0.004263291436798471,
+    "flicker_masked_out": false,
+    "identity": {
+      "slope_per_min": -2.2820978296079977,
+      "mean": 0.6546311993299175,
+      "first": 0.8767575182202284,
+      "last": 0.34628459648422094,
+      "n": 26
+    },
+    "clip_adherence": 0.2384410853739138,
+    "motion_epe": null,
+    "blink": null
+  },
+  "vbench": {
+    "temporal_flickering": 0.9970745675285424,
+    "subject_consistency": 0.9299761696597101
+  },
+  "models_present": [
+    "clip_fn",
+    "face_embed_fn",
+    "flow_fn",
+    "lpips_fn"
+  ],
+  "note": "raw supporting values; anchor-relative 1-5 scoring requires Anchor-0/Anchor-R footage (Spec D.1)",
+  "motion_jerk": {
+    "pops_per_min": 355.5,
+    "n_pops": 79,
+    "n_frames": 200
+  },
+  "long_horizon": {
+    "early_vs_last": 0.8038231134414673,
+    "min": 0.8038058280944824,
+    "drift": [
+      -1.5247471783517743,
+      0.9135004580020905,
+      0.9837283492088318,
+      0.8038231134414673,
+      32
+    ]
+  },
+  "wall_s": 158.3
+}

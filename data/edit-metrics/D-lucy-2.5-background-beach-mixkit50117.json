@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-background-beach-mixkit50117",
+  "product": "lucy-2.5",
+  "edit_id": "background-beach",
+  "clip": "conform-mixkit50117.mp4",
+  "kind": "prompt",
+  "fps": 9.42,
+  "edit_frame": 133,
+  "frames": 373,
+  "target_region": "background",
+  "target_delta": 0.462,
+  "commit_latency_s": 1.38,
+  "collateral_index": 0.408,
+  "residue_index": 0.54,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.043,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": 0.785,
+    "flips": 19
+  },
+  "motion_continuity_break": 0.65,
+  "identity": {
+    "pre_post_face_sim": 0.842,
+    "ref_fidelity": null
+  }
+}

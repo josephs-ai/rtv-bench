@@ -1,0 +1,30 @@
+{
+  "name": "D-xmax-x2.0-garment-suit-mixkit50117",
+  "product": "xmax-x2.0",
+  "edit_id": "garment-suit",
+  "clip": "conform-mixkit50117.mp4",
+  "kind": "prompt",
+  "fps": 30.0,
+  "edit_frame": 450,
+  "frames": 1031,
+  "target_region": "torso",
+  "target_delta": 0.109,
+  "commit_latency_s": 9.0,
+  "collateral_index": 0.077,
+  "residue_index": 0.868,
+  "transition": {
+    "baseline_frozen_rate": 0.297,
+    "transition_frozen_excess": 0.162,
+    "baseline_glitch_rate": 0.108,
+    "transition_glitch_excess": 0.392
+  },
+  "stability": {
+    "hold": 0.909,
+    "flips": 4
+  },
+  "motion_continuity_break": 73.59,
+  "identity": {
+    "pre_post_face_sim": 0.963,
+    "ref_fidelity": null
+  }
+}

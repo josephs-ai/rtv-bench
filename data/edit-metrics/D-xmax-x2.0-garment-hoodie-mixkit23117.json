@@ -1,0 +1,30 @@
+{
+  "name": "D-xmax-x2.0-garment-hoodie-mixkit23117",
+  "product": "xmax-x2.0",
+  "edit_id": "garment-hoodie",
+  "clip": "conform-mixkit23117.mp4",
+  "kind": "prompt",
+  "fps": 30.0,
+  "edit_frame": 450,
+  "frames": 1030,
+  "target_region": "torso",
+  "target_delta": 0.208,
+  "commit_latency_s": 6.6,
+  "collateral_index": 0.397,
+  "residue_index": 0.706,
+  "transition": {
+    "baseline_frozen_rate": 0.419,
+    "transition_frozen_excess": 0.514,
+    "baseline_glitch_rate": 0.0,
+    "transition_glitch_excess": 0.027
+  },
+  "stability": {
+    "hold": 0.732,
+    "flips": 13
+  },
+  "motion_continuity_break": 81.18,
+  "identity": {
+    "pre_post_face_sim": 0.298,
+    "ref_fidelity": null
+  }
+}

@@ -1,18 +1,18 @@
 {
-  "run_id": "lingbot-world-2-static",
-  "n_frames": 21,
-  "fps_assumed": 16.0,
+  "run_id": "B-lucy-2.5-C0-r0224",
+  "n_frames": 12,
+  "fps_assumed": 30.0,
   "sweep": {
-    "flicker_lpips": 0.01667673927731812,
+    "flicker_lpips": 0.015958508476614952,
     "flicker_masked_out": false,
     "identity": null,
-    "clip_adherence": 0.12356331944465637,
+    "clip_adherence": 0.2906678318977356,
     "motion_epe": null,
     "blink": null
   },
   "vbench": {
-    "temporal_flickering": 0.997114376016332,
-    "subject_consistency": 0.8854723953670566
+    "temporal_flickering": 0.9817985447046033,
+    "subject_consistency": 0.9487170811916255
   },
   "models_present": [
     "clip_fn",
@@ -21,11 +21,7 @@
     "lpips_fn"
   ],
   "note": "raw supporting values; anchor-relative 1-5 scoring requires Anchor-0/Anchor-R footage (Spec D.1)",
-  "motion_jerk": {
-    "pops_per_min": 96.0,
-    "n_pops": 2,
-    "n_frames": 10
-  },
+  "motion_jerk": null,
   "long_horizon": null,
-  "wall_s": 298.8
+  "wall_s": 4.4
 }

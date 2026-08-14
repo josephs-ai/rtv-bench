@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-character-woman-corpus",
+  "product": "lucy-2.5",
+  "edit_id": "character-woman",
+  "clip": "conform-corpus.mp4",
+  "kind": "ref",
+  "fps": 12.51,
+  "edit_frame": 156,
+  "frames": 496,
+  "target_region": "person",
+  "target_delta": 0.273,
+  "commit_latency_s": 2.72,
+  "collateral_index": 0.338,
+  "residue_index": 0.725,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.633,
+    "transition_glitch_excess": 0.1
+  },
+  "stability": {
+    "hold": 1.0,
+    "flips": 0
+  },
+  "motion_continuity_break": 3.02,
+  "identity": {
+    "pre_post_face_sim": 0.022,
+    "ref_fidelity": 0.775
+  }
+}

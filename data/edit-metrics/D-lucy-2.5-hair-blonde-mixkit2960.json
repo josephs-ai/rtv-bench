@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-hair-blonde-mixkit2960",
+  "product": "lucy-2.5",
+  "edit_id": "hair-blonde",
+  "clip": "conform-mixkit2960.mp4",
+  "kind": "prompt",
+  "fps": 13.42,
+  "edit_frame": 193,
+  "frames": 535,
+  "target_region": "head",
+  "target_delta": 0.084,
+  "commit_latency_s": null,
+  "collateral_index": 0.425,
+  "residue_index": 0.917,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.03,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": null,
+    "flips": null
+  },
+  "motion_continuity_break": null,
+  "identity": {
+    "pre_post_face_sim": 0.884,
+    "ref_fidelity": null
+  }
+}

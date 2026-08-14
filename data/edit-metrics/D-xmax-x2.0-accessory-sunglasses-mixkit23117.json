@@ -1,0 +1,30 @@
+{
+  "name": "D-xmax-x2.0-accessory-sunglasses-mixkit23117",
+  "product": "xmax-x2.0",
+  "edit_id": "accessory-sunglasses",
+  "clip": "conform-mixkit23117.mp4",
+  "kind": "prompt",
+  "fps": 30.0,
+  "edit_frame": 450,
+  "frames": 1014,
+  "target_region": "face",
+  "target_delta": 0.035,
+  "commit_latency_s": null,
+  "collateral_index": 0.258,
+  "residue_index": 0.965,
+  "transition": {
+    "baseline_frozen_rate": 0.459,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.0,
+    "transition_glitch_excess": 0.027
+  },
+  "stability": {
+    "hold": null,
+    "flips": null
+  },
+  "motion_continuity_break": null,
+  "identity": {
+    "pre_post_face_sim": 0.774,
+    "ref_fidelity": null
+  }
+}

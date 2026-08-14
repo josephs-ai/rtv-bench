@@ -1,0 +1,30 @@
+{
+  "name": "D-xmax-x2.0-hair-blonde-mixkit12892",
+  "product": "xmax-x2.0",
+  "edit_id": "hair-blonde",
+  "clip": "conform-mixkit12892.mp4",
+  "kind": "prompt",
+  "fps": 30.0,
+  "edit_frame": 450,
+  "frames": 992,
+  "target_region": "head",
+  "target_delta": 0.004,
+  "commit_latency_s": null,
+  "collateral_index": 0.955,
+  "residue_index": 0.996,
+  "transition": {
+    "baseline_frozen_rate": 0.216,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.0,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": null,
+    "flips": null
+  },
+  "motion_continuity_break": null,
+  "identity": {
+    "pre_post_face_sim": 0.93,
+    "ref_fidelity": null
+  }
+}

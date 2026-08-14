@@ -1,0 +1,41 @@
+{
+  "run_id": "B-lucy-2.5-C0-r0269",
+  "n_frames": 287,
+  "fps_assumed": 30.0,
+  "sweep": {
+    "flicker_lpips": 0.0225522474116895,
+    "flicker_masked_out": false,
+    "identity": {
+      "slope_per_min": 0.041418426490506456,
+      "mean": 0.7878564841602317,
+      "first": 0.8512543333963308,
+      "last": 0.7430974042436552,
+      "n": 19
+    },
+    "clip_adherence": 0.2864941582083702,
+    "motion_epe": null,
+    "blink": null
+  },
+  "vbench": {
+    "temporal_flickering": 0.9763701483425173,
+    "subject_consistency": 0.9432182933849343
+  },
+  "models_present": [
+    "clip_fn",
+    "face_embed_fn",
+    "flow_fn",
+    "lpips_fn"
+  ],
+  "note": "raw supporting values; anchor-relative 1-5 scoring requires Anchor-0/Anchor-R footage (Spec D.1)",
+  "motion_jerk": {
+    "pops_per_min": 113.2867132867133,
+    "n_pops": 18,
+    "n_frames": 143
+  },
+  "long_horizon": {
+    "early_vs_last": 0.9776193499565125,
+    "min": 0.9632590413093567,
+    "drift": null
+  },
+  "wall_s": 113.0
+}

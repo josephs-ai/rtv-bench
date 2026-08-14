@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-style-anime-mixkit50117",
+  "product": "lucy-2.5",
+  "edit_id": "style-anime",
+  "clip": "conform-mixkit50117.mp4",
+  "kind": "prompt",
+  "fps": 12.08,
+  "edit_frame": 156,
+  "frames": 483,
+  "target_region": "frame",
+  "target_delta": 0.671,
+  "commit_latency_s": 1.32,
+  "collateral_index": 0.0,
+  "residue_index": 0.329,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.0,
+    "transition_glitch_excess": 0.034
+  },
+  "stability": {
+    "hold": 1.0,
+    "flips": 0
+  },
+  "motion_continuity_break": 2.51,
+  "identity": {
+    "pre_post_face_sim": 0.043,
+    "ref_fidelity": null
+  }
+}

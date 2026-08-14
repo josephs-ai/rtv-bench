@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-accessory-sunglasses-mixkit50117",
+  "product": "lucy-2.5",
+  "edit_id": "accessory-sunglasses",
+  "clip": "conform-mixkit50117.mp4",
+  "kind": "prompt",
+  "fps": 12.37,
+  "edit_frame": 159,
+  "frames": 472,
+  "target_region": "face",
+  "target_delta": 0.239,
+  "commit_latency_s": 1.05,
+  "collateral_index": 0.116,
+  "residue_index": 0.761,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.067,
+    "transition_glitch_excess": 0.033
+  },
+  "stability": {
+    "hold": 1.0,
+    "flips": 0
+  },
+  "motion_continuity_break": 1.69,
+  "identity": {
+    "pre_post_face_sim": 0.8,
+    "ref_fidelity": null
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-garment-hoodie-corpus",
+  "product": "lucy-2.5",
+  "edit_id": "garment-hoodie",
+  "clip": "conform-corpus.mp4",
+  "kind": "prompt",
+  "fps": 11.19,
+  "edit_frame": 155,
+  "frames": 447,
+  "target_region": "torso",
+  "target_delta": 0.436,
+  "commit_latency_s": 0.98,
+  "collateral_index": 0.245,
+  "residue_index": 0.564,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.926,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": 1.0,
+    "flips": 0
+  },
+  "motion_continuity_break": 4.07,
+  "identity": {
+    "pre_post_face_sim": 0.844,
+    "ref_fidelity": null
+  }
+}

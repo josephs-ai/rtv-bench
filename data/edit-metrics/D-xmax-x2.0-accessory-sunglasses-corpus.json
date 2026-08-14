@@ -1,0 +1,30 @@
+{
+  "name": "D-xmax-x2.0-accessory-sunglasses-corpus",
+  "product": "xmax-x2.0",
+  "edit_id": "accessory-sunglasses",
+  "clip": "conform-corpus.mp4",
+  "kind": "prompt",
+  "fps": 30.0,
+  "edit_frame": 450,
+  "frames": 946,
+  "target_region": "face",
+  "target_delta": 0.039,
+  "commit_latency_s": 13.4,
+  "collateral_index": 1.799,
+  "residue_index": null,
+  "transition": {
+    "baseline_frozen_rate": 0.176,
+    "transition_frozen_excess": 0.068,
+    "baseline_glitch_rate": 0.027,
+    "transition_glitch_excess": 0.257
+  },
+  "stability": {
+    "hold": 1.0,
+    "flips": 0
+  },
+  "motion_continuity_break": 2.69,
+  "identity": {
+    "pre_post_face_sim": 0.929,
+    "ref_fidelity": null
+  }
+}

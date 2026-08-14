@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-character-woman-mixkit50117",
+  "product": "lucy-2.5",
+  "edit_id": "character-woman",
+  "clip": "conform-mixkit50117.mp4",
+  "kind": "ref",
+  "fps": 11.22,
+  "edit_frame": 159,
+  "frames": 443,
+  "target_region": "person",
+  "target_delta": 0.492,
+  "commit_latency_s": 2.76,
+  "collateral_index": 0.13,
+  "residue_index": 0.505,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.037,
+    "transition_glitch_excess": 0.333
+  },
+  "stability": {
+    "hold": 1.0,
+    "flips": 0
+  },
+  "motion_continuity_break": 3.49,
+  "identity": {
+    "pre_post_face_sim": 0.037,
+    "ref_fidelity": 0.57
+  }
+}

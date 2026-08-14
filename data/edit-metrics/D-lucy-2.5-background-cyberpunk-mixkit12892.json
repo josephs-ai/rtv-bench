@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-background-cyberpunk-mixkit12892",
+  "product": "lucy-2.5",
+  "edit_id": "background-cyberpunk",
+  "clip": "conform-mixkit12892.mp4",
+  "kind": "prompt",
+  "fps": 12.02,
+  "edit_frame": 177,
+  "frames": 479,
+  "target_region": "background",
+  "target_delta": 0.45,
+  "commit_latency_s": 1.08,
+  "collateral_index": 0.722,
+  "residue_index": 0.55,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.0,
+    "transition_glitch_excess": 0.069
+  },
+  "stability": {
+    "hold": 1.0,
+    "flips": 0
+  },
+  "motion_continuity_break": 0.54,
+  "identity": {
+    "pre_post_face_sim": 0.38,
+    "ref_fidelity": null
+  }
+}

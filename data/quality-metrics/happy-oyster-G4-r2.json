@@ -1,0 +1,41 @@
+{
+  "run_id": "happy-oyster-G4-r2",
+  "n_frames": 400,
+  "fps_assumed": 30.0,
+  "sweep": {
+    "flicker_lpips": 0.011731635977248297,
+    "flicker_masked_out": false,
+    "identity": null,
+    "clip_adherence": 0.3502924387101774,
+    "motion_epe": null,
+    "blink": null
+  },
+  "vbench": {
+    "temporal_flickering": 0.9771876675479321,
+    "subject_consistency": 0.8496347567181826
+  },
+  "models_present": [
+    "clip_fn",
+    "face_embed_fn",
+    "flow_fn",
+    "lpips_fn"
+  ],
+  "note": "raw supporting values; anchor-relative 1-5 scoring requires Anchor-0/Anchor-R footage (Spec D.1)",
+  "motion_jerk": {
+    "pops_per_min": 4.5,
+    "n_pops": 1,
+    "n_frames": 200
+  },
+  "long_horizon": {
+    "early_vs_last": 0.8229835033416748,
+    "min": 0.6019383072853088,
+    "drift": [
+      -1.9160742322501898,
+      0.7840065583586693,
+      0.9632545113563538,
+      0.8229835033416748,
+      32
+    ]
+  },
+  "wall_s": 166.6
+}

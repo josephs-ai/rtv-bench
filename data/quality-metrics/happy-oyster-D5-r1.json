@@ -1,0 +1,41 @@
+{
+  "run_id": "happy-oyster-D5-r1",
+  "n_frames": 400,
+  "fps_assumed": 16.0,
+  "sweep": {
+    "flicker_lpips": 0.034825551658223715,
+    "flicker_masked_out": false,
+    "identity": null,
+    "clip_adherence": null,
+    "motion_epe": null,
+    "blink": null
+  },
+  "vbench": {
+    "temporal_flickering": 0.9460386519825243,
+    "subject_consistency": 0.7427461488288907
+  },
+  "models_present": [
+    "clip_fn",
+    "face_embed_fn",
+    "flow_fn",
+    "lpips_fn"
+  ],
+  "note": "raw supporting values; anchor-relative 1-5 scoring requires Anchor-0/Anchor-R footage (Spec D.1)",
+  "motion_jerk": {
+    "pops_per_min": 19.2,
+    "n_pops": 8,
+    "n_frames": 200
+  },
+  "long_horizon": {
+    "early_vs_last": 0.4357692003250122,
+    "min": 0.408780574798584,
+    "drift": [
+      -1.506451206515924,
+      0.5961430244147777,
+      0.8762232065200806,
+      0.4357692003250122,
+      40
+    ]
+  },
+  "wall_s": 86.2
+}

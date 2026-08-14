@@ -1,0 +1,30 @@
+{
+  "name": "D-xmax-x2.0-style-anime-corpus",
+  "product": "xmax-x2.0",
+  "edit_id": "style-anime",
+  "clip": "conform-corpus.mp4",
+  "kind": "prompt",
+  "fps": 30.0,
+  "edit_frame": 450,
+  "frames": 1029,
+  "target_region": "frame",
+  "target_delta": 0.461,
+  "commit_latency_s": 1.8,
+  "collateral_index": 0.0,
+  "residue_index": 0.538,
+  "transition": {
+    "baseline_frozen_rate": 0.473,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.014,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": 1.0,
+    "flips": 0
+  },
+  "motion_continuity_break": 3.13,
+  "identity": {
+    "pre_post_face_sim": 0.05,
+    "ref_fidelity": null
+  }
+}

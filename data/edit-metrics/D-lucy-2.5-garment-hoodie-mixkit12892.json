@@ -1,0 +1,30 @@
+{
+  "name": "D-lucy-2.5-garment-hoodie-mixkit12892",
+  "product": "lucy-2.5",
+  "edit_id": "garment-hoodie",
+  "clip": "conform-mixkit12892.mp4",
+  "kind": "prompt",
+  "fps": 12.91,
+  "edit_frame": 171,
+  "frames": 515,
+  "target_region": "torso",
+  "target_delta": 0.182,
+  "commit_latency_s": 0.85,
+  "collateral_index": 0.367,
+  "residue_index": 0.82,
+  "transition": {
+    "baseline_frozen_rate": 0.0,
+    "transition_frozen_excess": 0.0,
+    "baseline_glitch_rate": 0.0,
+    "transition_glitch_excess": 0.0
+  },
+  "stability": {
+    "hold": 0.5,
+    "flips": 19
+  },
+  "motion_continuity_break": 5.82,
+  "identity": {
+    "pre_post_face_sim": 0.778,
+    "ref_fidelity": null
+  }
+}
