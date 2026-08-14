@@ -1,0 +1,71 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>happy-oyster capture lane</title>
+<style>body{margin:0;background:#000}video{width:960px;height:540px;background:#111}</style>
+<video id="out" muted autoplay playsinline></video>
+<canvas id="rec" width="1280" height="720" style="display:none"></canvas>
+<script type="module">
+/* Campaign C HO capture driver - the DEDICATED SDK path (Reactor team's
+   guidance + their skill doc): connect(jwt) -> createWorld({prompt}) ->
+   startTravel() streams the SECOND WebRTC (Aliyun RTC) connection into the
+   bound <video>. Canvas-records the output; optional mid-travel instruct()
+   steer (directing mode) at ?steer_at= seconds with ?steer= text.
+   ?jwt=&mode=directing&prompt=&seconds=&run=&steer=&steer_at= */
+import { HappyOysterModel } from "./vendor/ho-sdk.bundle.js";
+
+const q = new URLSearchParams(location.search);
+const seconds = parseFloat(q.get("seconds") || "20");
+const log = t => fetch("/log?m=" + encodeURIComponent(t)).catch(() => {});
+window.addEventListener("error", e => log("JS ERROR: " + e.message));
+window.addEventListener("unhandledrejection",
+                        e => log("REJECTION: " + (e.reason?.message || e.reason)));
+
+const out = document.getElementById("out");
+
+async function main() {
+  const jwt = q.get("jwt");
+  if (!jwt) { log("FATAL: no jwt"); return; }
+  const mode = q.get("mode") || "directing";
+  const ho = new HappyOysterModel({ mode, videoElement: out });
+  ho.on?.("world_state", s => log("world_state " + JSON.stringify(
+      {phase: s?.phase, id: (s?.encrypted_world_id || "").slice(0, 8)})));
+  log("connecting (" + mode + ")");
+  await ho.connect(jwt);
+  log("connected - createWorld");
+  await ho.createWorld({ prompt: q.get("prompt") || "a quiet meadow" });
+  log("world ready - startTravel");
+  await ho.startTravel();
+  log("travel started - recording " + seconds + "s");
+
+  const cv = document.getElementById("rec"), ctx = cv.getContext("2d");
+  (function draw(){ ctx.drawImage(out, 0, 0, 1280, 720);
+                    requestAnimationFrame(draw); })();
+  const rec = new MediaRecorder(cv.captureStream(30),
+      {mimeType: "video/webm;codecs=vp8", videoBitsPerSecond: 12_000_000});
+  const chunks = [];
+  rec.ondataavailable = e => chunks.push(e.data);
+  const done = new Promise(res => rec.onstop = res);
+  rec.start();
+
+  const steer = q.get("steer");
+  const steerAt = parseFloat(q.get("steer_at") || "15");
+  if (steer) {
+    setTimeout(async () => {
+      try {
+        const r = await ho.instruct(steer);
+        log("STEER sent at " + steerAt + "s accepted=" + JSON.stringify(r));
+      } catch (e) { log("STEER FAILED: " + e.message); }
+    }, steerAt * 1000);
+  }
+
+  await new Promise(r => setTimeout(r, seconds * 1000));
+  rec.stop(); await done;
+  try { await ho.endTravelSession?.(); } catch (e) {}
+  const blob = new Blob(chunks, {type: "video/webm"});
+  log("uploading " + (blob.size / 1e6).toFixed(1) + "MB");
+  await fetch("/upload?run=" + (q.get("run") || "0"),
+              {method: "POST", body: blob});
+  log("DONE");
+}
+main().catch(e => log("FATAL: " + (e && (e.message || e))));
+</script>
