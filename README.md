@@ -16,6 +16,8 @@ were access-gated and are listed as not-evaluable rather than guessed at.
 
 ---
 
+![Benchmark pipeline](docs/img/pipeline.png)
+
 ## 1. Composite results (reference run, 2026-08)
 
 Scores are 0–100, computed per **lens** (route to the product — see §4;
@@ -32,6 +34,8 @@ The quotable sentence: **Lucy wins every profile, but the gap collapses
 from 46 points (creative use) to 12.7 (China streaming use)** — Xmax's
 instant whole-scene restyle, China-direct availability, and edit-time
 identity stability are worth that much in its home market.
+
+![Composite and axis scores](docs/img/scores.png)
 
 ### Axis detail behind those composites
 
@@ -74,6 +78,8 @@ the Xmax side within 12 s.
 Pattern: Lucy edits *surgically* (with moderate whole-scene collateral);
 Xmax either restyles the entire world or does nothing.
 
+![Outcomes by lens and edit matrix](docs/img/outcomes-edits.png)
+
 **Reliability (adjudicated, per lens):** Lucy native N=210 — 36% clean /
 37% degraded / 26% failed, with failures concentrated in tunnel-sag
 windows (356 additional runs excluded as network-fault rather than
@@ -98,6 +104,8 @@ dominated aggregator billing.
 ---
 
 ## 3. What runs, exactly
+
+![Measurement families](docs/img/instruments.png)
 
 ```
 STIMULUS  fixed, hashed: filmed 10-clip corpus -> instrumented reel
