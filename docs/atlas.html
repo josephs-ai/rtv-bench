@@ -1,0 +1,315 @@
+<title>RTV-Bench Atlas</title>
+<style>
+  :root{
+    --bg:#0F1216; --surface:#171B21; --surface2:#1D232B; --line:#2A313B;
+    --ink:#E7EAEE; --muted:#98A2AE; --faint:#6B7684;
+    --lucy:#2E93B8; --xmax:#C07A2E;
+    --ok:#2FA48D; --deg:#C08A1F; --fail:#C75454;
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,'Helvetica Neue',Segoe UI,Arial,sans-serif;
+    padding:0 24px 96px}
+  .wrap{max-width:1060px;margin:0 auto}
+  header{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+  .flashstrip{display:flex;height:14px;margin-bottom:28px;border:1px solid var(--line)}
+  .flashstrip div{flex:1}
+  h1{font-size:44px;font-weight:800;letter-spacing:-.01em;line-height:1.1;text-wrap:balance}
+  .thesis{margin-top:14px;max-width:62ch;color:var(--muted);font-size:18px}
+  .thesis b{color:var(--ink)}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--faint);
+    text-transform:uppercase;margin-bottom:10px;font-family:var(--mono)}
+  section{padding:48px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:26px;font-weight:750;letter-spacing:-.005em;margin-bottom:6px;text-wrap:balance}
+  .sub{color:var(--muted);max-width:68ch;margin-bottom:26px}
+  .sub b{color:var(--ink)}
+  svg text{font-family:var(--mono)}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 22px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  .grid4 .panel{min-width:0}
+  @media(max-width:900px){.grid2,.grid4{grid-template-columns:1fr}}
+  .fam h3{font-size:15px;font-weight:750;margin-bottom:2px}
+  .fam .who{font-size:12px;color:var(--faint);font-family:var(--mono);margin-bottom:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font:12px/1 var(--mono);color:var(--muted);background:var(--surface2);
+    border:1px solid var(--line);border-radius:4px;padding:6px 8px}
+  .chip em{font-style:normal;color:var(--ink)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin:4px 0 14px;
+    font:13px var(--mono);color:var(--muted)}
+  .sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+  .charts{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:900px){.charts{grid-template-columns:1fr}}
+  .chart-title{font-size:14px;font-weight:700;margin-bottom:2px}
+  .chart-note{font-size:12.5px;color:var(--faint);margin-bottom:12px}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th{font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
+    text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);
+    font-variant-numeric:tabular-nums}
+  td.num{font-family:var(--mono)}
+  .pill{display:inline-block;font:11px/1 var(--mono);padding:5px 8px;border-radius:99px;
+    border:1px solid var(--line)}
+  .pill.full{color:#7FD4C0;border-color:#2FA48D55;background:#2FA48D18}
+  .pill.partial{color:#E3C27A;border-color:#C08A1F55;background:#C08A1F18}
+  .pill.none{color:#E09A9A;border-color:#C7545455;background:#C7545418}
+  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:900px){.rules{grid-template-columns:1fr}}
+  .rule{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+  .rule b{display:block;font-size:14px;margin-bottom:4px}
+  .rule span{font-size:13.5px;color:var(--muted)}
+  #tip{position:fixed;pointer-events:none;background:#0B0E12;border:1px solid var(--line);
+    border-radius:6px;padding:8px 11px;font:12.5px var(--mono);color:var(--ink);
+    opacity:0;transition:opacity .12s;z-index:9;white-space:nowrap}
+  .overflow{overflow-x:auto}
+  footer{padding-top:28px;font:12.5px var(--mono);color:var(--faint)}
+  a{color:var(--lucy)}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div id="tip"></div>
+<div class="wrap">
+
+<header>
+  <div class="flashstrip" id="flashstrip"></div>
+  <div class="eyebrow">RTV-Bench · reference run 2026-08 · vantage: CN residential</div>
+  <h1>How we measure realtime video AI</h1>
+  <p class="thesis">Live sessions against live products — every delivered frame recorded,
+  every failure attributed, every judgment blinded. <b>Lucy&nbsp;2.5 wins every profile;
+  the gap collapses from 46 points to 12.7 when the question becomes China-market
+  streaming.</b></p>
+</header>
+
+<section>
+  <div class="eyebrow">01 · Pipeline</div>
+  <h2>One pipeline, five campaigns</h2>
+  <p class="sub">Fixed, hashed stimulus goes in; a real streaming session runs; guards keep
+  network sins out of product scores; four measurement families read the same capture;
+  scores roll up through declared weights. Campaigns vary <b>one axis at a time</b> —
+  duration mix (reliability), same-input pairs (quality), mid-stream instructions
+  (editing), world prompts (generation), dual routing (platform tax).</p>
+  <div class="panel overflow"><svg id="pipe" width="1000" height="150" role="img" aria-label="pipeline diagram"></svg></div>
+</section>
+
+<section>
+  <div class="eyebrow">02 · Instruments</div>
+  <h2>Four measurement families, one capture</h2>
+  <p class="sub">Each family is blind to something the others see — the design is the
+  redundancy. When a computed number and the judge disagree, a human looks.</p>
+  <div class="grid4">
+    <div class="panel fam"><h3>Outcomes</h3><div class="who">per session · journaled</div>
+      <div class="chips">
+        <span class="chip"><em>S / D / F / T / R</em> survival taxonomy</span>
+        <span class="chip"><em>E</em> = network fault → excluded</span>
+        <span class="chip">Wilson 95% CIs</span>
+        <span class="chip">correlation adjudication</span>
+        <span class="chip">TTFF · delivery gaps · freezes</span>
+      </div></div>
+    <div class="panel fam"><h3>Computed</h3><div class="who">pixels → embeddings → math</div>
+      <div class="chips">
+        <span class="chip">flicker <em>LPIPS</em></span>
+        <span class="chip">motion fidelity + jerk <em>RAFT</em></span>
+        <span class="chip">identity hold <em>ArcFace</em></span>
+        <span class="chip">prompt adherence <em>CLIP</em></span>
+        <span class="chip">consistency / drift <em>DINOv2</em></span>
+        <span class="chip">A/V sync <em>FaceMesh</em></span>
+        <span class="chip">edit: commit · collateral · residue · hold</span>
+      </div></div>
+    <div class="panel fam"><h3>Judged</h3><div class="who">blinded VLM · human-gated</div>
+      <div class="chips">
+        <span class="chip">anchored rubric <em>E1–E8</em></span>
+        <span class="chip">pairwise forced choice</span>
+        <span class="chip">artifact audit <em>10 classes + onset</em></span>
+        <span class="chip">edit judge <em>5 dims</em></span>
+        <span class="chip">trusted iff <em>α ≥ 0.67</em> vs humans</span>
+      </div></div>
+    <div class="panel fam"><h3>Latency</h3><div class="who">instrumented, not stopwatch</div>
+      <div class="chips">
+        <span class="chip">motion cross-correlation</span>
+        <span class="chip">timing flashes in the reel</span>
+        <span class="chip">platform tax <em>+650–710 ms</em></span>
+      </div></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">03 · Results</div>
+  <h2>The reference scorecard, drawn</h2>
+  <p class="sub">Scores are computed <b>per lens</b> — the route to the product — and lenses
+  never share a chart. Composites carry their weights openly; anything below 100%
+  data coverage says so.</p>
+  <div class="legend"><span><span class="sw" style="background:var(--lucy)"></span>Lucy 2.5 (native)</span>
+    <span><span class="sw" style="background:var(--xmax)"></span>Xmax X2.0 (native · browser lens)</span></div>
+  <div class="charts">
+    <div class="panel">
+      <div class="chart-title">Composite score by profile</div>
+      <div class="chart-note">0–100 · declared weights · hard floors printed when they bite</div>
+      <svg id="comp" width="100%" height="240" viewBox="0 0 480 240"></svg>
+    </div>
+    <div class="panel">
+      <div class="chart-title">Axis scores behind the composites</div>
+      <div class="chart-note">anchored 0–100 · E not instrumented for Lucy (weights renormalize)</div>
+      <svg id="axes" width="100%" height="240" viewBox="0 0 480 240"></svg>
+    </div>
+  </div>
+
+  <div class="charts" style="margin-top:18px">
+    <div class="panel">
+      <div class="chart-title">Session outcomes by lens</div>
+      <div class="chart-note">adjudicated · network-fault runs excluded from N</div>
+      <svg id="rel" width="100%" height="220" viewBox="0 0 480 220"></svg>
+      <div class="legend" style="margin:10px 0 0">
+        <span><span class="sw" style="background:var(--ok)"></span>clean</span>
+        <span><span class="sw" style="background:var(--deg)"></span>degraded</span>
+        <span><span class="sw" style="background:var(--fail)"></span>failed</span></div>
+    </div>
+    <div class="panel">
+      <div class="chart-title">Live editing — who takes direction</div>
+      <div class="chart-note">median commit latency · judge application verdict</div>
+      <div class="overflow"><table id="edits">
+        <tr><th>edit</th><th>Lucy 2.5</th><th>Xmax X2.0</th></tr>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">04 · Why trust it</div>
+  <h2>The honesty machinery</h2>
+  <div class="rules">
+    <div class="rule"><b>Lens separation</b><span>Native, aggregator-routed, and
+      browser-captured results never share a table — a middleman's 700 ms is not the
+      model's sin.</span></div>
+    <div class="rule"><b>Failures get attributed</b><span>Product, network, or rig — with
+      evidence. 356 Lucy runs were excluded as tunnel faults rather than counted
+      against her.</span></div>
+    <div class="rule"><b>Judges on a leash</b><span>Blinded frames, forced schemas,
+      hidden repeats, human agreement gates — and extreme calls get human eyes on the
+      raw pixels.</span></div>
+    <div class="rule"><b>Fixed stimulus</b><span>Inputs are hashed; a rerun streams
+      bit-identical pixels.</span></div>
+    <div class="rule"><b>Dated snapshots</b><span>Server builds are recorded; providers
+      hot-deploy mid-week. Results are dated claims.</span></div>
+    <div class="rule"><b>Self-applied</b><span>Our own mistakes are documented in-repo —
+      including a retracted vendor bug report and a journal-loss incident.</span></div>
+  </div>
+</section>
+
+<footer>github.com/josephs-ai/rtv-bench · spec v1.0 · weights overridable via
+benchmark_score.py --weights</footer>
+</div>
+
+<script>
+const $=s=>document.querySelector(s), NS='http://www.w3.org/2000/svg';
+const C={lucy:'#2E93B8',xmax:'#C07A2E',ok:'#2FA48D',deg:'#C08A1F',fail:'#C75454',
+         ink:'#E7EAEE',muted:'#98A2AE',faint:'#6B7684',line:'#2A313B'};
+function el(t,a,parent){const e=document.createElementNS(NS,t);
+  for(const k in a)e.setAttribute(k,a[k]); if(parent)parent.appendChild(e); return e}
+const tip=$('#tip');
+function hover(e,html){tip.innerHTML=html;tip.style.opacity=1;
+  tip.style.left=Math.min(e.clientX+14,innerWidth-tip.offsetWidth-10)+'px';
+  tip.style.top=(e.clientY-34)+'px'}
+function unhover(){tip.style.opacity=0}
+function bar(svg,x,y,w,h,fill,tt){const r=el('rect',{x,y,width:w,height:Math.max(h,0),
+  fill,rx:3},svg); r.addEventListener('mousemove',e=>hover(e,tt));
+  r.addEventListener('mouseleave',unhover); return r}
+
+/* header flash strip — the instrumented reel's timing signature */
+(()=>{const s=$('#flashstrip');let seed=7;
+for(let i=0;i<64;i++){seed=(seed*1103515245+12345)&0x7fffffff;
+  const d=document.createElement('div');
+  d.style.background=(seed%13===0)?'#E7EAEE':(i%2?'#0B0E12':'#12161B');
+  s.appendChild(d)}})();
+
+/* 01 pipeline */
+(()=>{const s=$('#pipe');
+const stages=[['STIMULUS','hashed corpus + reel'],['SESSION','live stream, frames taped'],
+  ['GUARDS','sentinel · in-run · adjudicate'],['MEASURE','4 families, same capture'],
+  ['SCORE','axes → profiles → floors']];
+stages.forEach((st,i)=>{const x=8+i*200;
+  el('rect',{x,y:30,width:172,height:64,rx:8,fill:'#1D232B',stroke:C.line},s);
+  const t1=el('text',{x:x+86,y:57,'text-anchor':'middle',fill:C.ink,
+    'font-size':13,'font-weight':700},s); t1.textContent=st[0];
+  const t2=el('text',{x:x+86,y:77,'text-anchor':'middle',fill:C.faint,'font-size':10.5},s);
+  t2.textContent=st[1];
+  if(i<4){el('line',{x1:x+180,y1:62,x2:x+198,y2:62,stroke:C.faint,'stroke-width':1.5},s);
+    el('path',{d:`M ${x+194} 57 L ${x+200} 62 L ${x+194} 67`,fill:'none',
+      stroke:C.faint,'stroke-width':1.5},s)}});
+const g=el('text',{x:8,y:126,fill:C.faint,'font-size':11},s);
+g.textContent='E-labeled runs exit here and never touch a denominator →';
+el('line',{x1:418,y1:104,x2:418,y2:120,stroke:C.fail,'stroke-width':1.5,
+  'stroke-dasharray':'3 3'},s);})();
+
+/* 03a composite grouped bars */
+(()=>{const s=$('#comp'),profiles=['STREAMER-CN','CREATOR-GLOBAL','LAB'],
+lucy=[74.1,86.0,79.4],xmax=[62.4,39.9,48.7],W=480,pad=44,bw=40,gp=8;
+for(const v of[0,25,50,75,100]){const y=196-v*1.7;
+  el('line',{x1:pad,y1:y,x2:W-8,y2:y,stroke:C.line,'stroke-width':v?0.5:1},s);
+  const t=el('text',{x:pad-8,y:y+4,'text-anchor':'end',fill:C.faint,'font-size':10},s);
+  t.textContent=v}
+profiles.forEach((p,i)=>{const gx=pad+30+i*140;
+  bar(s,gx,196-lucy[i]*1.7,bw,lucy[i]*1.7,C.lucy,`${p} · Lucy <b>${lucy[i]}</b>`);
+  bar(s,gx+bw+gp,196-xmax[i]*1.7,bw,xmax[i]*1.7,C.xmax,`${p} · Xmax <b>${xmax[i]}</b>`);
+  const l1=el('text',{x:gx+bw/2,y:190-lucy[i]*1.7,'text-anchor':'middle',
+    fill:C.ink,'font-size':11.5},s); l1.textContent=lucy[i];
+  const l2=el('text',{x:gx+bw+gp+bw/2,y:190-xmax[i]*1.7,'text-anchor':'middle',
+    fill:C.ink,'font-size':11.5},s); l2.textContent=xmax[i];
+  const t=el('text',{x:gx+bw+gp/2,y:214,'text-anchor':'middle',fill:C.muted,
+    'font-size':10.5},s); t.textContent=p});})();
+
+/* 03b axis paired horizontal bars */
+(()=>{const s=$('#axes'),
+rows=[['A reliability',48.7,63.8],['B quality',97.9,2.1],['C identity',92.7,84.7],
+      ['D editing',84.8,54.0],['E latency',null,58.0],['F deploy-CN',50,100]],
+x0=118,xs=3.4;
+rows.forEach((r,i)=>{const y=14+i*38;
+  const t=el('text',{x:x0-10,y:y+15,'text-anchor':'end',fill:C.muted,'font-size':11.5},s);
+  t.textContent=r[0];
+  el('line',{x1:x0,y1:y-3,x2:x0,y2:y+29,stroke:C.line},s);
+  if(r[1]!==null){bar(s,x0,y,r[1]*xs,11,C.lucy,`${r[0]} · Lucy <b>${r[1]}</b>`);
+    const v=el('text',{x:x0+r[1]*xs+6,y:y+9,fill:C.faint,'font-size':10},s);v.textContent=r[1]}
+  else{const v=el('text',{x:x0+6,y:y+9,fill:C.faint,'font-size':10},s);
+    v.textContent='not instrumented'}
+  bar(s,x0,y+15,r[2]*xs,11,C.xmax,`${r[0]} · Xmax <b>${r[2]}</b>`);
+  const v2=el('text',{x:x0+r[2]*xs+6,y:y+24,fill:C.faint,'font-size':10},s);
+  v2.textContent=r[2]});})();
+
+/* 03c reliability stacked bars (2px gaps between segments) */
+(()=>{const s=$('#rel'),
+rows=[['Lucy 2.5 · native',210,35.7,37.1,26.2,'+356 excluded as network-fault'],
+      ['Xmax · aggregator',85,55.3,32.9,11.8,'tail still accruing'],
+      ['Xmax · browser',91,25.3,74.7,0,'~2 s start-freeze ⇒ degraded']],
+x0=150,xs=2.9;
+rows.forEach((r,i)=>{const y=22+i*62,[name,N,S,D,F,note]=r;let x=x0;
+  const t=el('text',{x:x0-10,y:y+12,'text-anchor':'end',fill:C.muted,'font-size':11.5},s);
+  t.textContent=name;
+  const n=el('text',{x:x0-10,y:y+27,'text-anchor':'end',fill:C.faint,'font-size':10},s);
+  n.textContent='N='+N;
+  [[S,C.ok,'clean'],[D,C.deg,'degraded'],[F,C.fail,'failed']].forEach(seg=>{
+    if(seg[0]<=0)return;
+    const w=seg[0]*xs;
+    bar(s,x,y,w-2,18,seg[1],`${name} · ${seg[2]} <b>${seg[0]}%</b> of ${N}`);
+    if(seg[0]>=10){const v=el('text',{x:x+w/2-1,y:y+13,'text-anchor':'middle',
+      fill:'#0F1216','font-size':10.5,'font-weight':700},s);v.textContent=seg[0]+'%'}
+    x+=w});
+  const nt=el('text',{x:x0,y:y+34,fill:C.faint,'font-size':10},s);nt.textContent=note});})();
+
+/* 03d edit matrix */
+(()=>{const T=$('#edits'),
+rows=[['style flip','4.6 s','full','1.0 s','full'],
+      ['garment','1.4 s','full','6.6 s','partial'],
+      ['background','1.4 s','full','1.0 s*','partial'],
+      ['accessory','1.2 s','full','13.4 s','none'],
+      ['hair','8.3 s','partial','—','none'],
+      ['character (ref img)','3.4 s','full','—','none']];
+rows.forEach(r=>{const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${r[0]}</td>
+  <td class="num">${r[1]} <span class="pill ${r[2]}">${r[2]}</span></td>
+  <td class="num">${r[3]} <span class="pill ${r[4]}">${r[4]}</span></td>`;
+  T.appendChild(tr)});
+const tr=document.createElement('tr');
+tr.innerHTML=`<td colspan="3" style="color:var(--faint);font-size:12px;border-bottom:none">
+* commits fast but rewrites the whole frame (collateral 0.98) · “—” = never commits</td>`;
+T.appendChild(tr)})();
+</script>
