@@ -250,5 +250,221 @@
       }
     }
   },
-  "platform_overhead_note": "xmax native vs via-Reactor delta ~650-710 ms; see docs/final-report.md"
+  "platform_overhead_note": "xmax native vs via-Reactor delta ~650-710 ms; see docs/final-report.md",
+  "composite": {
+    "axis_weights": {
+      "A": {
+        "value_rate": 0.5,
+        "long_value_rate": 0.35,
+        "ttff": 0.15
+      },
+      "B": {
+        "pairwise": 0.6,
+        "artifact": 0.4
+      },
+      "C": {
+        "drift": 0.55,
+        "face_through_edits": 0.45
+      },
+      "D": {
+        "apply": 0.3,
+        "commit": 0.25,
+        "precision": 0.2,
+        "hold": 0.15,
+        "transition": 0.1
+      }
+    },
+    "edit_relevance": {
+      "garment": 20,
+      "style": 20,
+      "character": 20,
+      "hair": 15,
+      "background": 15,
+      "accessory": 10
+    },
+    "profiles": {
+      "STREAMER-CN": {
+        "A": 25,
+        "B": 10,
+        "C": 20,
+        "D": 25,
+        "E": 10,
+        "F": 10
+      },
+      "CREATOR-GLOBAL": {
+        "A": 15,
+        "B": 40,
+        "C": 15,
+        "D": 15,
+        "E": 15,
+        "F": 0
+      },
+      "LAB": {
+        "A": 25,
+        "B": 25,
+        "C": 15,
+        "D": 20,
+        "E": 15,
+        "F": 0
+      }
+    },
+    "floors": [
+      "reliability floor: total capped at A+15",
+      "identity floor: capped at 55"
+    ],
+    "entities": {
+      "lucy-2.5 (lens P)": {
+        "axes": {
+          "A": 48.7,
+          "B": 97.9,
+          "C": 92.7,
+          "D": 84.8,
+          "E": null,
+          "F": 50
+        },
+        "profiles": {
+          "STREAMER-CN": {
+            "score": 74.1,
+            "coverage_pct": 90.0,
+            "caps_applied": []
+          },
+          "CREATOR-GLOBAL": {
+            "score": 86.0,
+            "coverage_pct": 85.0,
+            "caps_applied": []
+          },
+          "LAB": {
+            "score": 79.4,
+            "coverage_pct": 85.0,
+            "caps_applied": []
+          }
+        },
+        "subs": {
+          "A": {
+            "value_rate": 54.3,
+            "long_value_rate": 27.9,
+            "ttff": 78.3
+          },
+          "B": {
+            "pairwise": 97.9,
+            "artifact": null
+          },
+          "C": {
+            "drift": 100,
+            "face_through_edits": 83.8
+          },
+          "D": {
+            "aggregate": 84.8
+          },
+          "E": {
+            "motion_to_glass": null
+          },
+          "F": {
+            "cn_market": 50
+          }
+        },
+        "notes": [
+          "B.artifact N/A (audit blinding key overwritten); B=pairwise only",
+          "E N/A (not instrumented on this lens); renormalized"
+        ]
+      },
+      "xmax-x2.0 (lens M)": {
+        "axes": {
+          "A": 58.2,
+          "B": null,
+          "C": null,
+          "D": null,
+          "E": null,
+          "F": 50
+        },
+        "profiles": {
+          "STREAMER-CN": {
+            "score": 55.9,
+            "coverage_pct": 35.0,
+            "caps_applied": []
+          },
+          "CREATOR-GLOBAL": {
+            "score": 58.2,
+            "coverage_pct": 15.0,
+            "caps_applied": []
+          },
+          "LAB": {
+            "score": 58.2,
+            "coverage_pct": 25.0,
+            "caps_applied": []
+          }
+        },
+        "subs": {
+          "A": {
+            "value_rate": 71.8,
+            "long_value_rate": 20.8,
+            "ttff": 100
+          },
+          "E": {
+            "motion_to_glass": null
+          },
+          "F": {
+            "cn_market": 50
+          }
+        },
+        "notes": [
+          "E N/A (not instrumented on this lens); renormalized"
+        ]
+      },
+      "xmax-x2.0 (lens P-browser)": {
+        "axes": {
+          "A": 63.8,
+          "B": 2.1,
+          "C": 84.7,
+          "D": 54.0,
+          "E": 58.0,
+          "F": 100
+        },
+        "profiles": {
+          "STREAMER-CN": {
+            "score": 62.4,
+            "coverage_pct": 100.0,
+            "caps_applied": []
+          },
+          "CREATOR-GLOBAL": {
+            "score": 39.9,
+            "coverage_pct": 100.0,
+            "caps_applied": []
+          },
+          "LAB": {
+            "score": 48.7,
+            "coverage_pct": 100.0,
+            "caps_applied": []
+          }
+        },
+        "subs": {
+          "A": {
+            "value_rate": 62.6,
+            "long_value_rate": 50.0,
+            "ttff": 100
+          },
+          "B": {
+            "pairwise": 2.1,
+            "artifact": null
+          },
+          "C": {
+            "drift": 72.1,
+            "face_through_edits": 100
+          },
+          "D": {
+            "aggregate": 54.0
+          },
+          "E": {
+            "motion_to_glass": 58.0
+          },
+          "F": {
+            "cn_market": 100
+          }
+        },
+        "notes": [
+          "B.artifact N/A (audit blinding key overwritten); B=pairwise only"
+        ]
+      }
+    }
+  }
 }
