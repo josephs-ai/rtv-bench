@@ -38,6 +38,13 @@ STAGES = {
         [PY, "tools/edit_judge_run.py", "data/campaign-d/captures"],
         [PY, "tools/d_scorecard.py"],
     ],
+    "score": [
+        [PY, "tools/benchmark_score.py"],
+        [PY, "tools/benchmark_report.py"],
+    ],
+    "rate": [
+        [PY, "tools/rating_session.py"],
+    ],
     "worlds": [
         [PY, "tools/campaign_c_gen.py", "--reps", "3"],
         [PY, "tools/ho_native_lane.py", "--reps", "3"],
