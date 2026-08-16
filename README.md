@@ -16,9 +16,42 @@ were access-gated and are listed as not-evaluable rather than guessed at.
 
 ---
 
+## The two tracks
+
+RTV-Bench is **two evaluation systems under one roof**, because the products
+do two fundamentally different jobs — the same reason MLPerf scores training
+and inference separately, and VBench keeps text-to-video suites apart. A
+product competes only inside its own track; nothing crosses.
+
+### Track 1 — Interactive video models (V2V)
+*Your camera goes in, a transformed you comes out, live.*
+**Products:** Lucy 2.5, Xmax X2.0.
+**What's evaluated:** does a live session survive and stay smooth · how good
+the transformed video looks (blind side-by-side against the other product on
+identical input) · does your face stay your face over minutes · can you
+change clothes / hair / background / style / character **while the stream is
+running**, and does the stream survive the change · how fast your movement
+reaches the screen · whether the product is reachable in the target market.
+
+### Track 2 — Interactive world models
+*A text prompt goes in, an explorable world comes out, and you steer it.*
+**Products:** LingBot-World 2, Happy Oyster.
+**What's evaluated:** did it build what the prompt actually asked (counts,
+colors, spatial relations are checkable on purpose) · does the world obey
+physics (gravity, collisions) · do things that leave the frame still exist
+when you come back (object permanence) · does the world stay the same world
+over a minute, or slowly melt · does a mid-stream text instruction visibly
+steer the story · how long a world takes to build and how long you can
+travel it.
+
+Shared between tracks: only infrastructure measurements (session
+reliability method, platform overhead) — never quality scores.
+
+---
+
 ![Benchmark pipeline](docs/img/pipeline.png)
 
-## 1. Composite results (reference run, 2026-08)
+## 1. Track 1 results — interactive video (reference run, 2026-08)
 
 Scores are 0–100, computed per **lens** (route to the product — see §4;
 lenses never merge). Three declared-weight profiles answer three different
@@ -90,10 +123,20 @@ a systematic ~2 s early-stream freeze marks 68/91 sessions degraded.
 Reactor aggregator shows **+650–710 ms** added latency — why Lens M and
 Lens P never share a table.
 
-**World models:** LingBot 21/21 captures judged + audited; Happy Oyster
-integrated via its dedicated SDK (`connect → createWorld → startTravel`,
-stream on a second Aliyun RTC connection), 11/21 captured, `instruct()`
-steering channel verified with accept/reject semantics.
+### Track 2 results — interactive worlds
+
+- **LingBot-World 2**: full battery complete (21/21 worlds) — judged blind
+  on prompt adherence / physical plausibility / long-horizon hold, plus the
+  artifact audit. Consistent artifact presence from generation start
+  (texture boiling, object pop-in); steering via prompt works.
+- **Happy Oyster**: integrated via its dedicated SDK; 11/21 worlds captured
+  (rest limited by the measurement vantage's network, not the product).
+  Strong visual impression on rendered worlds; its steering channel
+  (`instruct`) is the more capable design — text directions with explicit
+  accept/reject receipts, plus pause/resume/rewind transport.
+- Track 2's composite profile (adherence / physics / permanence /
+  long-horizon / steering) ships when Happy Oyster's sample completes;
+  per-dimension records are already in `data/`.
 
 **Engineering traps documented** (docs/): two mirror-image silent-failure
 shapes in the Xmax SDK (connect requires `context.prompt`, live update
