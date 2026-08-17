@@ -224,6 +224,9 @@ async def lucy_session(job, name):
 async def main_async(args):
     os.makedirs(OUT, exist_ok=True)
     jobs = jobs_for(args.product)
+    if args.shard:
+        k, n = (int(x) for x in args.shard.split("/"))
+        jobs = [j for i, j in enumerate(jobs) if i % n == k]
     if args.smoke:
         jobs = jobs[:1]
     elif args.limit:
@@ -257,6 +260,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--product", default="lucy-2.5")
     ap.add_argument("--wave", type=int, default=1)
+    ap.add_argument("--shard", default=None,
+                    help="k/n - run every n-th job starting at k "
+                         "(parallel lanes; Lucy only, Xmax must serialize)")
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--limit", type=int, default=0)
     args = ap.parse_args()
