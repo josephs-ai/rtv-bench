@@ -27,6 +27,18 @@ pointers to the academic suites, and every hour goes into Track 1 depth.
 
 ## v1.2 — make it a public benchmark, not a bake-off
 
+Critical path, dependency-ordered (external review concurs): **stimulus
+pack → core suite → submission protocol → multi-vantage → governance.**
+Instrument maturation (absolute quality, judge calibration numbers,
+hour-scale, A/V, edit taxonomy, cost/degradation) continues as a parallel
+non-blocking track - the philosophy and evidence machinery are sound; the
+work is making them durable and accessible.
+
+**Status: stimulus pack v1.0 SHIPPED** (`stimulus-pack/manifest.json` +
+deterministic builder; sources pinned by sha256, conforms recipe-derived,
+edit protocol + world prompts included; the private-likeness reel excluded,
+stock-built instrumented reel due in pack v1.1).
+
 - **Frozen stimulus pack**: hashed videos + edit scripts + prompts,
   downloadable; version = part of the spec.
 - **Core suite vs extended**: a ≤2-hour, ≤$50 core run anyone can afford;

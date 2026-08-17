@@ -6,3 +6,5 @@ captures/
 .env
 third_party/
 data/pilot-captures/lingbot-world-2-motion.mkv
+stimulus-pack/sources/
+stimulus-pack/conforms/
