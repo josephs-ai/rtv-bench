@@ -162,12 +162,12 @@ def main():
     # run's key and unlinked 46 judgments). key.json stays as "latest".
     import time as _t
     stamp = _t.strftime("%Y%m%dT%H%M%SZ", _t.gmtime())
-    with open(os.path.join(keydir, "key-%s.json" % stamp), "w") as f:
-        json.dump(key, f, indent=2)
-    with open(os.path.join(keydir, "key.json"), "w") as f:
-        json.dump({p.blind_id: {"item": items[p.item_index]._asdict(),
-                                "is_hidden_repeat": p.is_hidden_repeat}
-                   for p in plan}, f, indent=2)
+    key_map = {p.blind_id: {"item": items[p.item_index]._asdict(),
+                            "is_hidden_repeat": p.is_hidden_repeat}
+               for p in plan}
+    for fname in ("key-%s.json" % stamp, "key.json"):
+        with open(os.path.join(keydir, fname), "w") as f:
+            json.dump(key_map, f, indent=2)
 
     judge = ClaudeJudge()
     n_ok = 0

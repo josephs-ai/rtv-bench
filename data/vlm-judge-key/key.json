@@ -1,62 +1,442 @@
 {
-  "40e5475708a7": {
+  "fb8c28b7efd1": {
     "item": {
       "product_key": "happy-oyster",
-      "run_id": "happy-oyster-texture.mkv",
-      "capture_path": "data/pilot-captures/happy-oyster-texture.mkv",
+      "run_id": "happy-oyster-G1-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G1-r1.mkv",
       "category": "generation",
-      "prompt_text": "extreme close-up of wind rippling through tall grass beside a knitted wool blanket, intricate fine detail"
+      "prompt_text": "three red lanterns hanging to the left of a tall wooden door"
     },
     "is_hidden_repeat": false
   },
-  "e923e20f4291": {
+  "1d659a042a86": {
     "item": {
-      "product_key": "lingbot-world-2",
-      "run_id": "lingbot-world-2-motion.mkv",
-      "capture_path": "data/pilot-captures/lingbot-world-2-motion.mkv",
+      "product_key": "lingbot",
+      "run_id": "lingbot-G4-r2.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G4-r2.mkv",
       "category": "generation",
-      "prompt_text": "a crowded festival street at night, dancers spinning, fast camera movement, confetti falling everywhere"
+      "prompt_text": "the camera slowly pushes forward toward the wooden structure, nothing else moves"
     },
     "is_hidden_repeat": false
   },
-  "23f852c6994f": {
+  "b23cf7875551": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-static.mkv",
-      "capture_path": "data/pilot-captures/happy-oyster-static.mkv",
+      "product_key": "lingbot",
+      "run_id": "lingbot-G5-r3.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G5-r3.mkv",
       "category": "generation",
-      "prompt_text": "a still life of ceramic bowls on a wooden table, soft window light, completely still scene, nothing moves"
+      "prompt_text": "a man in a yellow coat and a woman in a green dress stand in front of the wooden structure; a white bird perches between them"
     },
     "is_hidden_repeat": false
   },
-  "0ca92005bcd3": {
-    "item": {
-      "product_key": "lingbot-world-2",
-      "run_id": "lingbot-world-2-static.mkv",
-      "capture_path": "data/pilot-captures/lingbot-world-2-static.mkv",
-      "category": "generation",
-      "prompt_text": "a still life of ceramic bowls on a wooden table, soft window light, completely still scene, nothing moves"
-    },
-    "is_hidden_repeat": false
-  },
-  "c479eba2d2f9": {
+  "b33cbd392040": {
     "item": {
       "product_key": "happy-oyster",
-      "run_id": "happy-oyster-motion.mkv",
-      "capture_path": "data/pilot-captures/happy-oyster-motion.mkv",
+      "run_id": "happy-oyster-G1-r2.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G1-r2.mkv",
       "category": "generation",
-      "prompt_text": "a crowded festival street at night, dancers spinning, fast camera movement, confetti falling everywhere"
-    },
-    "is_hidden_repeat": false
-  },
-  "558de2ddfb2a": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-static.mkv",
-      "capture_path": "data/pilot-captures/happy-oyster-static.mkv",
-      "category": "generation",
-      "prompt_text": "a still life of ceramic bowls on a wooden table, soft window light, completely still scene, nothing moves"
+      "prompt_text": "three red lanterns hanging to the left of a tall wooden door"
     },
     "is_hidden_repeat": true
+  },
+  "f12b9b14deed": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G6-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G6-r1.mkv",
+      "category": "generation",
+      "prompt_text": "a calm village square with a central fountain at golden hour"
+    },
+    "is_hidden_repeat": false
+  },
+  "ca8a3a3e4365": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G4-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G4-r1.mkv",
+      "category": "generation",
+      "prompt_text": "the camera slowly pushes forward toward a stone fountain, nothing else moves"
+    },
+    "is_hidden_repeat": false
+  },
+  "547f953e69b1": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G2-r2.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G2-r2.mkv",
+      "category": "generation",
+      "prompt_text": "a large blue ball drops from the sky, bounces twice on the stone ground, and rolls to a stop"
+    },
+    "is_hidden_repeat": false
+  },
+  "b475ed590fbe": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G5-r2.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G5-r2.mkv",
+      "category": "generation",
+      "prompt_text": "a man in a yellow coat and a woman in a green dress stand in front of the wooden structure; a white bird perches between them"
+    },
+    "is_hidden_repeat": false
+  },
+  "66370b6bd09f": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G5-r1.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G5-r1.mkv",
+      "category": "generation",
+      "prompt_text": "a man in a yellow coat and a woman in a green dress stand in front of the wooden structure; a white bird perches between them"
+    },
+    "is_hidden_repeat": false
+  },
+  "c007dd38f880": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G7-r2.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G7-r2.mkv",
+      "category": "generation",
+      "prompt_text": "the quiet landscape with the wooden structure on a sunny day"
+    },
+    "is_hidden_repeat": false
+  },
+  "231fe0ed05f7": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G7-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G7-r1.mkv",
+      "category": "generation",
+      "prompt_text": "a sunny meadow with a single oak tree"
+    },
+    "is_hidden_repeat": false
+  },
+  "88354b9cc7b7": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-D1-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-D1-r1.mkv",
+      "category": "generation",
+      "prompt_text": null
+    },
+    "is_hidden_repeat": false
+  },
+  "6965325fa788": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-D5-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-D5-r1.mkv",
+      "category": "generation",
+      "prompt_text": null
+    },
+    "is_hidden_repeat": false
+  },
+  "a81d6918b4b2": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G1-r3.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G1-r3.mkv",
+      "category": "generation",
+      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
+    },
+    "is_hidden_repeat": true
+  },
+  "63b02581344c": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G2-r2.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G2-r2.mkv",
+      "category": "generation",
+      "prompt_text": "a large blue ball drops from the sky in front of the wooden structure, bounces twice, and rolls to a stop"
+    },
+    "is_hidden_repeat": false
+  },
+  "c284538b86cb": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G1-r3.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G1-r3.mkv",
+      "category": "generation",
+      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
+    },
+    "is_hidden_repeat": false
+  },
+  "45bcd8b7cd45": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G6-r1.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G6-r1.mkv",
+      "category": "generation",
+      "prompt_text": "the quiet landscape with the wooden structure under a hazy sky"
+    },
+    "is_hidden_repeat": false
+  },
+  "5a4051d7e53e": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G3-r2.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G3-r2.mkv",
+      "category": "generation",
+      "prompt_text": "a black dog walks past the wooden structure and out of frame right; the scene holds; the same dog re-enters from the right"
+    },
+    "is_hidden_repeat": false
+  },
+  "d37610050db1": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G6-r2.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G6-r2.mkv",
+      "category": "generation",
+      "prompt_text": "the quiet landscape with the wooden structure under a hazy sky"
+    },
+    "is_hidden_repeat": true
+  },
+  "9f4431f58707": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G3-r1.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G3-r1.mkv",
+      "category": "generation",
+      "prompt_text": "a black dog walks past the wooden structure and out of frame right; the scene holds; the same dog re-enters from the right"
+    },
+    "is_hidden_repeat": false
+  },
+  "25131b87d79f": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G4-r2.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G4-r2.mkv",
+      "category": "generation",
+      "prompt_text": "the camera slowly pushes forward toward a stone fountain, nothing else moves"
+    },
+    "is_hidden_repeat": false
+  },
+  "671d09e4426f": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-D1-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-D1-r1.mkv",
+      "category": "generation",
+      "prompt_text": null
+    },
+    "is_hidden_repeat": true
+  },
+  "6bf6ba52c645": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G2-r3.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G2-r3.mkv",
+      "category": "generation",
+      "prompt_text": "a large blue ball drops from the sky in front of the wooden structure, bounces twice, and rolls to a stop"
+    },
+    "is_hidden_repeat": false
+  },
+  "ebedf99f9008": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G3-r3.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G3-r3.mkv",
+      "category": "generation",
+      "prompt_text": "a black dog walks past the wooden structure and out of frame right; the scene holds; the same dog re-enters from the right"
+    },
+    "is_hidden_repeat": false
+  },
+  "074dba369940": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G1-r2.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G1-r2.mkv",
+      "category": "generation",
+      "prompt_text": "three red lanterns hanging to the left of a tall wooden door"
+    },
+    "is_hidden_repeat": false
+  },
+  "3ba2cf6d6523": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-D2-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-D2-r1.mkv",
+      "category": "generation",
+      "prompt_text": null
+    },
+    "is_hidden_repeat": false
+  },
+  "b80f60ca91ef": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G2-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G2-r1.mkv",
+      "category": "generation",
+      "prompt_text": "a large blue ball drops from the sky, bounces twice on the stone ground, and rolls to a stop"
+    },
+    "is_hidden_repeat": false
+  },
+  "77449449e056": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G1-r1.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G1-r1.mkv",
+      "category": "generation",
+      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
+    },
+    "is_hidden_repeat": false
+  },
+  "cd077b649baf": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G6-r3.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G6-r3.mkv",
+      "category": "generation",
+      "prompt_text": "the quiet landscape with the wooden structure under a hazy sky"
+    },
+    "is_hidden_repeat": false
+  },
+  "454e400b277c": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G6-r2.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G6-r2.mkv",
+      "category": "generation",
+      "prompt_text": "the quiet landscape with the wooden structure under a hazy sky"
+    },
+    "is_hidden_repeat": false
+  },
+  "e41c28b8dbd5": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-D4-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-D4-r1.mkv",
+      "category": "generation",
+      "prompt_text": null
+    },
+    "is_hidden_repeat": false
+  },
+  "08690d6586f6": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G3-r2.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G3-r2.mkv",
+      "category": "generation",
+      "prompt_text": "a black dog walks out of frame to the right; the scene holds still; the same black dog re-enters from the right"
+    },
+    "is_hidden_repeat": false
+  },
+  "7ae895bf8521": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G5-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G5-r1.mkv",
+      "category": "generation",
+      "prompt_text": "a man in a yellow coat stands beside a woman in a green dress; a white bird perches between them"
+    },
+    "is_hidden_repeat": false
+  },
+  "bea5a0d41380": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G7-r3.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G7-r3.mkv",
+      "category": "generation",
+      "prompt_text": "the quiet landscape with the wooden structure on a sunny day"
+    },
+    "is_hidden_repeat": false
+  },
+  "2d420f82753e": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G7-r1.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G7-r1.mkv",
+      "category": "generation",
+      "prompt_text": "the quiet landscape with the wooden structure on a sunny day"
+    },
+    "is_hidden_repeat": false
+  },
+  "24c745aece25": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G1-r1.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G1-r1.mkv",
+      "category": "generation",
+      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
+    },
+    "is_hidden_repeat": true
+  },
+  "5f5991a25f1b": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-W1-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-W1-r1.mkv",
+      "category": "generation",
+      "prompt_text": null
+    },
+    "is_hidden_repeat": false
+  },
+  "aa22ad33d466": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G1-r2.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G1-r2.mkv",
+      "category": "generation",
+      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
+    },
+    "is_hidden_repeat": false
+  },
+  "b0bec157573d": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G4-r2.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G4-r2.mkv",
+      "category": "generation",
+      "prompt_text": "the camera slowly pushes forward toward the wooden structure, nothing else moves"
+    },
+    "is_hidden_repeat": true
+  },
+  "35319320b14d": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G2-r2.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G2-r2.mkv",
+      "category": "generation",
+      "prompt_text": "a large blue ball drops from the sky, bounces twice on the stone ground, and rolls to a stop"
+    },
+    "is_hidden_repeat": true
+  },
+  "937fce5daeb7": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G3-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G3-r1.mkv",
+      "category": "generation",
+      "prompt_text": "a black dog walks out of frame to the right; the scene holds still; the same black dog re-enters from the right"
+    },
+    "is_hidden_repeat": false
+  },
+  "bffaded547f9": {
+    "item": {
+      "product_key": "lingbot",
+      "run_id": "lingbot-G2-r1.mkv",
+      "capture_path": "data/campaign-c-gen/lingbot-G2-r1.mkv",
+      "category": "generation",
+      "prompt_text": "a large blue ball drops from the sky in front of the wooden structure, bounces twice, and rolls to a stop"
+    },
+    "is_hidden_repeat": false
+  },
+  "ac0662ee92d0": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-G1-r99.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-G1-r99.mkv",
+      "category": "generation",
+      "prompt_text": "three red lanterns hanging to the left of a tall wooden door"
+    },
+    "is_hidden_repeat": false
+  },
+  "ff296d7122c0": {
+    "item": {
+      "product_key": "happy-oyster",
+      "run_id": "happy-oyster-D3-r1.mkv",
+      "capture_path": "data/campaign-c-gen/happy-oyster-D3-r1.mkv",
+      "category": "generation",
+      "prompt_text": null
+    },
+    "is_hidden_repeat": false
   }
 }
