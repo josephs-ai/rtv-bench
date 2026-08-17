@@ -56,6 +56,7 @@ STAGES = {
     "score": [
         [PY, "tools/benchmark_score.py"],
         [PY, "tools/benchmark_report.py"],
+        [PY, "tools/claims_check.py", "docs/RESULTS.md"],
     ],
     "rate": [
         [PY, "tools/rating_session.py"],
