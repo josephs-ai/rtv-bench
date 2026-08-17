@@ -73,7 +73,7 @@ collapses that self-recover within a second.
 | garment swap | **1.4 s, clean, holds** | commits at 6.6 s, mostly partial |
 | background swap | **works** | 3/6 full, 2 partial, 1 none; rewrites whole frame |
 | accessory | **1.2 s clean** | partial-then-revert |
-| hair | applies 3/3, holds (1 oscillation) | text-instructed: total failure (6 sessions, EN/ZH/global phrasings incl. fresh replicates); ref-image channel showed no effect at connect, live-switch untested |
+| hair | applies 3/3, holds (1 oscillation) | text-instructed: total failure (6 sessions, EN/ZH/global phrasings incl. fresh replicates); ref-image channel: no effect at connect OR live-switch (2 dedicated arms via the SDK refImage field; external-URL source — a CN-hosted control remains) — 8 total zero-effect hair sessions |
 | ref-image character switch | **applies, 3.4 s, holds** | untested (phase 2) |
 
 Pattern: Lucy edits *surgically* (moderate whole-scene collateral); Xmax
