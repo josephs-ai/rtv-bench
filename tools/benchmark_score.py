@@ -99,6 +99,13 @@ def main():
     print(json.dumps({k: (v if not isinstance(v, dict) else "...")
                       for k, v in out.items()}, indent=1))
     print("full scorecard ->", op)
+    # history snapshot (dash.py renders deltas between runs)
+    import shutil, time as _t
+    hd = os.path.join(REPO, "data", "scorecard-history")
+    os.makedirs(hd, exist_ok=True)
+    shutil.copy(op, os.path.join(
+        hd, "scorecard-%s.json" % _t.strftime("%Y%m%dT%H%M%SZ",
+                                              _t.gmtime())))
     return 0
 
 

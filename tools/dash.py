@@ -3,6 +3,12 @@
 
     .venv/bin/python tools/dash.py              # all three layers
     .venv/bin/python tools/dash.py --layer 3    # just the drill-down
+    .venv/bin/python tools/dash.py --watch 10   # live mission control
+    .venv/bin/python tools/dash.py --why G      # evidence chain for an axis
+    .venv/bin/python tools/dash.py --weights my.json   # re-editorialize
+    .venv/bin/python tools/dash.py --vendor xmax       # one product's cut
+    .venv/bin/python tools/dash.py --md         # markdown export
+    .venv/bin/python tools/dash.py --json       # machine export
     .venv/bin/python tools/dash.py --no-color
 
 The machine reads the records and hands the user the results here, in
@@ -216,12 +222,203 @@ def footer():
     print("  " + verdict)
 
 
+# evidence map: axis -> where its numbers come from (the --why chain)
+EVIDENCE = {
+    "A": ["data/campaign-b/runs.jsonl", "data/campaign-b-native/runs.jsonl",
+          "data/campaign-b/preserved-tally.json",
+          "data/campaign-b/adjudications.json"],
+    "B": ["data/vlm-judge-b-pairs/records.jsonl",
+          "data/vlm-judge-audit/records.jsonl",
+          "data/vlm-judge-key/ (per-run blinding keys)"],
+    "C": ["data/quality-metrics/", "data/campaign-e/*/stills/"],
+    "D": ["data/campaign-d/scorecard.json", "data/edit-judge/records.jsonl",
+          "data/edit-metrics/"],
+    "E": ["data/campaign-b/vantage.json", "data/bridge-measurement.json"],
+    "F": ["vantage records (route/DNS/VPN matrix)"],
+    "G": ["data/campaign-f/metrics/summary.json",
+          "data/campaign-f/probe-verdicts.json",
+          "data/campaign-f/runs.jsonl"],
+}
+
+
+def why(s, main_ents, ax):
+    ax = ax.upper()
+    print(col("b", "WHY · axis %s (%s)" % (ax, AXIS_NAMES.get(ax, "?"))))
+    for ent, v in main_ents:
+        subs = v["subs"].get(ax)
+        print(" " + col("c", ent) + "  axis score: %s"
+              % fmt(v["axes"].get(ax)))
+        if isinstance(subs, dict):
+            for k, sv in subs.items():
+                if k == "detail":
+                    for dk, dv in (sv or {}).items():
+                        print(col("d", "     detail.%-22s %s" % (dk, dv)))
+                else:
+                    print("   %-26s %s" % (k, fmt(sv)))
+    if ax == "G":
+        fsum = os.path.join(REPO, "data", "campaign-f", "metrics",
+                            "summary.json")
+        if os.path.exists(fsum):
+            print(" " + col("c", "underlying runs (campaign F)"))
+            for r in json.load(open(fsum)):
+                print(col("d", "   %-44s %-8s ref=%-6s input=%-6s %s" % (
+                    r["run_id"], r["arm"],
+                    fmt(r.get("sim_ref_post_mean"), 2),
+                    fmt(r.get("sim_input_post_mean"), 2),
+                    ("lat=%ss" % r.get("switch_latency_s")
+                     if r.get("switch_latency_s") is not None else ""))))
+    print(" " + col("c", "records"))
+    for pth in EVIDENCE.get(ax, []):
+        print("   " + pth)
+
+
+def _core_parts(s, ent, v):
+    """canonical components for one entity (mirrors benchmark_score)."""
+    art = s.get("artifact_burden", {})
+    a_s = (art.get(ent) or {}).get("score") if isinstance(art, dict) else None
+    c_s = v["axes"].get("C")
+    exp = (None if (a_s is None and c_s is None) else
+           a_s if c_s is None else c_s if a_s is None
+           else round((a_s + c_s) / 2, 1))
+    return {"experience": exp, "interaction": v["axes"].get("D"),
+            "ref_control": v["axes"].get("G"), "latency": v["axes"].get("E")}
+
+
+def reweighted(s, main_ents, wspec):
+    """re-render profiles/canonical under user weights (the printed
+    weights are declared opinions - anyone may re-editorialize)."""
+    import math
+    print(col("b", "RE-EDITORIALIZED") + col("d",
+          "  (your weights, same measurements: " + json.dumps(wspec) + ")"))
+    core_w = wspec.get("core")
+    prof_w = {k: v for k, v in wspec.items() if k != "core"}
+    for ent, v in main_ents:
+        line = " " + col("c", ent)
+        if core_w:
+            parts = _core_parts(s, ent, v)
+            avail = {k: (parts[k], w) for k, w in core_w.items()
+                     if parts.get(k) is not None}
+            rsent = s.get("rtvbench_score", {}).get("track1", {}).get(ent)
+            if avail and rsent:
+                tot = sum(w for _, w in avail.values())
+                core = sum(p / 100.0 * w / tot for p, w in avail.values())
+                line += "  canonical: %.1f" % (
+                    100 * math.sqrt(rsent["delivery"]) * core)
+        for pname, pw in prof_w.items():
+            avail = {a: w for a, w in pw.items()
+                     if v["axes"].get(a) is not None and w > 0}
+            if avail:
+                tot = sum(avail.values())
+                line += "  %s: %.1f" % (pname, sum(
+                    v["axes"][a] * w / tot for a, w in avail.items()))
+        print(line)
+
+
+def deltas(s):
+    hd = os.path.join(REPO, "data", "scorecard-history")
+    hist = sorted(glob.glob(os.path.join(hd, "scorecard-*.json")))
+    if len(hist) < 2:
+        return
+    prev = json.load(open(hist[-2]))
+    pt1 = prev.get("rtvbench_score", {}).get("track1", {})
+    ct1 = s.get("rtvbench_score", {}).get("track1", {})
+    moves = []
+    for ent, v in ct1.items():
+        if ent in pt1:
+            d = v["score"] - pt1[ent]["score"]
+            if abs(d) >= 0.05:
+                moves.append("%s %+.1f" % (ent.split(" (")[0], d))
+    pax = prev.get("composite", {}).get("entities", {})
+    cax = s.get("composite", {}).get("entities", {})
+    for ent, v in cax.items():
+        for ax, val in v["axes"].items():
+            old = (pax.get(ent) or {}).get("axes", {}).get(ax)
+            if val is not None and old is not None and abs(val - old) >= 0.5:
+                moves.append("%s·%s %+.1f" % (ent.split(" (")[0], ax,
+                                              val - old))
+    if moves:
+        print(col("d", "  Δ vs previous scoring run: ") +
+              col("y", " · ".join(moves[:8])))
+
+
+def ticker():
+    """--watch header: what's running right now."""
+    import time
+    r = subprocess.run(["pgrep", "-fl",
+                        "campaign_[a-z0-9_]*.py|xmax_native_lane|"
+                        "ref_switch_probe|vlm_judge|edit_judge"],
+                       capture_output=True, text=True)
+    procs = [ln.split(None, 1)[1][:60] for ln in r.stdout.splitlines()
+             if "pgrep" not in ln]
+    caps = glob.glob(os.path.join(REPO, "data", "campaign-*", "captures",
+                                  "*.json"))
+    last = max(caps, key=os.path.getmtime) if caps else None
+    print(col("b", "IN FLIGHT"))
+    if procs:
+        for pr in procs[:4]:
+            print("  " + col("g", "▶ " + pr))
+    else:
+        print(col("d", "  nothing running"))
+    if last:
+        age = int(time.time() - os.path.getmtime(last))
+        print(col("d", "  last capture: %s (%ds ago)" % (
+            os.path.basename(last), age)))
+
+
+def export_json(s, main_ents):
+    out = {"spec": "v1.1", "canonical": s.get("rtvbench_score", {}),
+           "entities": {k: {"axes": v["axes"], "subs": v["subs"],
+                            "profiles": v.get("profiles", {})}
+                        for k, v in main_ents}}
+    print(json.dumps(out, indent=1))
+
+
+def export_md(s, main_ents):
+    rs = s.get("rtvbench_score", {})
+    print("## RTV-Bench results (spec v1.1, machine-rendered)\n")
+    print("| Track 1 | RTV-Score | | Track 2 | RTV-Score |")
+    print("|---|---|---|---|---|")
+    t1 = sorted(rs.get("track1", {}).items(), key=lambda kv: -kv[1]["score"])
+    t2 = sorted(rs.get("track2", {}).items(), key=lambda kv: -kv[1]["score"])
+    for i in range(max(len(t1), len(t2))):
+        a = "%s | %.1f" % (t1[i][0], t1[i][1]["score"]) if i < len(t1) else " | "
+        b = "%s | %.1f" % (t2[i][0], t2[i][1]["score"]) if i < len(t2) else " | "
+        print("| %s | | %s |" % (a, b))
+    print("\n| axis | " + " | ".join(short(e[0]) for e in main_ents) + " |")
+    print("|---|" + "---|" * len(main_ents))
+    for ax in "ABCDEFG":
+        print("| %s %s | " % (ax, AXIS_NAMES[ax]) + " | ".join(
+            fmt(v["axes"].get(ax)) for _, v in main_ents) + " |")
+    print("\n| profile | " + " | ".join(short(e[0]) for e in main_ents) + " |")
+    print("|---|" + "---|" * len(main_ents))
+    profs = sorted({p for _, v in main_ents for p in v.get("profiles", {})})
+    for p in profs:
+        print("| %s | " % p + " | ".join(
+            fmt((v.get("profiles", {}).get(p) or {}).get("score"))
+            for _, v in main_ents) + " |")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-color", action="store_true")
     ap.add_argument("--layer", type=int, default=0, choices=(0, 1, 2, 3),
                     help="1=canonical 2=axes/profiles 3=drill-down "
                          "(default 0: everything)")
+    ap.add_argument("--watch", type=int, metavar="SECS", default=0,
+                    help="live mode: re-render every SECS with an "
+                         "in-flight ticker")
+    ap.add_argument("--why", metavar="AXIS",
+                    help="evidence chain for one axis (A-G)")
+    ap.add_argument("--weights", metavar="JSON",
+                    help="re-editorialize: file or inline JSON, e.g. "
+                         '\'{"core":{"experience":0.5,"interaction":0.5},'
+                         '"MYVIEW":{"A":50,"G":50}}\'')
+    ap.add_argument("--vendor", metavar="NAME",
+                    help="show only entities matching NAME")
+    ap.add_argument("--md", action="store_true",
+                    help="export the board as markdown")
+    ap.add_argument("--json", action="store_true", dest="as_json",
+                    help="export the board as JSON")
     args = ap.parse_args()
     if args.no_color or not sys.stdout.isatty():
         for k in C:
@@ -237,22 +434,61 @@ def main():
     # with their own caveats; a 2-axis column here would mislead)
     main_ents = [(k, v) for k, v in ents.items()
                  if sum(x is not None for x in v["axes"].values()) >= 4]
+    if args.vendor:
+        main_ents = [(k, v) for k, v in main_ents
+                     if args.vendor.lower() in k.lower()]
+        if not main_ents:
+            print("no entity matches --vendor %r" % args.vendor)
+            return 1
 
-    print(col("b", "\nRTV-Bench") + col("d", "  ·  spec v1.1  ·  "
+    if args.as_json:
+        export_json(s, main_ents)
+        return 0
+    if args.md:
+        export_md(s, main_ents)
+        return 0
+    if args.why:
+        why(s, main_ents, args.why)
+        return 0
+    if args.weights:
+        wspec = (json.load(open(args.weights))
+                 if os.path.exists(args.weights)
+                 else json.loads(args.weights))
+        reweighted(s, main_ents, wspec)
+        return 0
+
+    def render():
+        print(col("b", "\nRTV-Bench") + col("d", "  ·  spec v1.1  ·  "
           "reference run 2026-08  ·  vantage: mainland-CN"))
-    print(col("d", "─" * 74))
-    L = args.layer
-    if L in (0, 1):
-        layer1(rs)
-    if L in (0, 2):
-        layer2(main_ents)
-    if L in (0, 3):
-        layer3(s, main_ents)
-    if L == 0:
-        footer()
-    print(col("d", "─" * 74))
-    print(col("d", "  full evidence: docs/RESULTS.md · spec/questions.md · "
-          "data/benchmark-scorecard.json\n"))
+        print(col("d", "─" * 74))
+        if args.watch:
+            ticker()
+            print(col("d", "─" * 74))
+        L = args.layer
+        if L in (0, 1):
+            layer1(rs)
+            deltas(s)
+        if L in (0, 2):
+            layer2(main_ents)
+        if L in (0, 3):
+            layer3(s, main_ents)
+        if L == 0 and not args.watch:
+            footer()
+        print(col("d", "─" * 74))
+        print(col("d", "  full evidence: docs/RESULTS.md · "
+              "spec/questions.md · data/benchmark-scorecard.json\n"))
+
+    if not args.watch:
+        render()
+        return 0
+    import time
+    try:
+        while True:
+            sys.stdout.write("\033[2J\033[H")
+            render()
+            time.sleep(args.watch)
+    except KeyboardInterrupt:
+        pass
     return 0
 
 

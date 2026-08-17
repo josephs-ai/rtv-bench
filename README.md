@@ -131,10 +131,15 @@ Then:
 .venv/bin/python tools/dash.py                      # results dashboard (any time)
 ```
 
-Results are **handed to you by the machine**: `tools/dash.py` renders the
-canonical ladders, axes, buyer profiles, campaign coverage, question-registry
-status, and the claims-checker verdict straight from `data/` — the docs are
-prose over the same records, and `claims_check` keeps them honest.
+Results are **handed to you by the machine**: `tools/dash.py` renders three
+layers (canonical ladders → axes/profiles → sub-metric drill-down) straight
+from `data/`, plus coverage, registry status, and the claims-checker verdict
+— the docs are prose over the same records, and `claims_check` keeps them
+honest. More: `--watch 10` (live mission control with an in-flight ticker),
+`--why G` (evidence chain for any axis down to individual runs), `--weights`
+(re-editorialize with your own weights — the declared opinions are
+overridable by design), `--vendor xmax` (one product's cut), `--md`/`--json`
+(export), and Δ-since-last-run markers once scoring history accumulates.
 
 Every stage journals and resumes; rerunning is always safe. The wizard
 ends by telling you which campaigns your keys unlock.
