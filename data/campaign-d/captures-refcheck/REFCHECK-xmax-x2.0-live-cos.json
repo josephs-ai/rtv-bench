@@ -1,0 +1,29 @@
+{
+  "campaign": "D-refcheck",
+  "product": "xmax-x2.0",
+  "lens": "P-browser",
+  "arm": "live-cos",
+  "ref_source": "cos-upload (client.files.uploadAndCheckImage)",
+  "ref_local": "ref-woman.jpg",
+  "edit": "change the person to look like the reference image",
+  "base_prompt": "photorealistic, natural colors",
+  "record_s": 35.0,
+  "field_used": "refImageUrl (session layer, post-trap fix)",
+  "page_log": [
+    "REF UPLOADED to COS: https://xmax-nj-1256661457.cos.ap-nanjing.myqcloud.com/open-image-passed/open/resource/user/c60d3d7a5c084287bd8607adb2dd18cf/1786956755482_ref.jpg",
+    "REF URL: https://xmax-nj-1256661457.cos.ap-nanjing.myqcloud.com/open-image-passed/open/resource/use",
+    "connected",
+    "stream up",
+    "recording 35s",
+    "stream up",
+    "EDIT SENT (flat) at 15s: change the person to look like the reference image [ref attached]",
+    "uploading 35.6MB",
+    "DONE"
+  ],
+  "fps": 30.0,
+  "frames": 1028,
+  "ttff_s": 0.03,
+  "delivered_s": 34.27,
+  "max_frozen_s": 2.6,
+  "timestamp_utc": "2026-08-17T08:53:24Z"
+}

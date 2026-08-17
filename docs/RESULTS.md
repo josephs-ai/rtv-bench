@@ -73,8 +73,18 @@ collapses that self-recover within a second.
 | garment swap | **1.4 s, clean, holds** | commits at 6.6 s, mostly partial |
 | background swap | **works** | 3/6 full, 2 partial, 1 none; rewrites whole frame |
 | accessory | **1.2 s clean** | partial-then-revert |
-| hair | applies 3/3, holds (1 oscillation) | text-instructed: total failure (6 sessions, EN/ZH/global phrasings incl. fresh replicates); ref-image channel: no effect at connect OR live-switch (2 dedicated arms via the SDK refImage field; external-URL source — a CN-hosted control remains) — 8 total zero-effect hair sessions |
-| ref-image character switch | **applies, 3.4 s, holds** | untested (phase 2) |
+| hair | applies 3/3, holds (1 oscillation) | text-instructed: total failure (6 sessions, EN/ZH/global phrasings incl. fresh replicates). *The 2026-08-15 "ref-image channel dead" arms are RETRACTED — invalid tests (wrong SDK field, see below).* |
+| ref-image character switch | **applies, 3.4 s, holds** | **connect-time: works 2/2** (image on vendor COS via SDK upload; character fully re-anchored to the ref portrait, scene preserved). Mid-stream ref switch: 0/2 replaced the speaker (1 inserted the ref person into the background instead, 1 no visible effect) |
+
+**Correction (2026-08-17).** The earlier finding that Xmax's reference-image
+channel "does nothing" was our invocation bug, not the product: the session
+API accepts `refImageUrl`, while we passed `refImage` (an internal-layer
+name), which `normalizeRealtimeContext` silently strips — the field never
+reached the wire. Retested with the SDK's own COS upload flow
+(`client.files.uploadAndCheckImage`) + the correct field: connect-time ref
+works decisively (2/2, two different ref portraits). Mid-stream ref
+injection via `session.set` does transmit (SDK-verified) but did not
+re-anchor the live character in either attempt.
 
 Pattern: Lucy edits *surgically* (moderate whole-scene collateral); Xmax
 either restyles the entire world or does nothing. The style flip — Xmax's

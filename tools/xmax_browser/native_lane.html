@@ -5,10 +5,11 @@
 <video id="srcv" src="/clip.mp4" muted autoplay playsinline loop></video>
 <video id="out" muted autoplay playsinline></video>
 <canvas id="rec" width="1280" height="720" style="display:none"></canvas>
+<script src="./vendor/cos-umd.js"></script>
 <script type="importmap">
 {"imports": {
   "@volcengine/rtc": "./vendor/volc-rtc.esm.js",
-  "cos-js-sdk-v5": "./vendor/stub-cos.js",
+  "cos-js-sdk-v5": "./vendor/cos-real.js",
   "heic-to/csp": "./vendor/stub-heic.js"
 }}
 </script>
@@ -39,9 +40,26 @@ async function main() {
   const {createXmaxClient, models} = await import("./vendor/index.js");
   const client = createXmaxClient({apiKey: key});
   const stream = srcv.captureStream(30);
+  // Session-layer key is refImageUrl (normalizeRealtimeContext strips all
+  // other keys, incl. refImage which is internal-only). The 2026-08-15
+  // zero-effect ref arms passed refImage and were therefore invalid tests.
+  let refUrl = q.get("ref") || null;
+  if (q.get("ref_upload")) {
+    // definitive path: put the image on THEIR COS via the SDK's own flow
+    // (client.files.uploadAndCheckImage) - kills the reachability confound
+    try {
+      const rb = await (await fetch("/ref.jpg")).blob();
+      const file = new File([rb], "ref.jpg", {type: "image/jpeg"});
+      refUrl = await client.files.uploadAndCheckImage(file);
+      log("REF UPLOADED to COS: " + refUrl);
+    } catch (e) { log("REF UPLOAD FAILED: " + (e && e.message)); }
+  }
+  if (refUrl) log("REF URL: " + refUrl.slice(0, 90));
+  const connCtx = {prompt: q.get("prompt") || ""};
+  if (refUrl && q.get("ref_connect")) connCtx.refImageUrl = refUrl;
   const session = await client.realtime.connect(stream, {
     model: models.realtime("x2.0"),
-    context: {prompt: q.get("prompt") || ""},
+    context: connCtx,
     onRemoteStream: s => {
       if (s.getVideoTracks().length > 0) { out.srcObject = s; log("stream up"); }
     },
@@ -55,12 +73,16 @@ async function main() {
     const armEdit = () => setTimeout(async () => {
       try {
         const form = q.get("edit_form") || "context";
-        const payload = form === "flat" ? {prompt: editText}
+        let payload = form === "flat" ? {prompt: editText}
                                         : {context: {prompt: editText}};
+        if (refUrl && q.get("ref_live")) payload = form === "flat"
+          ? {prompt: editText, refImageUrl: refUrl}
+          : {context: {prompt: editText, refImageUrl: refUrl}};
         if (session && session.set) await session.set(payload);
         else if (client.realtime.set) await client.realtime.set(payload);
         else throw new Error("no set() on session or realtime");
-        log("EDIT SENT (" + form + ") at " + editAt + "s: " + editText.slice(0, 60));
+        log("EDIT SENT (" + form + ") at " + editAt + "s: " + editText.slice(0, 60)
+            + (payload.refImageUrl ? " [ref attached]" : ""));
       } catch (e) {
         try {
           await (session?.set ? session.set({prompt: editText})

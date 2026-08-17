@@ -200,8 +200,53 @@ def facts():
     p7 = (ej["lucy-2.5"]["full"] == 3 and es["lucy-2.5"]["oscillates"] == 1
           and ej["xmax-x2.0"]["none"] == 3)
     print(f"[{'ok' if p7 else 'FAIL'}] hair row: lucy apply={dict(ej['lucy-2.5'])} stab={dict(es['lucy-2.5'])} | xmax apply={dict(ej['xmax-x2.0'])} (claim: 3/3 full w/ 1 osc vs total failure)")
-    allp = all([p1, p2, p3, p4, p5, p6, p7])
-    print("\n%s" % ("BOTH DEFECT CLAIMS MACHINE-VERIFIED" if allp else "CLAIM(S) NOT SUPPORTED - REVISE DOC"))
+    # 4. ref-image recheck (2026-08-17): connect-time ref re-anchors the
+    # character (face sim to ref portrait jumps far above the input-person
+    # baseline); mid-stream ref does NOT replace the speaker. The 08-15
+    # "ref channel dead" arms are retracted (wrong field: refImage was
+    # stripped by normalizeRealtimeContext; session API wants refImageUrl).
+    try:
+        import subprocess, tempfile
+        import numpy as np
+        from insightface.app import FaceAnalysis
+        from PIL import Image
+        app2 = FaceAnalysis(providers=["CPUExecutionProvider"])
+        app2.prepare(ctx_id=-1, det_size=(640, 640))
+
+        def _emb(path):
+            fr = np.asarray(Image.open(path).convert("RGB"))
+            fs = app2.get(fr[..., ::-1])
+            e = max(fs, key=lambda f: f.det_score).normed_embedding
+            return e / np.linalg.norm(e)
+
+        def _frame(mkv, t_, out):
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss",
+                            str(t_), "-i", mkv, "-frames:v", "1", out],
+                           check=True)
+        td = tempfile.mkdtemp()
+        rc = f"{REPO}/data/campaign-d/captures-refcheck"
+        _frame(f"{REPO}/data/campaign-d/conform-mixkit2960.mp4", 5, f"{td}/in.png")
+        _frame(f"{rc}/REFCHECK-xmax-x2.0-connect-cos.mkv", 10, f"{td}/cw.png")
+        _frame(f"{rc}/REFCHECK-xmax-x2.0-connect-cos-man.mkv", 18, f"{td}/cm.png")
+        _frame(f"{rc}/REFCHECK-xmax-x2.0-live-cos-replace.mkv", 37, f"{td}/lv.png")
+        rw = _emb(f"{REPO}/data/campaign-d/refs/ref-woman.jpg")
+        rm = _emb(f"{REPO}/data/campaign-d/refs/ref-man.jpg")
+        inp = _emb(f"{td}/in.png")
+        s_base_w = float(np.dot(inp, rw))
+        s_base_m = float(np.dot(inp, rm))
+        s_cw = float(np.dot(_emb(f"{td}/cw.png"), rw))
+        s_cm = float(np.dot(_emb(f"{td}/cm.png"), rm))
+        s_lv = float(np.dot(_emb(f"{td}/lv.png"), rw))
+        p8 = (s_base_w < 0.15 and s_base_m < 0.15
+              and s_cw > 0.25 and s_cm > 0.25 and s_lv < 0.15)
+        print(f"[{'ok' if p8 else 'FAIL'}] ref recheck: connect-arm sim to ref "
+              f"{s_cw:.3f}/{s_cm:.3f} vs input baseline {s_base_w:.3f}/{s_base_m:.3f}; "
+              f"live-arm speaker unchanged {s_lv:.3f} (claim: connect works 2/2, mid-stream doesn't replace)")
+    except Exception as e:
+        p8 = False
+        print(f"[FAIL] ref-recheck fact errored: {str(e)[:80]}")
+    allp = all([p1, p2, p3, p4, p5, p6, p7, p8])
+    print("\n%s" % ("ALL FACT CLAIMS MACHINE-VERIFIED" if allp else "CLAIM(S) NOT SUPPORTED - REVISE DOC"))
     return allp
 
 
