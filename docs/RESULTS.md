@@ -10,9 +10,14 @@
 
 ## Track 1 — Interactive video (Lucy 2.5 vs Xmax X2.0)
 
-**RTV-Score (canonical): Lucy 65.8 · Xmax 54.3** — formula
-`100 × √delivery × (0.45·experience + 0.35·interaction + 0.20·latency)`,
-absolute components only; the pairwise sweep below is the relative exhibit.
+**RTV-Score (canonical): Lucy 53.2 · Xmax 43.1** — formula
+`100 × √delivery × (0.45·experience + 0.35·interaction + 0.20·latency)`;
+experience = mean(identity integrity, artifact burden), all absolute; the
+pairwise sweep below is the relative exhibit. The artifact component
+(restored 08-17 from the re-audit) lowered both scores equally-ish — on
+the hard full-restyle workload *both* products artifact heavily (median
+window burden 12.3 vs 14.1 of a possible 18); the honest headline is that
+nobody is close to ceiling on sustained transformed video.
 
 ### Composite scores (declared-weight profiles, per lens)
 
@@ -35,6 +40,7 @@ much in its home market.
 |---|---|---|---|
 | A Reliability | 48.7 | 63.8 | session value rate (S + ½·D), long-session robustness, TTFF |
 | B Head-to-head preference* | 97.9 | 2.1 | blinded same-input pairwise wins (relative, two-product field) |
+| B′ Artifact burden (absolute) | 31.9 | 21.5 | audited median window burden 12.3 / 14.1 of max 18, inverted |
 | C Identity | 92.7 | 84.7 | long-horizon embedding drift + face-through-edits |
 | D Live editing | 84.8 | 54.0 | commit latency, application, precision, hold, transition |
 | E Latency | n/a† | 58.0 | instrumented motion-to-glass (983 ms styled, Xmax native) |

@@ -440,9 +440,55 @@ def composite(out):
     #       sqrt damps vantage influence). Absolute components only - the
     #       pairwise head-to-head is published separately, never in here.
     import math as _m
+    # absolute artifact burden per entity from the B-capture audit
+    # (latest audit run + its own per-run key)
+    art = {}
+    try:
+        import glob as _g, statistics as _s2
+        kf = sorted(_g.glob(os.path.join(REPO, "data", "vlm-judge-key",
+                                         "key-*.json")))[-1]
+        akey = {k: v["item"] for k, v in json.load(open(kf)).items()
+                if "item" in v}
+        alat = {}
+        for line in open(os.path.join(REPO, "data", "vlm-judge-audit",
+                                      "records.jsonl")):
+            r = json.loads(line)
+            alat[r["blind_id"]] = r
+        burden = collections.defaultdict(list)
+        for bid, r in alat.items():
+            it = akey.get(bid)
+            if not it or not isinstance(r.get("result"), dict):
+                continue
+            rid = it.get("run_id", "")
+            ent = ("lucy-2.5 (lens P)" if rid.startswith("B-lucy") else
+                   "xmax-x2.0 (lens P-browser)" if rid.startswith("B-xmax")
+                   else None)
+            if not ent:
+                continue
+            ws = r["result"].get("windows") or []
+            if ws:
+                b = _s2.mean(sum(f.get("severity", 0) for f in
+                                 w.get("findings", [])) for w in ws)
+            else:
+                b = sum(f.get("severity", 0)
+                        for f in r["result"].get("findings", []))
+            burden[ent].append(b)
+        for ent, v in burden.items():
+            med = _s2.median(v)
+            # anchor: 0 burden -> 100; 18 (schema max: 6 findings x sev3
+            # per window) -> 0. Observed meds ~12-14 on the hard reel
+            # workload - both products artifact heavily there; that is a
+            # finding, not a bug in the anchor.
+            art[ent] = {"burden_med": round(med, 2), "n": len(v),
+                        "score": round(max(0.0, min(1.0, 1 - med / 18.0))
+                                       * 100, 1)}
+    except Exception as e:
+        art = {"error": str(e)[:120]}
+    out["artifact_burden"] = art
     out["rtvbench_score"] = {"track1": {}, "track2": {},
         "formula": "100*sqrt(delivery)*(0.45*experience+0.35*interaction"
-                   "+0.20*latency); absolute components only"}
+                   "+0.20*latency); experience = mean(identity, artifact-"
+                   "burden); absolute components only"}
     preserved = {}
     pt = os.path.join(REPO, "data", "campaign-b", "preserved-tally.json")
     if os.path.exists(pt):
@@ -454,7 +500,12 @@ def composite(out):
         if not rel:
             continue
         Dv = (rel["S"] + 0.5 * rel["D"]) / rel["N"]
-        parts = {"experience": (ax.get("C"), 0.45),
+        a_s = art.get(ent, {}).get("score") if isinstance(art, dict) else None
+        c_s = ax.get("C")
+        exp = (None if (a_s is None and c_s is None) else
+               a_s if c_s is None else c_s if a_s is None
+               else round((a_s + c_s) / 2, 1))
+        parts = {"experience": (exp, 0.45),
                  "interaction": (ax.get("D"), 0.35),
                  "latency": (ax.get("E"), 0.20)}
         avail = {k: v for k, v in parts.items() if v[0] is not None}
@@ -465,8 +516,7 @@ def composite(out):
         out["rtvbench_score"]["track1"][ent] = {
             "score": round(100 * _m.sqrt(Dv) * core, 1),
             "delivery": round(Dv, 3),
-            "coverage_pct": round(100 * tot, 0),
-            "note": "experience awaits artifact-audit component" }
+            "coverage_pct": round(100 * tot, 0)}
     if isinstance(t2, dict):
         BUILD_OK = {"lingbot": 21 / 23, "happy-oyster": 11 / 13}
         for pk, v in t2.items():

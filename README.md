@@ -17,8 +17,8 @@ sports and never share a ladder:
 
 | Track 1 · Interactive video | RTV-Score | | Track 2 · Interactive worlds | RTV-Score |
 |---|---|---|---|---|
-| **Lucy 2.5** (native) | **65.8** | | **Happy Oyster** | **50.5** |
-| Xmax X2.0 (native/browser) | 54.3 | | LingBot-World 2 | 29.3 |
+| **Lucy 2.5** (native) | **53.2** | | **Happy Oyster** | **50.5** |
+| Xmax X2.0 (native/browser) | 43.1 | | LingBot-World 2 | 29.3 |
 
 `RTV-Score = 100 × √delivery × capability-core` — availability gates
 multiplicatively (√-damped for vantage fairness); the core uses only

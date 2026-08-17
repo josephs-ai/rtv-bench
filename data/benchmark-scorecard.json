@@ -275,19 +275,29 @@
       "coverage_pct": 100.0
     }
   },
+  "artifact_burden": {
+    "xmax-x2.0 (lens P-browser)": {
+      "burden_med": 14.12,
+      "n": 24,
+      "score": 21.5
+    },
+    "lucy-2.5 (lens P)": {
+      "burden_med": 12.25,
+      "n": 13,
+      "score": 31.9
+    }
+  },
   "rtvbench_score": {
     "track1": {
       "lucy-2.5 (lens P)": {
-        "score": 65.8,
+        "score": 53.2,
         "delivery": 0.543,
-        "coverage_pct": 80.0,
-        "note": "experience awaits artifact-audit component"
+        "coverage_pct": 80.0
       },
       "xmax-x2.0 (lens P-browser)": {
-        "score": 54.3,
+        "score": 43.1,
         "delivery": 0.626,
-        "coverage_pct": 100.0,
-        "note": "experience awaits artifact-audit component"
+        "coverage_pct": 100.0
       }
     },
     "track2": {
@@ -304,7 +314,7 @@
         "coverage_pct": 100.0
       }
     },
-    "formula": "100*sqrt(delivery)*(0.45*experience+0.35*interaction+0.20*latency); absolute components only"
+    "formula": "100*sqrt(delivery)*(0.45*experience+0.35*interaction+0.20*latency); experience = mean(identity, artifact-burden); absolute components only"
   },
   "composite": {
     "axis_weights": {
