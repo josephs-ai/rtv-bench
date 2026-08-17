@@ -290,12 +290,12 @@
   "rtvbench_score": {
     "track1": {
       "lucy-2.5 (lens P)": {
-        "score": 53.2,
+        "score": 47.4,
         "delivery": 0.543,
-        "coverage_pct": 80.0
+        "coverage_pct": 85.0
       },
       "xmax-x2.0 (lens P-browser)": {
-        "score": 43.1,
+        "score": 42.4,
         "delivery": 0.626,
         "coverage_pct": 100.0
       }
@@ -314,7 +314,7 @@
         "coverage_pct": 100.0
       }
     },
-    "formula": "100*sqrt(delivery)*(0.45*experience+0.35*interaction+0.20*latency); experience = mean(identity, artifact-burden); absolute components only"
+    "formula": "100*sqrt(delivery)*(0.40*experience+0.25*interaction+0.20*ref_control+0.15*latency); experience = mean(identity, artifact-burden); absolute components only; v1.1 adds ref_control (campaign F)"
   },
   "composite": {
     "axis_weights": {
@@ -337,6 +337,12 @@
         "precision": 0.2,
         "hold": 0.15,
         "transition": 0.1
+      },
+      "G": {
+        "adoption": 0.35,
+        "hold": 0.2,
+        "switch": 0.25,
+        "compose": 0.2
       }
     },
     "edit_relevance": {
@@ -349,28 +355,31 @@
     },
     "profiles": {
       "STREAMER-CN": {
-        "A": 25,
+        "A": 20,
         "B": 10,
-        "C": 20,
-        "D": 25,
-        "E": 10,
-        "F": 10
+        "C": 15,
+        "D": 20,
+        "E": 5,
+        "F": 10,
+        "G": 20
       },
       "CREATOR-GLOBAL": {
         "A": 15,
-        "B": 40,
-        "C": 15,
+        "B": 35,
+        "C": 10,
         "D": 15,
-        "E": 15,
-        "F": 0
+        "E": 10,
+        "F": 0,
+        "G": 15
       },
       "LAB": {
-        "A": 25,
+        "A": 20,
         "B": 25,
-        "C": 15,
+        "C": 10,
         "D": 20,
-        "E": 15,
-        "F": 0
+        "E": 10,
+        "F": 0,
+        "G": 15
       }
     },
     "floors": [
@@ -385,22 +394,23 @@
           "C": 92.7,
           "D": 84.8,
           "E": null,
-          "F": 50
+          "F": 50,
+          "G": 42.6
         },
         "profiles": {
           "STREAMER-CN": {
-            "score": 73.9,
-            "coverage_pct": 90.0,
+            "score": 67.1,
+            "coverage_pct": 95.0,
             "caps_applied": []
           },
           "CREATOR-GLOBAL": {
-            "score": 85.8,
-            "coverage_pct": 85.0,
+            "score": 77.6,
+            "coverage_pct": 90.0,
             "caps_applied": []
           },
           "LAB": {
-            "score": 79.2,
-            "coverage_pct": 85.0,
+            "score": 74.1,
+            "coverage_pct": 90.0,
             "caps_applied": []
           }
         },
@@ -426,6 +436,18 @@
           },
           "F": {
             "cn_market": 50
+          },
+          "G": {
+            "adoption": 60.0,
+            "hold": 50.0,
+            "switch": 46.4,
+            "compose": 0.0,
+            "detail": {
+              "n_rows": 65,
+              "n_nodata_excluded": 9,
+              "switch_in_session": 46.4,
+              "switch_mechanism": null
+            }
           }
         },
         "notes": [
@@ -440,12 +462,13 @@
           "C": null,
           "D": null,
           "E": null,
-          "F": 50
+          "F": 50,
+          "G": null
         },
         "profiles": {
           "STREAMER-CN": {
-            "score": 52.1,
-            "coverage_pct": 35.0,
+            "score": 52.0,
+            "coverage_pct": 30.0,
             "caps_applied": []
           },
           "CREATOR-GLOBAL": {
@@ -455,7 +478,7 @@
           },
           "LAB": {
             "score": 53.0,
-            "coverage_pct": 25.0,
+            "coverage_pct": 20.0,
             "caps_applied": []
           }
         },
@@ -473,7 +496,8 @@
           }
         },
         "notes": [
-          "E N/A (not instrumented on this lens); renormalized"
+          "E N/A (not instrumented on this lens); renormalized",
+          "G N/A (campaign F not run on this lens); renormalized"
         ]
       },
       "xmax-x2.0 (lens P-browser)": {
@@ -483,21 +507,22 @@
           "C": 84.7,
           "D": 54.0,
           "E": 58.0,
-          "F": 100
+          "F": 100,
+          "G": 50.5
         },
         "profiles": {
           "STREAMER-CN": {
-            "score": 62.4,
+            "score": 59.5,
             "coverage_pct": 100.0,
             "caps_applied": []
           },
           "CREATOR-GLOBAL": {
-            "score": 39.9,
+            "score": 40.2,
             "coverage_pct": 100.0,
             "caps_applied": []
           },
           "LAB": {
-            "score": 48.7,
+            "score": 45.9,
             "coverage_pct": 100.0,
             "caps_applied": []
           }
@@ -524,6 +549,18 @@
           },
           "F": {
             "cn_market": 100
+          },
+          "G": {
+            "adoption": 37.5,
+            "hold": 66.7,
+            "switch": 56.1,
+            "compose": 50.0,
+            "detail": {
+              "n_rows": 65,
+              "n_nodata_excluded": 0,
+              "switch_in_session": 0.0,
+              "switch_mechanism": 56.1
+            }
           }
         },
         "notes": [

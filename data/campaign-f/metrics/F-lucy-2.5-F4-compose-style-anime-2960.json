@@ -1,0 +1,59 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F4-compose-style-anime-2960",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "compose",
+    "ref": "ref-woman.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 8,
+    "apply_at_s": 15.0,
+    "sim_ref_post_mean": null,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": null,
+    "sim_ref_pre_mean": 0.4564
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.8661,
+      "sim_ref": 0.0493
+    },
+    {
+      "t": 3.0,
+      "sim_input": -0.0203,
+      "sim_ref": 0.5324
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.0798,
+      "sim_ref": 0.4952
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.1,
+      "sim_ref": 0.527
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.0386,
+      "sim_ref": 0.5302
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.0386,
+      "sim_ref": 0.5302
+    },
+    {
+      "t": 13.0,
+      "sim_input": 0.0386,
+      "sim_ref": 0.5302
+    },
+    {
+      "t": 15.0,
+      "sim_input": 0.0386,
+      "sim_ref": 0.5302
+    }
+  ]
+}

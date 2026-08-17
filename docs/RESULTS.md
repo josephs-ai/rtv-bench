@@ -10,10 +10,13 @@
 
 ## Track 1 — Interactive video (Lucy 2.5 vs Xmax X2.0)
 
-**RTV-Score (canonical): Lucy 53.2 · Xmax 43.1** — formula
-`100 × √delivery × (0.45·experience + 0.35·interaction + 0.20·latency)`;
-experience = mean(identity integrity, artifact burden), all absolute; the
-pairwise sweep below is the relative exhibit. The artifact component
+**RTV-Score (canonical, spec v1.1): Lucy 47.4 · Xmax 42.4** — formula
+`100 × √delivery × (0.40·experience + 0.25·interaction + 0.20·ref-control + 0.15·latency)`;
+experience = mean(identity integrity, artifact burden), all absolute;
+ref-control is the new v1.1 axis from campaign F (see Amendment 2 in
+`rubric-amendments.md` — v1.0 numbers Lucy 53.2 / Xmax 43.1 remain
+re-derivable with the old weights); the pairwise sweep below is the
+relative exhibit. The artifact component
 (restored 08-17 from the re-audit) lowered both scores equally-ish — on
 the hard full-restyle workload *both* products artifact heavily (median
 window burden 12.3 vs 14.1 of a possible 18); the honest headline is that
@@ -23,14 +26,14 @@ nobody is close to ceiling on sustained transformed video.
 
 | Profile | asks | Lucy 2.5 (native) | Xmax X2.0 (native/browser) |
 |---|---|---|---|
-| **STREAMER-CN** | "power a China-market live-avatar product" | **73.9** | 62.4 |
-| **CREATOR-GLOBAL** | "power a creative restyling tool" | **85.8** | 39.9 |
-| **LAB** | "pure capability, no market weighting" | **79.2** | 48.7 |
+| **STREAMER-CN** | "power a China-market live-avatar product" | **67.1** | 59.5 |
+| **CREATOR-GLOBAL** | "power a creative restyling tool" | **77.6** | 40.2 |
+| **LAB** | "pure capability, no market weighting" | **74.1** | 45.9 |
 
-**Lucy wins every profile, but the gap collapses from 45.9 points (creative
-use) to 11.5 (China streaming use)** — Xmax's instant whole-scene restyle,
-China-direct availability, and edit-time identity stability are worth that
-much in its home market.
+**Lucy wins every profile, but the gap collapses from 37.4 points (creative
+use) to 7.6 (China streaming use)** — Xmax's instant whole-scene restyle,
+China-direct availability, edit-time identity stability, and its win on
+the new reference-control axis are worth that much in its home market.
 
 ![Composite and axis scores](img/scores.png)
 
@@ -45,6 +48,7 @@ much in its home market.
 | D Live editing | 84.8 | 54.0 | commit latency, application, precision, hold, transition |
 | E Latency | n/a† | 58.0 | instrumented motion-to-glass (983 ms styled, Xmax native) |
 | F Deploy-CN | 50 | 100 | China-market reachability (direct / VPN-viable / blocked) |
+| **G Ref control (v1.1)** | 42.6 | **50.5** | campaign F: adoption 0.35 · hold 0.20 · switch 0.25 · compose 0.20 (sub-scores below) |
 
 \* B is currently pairwise-only (its absolute artifact-burden component
 awaits an audit re-run after a blinding-key incident) — read it as "how
@@ -109,14 +113,25 @@ decay trend — and delivery held a flat 17.2 fps throughout. Session ended
 at 536 s by provider credit exhaustion, not product failure. Xmax
 counterpart + 30/60-min tiers pending credits.
 
-### Reference-image control (Campaign F, v1.1 — Xmax arm COMPLETE 2026-08-17)
+### Reference-image control (Campaign F, v1.1 — BOTH ARMS COMPLETE 2026-08-17)
 
 The dedicated ref-image campaign (the core interaction of preset-character
 products): **65 Xmax sessions, 6 arms, 0 failures**, scored by
 computational face-similarity timelines (sim-to-ref vs sim-to-input every
 2 s; ~0.75+ = same person, ~0 = unrelated; clean-anchor band 0.33–0.46).
-Plus a 12-session mechanism probe series for mid-video switching. Lucy
-mirror arm is coded and queued — **blocked solely on Decart API credits**.
+Plus a 12-session mechanism probe series for mid-video switching. The
+Lucy mirror arm ran the identical 65-job matrix (2 parallel lanes,
+64 usable + 9 no-face segments excluded as no-data).
+
+**Axis G side-by-side (each product wins different sub-capabilities):**
+
+| G component (weight) | Lucy 2.5 | Xmax X2.0 | reading |
+|---|---|---|---|
+| Adoption across full input matrix (.35) | **60.0** | 37.5 | Lucy anchors even on the 5-person crowd (0.39–0.76) and hits higher sims (up to 0.76); both fail wide-shot small-face; stylized refs mostly fail on both |
+| Anchored-identity hold (.20) | 50.0 | **66.7** | Xmax 180 s holds are flat both reps; one Lucy hold capture lost to a no-face segment |
+| Mid-video switch (.25) | 46.4 | **56.1** | Lucy switches **in-session in ~2 s** via `set_image` but only ~58% reliably; Xmax cannot switch in-session (0/16) but its re-session mechanism is 2/2 with a ~7 s transition |
+| Text edit on anchored character (.20) | 0.0 | **50.0** | Xmax scene-level edits keep the character (person-level edits reset it); ANY Lucy text edit evicts her anchor |
+| **Axis G** | 42.6 | **50.5** | Xmax's first capability-axis win — on its sector's core interaction |
 
 **Confirmed working (Xmax X2.0, native browser lens):**
 

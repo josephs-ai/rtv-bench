@@ -1,0 +1,104 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F1-man-mixkit2960-r2",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "anchor",
+    "ref": "ref-man.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 17,
+    "apply_at_s": 1.0,
+    "sim_ref_post_mean": 0.6054,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": 0.0039,
+    "sim_ref_pre_mean": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.8794,
+      "sim_ref": 0.0667
+    },
+    {
+      "t": 3.0,
+      "sim_input": -0.0074,
+      "sim_ref": 0.6774
+    },
+    {
+      "t": 5.0,
+      "sim_input": -0.0125,
+      "sim_ref": 0.6014
+    },
+    {
+      "t": 7.0,
+      "sim_input": -0.003,
+      "sim_ref": 0.5777
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.0049,
+      "sim_ref": 0.5825
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.0226,
+      "sim_ref": 0.6527
+    },
+    {
+      "t": 13.0,
+      "sim_input": 0.0038,
+      "sim_ref": 0.6215
+    },
+    {
+      "t": 15.0,
+      "sim_input": 0.0364,
+      "sim_ref": 0.5615
+    },
+    {
+      "t": 17.0,
+      "sim_input": -0.032,
+      "sim_ref": 0.6188
+    },
+    {
+      "t": 19.0,
+      "sim_input": 0.0228,
+      "sim_ref": 0.6062
+    },
+    {
+      "t": 21.0,
+      "sim_input": 0.0038,
+      "sim_ref": 0.598
+    },
+    {
+      "t": 23.0,
+      "sim_input": 0.0038,
+      "sim_ref": 0.598
+    },
+    {
+      "t": 25.0,
+      "sim_input": 0.0038,
+      "sim_ref": 0.598
+    },
+    {
+      "t": 27.0,
+      "sim_input": 0.0038,
+      "sim_ref": 0.598
+    },
+    {
+      "t": 29.0,
+      "sim_input": 0.0038,
+      "sim_ref": 0.598
+    },
+    {
+      "t": 31.0,
+      "sim_input": 0.0038,
+      "sim_ref": 0.598
+    },
+    {
+      "t": 33.0,
+      "sim_input": 0.0038,
+      "sim_ref": 0.598
+    }
+  ]
+}

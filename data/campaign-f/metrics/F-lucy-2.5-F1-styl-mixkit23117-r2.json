@@ -1,0 +1,54 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F1-styl-mixkit23117-r2",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "anchor",
+    "ref": "ref-styl.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit23117.mp4",
+    "n_samples": 7,
+    "apply_at_s": 1.0,
+    "sim_ref_post_mean": 0.005,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": -0.0066,
+    "sim_ref_pre_mean": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.3955,
+      "sim_ref": -0.0073
+    },
+    {
+      "t": 3.0,
+      "sim_input": -0.0133,
+      "sim_ref": -0.0217
+    },
+    {
+      "t": 5.0,
+      "sim_input": -0.0053,
+      "sim_ref": 0.0103
+    },
+    {
+      "t": 7.0,
+      "sim_input": -0.0053,
+      "sim_ref": 0.0103
+    },
+    {
+      "t": 9.0,
+      "sim_input": -0.0053,
+      "sim_ref": 0.0103
+    },
+    {
+      "t": 11.0,
+      "sim_input": -0.0053,
+      "sim_ref": 0.0103
+    },
+    {
+      "t": 13.0,
+      "sim_input": -0.0053,
+      "sim_ref": 0.0103
+    }
+  ]
+}

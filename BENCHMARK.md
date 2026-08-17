@@ -1,4 +1,4 @@
-# RTV-Bench v1.0 — Realtime Video AI Benchmark
+# RTV-Bench v1.1 — Realtime Video AI Benchmark
 
 A repeatable benchmark for **live** video AI products, born from the 2026-08
 six-product evaluation. It measures what realtime products actually sell:
@@ -78,6 +78,7 @@ records under `data/`.
 
 ## Versioning
 
-Benchmark spec version: **1.0** (rubric v1.1 frozen; amendments require an
+Benchmark spec version: **1.1** (adds scored axis G — reference-image
+control — see `docs/rubric-amendments.md` Amendment 2; amendments require an
 entry in `docs/rubric-amendments.md`). Stimulus recipes and prompt sets are
 part of the version — changing either bumps the minor version.

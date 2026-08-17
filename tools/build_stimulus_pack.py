@@ -45,7 +45,17 @@ def main():
         p = os.path.join(src_dir, name)
         if not os.path.exists(p) and not args.verify:
             print("fetch", name)
-            urllib.request.urlretrieve(s["url"], p)
+            try:
+                # some hosts (wikimedia) 403 the default urllib UA
+                req = urllib.request.Request(
+                    s["url"], headers={"User-Agent":
+                                       "RTV-Bench-stimulus-builder/1.1 "
+                                       "(benchmark reproduction)"})
+                with urllib.request.urlopen(req, timeout=60) as r, \
+                        open(p, "wb") as f:
+                    f.write(r.read())
+            except Exception as e:
+                print("[FETCH-FAIL]", name, str(e)[:80])
         if not os.path.exists(p):
             print("[MISS]", name)
             ok = False
@@ -79,6 +89,44 @@ def main():
             # are the portable guarantee (see manifest note)
             print("[warn] %s (encoder differs from reference build - fine "
                   "if sources verified)" % out_name)
+
+    # ---- derived refs (deterministic recipes; e.g. campaign F self-ref) ----
+    import shutil
+    for name, d in (man.get("derived_refs") or {}).items():
+        outp = os.path.join(src_dir, name)
+        if not os.path.exists(outp) and not args.verify:
+            conf = os.path.join(out_dir, d["from_conform"])
+            if os.path.exists(conf):
+                print("derive", name)
+                # recipe is pinned in the manifest; keep in sync
+                subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss",
+                                "5", "-i", conf, "-frames:v", "1", "-vf",
+                                "crop=749:720:294:0", "-q:v", "4", outp],
+                               check=True)
+        print("[%s] %s (derived)" % ("  ok" if os.path.exists(outp)
+                                     else "MISS", name))
+        ok &= os.path.exists(outp)
+
+    # ---- install: put everything where the campaigns read it ------------
+    # (a user must never hand-fetch or hand-copy a stimulus)
+    inst = man.get("install")
+    if inst and not args.verify:
+        cdst = os.path.join(REPO, inst["conforms_to"])
+        rdst = os.path.join(REPO, inst["refs_to"])
+        os.makedirs(cdst, exist_ok=True)
+        os.makedirs(rdst, exist_ok=True)
+        n = 0
+        for f in os.listdir(out_dir):
+            if f.startswith("conform-") and not os.path.exists(
+                    os.path.join(cdst, f)):
+                shutil.copy(os.path.join(out_dir, f), os.path.join(cdst, f))
+                n += 1
+        for f in os.listdir(src_dir):
+            if f.endswith(".jpg") and not os.path.exists(
+                    os.path.join(rdst, f)):
+                shutil.copy(os.path.join(src_dir, f), os.path.join(rdst, f))
+                n += 1
+        print("installed %d new files into data/ (existing kept)" % n)
 
     print("\nedit protocol: %d edits @ t=%ss · world prompts: %d"
           % (len(man["edit_protocol"]["edits"]),

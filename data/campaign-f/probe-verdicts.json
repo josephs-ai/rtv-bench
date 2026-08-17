@@ -1,0 +1,19 @@
+{
+  "note": "Mid-video switch MECHANISM probes (xmax): in-session events vs re-session. Face-sim machine-verified 2026-08-17 (insightface buffalo_l, largest face, vs ref portrait / input person from conform-mixkit2960 t=5). Gap = frozen transition (analyze max_frozen_s) + 4s teardown settle. See spec/invocation-playbooks.md.",
+  "xmax-x2.0 (lens P-browser)": {
+    "mechanism": "re-session (disconnect -> 4s settle -> fresh captureStream + fresh temp key -> connect with context.refImageUrl)",
+    "runs": [
+      {"run_id": "PROBE-xmax-x2.0-reconnect-plain2woman", "success": true,
+       "sim_to_new_ref": 0.325, "sim_to_input": 0.051,
+       "frozen_gap_s": 3.1, "settle_s": 4.0, "transition_s": 7.1},
+      {"run_id": "PROBE-xmax-x2.0-reconnect-woman2man", "success": true,
+       "sim_to_new_ref": 0.428, "sim_to_input": 0.063,
+       "frozen_gap_s": 3.23, "settle_s": 4.0, "transition_s": 7.2}
+    ],
+    "in_session_events": {
+      "change_condition": "transmits, backend ignores ref (0/6 incl. 08-15 recheck)",
+      "restart_and_stopstart": "reverts to input identity (0/4; one composited ref person into background)",
+      "note": "failed mechanisms scored 0 inside the F3/F5 rows of metrics/summary.json"
+    }
+  }
+}

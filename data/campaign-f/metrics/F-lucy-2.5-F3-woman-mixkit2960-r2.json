@@ -1,0 +1,96 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F3-woman-mixkit2960-r2",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "switch",
+    "ref": "ref-woman.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 15,
+    "apply_at_s": 15.0,
+    "sim_ref_post_mean": 0.5312,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": 0.0374,
+    "sim_ref_pre_mean": 0.339,
+    "switch_key": "sim_ref",
+    "switch_latency_s": 2.0
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.888,
+      "sim_ref": 0.0164
+    },
+    {
+      "t": 3.0,
+      "sim_input": 0.8152,
+      "sim_ref": 0.0772
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.9129,
+      "sim_ref": 0.0759
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.092,
+      "sim_ref": 0.6101
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 13.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 15.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 17.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 19.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 21.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 23.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 25.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 27.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    },
+    {
+      "t": 29.0,
+      "sim_input": 0.0374,
+      "sim_ref": 0.5312
+    }
+  ]
+}

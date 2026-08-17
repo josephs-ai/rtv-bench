@@ -171,5 +171,17 @@
    "steer": "heavy snow begins falling over the whole scene"
   }
  ],
- "private_extras_note": "the filmed-person instrumented reel used in the reference run contains a private likeness and is NOT in the public pack; a stock-built instrumented reel ships in pack v1.1"
+ "private_extras_note": "the filmed-person instrumented reel used in the reference run contains a private likeness and is NOT in the public pack; a stock-built instrumented reel ships in pack v1.1",
+ "install": {
+  "conforms_to": "data/campaign-d/",
+  "refs_to": "data/campaign-d/refs/",
+  "note": "the builder installs everything campaigns read - a benchmark user never hand-fetches or hand-copies anything"
+ },
+ "derived_refs": {
+  "ref-self2960.jpg": {
+   "from_conform": "conform-mixkit2960.mp4",
+   "recipe": "ffmpeg -ss 5 -i <conform> -frames:v 1 -vf crop=749:720:294:0 -q:v 4 <out>",
+   "role": "self-identity ref (campaign F anti-morph arm); deterministic crop pinned from the reference run (insightface bbox + margin, frozen as a fixed rect)"
+  }
+ }
 }

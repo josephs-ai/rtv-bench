@@ -1,0 +1,49 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F5-chain-man2woman-2960-r2",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "chain",
+    "ref": "ref-man.jpg",
+    "ref2": "ref-woman.jpg",
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 5,
+    "apply_at_s": 1.0,
+    "sim_ref_post_mean": 0.5867,
+    "sim_ref2_post_mean": -0.005,
+    "sim_input_post_mean": 0.0091,
+    "sim_ref_pre_mean": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.7837,
+      "sim_ref": 0.0564,
+      "sim_ref2": 0.05
+    },
+    {
+      "t": 3.0,
+      "sim_input": 0.0091,
+      "sim_ref": 0.5867,
+      "sim_ref2": -0.005
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.0091,
+      "sim_ref": 0.5867,
+      "sim_ref2": -0.005
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.0091,
+      "sim_ref": 0.5867,
+      "sim_ref2": -0.005
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.0091,
+      "sim_ref": 0.5867,
+      "sim_ref2": -0.005
+    }
+  ]
+}

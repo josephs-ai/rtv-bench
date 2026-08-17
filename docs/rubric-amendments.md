@@ -48,3 +48,26 @@ Format per entry (newest first):
 - **Why:** Frozen before first run, per hard rule 1.
 - **What had already been collected under the previous version:** Nothing —
   this is the freeze point.
+
+## Amendment 2 — 2026-08-17 — Benchmark v1.0 → v1.1: reference-image control axis (G)
+
+- **What changed:** New scored axis **G — Reference-image control**
+  (campaign F), computed from face-similarity timelines: adoption 0.35
+  (full input matrix: 4 refs × 4 framings; crowd/wide/stylized failures
+  count against), hold 0.20, mid-video switch 0.25 (best documented
+  mechanism: success rate × transition-speed factor, anchor 1 s→15 s),
+  compose 0.20 (text edit on anchored character, anchor-kept, strict
+  machine version). Canonical Track-1 core reweighted:
+  `0.45·experience + 0.35·interaction + 0.20·latency` →
+  `0.40·experience + 0.25·interaction + 0.20·ref_control + 0.15·latency`.
+  Profiles rebalanced to include G (STREAMER-CN 20, CREATOR-GLOBAL 15,
+  LAB 15).
+- **Why:** Reference-driven character control is the selling interaction
+  of the preset-character product sector; the 2026-08-17 dedicated
+  campaign (65 sessions/product) made it measurable with absolute
+  anchors. Leaving it out of the score would misrepresent the sector.
+- **What had already been collected under the previous version:** The
+  full reference run. v1.0 scores (Lucy 53.2 / Xmax 43.1; profiles
+  73.9/85.8/79.2 vs 62.4/39.9/48.7) remain re-derivable from the same
+  journals by reverting the weights; v1.1 scores supersede them in all
+  shipped docs.

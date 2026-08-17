@@ -1,0 +1,59 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F1-woman-mixkit50117-r2",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "anchor",
+    "ref": "ref-woman.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit50117.mp4",
+    "n_samples": 8,
+    "apply_at_s": 1.0,
+    "sim_ref_post_mean": 0.1888,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": -0.0359,
+    "sim_ref_pre_mean": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": -0.0066,
+      "sim_ref": 0.4276
+    },
+    {
+      "t": 5.0,
+      "sim_input": -0.0434,
+      "sim_ref": 0.1603
+    },
+    {
+      "t": 7.0,
+      "sim_input": -0.0347,
+      "sim_ref": 0.1935
+    },
+    {
+      "t": 9.0,
+      "sim_input": -0.0347,
+      "sim_ref": 0.1935
+    },
+    {
+      "t": 11.0,
+      "sim_input": -0.0347,
+      "sim_ref": 0.1935
+    },
+    {
+      "t": 13.0,
+      "sim_input": -0.0347,
+      "sim_ref": 0.1935
+    },
+    {
+      "t": 15.0,
+      "sim_input": -0.0347,
+      "sim_ref": 0.1935
+    },
+    {
+      "t": 17.0,
+      "sim_input": -0.0347,
+      "sim_ref": 0.1935
+    }
+  ]
+}

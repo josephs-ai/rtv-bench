@@ -1,0 +1,114 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F4-compose-sunglasses-2960-r2",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "compose",
+    "ref": "ref-woman.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 19,
+    "apply_at_s": 15.0,
+    "sim_ref_post_mean": 0.0575,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": 0.5619,
+    "sim_ref_pre_mean": 0.2407
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.8755,
+      "sim_ref": 0.0192
+    },
+    {
+      "t": 3.0,
+      "sim_input": 0.004,
+      "sim_ref": 0.605
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.1388,
+      "sim_ref": 0.4741
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.1406,
+      "sim_ref": 0.4127
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.5903,
+      "sim_ref": 0.0498
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.5384,
+      "sim_ref": 0.0721
+    },
+    {
+      "t": 13.0,
+      "sim_input": 0.6601,
+      "sim_ref": 0.0519
+    },
+    {
+      "t": 15.0,
+      "sim_input": 0.5725,
+      "sim_ref": -0.0064
+    },
+    {
+      "t": 17.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 19.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 21.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 23.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 25.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 27.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 29.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 31.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 33.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 35.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    },
+    {
+      "t": 37.0,
+      "sim_input": 0.5619,
+      "sim_ref": 0.0575
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F4-compose-bg-beach-2960-r2",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "compose",
+    "ref": "ref-woman.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 0,
+    "apply_at_s": 1.0,
+    "sim_ref_post_mean": null,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": null,
+    "sim_ref_pre_mean": null
+  },
+  "timeline": []
+}

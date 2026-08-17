@@ -58,10 +58,32 @@ def truths():
     C = []  # (name, regex, truth, tol)
     A = C.append
     rs1 = s["rtvbench_score"]["track1"]
-    A(("canonical lucy", r"Lucy 2\.5[：: ]+\**(\d+(?:\.\d+)?)\s*分?\**",
+    A(("canonical lucy", r"canonical[^\n]*?Lucy\D{0,20}(\d+\.\d+)",
        rs1["lucy-2.5 (lens P)"]["score"], 0.55))
-    A(("canonical xmax", r"Xmax X2\.0[：: ]+(\d+(?:\.\d+)?)\s*分",
+    A(("canonical xmax", r"canonical[^\n]*?Xmax\D{0,20}(\d+\.\d+)",
        rs1["xmax-x2.0 (lens P-browser)"]["score"], 0.55))
+    A(("canonical lucy zh", r"Lucy 2\.5[：: ]+\**(\d+(?:\.\d+)?)\s*分\**",
+       rs1["lucy-2.5 (lens P)"]["score"], 0.55))
+    A(("canonical xmax zh", r"Xmax X2\.0[：: ]+(\d+(?:\.\d+)?)\s*分",
+       rs1["xmax-x2.0 (lens P-browser)"]["score"], 0.55))
+    A(("G axis lucy", r"G Ref control[^\n]*?\|\s*\**(\d+\.\d+)\**",
+       lucy["axes"]["G"], 0.05))
+    A(("G axis xmax", r"G Ref control[^\n]*?\|[^|]*\|\s*\**(\d+\.\d+)\**",
+       xm["axes"]["G"], 0.05))
+    A(("streamer lucy en", r"STREAMER-CN\D*?(\d+\.\d+)",
+       lucy["profiles"]["STREAMER-CN"]["score"], 0.05))
+    A(("streamer xmax en", r"STREAMER-CN\D*?\d+\.\d+\D*?(\d+\.\d+)",
+       xm["profiles"]["STREAMER-CN"]["score"], 0.05))
+    A(("creator lucy en", r"CREATOR-GLOBAL\D*?(\d+\.\d+)",
+       lucy["profiles"]["CREATOR-GLOBAL"]["score"], 0.05))
+    A(("creator xmax en", r"CREATOR-GLOBAL\D*?\d+\.\d+\D*?(\d+\.\d+)",
+       xm["profiles"]["CREATOR-GLOBAL"]["score"], 0.05))
+    A(("lab lucy en", r"\bLAB\b\D*?(\d+\.\d+)",
+       lucy["profiles"]["LAB"]["score"], 0.05))
+    A(("readme lucy", r"Lucy 2\.5\*\* \(native\) \| \*\*(\d+\.\d+)\*\*",
+       rs1["lucy-2.5 (lens P)"]["score"], 0.05))
+    A(("readme xmax", r"Xmax X2\.0 \(native/browser\) \| (\d+\.\d+)",
+       rs1["xmax-x2.0 (lens P-browser)"]["score"], 0.05))
     A(("pairs n", r"(\d+)\s*(?:组同源盲评|pairs|组)", len(prs), 0))
     A(("E2 xmax wins", r"结构\s*60[-–](\d+)", wins["E2"]["xmax-x2.0"], 0))
     A(("streamer lucy", r"国内直播/虚拟形象\s*\|\s*(\d+\.\d+)",
@@ -91,7 +113,7 @@ def truths():
 def main():
     if sys.argv[1:2] == ["--facts"]:
         return 0 if facts() else 1
-    docs = sys.argv[1:] or [f"{REPO}/docs/RESULTS.md"]
+    docs = sys.argv[1:] or [f"{REPO}/docs/RESULTS.md", f"{REPO}/README.md"]
     claims = truths()
     bad = 0
     for doc in docs:

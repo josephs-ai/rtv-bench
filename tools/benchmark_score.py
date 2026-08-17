@@ -113,13 +113,21 @@ AXIS_WEIGHTS = {   # sub-metric weights inside each axis
     "C": {"drift": 0.55, "face_through_edits": 0.45},
     "D": {"apply": 0.30, "commit": 0.25, "precision": 0.20,
           "hold": 0.15, "transition": 0.10},
+    # G Ref control (campaign F): adoption across the full input matrix
+    # (crowd/wide/stylized failures pull it down by design), anchored-
+    # identity hold, mid-video switch (best documented mechanism:
+    # success rate x transition speed), text-edit-on-anchored-character.
+    "G": {"adoption": 0.35, "hold": 0.20, "switch": 0.25, "compose": 0.20},
 }
 EDIT_RELEVANCE = {"garment": 20, "style": 20, "character": 20,
                   "hair": 15, "background": 15, "accessory": 10}
 PROFILES = {
-    "STREAMER-CN":   {"A": 25, "B": 10, "C": 20, "D": 25, "E": 10, "F": 10},
-    "CREATOR-GLOBAL": {"A": 15, "B": 40, "C": 15, "D": 15, "E": 15, "F": 0},
-    "LAB":           {"A": 25, "B": 25, "C": 15, "D": 20, "E": 15, "F": 0},
+    "STREAMER-CN":   {"A": 20, "B": 10, "C": 15, "D": 20, "E": 5, "F": 10,
+                      "G": 20},
+    "CREATOR-GLOBAL": {"A": 15, "B": 35, "C": 10, "D": 15, "E": 10, "F": 0,
+                       "G": 15},
+    "LAB":           {"A": 20, "B": 25, "C": 10, "D": 20, "E": 10, "F": 0,
+                      "G": 15},
 }
 FLOORS = [  # (axis, threshold, cap_fn(axis_score), profiles or None=all, label)
     ("A", 40, lambda a: a + 15, None, "reliability floor: total capped at A+15"),
@@ -313,6 +321,76 @@ def composite(out):
             e["notes"].append("E N/A (not instrumented on this lens); renormalized")
         e["subs"]["F"] = {"cn_market": DEPLOY_CN.get(key)}
 
+    # ---------- axis G: reference-image control (campaign F) ----------
+    # Rows with no usable face samples are no-data (excluded, coverage
+    # noted) for adoption/hold/switch; for compose they count as
+    # "anchor not kept" (the anchored character is not visibly present).
+    ADOPT = lambda r: (r.get("sim_ref_post_mean") is not None
+                       and r["sim_ref_post_mean"] >= 0.25
+                       and (r.get("sim_input_post_mean") is None
+                            or r["sim_input_post_mean"] <= 0.30))
+    fsum = os.path.join(REPO, "data", "campaign-f", "metrics", "summary.json")
+    fpv = os.path.join(REPO, "data", "campaign-f", "probe-verdicts.json")
+    if os.path.exists(fsum):
+        frows = json.load(open(fsum))
+        pv = json.load(open(fpv)) if os.path.exists(fpv) else {}
+        for key, e in ents.items():
+            prod, lens = key
+            rows = [r for r in frows
+                    if r["product"] == prod and r.get("lens") == lens]
+            if not rows:
+                e["notes"].append("G N/A (campaign F not run on this lens);"
+                                  " renormalized")
+                continue
+            nodata = [r for r in rows if r.get("sim_ref_post_mean") is None
+                      and r.get("sim_input_post_mean") is None]
+            anch = [r for r in rows if r["arm"] == "anchor"
+                    and r not in nodata]
+            adoption = (100.0 * sum(ADOPT(r) for r in anch) / len(anch)
+                        if anch else None)
+            holds = [r for r in rows if r["arm"] == "hold"
+                     and not str(r.get("ref", "")).startswith("ref-self")
+                     and r not in nodata]
+            held = [r for r in holds if ADOPT(r)
+                    and (r.get("hold_slope_per_min") is None
+                         or r["hold_slope_per_min"] >= -0.05)]
+            hold = 100.0 * len(held) / len(holds) if holds else None
+            sw = [r for r in rows if r["arm"] in ("switch", "chain")
+                  and r not in nodata]
+            def swrow(r):
+                tgt = (r.get("sim_ref2_post_mean")
+                       if r.get("ref2") else r.get("sim_ref_post_mean"))
+                lat = r.get("switch_latency_s")
+                if tgt is None or tgt < 0.25 or lat is None:
+                    return 0.0
+                return 100.0 * _clamp((15.0 - lat) / 14.0, 0, 1)
+            in_session = (sum(swrow(r) for r in sw) / len(sw)
+                          if sw else None)
+            mech = None
+            pve = pv.get("%s (lens %s)" % (prod, lens))
+            if isinstance(pve, dict) and pve.get("runs"):
+                mech = sum(
+                    (100.0 * _clamp((15.0 - m["transition_s"]) / 14.0, 0, 1)
+                     if m.get("success") else 0.0)
+                    for m in pve["runs"]) / len(pve["runs"])
+            switch = (None if in_session is None and mech is None
+                      else max(x for x in (in_session, mech)
+                               if x is not None))
+            comp = [r for r in rows if r["arm"] == "compose"]
+            compose = (100.0 * sum(ADOPT(r) for r in comp) / len(comp)
+                       if comp else None)
+            e["subs"]["G"] = {k: (round(v, 1) if v is not None else None)
+                              for k, v in [("adoption", adoption),
+                                           ("hold", hold),
+                                           ("switch", switch),
+                                           ("compose", compose)]}
+            e["subs"]["G"]["detail"] = {
+                "n_rows": len(rows), "n_nodata_excluded": len(nodata),
+                "switch_in_session": (round(in_session, 1)
+                                      if in_session is not None else None),
+                "switch_mechanism": (round(mech, 1)
+                                     if mech is not None else None)}
+
     # ---------- roll up ----------
     def axis_score(e, ax):
         subs = e["subs"].get(ax)
@@ -325,7 +403,7 @@ def composite(out):
         if ax == "F":
             return subs.get("cn_market")
         wts = {k: v for k, v in AXIS_WEIGHTS[ax].items()
-               if subs.get(k) is not None}
+               if isinstance(subs.get(k), (int, float))}
         if not wts:
             return None
         tot = sum(wts.values())
@@ -334,7 +412,7 @@ def composite(out):
     result = {}
     for key, e in sorted(ents.items()):
         prod, lens = key
-        axes = {ax: axis_score(e, ax) for ax in "ABCDEF"}
+        axes = {ax: axis_score(e, ax) for ax in "ABCDEFG"}
         profs = {}
         for pname, pw in PROFILES.items():
             avail = {ax: w for ax, w in pw.items()
@@ -435,7 +513,7 @@ def composite(out):
         t2 = {"error": str(e)[:120]}
     out["track2_composite"] = t2
     # ---------- canonical RTV-Score (per track, absolute-only) ----------
-    # Score = 100 * sqrt(D) * (0.45*E + 0.35*I + 0.20*L)
+    # Score = 100 * sqrt(D) * (0.40*E + 0.25*I + 0.20*G + 0.15*L)  [v1.1]
     #   D = delivery rate (S + 0.5*Deg)/N, adjudicated, E-excluded (the gate;
     #       sqrt damps vantage influence). Absolute components only - the
     #       pairwise head-to-head is published separately, never in here.
@@ -486,9 +564,10 @@ def composite(out):
         art = {"error": str(e)[:120]}
     out["artifact_burden"] = art
     out["rtvbench_score"] = {"track1": {}, "track2": {},
-        "formula": "100*sqrt(delivery)*(0.45*experience+0.35*interaction"
-                   "+0.20*latency); experience = mean(identity, artifact-"
-                   "burden); absolute components only"}
+        "formula": "100*sqrt(delivery)*(0.40*experience+0.25*interaction"
+                   "+0.20*ref_control+0.15*latency); experience = mean("
+                   "identity, artifact-burden); absolute components only;"
+                   " v1.1 adds ref_control (campaign F)"}
     preserved = {}
     pt = os.path.join(REPO, "data", "campaign-b", "preserved-tally.json")
     if os.path.exists(pt):
@@ -505,9 +584,10 @@ def composite(out):
         exp = (None if (a_s is None and c_s is None) else
                a_s if c_s is None else c_s if a_s is None
                else round((a_s + c_s) / 2, 1))
-        parts = {"experience": (exp, 0.45),
-                 "interaction": (ax.get("D"), 0.35),
-                 "latency": (ax.get("E"), 0.20)}
+        parts = {"experience": (exp, 0.40),
+                 "interaction": (ax.get("D"), 0.25),
+                 "ref_control": (ax.get("G"), 0.20),
+                 "latency": (ax.get("E"), 0.15)}
         avail = {k: v for k, v in parts.items() if v[0] is not None}
         if not avail:
             continue

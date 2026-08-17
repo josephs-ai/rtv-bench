@@ -54,13 +54,13 @@ P-browser; lens M = via-Reactor), LingBot-World 2, Happy Oyster.
 
 | # | question | campaign/arm | stimulus | instrument | metric | records | status |
 |---|---|---|---|---|---|---|---|
-| Q4.1 | Does a ref portrait anchor the character at session start? | F1 (4 refs × 4 clips × 2) | conforms + 4 refs | face-sim timeline (2 s cadence) | sim-to-ref vs sim-to-input post-anchor | `data/campaign-f/metrics/summary.json` + per-run timelines | answered Xmax (16/16 dominant-face; 0/8 crowd; 0/8 wide); Lucy arm RUNNING |
-| Q4.2 | Can a ref deliver an attribute text can't (hair)? | F1 blonde ref | blonde ref | same | sim + eyeball/judge | same | answered Xmax (yes); Lucy running |
-| Q4.3 | Do stylized (non-photo) refs work? | F1/F2 styl | Vermeer PD portrait | same | sim | same | answered Xmax (0/9, photo-only); Lucy running |
-| Q4.4 | Does anchored identity hold over minutes? | F2 (180 s ×3) | ref-woman/styl | hold slope | slope/min, last-30 s | same | answered Xmax (flat, no drift); Lucy running |
-| Q4.5 | Does self-ref anchoring prevent identity morph? | F7 (self-ref ×3 vs control ×3, 90 s) | self-crop ref | hold slope differential | selfref vs control slope | same | answered Xmax (**no differential claimable** — controls also held; morph intermittent); Lucy running |
+| Q4.1 | Does a ref portrait anchor the character at session start? | F1 (4 refs × 4 clips × 2) | conforms + 4 refs | face-sim timeline (2 s cadence) | sim-to-ref vs sim-to-input post-anchor | `data/campaign-f/metrics/summary.json` + per-run timelines | answered both (Xmax 16/16 dominant-face only; **Lucy also anchors crowds** — adoption 60.0 vs 37.5) |
+| Q4.2 | Can a ref deliver an attribute text can't (hair)? | F1 blonde ref | blonde ref | same | sim + eyeball/judge | same | answered both (yes on both) |
+| Q4.3 | Do stylized (non-photo) refs work? | F1/F2 styl | Vermeer PD portrait | same | sim | same | answered both (photo-only on both; 1 Lucy partial) |
+| Q4.4 | Does anchored identity hold over minutes? | F2 (180 s ×3) | ref-woman/styl | hold slope | slope/min, last-30 s | same | answered both (Xmax flat 2/2; Lucy 1/2 + 1 no-data capture) |
+| Q4.5 | Does self-ref anchoring prevent identity morph? | F7 (self-ref ×3 vs control ×3, 90 s) | self-crop ref | hold slope differential | selfref vs control slope | same | answered both (no differential claimable on either — controls held; morph intermittent) |
 | Q4.6 | Can the character be switched mid-video, and how? | F3/F5 + probe series | 2 refs | face-sim + mechanism probes | switch latency, adoption, transition gap | same + `data/campaign-f/captures-probe/*.json` | answered Xmax (in-session events 0/16; **re-session works 2/2**, ~3.2 s gap + settle); Lucy running |
-| Q4.7 | Do text edits work ON an anchored character? | F4 (D-taxonomy ×2) | ref-woman + 4 edits | face-sim + eyeball/judge | edit applied? anchor kept? | same | answered Xmax (8/8 apply; scene-level keep anchor, person-level reset it); Lucy running |
+| Q4.7 | Do text edits work ON an anchored character? | F4 (D-taxonomy ×2) | ref-woman + 4 edits | face-sim + eyeball/judge | edit applied? anchor kept? | same | answered both (Xmax scene-level keeps anchor; **Lucy: any text edit evicts the anchor, 0/8**) |
 | Q4.8 | Ref-image full character switch (legacy D arm) | D character-man/woman | 2 refs | edit judge | application/hold | `data/edit-judge/records.jsonl` | answered (Lucy 3.4 s applies+holds; Xmax superseded by Q4.6 mechanism map) |
 
 ### Q5. Latency
@@ -106,7 +106,6 @@ focus on realtime videogen).
 
 ## Open / pending queue (reference run)
 
-1. Q4.* Lucy arm — running now (2026-08-17).
 2. Q1.4 hour-scale 30/60-min tiers + Xmax counterpart (browser chunked
    upload unbuilt).
 3. Q1.1 Lens M tail (244 slots).

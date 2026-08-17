@@ -1,0 +1,63 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F7-control-2960-r3",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "control",
+    "ref": null,
+    "ref2": null,
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 11,
+    "apply_at_s": 0.0,
+    "sim_ref_post_mean": null,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": 0.8368,
+    "sim_ref_pre_mean": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.5577
+    },
+    {
+      "t": 3.0,
+      "sim_input": 0.8125
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.8436
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.9047
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.8296
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.8296
+    },
+    {
+      "t": 13.0,
+      "sim_input": 0.8296
+    },
+    {
+      "t": 15.0,
+      "sim_input": 0.8296
+    },
+    {
+      "t": 17.0,
+      "sim_input": 0.8296
+    },
+    {
+      "t": 19.0,
+      "sim_input": 0.8296
+    },
+    {
+      "t": 21.0,
+      "sim_input": 0.8296
+    }
+  ]
+}

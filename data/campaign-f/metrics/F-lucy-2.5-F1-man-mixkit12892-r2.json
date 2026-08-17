@@ -1,0 +1,104 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F1-man-mixkit12892-r2",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "anchor",
+    "ref": "ref-man.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit12892.mp4",
+    "n_samples": 17,
+    "apply_at_s": 1.0,
+    "sim_ref_post_mean": 0.6699,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": 0.0738,
+    "sim_ref_pre_mean": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.8501,
+      "sim_ref": 0.0589
+    },
+    {
+      "t": 3.0,
+      "sim_input": 0.0399,
+      "sim_ref": 0.5424
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.0502,
+      "sim_ref": 0.5624
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.0928,
+      "sim_ref": 0.5554
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.0631,
+      "sim_ref": 0.7278
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.0221,
+      "sim_ref": 0.7401
+    },
+    {
+      "t": 13.0,
+      "sim_input": 0.0846,
+      "sim_ref": 0.7471
+    },
+    {
+      "t": 15.0,
+      "sim_input": 0.0949,
+      "sim_ref": 0.4896
+    },
+    {
+      "t": 17.0,
+      "sim_input": 0.1487,
+      "sim_ref": 0.5874
+    },
+    {
+      "t": 19.0,
+      "sim_input": 0.073,
+      "sim_ref": 0.7207
+    },
+    {
+      "t": 21.0,
+      "sim_input": 0.073,
+      "sim_ref": 0.7207
+    },
+    {
+      "t": 23.0,
+      "sim_input": 0.073,
+      "sim_ref": 0.7207
+    },
+    {
+      "t": 25.0,
+      "sim_input": 0.073,
+      "sim_ref": 0.7207
+    },
+    {
+      "t": 27.0,
+      "sim_input": 0.073,
+      "sim_ref": 0.7207
+    },
+    {
+      "t": 29.0,
+      "sim_input": 0.073,
+      "sim_ref": 0.7207
+    },
+    {
+      "t": 31.0,
+      "sim_input": 0.073,
+      "sim_ref": 0.7207
+    },
+    {
+      "t": 33.0,
+      "sim_input": 0.073,
+      "sim_ref": 0.7207
+    }
+  ]
+}

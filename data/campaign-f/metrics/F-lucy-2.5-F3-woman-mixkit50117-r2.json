@@ -1,0 +1,29 @@
+{
+  "summary": {
+    "run_id": "F-lucy-2.5-F3-woman-mixkit50117-r2",
+    "product": "lucy-2.5",
+    "lens": "P",
+    "arm": "switch",
+    "ref": "ref-woman.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit50117.mp4",
+    "n_samples": 2,
+    "apply_at_s": 0.0,
+    "sim_ref_post_mean": -0.0167,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": 0.2634,
+    "sim_ref_pre_mean": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.2634,
+      "sim_ref": -0.0167
+    },
+    {
+      "t": 3.0,
+      "sim_input": 0.2634,
+      "sim_ref": -0.0167
+    }
+  ]
+}
