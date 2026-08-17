@@ -1,0 +1,102 @@
+{
+  "summary": {
+    "run_id": "F-xmax-x2.0-F1-blonde-mixkit2960",
+    "product": "xmax-x2.0",
+    "lens": "P-browser",
+    "arm": "anchor",
+    "ref": "ref-blonde.jpg",
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 17,
+    "apply_at_s": 0.0,
+    "sim_ref_post_mean": 0.4398,
+    "sim_input_post_mean": -0.0603,
+    "sim_ref_pre_mean": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_ref": 0.4897,
+      "sim_input": -0.0528
+    },
+    {
+      "t": 3.0,
+      "sim_ref": 0.4771,
+      "sim_input": -0.0722
+    },
+    {
+      "t": 5.0,
+      "sim_ref": 0.3986,
+      "sim_input": -0.0679
+    },
+    {
+      "t": 7.0,
+      "sim_ref": 0.4227,
+      "sim_input": -0.0899
+    },
+    {
+      "t": 9.0,
+      "sim_ref": 0.4348,
+      "sim_input": -0.0593
+    },
+    {
+      "t": 11.0,
+      "sim_ref": 0.464,
+      "sim_input": -0.0345
+    },
+    {
+      "t": 13.0,
+      "sim_ref": 0.4167,
+      "sim_input": 0.0265
+    },
+    {
+      "t": 15.0,
+      "sim_ref": 0.5,
+      "sim_input": -0.0708
+    },
+    {
+      "t": 17.0,
+      "sim_ref": 0.4105,
+      "sim_input": -0.07
+    },
+    {
+      "t": 19.0,
+      "sim_ref": 0.4244,
+      "sim_input": -0.093
+    },
+    {
+      "t": 21.0,
+      "sim_ref": 0.4258,
+      "sim_input": -0.0575
+    },
+    {
+      "t": 23.0,
+      "sim_ref": 0.4658,
+      "sim_input": -0.0554
+    },
+    {
+      "t": 25.0,
+      "sim_ref": 0.4356,
+      "sim_input": -0.0179
+    },
+    {
+      "t": 27.0,
+      "sim_ref": 0.4968,
+      "sim_input": -0.0581
+    },
+    {
+      "t": 29.0,
+      "sim_ref": 0.4309,
+      "sim_input": -0.06
+    },
+    {
+      "t": 31.0,
+      "sim_ref": 0.4145,
+      "sim_input": -0.1167
+    },
+    {
+      "t": 33.0,
+      "sim_ref": 0.4185,
+      "sim_input": -0.0675
+    }
+  ]
+}

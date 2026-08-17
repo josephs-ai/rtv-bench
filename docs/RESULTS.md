@@ -109,6 +109,60 @@ decay trend — and delivery held a flat 17.2 fps throughout. Session ended
 at 536 s by provider credit exhaustion, not product failure. Xmax
 counterpart + 30/60-min tiers pending credits.
 
+### Reference-image control (Campaign F, v1.1 — IN PROGRESS 2026-08-17)
+
+The dedicated ref-image campaign (the core interaction of preset-character
+products): 65 Xmax sessions across 6 arms, ~40 captured so far, scored by
+computational face-similarity timelines (sim-to-ref vs sim-to-input every
+2 s; ~0.75+ = same person, ~0 = unrelated). Lucy mirror arm is coded and
+queued — **blocked solely on Decart API credits**.
+
+**Confirmed working (Xmax X2.0, native browser lens):**
+
+- **Connect-time character anchoring: works, 12/12** on single-face input.
+  sim-to-ref 0.36–0.44 while sim-to-input collapses to ~0 — the character
+  genuinely becomes the ref portrait; scene, pose, and motion preserved.
+- **Attribute transfer**: the long-blonde-hair ref delivers the hairstyle
+  that failed 6/6 as a text instruction. Ref is the working control
+  channel for appearance, text is not.
+- **Identity hold under anchor: no drift over 3 minutes** (sim-to-ref
+  slope +0.02/min — flat-to-rising), in sharp contrast to the ~12 s
+  identity morph on un-anchored sessions. Self-ref anti-morph arm (90 s
+  x3 vs no-ref control x3) is in the running pass.
+- **Two-person over-shoulder framing**: the dominant visible face anchors
+  cleanly (0.37–0.43); a back-of-head bystander is untouched.
+
+**Capability boundaries found (machine-scored, replicated):**
+
+- **Stylized (non-photographic) refs fail**: a public-domain painting
+  portrait produced zero adoption even on the easiest clip — the realtime
+  ref channel appears photo-only.
+- **Multi-person input (5 faces)**: anchoring silently no-ops, all refs,
+  both replicates.
+- **Wide-shot small-face input**: identity collapses to neither ref nor
+  input; one session rendered the small-scale subject in inappropriate
+  attire (flagged for the judge pass as a content-safety observation).
+
+**Mid-stream character switching — mechanism map (in progress):** the
+SDK exposes several paths and they behave very differently. In-session
+events do NOT re-anchor: `change_condition` transmits but ignores refs
+(0/6); mid-session re-`start` and stop+start revert to the input identity
+(0/4; one run composited the new ref person into the background instead
+of replacing the speaker). What DOES switch mid-video is a **fresh
+session with the new ref** — the app's own switch mechanism — with a
+measured transition gap of **~3.2 s**: first harness reproduction shows
+clear adoption of the new ref's attributes (glasses, clothing, hair;
+face-sim above baseline but below the clean-anchor band) in 1/2, with a
+suspected session-teardown-overlap confound under refinement. Anchoring
+itself is session-scoped: this matches the app behavior of switching
+characters behind a brief transition.
+
+*History note:* an earlier (2026-08-15) claim that the ref channel "does
+nothing" was our invocation bug (wrong SDK field name, silently stripped)
+— retracted and corrected the same day the correct field was traced; see
+the correction note above and `tools/claims_check.py --facts` item 4,
+which machine-verifies the working-channel finding.
+
 ### Latency & platform tax
 
 - Xmax native styled motion-to-glass: **~983 ms** (instrumented, direct

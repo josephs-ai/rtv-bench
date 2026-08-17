@@ -87,7 +87,43 @@ async function main() {
         if (liveRef && q.get("ref_live")) payload = form === "flat"
           ? {prompt: editText, refImageUrl: liveRef}
           : {context: {prompt: editText, refImageUrl: liveRef}};
-        if (session && session.set) await session.set(payload);
+        if (form === "restart" || form === "stopstart") {
+          // start() re-issues a START event - the path proven to honor
+          // refs (change_condition demonstrably does not). stopstart
+          // first halts generation so the new START is a fresh anchor,
+          // not a mid-generation condition change.
+          payload = {prompt: editText};
+          if (liveRef && q.get("ref_live")) payload.refImageUrl = liveRef;
+          if (form === "stopstart" && session.stopGeneration) {
+            await session.stopGeneration();
+            log("GENERATION STOPPED");
+          }
+          await session.start(payload);
+        } else if (form === "reconnect") {
+          // the app-visible switch may be a plain teardown+reconnect with
+          // the new character; connect-anchor is proven, so this measures
+          // the transition cost of the guaranteed-working mechanism
+          try { await session.disconnect(); } catch (e2) {}
+          log("DISCONNECTED for reconnect");
+          // disconnect() stops the published tracks - a fresh capture
+          // stream is required or the new session publishes dead tracks
+          const stream2 = srcv.captureStream(30);
+          // fresh key (temp keys may be single-generation) + base prompt
+          // (mirror the proven fresh-connect anchor shape exactly)
+          const key2 = q.get("key2");
+          const client2 = key2 ? createXmaxClient({apiKey: key2}) : client;
+          const s2 = await client2.realtime.connect(stream2, {
+            model: models.realtime("x2.0"),
+            context: {prompt: q.get("prompt") || "",
+                      ...(liveRef ? {refImageUrl: liveRef} : {})},
+            onRemoteStream: s => {
+              if (s.getVideoTracks().length > 0) {
+                out.srcObject = s; log("stream up (reconnected)");
+              }
+            },
+          });
+          window.__s2 = s2;
+        } else if (session && session.set) await session.set(payload);
         else if (client.realtime.set) await client.realtime.set(payload);
         else throw new Error("no set() on session or realtime");
         log("EDIT SENT (" + form + ") at " + editAt + "s: " + editText.slice(0, 60)

@@ -1,0 +1,31 @@
+{
+  "campaign": "F-probe",
+  "product": "xmax-x2.0",
+  "lens": "P-browser",
+  "arm": "restart-plain2woman",
+  "mechanism": "session.start() restart @15s",
+  "ref": null,
+  "ref2": "ref-woman.jpg",
+  "clip": "conform-mixkit2960.mp4",
+  "instruction": "replace the person with the person from the reference image, keeping the same pose and motion",
+  "apply_at_s": 15.0,
+  "record_s": 40.0,
+  "page_log": [
+    "REF UPLOADED to COS (/ref2.jpg): https://xmax-nj-1256661457.cos.ap-nanjing.myqcloud.com/open-image-passed/open/resource/user/c60d3d7a5c084287bd8607adb2dd18cf/1786960201682_ref2.jpg",
+    "stream up",
+    "connected",
+    "recording 40s",
+    "stream up",
+    "stream up",
+    "stream up",
+    "EDIT SENT (restart) at 15s: replace the person with the person from the reference image, [ref attached]",
+    "uploading 40.6MB",
+    "DONE"
+  ],
+  "fps": 30.0,
+  "frames": 1078,
+  "ttff_s": 0.03,
+  "delivered_s": 35.93,
+  "max_frozen_s": 0.53,
+  "timestamp_utc": "2026-08-17T09:50:58Z"
+}
