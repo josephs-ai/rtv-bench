@@ -140,6 +140,10 @@ honest. More: `--watch 10` (live mission control with an in-flight ticker),
 (re-editorialize with your own weights — the declared opinions are
 overridable by design), `--vendor xmax` (one product's cut), `--md`/`--json`
 (export), and Δ-since-last-run markers once scoring history accumulates.
+On a fresh machine it detects missing keys and hands you to the setup
+wizard instead of erroring.
+
+![The dashboard](docs/img/dashboard.png)
 
 Every stage journals and resumes; rerunning is always safe. The wizard
 ends by telling you which campaigns your keys unlock.

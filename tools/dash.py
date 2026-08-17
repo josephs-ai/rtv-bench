@@ -401,6 +401,8 @@ def export_md(s, main_ents):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-color", action="store_true")
+    ap.add_argument("--color", action="store_true",
+                    help="force ANSI color even when not a tty")
     ap.add_argument("--layer", type=int, default=0, choices=(0, 1, 2, 3),
                     help="1=canonical 2=axes/profiles 3=drill-down "
                          "(default 0: everything)")
@@ -420,12 +422,41 @@ def main():
     ap.add_argument("--json", action="store_true", dest="as_json",
                     help="export the board as JSON")
     args = ap.parse_args()
-    if args.no_color or not sys.stdout.isatty():
+    if args.no_color or (not sys.stdout.isatty() and not args.color):
         for k in C:
             C[k] = ""
 
+    # fresh-setup detection: hand the user to the wizard, not to errors
+    envp = os.path.join(REPO, ".env")
+    keys = {}
+    if os.path.exists(envp):
+        for line in open(envp):
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, val = line.split("=", 1)
+                keys[k] = bool(val.strip())
+    missing = [k for k in ("DECART_API_KEY", "XMAX_API_KEY",
+                           "REACTOR_API_KEY", "ANTHROPIC_API_KEY")
+               if not keys.get(k)]
+    if not os.path.exists(os.path.join(REPO, ".venv")) or missing:
+        print(col("b", "\nRTV-Bench") + col("d", " · first-run"))
+        print(col("y", "  setup incomplete: ") + col("d",
+              ("missing keys: " + ", ".join(missing)) if missing
+              else "no .venv"))
+        print(col("b", "  run the setup wizard: ") +
+              col("c", "python3 setup.py"))
+        print(col("d", "  it walks you through prerequisites, venvs, "
+              "provider API keys (.env),\n  live key validation, and "
+              "self-test - then tells you which campaigns\n  your keys "
+              "unlock. Safe to re-run any time."))
+        if not os.path.exists(SC):
+            return 1
+        print(col("d", "  (showing last scorecard below - scores may "
+              "predate your setup)"))
     if not os.path.exists(SC):
-        print("no scorecard yet - run: .venv/bin/python tools/benchmark_score.py")
+        print(col("y", "no scorecard yet") + col("d",
+              " - run campaigns, then: .venv/bin/python "
+              "tools/benchmark_run.py score"))
         return 1
     s = json.load(open(SC))
     rs = s.get("rtvbench_score", {})
