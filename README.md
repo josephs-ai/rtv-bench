@@ -10,7 +10,7 @@ red hoodie" lands mid-stream without breaking the world. RTV-Bench opens
 delivered frame, attributes every failure, and turns append-only journals
 into scores that survive hostile review.
 
-**📊 Reference-run results (2026-08, four products): [`docs/RESULTS.md`](docs/RESULTS.md)**
+**Reference-run results (2026-08, four products): [`docs/RESULTS.md`](docs/RESULTS.md)**
 · interactive figures: [`docs/atlas.html`](docs/atlas.html) · spec: [`BENCHMARK.md`](BENCHMARK.md)
 
 ---
@@ -21,13 +21,13 @@ The products do fundamentally different jobs, so RTV-Bench is two
 evaluation systems under one roof — the same reason MLPerf scores training
 and inference separately. Nothing crosses tracks.
 
-**🎥 Track 1 — Interactive video (V2V).** *Your camera in, a transformed
+**Track 1 — Interactive video (V2V).** *Your camera in, a transformed
 you out, live.* Scored on: session survival across durations · blind
 same-input side-by-sides · identity persistence over minutes · live
 mid-stream editing (clothes, hair, background, style, whole characters) ·
 motion-to-glass latency · market reachability.
 
-**🌍 Track 2 — Interactive worlds.** *A prompt in, an explorable world
+**Track 2 — Interactive worlds.** *A prompt in, an explorable world
 out, steered as it runs.* Scored on: did it build what was asked (counts,
 colors, positions are checkable by design) · physics · object permanence ·
 does the world stay the same world over a minute · does a text direction
