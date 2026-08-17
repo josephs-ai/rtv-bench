@@ -74,7 +74,12 @@ def run_tier(minutes, rep, chrome, state, port):
     state.final = False
     state.last_chunk = time.monotonic()
     state.logs = []
-    key = mint_xmax_temp_key(expire_s=int(record_s + 600), points=100000)
+    # points scale generously with duration: the 2026-08-18 60-min runs
+    # froze permanently at 11/35 min on points=100000 - whether that was
+    # temp-key budget exhaustion or a product defect is exactly what the
+    # r3 control (2M points) discriminates
+    key = mint_xmax_temp_key(expire_s=int(record_s + 600),
+                             points=max(2_000_000, int(record_s * 600)))
     url = ("http://127.0.0.1:%d/native_lane.html?key=%s&seconds=%g&run=%s"
            "&prompt=%s&chunk=1"
            % (port, key, record_s, name, PROMPT.replace(" ", "%20")))
