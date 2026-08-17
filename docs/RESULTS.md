@@ -84,6 +84,15 @@ one win — happens to be the core interaction of its own product plan.
 | Xmax · via aggregator | 85 | 55% | 33% | 12% | tail still accruing |
 | Xmax · native browser | 91 | 25% | 75% | 0% | the ~2 s start-freeze marks sessions degraded |
 
+### Hour-scale preview (campaign E, v1.1 — first datapoint)
+
+One 10-minute Lucy session on a single-shot looped face (telemetry +
+identity stills every 10 s): **no identity drift over 9 continuous
+minutes** — face similarity to t=0 median 0.86, never below 0.75, no
+decay trend — and delivery held a flat 17.2 fps throughout. Session ended
+at 536 s by provider credit exhaustion, not product failure. Xmax
+counterpart + 30/60-min tiers pending credits.
+
 ### Latency & platform tax
 
 - Xmax native styled motion-to-glass: **~983 ms** (instrumented, direct
