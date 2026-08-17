@@ -157,6 +157,13 @@ def main():
     keydir = os.path.join(REPO, "data", "vlm-judge-key")
     os.makedirs(outdir, exist_ok=True)
     os.makedirs(keydir, exist_ok=True)
+    # per-run key file: a later run must never orphan an earlier run's
+    # blinding (learned the hard way - an audit run overwrote the rubric
+    # run's key and unlinked 46 judgments). key.json stays as "latest".
+    import time as _t
+    stamp = _t.strftime("%Y%m%dT%H%M%SZ", _t.gmtime())
+    with open(os.path.join(keydir, "key-%s.json" % stamp), "w") as f:
+        json.dump(key, f, indent=2)
     with open(os.path.join(keydir, "key.json"), "w") as f:
         json.dump({p.blind_id: {"item": items[p.item_index]._asdict(),
                                 "is_hidden_repeat": p.is_hidden_repeat}

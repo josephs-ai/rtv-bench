@@ -264,11 +264,22 @@ tools/
   campaign_{b,c_gen,d,d_xmax,b_v2}.py, *_native_lane.py, xmax_browser/
   rating_session.py          blinded human panel w/ hidden repeats
   metrics_sweep.py, edit_metrics_run.py, edit_judge_run.py, vlm_judge_run.py
-docs/                        final report, d-scorecard, methods, incidents
-data/                        journals (append-only), adjudications,
-                             quality-metrics/, edit-metrics/, vlm-judge*/,
-                             edit-judge/, benchmark-scorecard.json
+docs/                        final report, d-scorecard, atlas, incidents
+data/                        the full evidence chain:
+  campaign-b/                reliability journals + adjudications.json
+  campaign-b-native/         browser-lens reliability journal
+  vlm-judge-b-pairs/         the 64 pairwise verdicts, evidence text included
+  vlm-judge/ · vlm-judge-audit/ · edit-judge/   all judge records
+  vlm-judge-key/             blinding keys (written PER RUN - key-<ts>.json)
+  quality-metrics/ · edit-metrics/              computed-metric records
+  benchmark-scorecard.json   the roll-up everything above feeds
 ```
+
+**Every number is walkable.** Any figure in this README traces down:
+composite → axis → scorecard entry → raw records → individual blinded
+verdicts with the judge's own evidence text, or journal rows with
+timestamps. The adjudication log records every human override, with
+reasons. If you disagree with a score, the disagreement can be located.
 
 ## 8. Known limitations of the reference run
 
