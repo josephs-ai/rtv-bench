@@ -71,9 +71,9 @@ collapses that self-recover within a second.
 |---|---|---|
 | whole-scene style flip | works, 4.6 s | **wins: 1.0 s, zero collateral** |
 | garment swap | **1.4 s, clean, holds** | commits at 6.6 s, mostly partial |
-| background swap | **works** | 50% commit, rewrites whole frame |
-| accessory | **1.2 s clean** | mostly fails |
-| hair | works but blends back (35% hold) | total failure |
+| background swap | **works** | 3/6 full, 2 partial, 1 none; rewrites whole frame |
+| accessory | **1.2 s clean** | partial-then-revert |
+| hair | applies 3/3, holds (1 oscillation) | total failure |
 | ref-image character switch | **applies, 3.4 s, holds** | untested (phase 2) |
 
 Pattern: Lucy edits *surgically* (moderate whole-scene collateral); Xmax
@@ -177,6 +177,10 @@ product).
   same-lens comparisons are the robust readout.
 - Lucy's captures are lossless taps while Xmax's browser lane re-encodes
   (VP8) — partially discharged by the judge crediting Xmax where deserved.
+- The computed edit metrics (region-tracked commit/hold) are unreliable on
+  multi-person or occluded clips — the blinded edit-judge is primary for
+  application/stability claims and caught three such misreads (documented
+  2026-08-17); single-face region tracking is a v1.1 fix.
 - Campaign-B journal row-tails were lost to a git incident after aggregates
   were computed and committed (`data/campaign-b/JOURNAL-LOSS-NOTE.md`);
   affected slots re-run.
