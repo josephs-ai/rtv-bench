@@ -10,7 +10,7 @@ red hoodie" lands mid-stream without breaking the world. RTV-Bench opens
 delivered frame, attributes every failure, and turns append-only journals
 into scores that survive hostile review.
 
-## The leaderboard (reference run, 2026-08)
+## The leaderboard (reference run 2026-08 · spec v1.1)
 
 One canonical **RTV-Score** per product, per track — tracks are separate
 sports and never share a ladder:
@@ -20,11 +20,20 @@ sports and never share a ladder:
 | **Lucy 2.5** (native) | **47.4** | | **Happy Oyster** | **50.5** |
 | Xmax X2.0 (native/browser) | 42.4 | | LingBot-World 2 | 29.3 |
 
-`RTV-Score = 100 × √delivery × capability-core` — availability gates
-multiplicatively (√-damped for vantage fairness); the core uses only
-**absolute-anchored** components, so scores don't shift when the field
-changes. Relative results — like Lucy's 64–0 blind head-to-head sweep —
+`RTV-Score = 100 × √delivery × (0.40·experience + 0.25·editing +
+0.20·ref-control + 0.15·latency)` — availability gates multiplicatively
+(√-damped for vantage fairness); the core uses only **absolute-anchored**
+components, so scores don't shift when the field changes. **v1.1 adds
+reference-image control as a scored axis** (campaign F, 130 sessions) —
+notably Xmax's first capability-axis win (50.5 vs 42.6) while Lucy leads
+overall. Relative results — like Lucy's 64–0 blind head-to-head sweep —
 are published beside the ladder, never inside it.
+
+| Buyer profile | Lucy 2.5 | Xmax X2.0 |
+|---|---|---|
+| STREAMER-CN (China live-avatar) | **67.1** | 59.5 |
+| CREATOR-GLOBAL (creative tool) | **77.6** | 40.2 |
+| LAB (unweighted capability) | **74.1** | 45.9 |
 
 Buyer-weighted views (China-streaming, creative-tool), axis breakdowns,
 and every number's evidence: **[`docs/RESULTS.md`](docs/RESULTS.md)** ·
