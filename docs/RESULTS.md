@@ -56,8 +56,7 @@ Xmax wins map to real Lucy single-frame collapses; Lucy's wins include a
 full identity replacement on the Xmax side within 12 s.
 
 Xmax's two systematic failures: a **~2 s early-stream freeze** (nearly
-every session) and **progressive identity morph** (the subject becomes a
-different person inside 60–90 s). Lucy's failures are rare single-frame
+every session) and **progressive identity morph** (within a single continuous shot the subject becomes a different person — replayable example completes in ~12 s; judge-confirmed across independent pairs; systematic onset timing deferred to the v1.1 long-session arm). Lucy's failures are rare single-frame
 collapses that self-recover within a second.
 
 ### Live mid-stream editing (48 sessions, 9 edit types)
