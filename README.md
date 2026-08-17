@@ -159,6 +159,8 @@ rest of the machinery is product-agnostic.
 
 ```
 BENCHMARK.md          spec: axes, profiles, floors, ground rules, versioning
+GOVERNANCE.md         how the benchmark changes: versioning, amendments,
+                      what makes a result official, disputes, submissions
 spec/questions.md     THE question registry — every question the benchmark
                       asks: campaign, stimulus, instrument, metric, records,
                       answer status. Nothing scattered.

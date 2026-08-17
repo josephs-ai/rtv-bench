@@ -133,6 +133,24 @@ def main():
             ok = abs(val - float(truth)) <= tol
             print(f"  [{'ok' if ok else 'MISMATCH'}] {name}: doc={val} truth={truth}")
             bad += 0 if ok else 1
+    # registry completeness: every question in spec/questions.md must
+    # carry an explicit status (answered/partial/pending/n/a) - a silent
+    # gap fails the run (roadmap commitment, user directive 2026-08-17)
+    qpath = f"{REPO}/spec/questions.md"
+    import re as _re
+    qrows = _re.findall(r"^\| (Q[\d.]+) \|.*\| ([^|]+) \|$",
+                        open(qpath).read(), _re.M) if __import__("os").path.exists(qpath) else []
+    bad_q = [q for q, st in qrows
+             if not st.strip().lower().startswith(
+                 ("answered", "partial", "pending", "n/a"))]
+    n_pend = sum(1 for _, st in qrows
+                 if st.strip().lower().startswith(("partial", "pending")))
+    if qrows:
+        print(f"  [{'ok' if not bad_q else 'MISMATCH'}] registry completeness: "
+              f"{len(qrows)} questions, {n_pend} explicitly partial/pending, "
+              f"{len(bad_q)} with NO status" +
+              (f" -> {bad_q}" if bad_q else ""))
+        bad += len(bad_q)
     print("\n%s" % ("ALL CLAIMS VERIFIED" if bad == 0 else f"{bad} MISMATCHES - DO NOT SHIP"))
     return 0 if bad == 0 else 1
 

@@ -54,7 +54,8 @@ canonical spec:
   — the playbook is what makes results defensible against that.
 - claims_check gains a completeness assertion: every registry question
   either has a recorded answer or an explicit "unanswered" status — no
-  silent gaps.
+  silent gaps. **DONE 2026-08-17** (with `GOVERNANCE.md` shipped the same
+  day; v1.2 critical path now: multi-vantage remains the only open gate).
 Instrument maturation (absolute quality, judge calibration numbers,
 hour-scale, A/V, edit taxonomy, cost/degradation) continues as a parallel
 non-blocking track - the philosophy and evidence machinery are sound; the
