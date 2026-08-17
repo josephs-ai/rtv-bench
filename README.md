@@ -10,8 +10,25 @@ red hoodie" lands mid-stream without breaking the world. RTV-Bench opens
 delivered frame, attributes every failure, and turns append-only journals
 into scores that survive hostile review.
 
-**Reference-run results (2026-08, four products): [`docs/RESULTS.md`](docs/RESULTS.md)**
-· interactive figures: [`docs/atlas.html`](docs/atlas.html) · spec: [`BENCHMARK.md`](BENCHMARK.md)
+## The leaderboard (reference run, 2026-08)
+
+One canonical **RTV-Score** per product, per track — tracks are separate
+sports and never share a ladder:
+
+| Track 1 · Interactive video | RTV-Score | | Track 2 · Interactive worlds | RTV-Score |
+|---|---|---|---|---|
+| **Lucy 2.5** (native) | **65.8** | | **Happy Oyster** | **50.5** |
+| Xmax X2.0 (native/browser) | 54.3 | | LingBot-World 2 | 29.3 |
+
+`RTV-Score = 100 × √delivery × capability-core` — availability gates
+multiplicatively (√-damped for vantage fairness); the core uses only
+**absolute-anchored** components, so scores don't shift when the field
+changes. Relative results — like Lucy's 64–0 blind head-to-head sweep —
+are published beside the ladder, never inside it.
+
+Buyer-weighted views (China-streaming, creative-tool), axis breakdowns,
+and every number's evidence: **[`docs/RESULTS.md`](docs/RESULTS.md)** ·
+figures: [`docs/atlas.html`](docs/atlas.html) · spec: [`BENCHMARK.md`](BENCHMARK.md)
 
 ---
 

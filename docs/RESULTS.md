@@ -98,6 +98,10 @@ For a China-market product, the V2V field effectively has one entrant.
 
 ## Track 2 — Interactive worlds (LingBot-World 2 vs Happy Oyster)
 
+**Track-2 RTV-Bench Score** (adherence 30 / physics 20 / long-horizon 25 /
+steering 15 / build-speed 10): **Happy Oyster 51.8 · LingBot 37.4** —
+HO's adherence, hold, and steering outweigh LingBot's 2.5× build speed.
+
 Frame-computed metrics (direct measurement, no judging involved):
 
 | metric | LingBot-World 2 | Happy Oyster | edge |

@@ -359,6 +359,91 @@ def composite(out):
         result["%s (lens %s)" % (prod, lens)] = {
             "axes": axes, "profiles": profs,
             "subs": e["subs"], "notes": e["notes"]}
+    # ---------- Track 2 capability composite (canonical score) ----------
+    # declared weights: adherence 30 / physics 20 / long-horizon 25 /
+    # steering 15 / build-speed 10. Judged medians (1-5 -> 0-100) blended
+    # 50/50 with computed metrics where both exist.
+    t2 = {}
+    try:
+        import glob as _g, statistics as _s
+        keyf = sorted(_g.glob(os.path.join(REPO, "data", "vlm-judge-key",
+                                           "key-*.json")))
+        jkey = {}
+        for kf in keyf:
+            try:
+                jkey.update({k: v["item"] for k, v in
+                             json.load(open(kf)).items() if "item" in v})
+            except Exception:
+                pass
+        jlat = {}
+        jp2 = os.path.join(REPO, "data", "vlm-judge", "records.jsonl")
+        if os.path.exists(jp2):
+            for line in open(jp2):
+                r = json.loads(line)
+                jlat[r["blind_id"]] = r
+        jsc = collections.defaultdict(lambda: collections.defaultdict(list))
+        for bid, r in jlat.items():
+            it = jkey.get(bid)
+            if not it:
+                continue
+            for d, obj in (r["result"].get("dimensions") or {}).items():
+                if obj.get("assessable") and isinstance(obj.get("score"),
+                                                        (int, float)):
+                    jsc[it["product_key"]][d].append(obj["score"])
+        comp_m = collections.defaultdict(lambda: collections.defaultdict(list))
+        for p_ in _g.glob(os.path.join(REPO, "data", "quality-metrics",
+                                       "*.json")):
+            m = json.load(open(p_))
+            rid = m["run_id"]
+            pk = ("lingbot" if rid.startswith("lingbot") else
+                  "happy-oyster" if rid.startswith("happy-oyster") else None)
+            if not pk:
+                continue
+            lh = (m.get("long_horizon") or {}).get("early_vs_last")
+            if lh is not None:
+                comp_m[pk]["lh"].append(lh)
+        STEER = {"lingbot": 40, "happy-oyster": 90}   # receipts+transport vs fire-and-forget
+        BUILD_S = {"lingbot": 55, "happy-oyster": 138}
+        import math
+        for pk in set(list(jsc) + list(comp_m)):
+            def jmed(d):
+                v = jsc[pk].get(d)
+                return ( _s.median(v) - 1) / 4 * 100 if v else None
+            lh_c = (_s.median(comp_m[pk]["lh"]) if comp_m[pk].get("lh")
+                    else None)
+            lh_c = None if lh_c is None else max(0, min(1, (lh_c - 0.5)
+                                                        / 0.4)) * 100
+            lh_j = jmed("E8")
+            lh = (_s.mean([x for x in (lh_c, lh_j) if x is not None])
+                  if (lh_c is not None or lh_j is not None) else None)
+            bs = BUILD_S.get(pk)
+            bs_score = None if bs is None else max(0, min(1,
+                (math.log(240) - math.log(bs)) / (math.log(240)
+                                                  - math.log(60)))) * 100
+            parts = {"adherence": (jmed("E6"), 0.30),
+                     "physics": (jmed("E7"), 0.20),
+                     "long_horizon": (lh, 0.25),
+                     "steering": (STEER.get(pk), 0.15),
+                     "build_speed": (bs_score, 0.10)}
+            avail = {k: v for k, v in parts.items() if v[0] is not None}
+            tot = sum(w for _, w in avail.values())
+            score = sum(s * w / tot for s, w in avail.values())
+            t2[pk] = {"score": round(score, 1),
+                      "parts": {k: round(v[0], 1) for k, v in avail.items()},
+                      "coverage_pct": round(100 * tot / 1.0, 0)}
+    except Exception as e:
+        t2 = {"error": str(e)[:120]}
+    out["track2_composite"] = t2
+    # canonical single number per product (capability profile / composite)
+    out["rtvbench_score"] = {}
+    for ent, d in result.items():
+        lab = d["profiles"].get("LAB")
+        if lab:
+            out["rtvbench_score"][ent] = lab["score"]
+    for pk, v in (t2.items() if isinstance(t2, dict) else []):
+        if isinstance(v, dict) and "score" in v:
+            out["rtvbench_score"][pk + " (track 2)"] = v["score"]
+
     out["composite"] = {"axis_weights": AXIS_WEIGHTS,
                         "edit_relevance": EDIT_RELEVANCE,
                         "profiles": PROFILES,
