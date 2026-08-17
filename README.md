@@ -135,6 +135,11 @@ rest of the machinery is product-agnostic.
 
 ```
 BENCHMARK.md          spec: axes, profiles, floors, ground rules, versioning
+spec/questions.md     THE question registry — every question the benchmark
+                      asks: campaign, stimulus, instrument, metric, records,
+                      answer status. Nothing scattered.
+spec/invocation-playbooks.md   per-product correct invocation + every
+                      discovered trap (wrong invocation ≠ product finding)
 docs/RESULTS.md       reference-run results (all of them)
 docs/atlas.html       the results + pipeline, drawn
 setup.py              the wizard
