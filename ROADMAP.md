@@ -34,6 +34,27 @@ pointers to the academic suites, and every hour goes into Track 1 depth.
 
 Critical path, dependency-ordered (external review concurs): **stimulus
 pack → core suite → submission protocol → multi-vantage → governance.**
+
+**FIRST after eval sign-off — consolidate the question registry (user
+directive 2026-08-17: "no benchmark scatters their questions").** Today
+the benchmark's questions and invocation protocols are scattered across
+campaign drivers, code comments, and session notes. Build the single
+canonical spec:
+
+- `spec/questions.md` — every question the benchmark asks, one row each:
+  question → campaign/arm → stimulus → instrument → metric → record path
+  → current answer status. Campaign drivers become executors of this
+  registry, not owners of the questions.
+- `spec/invocation-playbooks.md` — per-product, the *correct* way to
+  drive each capability, with every discovered trap inline (Xmax:
+  refImageUrl not refImage, flat-form set(), re-session switch + 4 s
+  settle + fresh key, serialize ref work, COS upload accessor; Lucy:
+  set_image b64 channel, TURN-TCP; HO: dedicated SDK connect flow).
+  A wrong-invocation "failure" is a benchmark bug, not a product finding
+  — the playbook is what makes results defensible against that.
+- claims_check gains a completeness assertion: every registry question
+  either has a recorded answer or an explicit "unanswered" status — no
+  silent gaps.
 Instrument maturation (absolute quality, judge calibration numbers,
 hour-scale, A/V, edit taxonomy, cost/degradation) continues as a parallel
 non-blocking track - the philosophy and evidence machinery are sound; the
