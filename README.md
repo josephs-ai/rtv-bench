@@ -42,7 +42,9 @@ and inference separately. Nothing crosses tracks.
 you out, live.* Scored on: session survival across durations · blind
 same-input side-by-sides · identity persistence over minutes · live
 mid-stream editing (clothes, hair, background, style, whole characters) ·
-motion-to-glass latency · market reachability.
+**reference-image character control** (anchor, attribute transfer,
+multi-minute identity hold, mid-video switching — scored by face-identity
+timelines, campaign F) · motion-to-glass latency · market reachability.
 
 **Track 2 — Interactive worlds.** *A prompt in, an explorable world
 out, steered as it runs.* Scored on: did it build what was asked (counts,
