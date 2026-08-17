@@ -125,18 +125,26 @@ Lens P never share a table.
 
 ### Track 2 results — interactive worlds
 
-- **LingBot-World 2**: full battery complete (21/21 worlds) — judged blind
-  on prompt adherence / physical plausibility / long-horizon hold, plus the
-  artifact audit. Consistent artifact presence from generation start
-  (texture boiling, object pop-in); steering via prompt works.
-- **Happy Oyster**: integrated via its dedicated SDK; 11/21 worlds captured
-  (rest limited by the measurement vantage's network, not the product).
-  Strong visual impression on rendered worlds; its steering channel
-  (`instruct`) is the more capable design — text directions with explicit
-  accept/reject receipts, plus pause/resume/rewind transport.
-- Track 2's composite profile (adherence / physics / permanence /
-  long-horizon / steering) ships when Happy Oyster's sample completes;
-  per-dimension records are already in `data/`.
+Frame-computed metrics (no judging involved — direct measurement):
+
+| metric | LingBot-World 2 | Happy Oyster | edge |
+|---|---|---|---|
+| subject consistency (same scene stays same) | 0.836 | **0.900** | HO |
+| long-horizon hold (start vs 1 min later) | 0.685 | **0.759** | HO |
+| motion pops (teleports/min, lower better) | 37.3 | **23.3** | HO |
+| temporal flicker score (higher steadier) | **0.997** | 0.985 | LingBot |
+| world build+capture time (median) | **~55 s** | ~138 s | LingBot 2.5× faster |
+
+**Steerability — HO's clear win:** its `instruct()` returns explicit
+accept/reject receipts and supports pause/resume/rewind; LingBot's steering
+is fire-and-forget (only the pixels tell you if it worked).
+
+The trade-off, plainly: **Happy Oyster builds better, steadier, more
+steerable worlds; LingBot builds worlds 2.5× faster.** Samples: LingBot
+21/21, HO 11/21 (remainder limited by the measurement vantage's network,
+not the product). The blinded-judge layer over these worlds is being
+re-run after a blinding-key tooling bug (fixed; keys now per-run) — the
+computed direction above does not depend on it.
 
 **Engineering traps documented** (docs/): two mirror-image silent-failure
 shapes in the Xmax SDK (connect requires `context.prompt`, live update
