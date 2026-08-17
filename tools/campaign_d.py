@@ -152,6 +152,8 @@ async def main_async(args):
     jobs = pairing()
     if args.smoke:
         jobs = jobs[:1]
+    elif args.limit:
+        jobs = jobs[:args.limit]
     done = n = 0
     for edit, clip in jobs:
         name = "D-%s-%s-%s" % (args.product, edit[0],
@@ -180,6 +182,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--product", default="lucy-2.5")
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--limit", type=int, default=0, help="cap session count (core suite)")
     args = ap.parse_args()
     if args.product != "lucy-2.5":
         print("xmax arm runs via the browser lane (blocked on VPN mode)")

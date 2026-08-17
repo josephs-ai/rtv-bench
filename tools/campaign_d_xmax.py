@@ -33,6 +33,7 @@ BASE_PROMPT = "photorealistic, natural colors"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--limit", type=int, default=0, help="cap session count (core suite)")
     args = ap.parse_args()
     lane.load_env()
     os.makedirs(OUT, exist_ok=True)
@@ -51,6 +52,8 @@ def main():
             jobs.append((e, CLIPS[(i + j * 2) % len(CLIPS)]))
     if args.smoke:
         jobs = jobs[:1]
+    elif args.limit:
+        jobs = jobs[:args.limit]
 
     from urllib.parse import quote
     done = 0

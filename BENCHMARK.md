@@ -36,6 +36,17 @@ staying up, looking right, reacting fast, and taking mid-stream direction.
    vantage (region, exit, protocol) is pinned per campaign and recorded in
    `vantage.json`; comparisons require matching vantage.
 
+## The core suite (affordable reproduction)
+
+`benchmark_run.py core` is the ≤2-hour, ~$40 run that reproduces the
+benchmark's shape end-to-end: a 15-round reliability mini (30 sessions),
+12 live-edit sessions per product, then the full metrics → judging →
+scorecard chain over what it captured. Wider CIs than the full campaigns,
+same instruments, same evidence chain, same output format. Use it to
+verify a setup, sanity-check a new product adapter, or contribute a
+low-cost datapoint from a new vantage. Full campaigns remain the
+official-scorecard tier.
+
 ## Running it
 
 ```bash

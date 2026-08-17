@@ -38,6 +38,21 @@ STAGES = {
         [PY, "tools/edit_judge_run.py", "data/campaign-d/captures"],
         [PY, "tools/d_scorecard.py"],
     ],
+    # CORE SUITE: the affordable reproduction run (~2h, ~$40 at current
+    # provider pricing): 30-round reliability mini, 12 live-edit sessions
+    # per product, metrics+judging over what it captured, scorecard.
+    "core": [
+        [PY, "tools/campaign_b.py", "--rounds", "15", "--cap-usd", "20"],
+        [PY, "tools/campaign_d.py", "--product", "lucy-2.5", "--limit", "12"],
+        [PY, "tools/campaign_d_xmax.py", "--limit", "12"],
+        [PYM, "tools/metrics_sweep.py", "data/campaign-b/captures"],
+        [PYM, "tools/edit_metrics_run.py", "data/campaign-d/captures"],
+        [PY, "tools/campaign_b_v2.py"],
+        [PY, "tools/edit_judge_run.py", "data/campaign-d/captures"],
+        [PY, "tools/d_scorecard.py"],
+        [PY, "tools/benchmark_score.py"],
+        [PY, "tools/benchmark_report.py"],
+    ],
     "score": [
         [PY, "tools/benchmark_score.py"],
         [PY, "tools/benchmark_report.py"],
