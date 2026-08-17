@@ -1,0 +1,6 @@
+{
+ "human_rows": 0,
+ "raters": [],
+ "verdict": "INSUFFICIENT DATA - run tools/rating_session.py (>= 30 shared items per judge-rater pair; the existing journal is a UI dry-run and is excluded)",
+ "alphas": {}
+}

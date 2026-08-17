@@ -71,11 +71,20 @@ P-browser; lens M = via-Reactor), LingBot-World 2, Happy Oyster.
 | Q5.2 | What does an aggregator cost in ms? | bridge (dual-route) | same | same model dual-routed | overhead ms | `data/bridge-measurement.json` | answered |
 | Q5.3 | What does a streamed minute cost? | cost report (spend join) | — | reconciled billing × run journals | $/attempted, $/delivered, $/value minute + efficiency | `data/cost-report.json`, `data/campaign-b/spend.jsonl` | answered (exhibit: Lucy $0.49/deliv-min native-metered; Xmax $0.45 via Reactor platform pricing; Xmax-native points-billed, excluded) |
 
-### Q6. Market access
+### Q6. Market access & vantage
 
 | # | question | campaign/arm | stimulus | instrument | metric | records | status |
 |---|---|---|---|---|---|---|---|
 | Q6.1 | Reachable from mainland China? | deploy probe | — | route/DNS/VPN matrix | direct / VPN-viable / blocked | vantage records | answered |
+| Q6.2 | Do results reproduce from a second vantage? | core suite on a cloud VM | stimulus pack (hash-verified) | full instrument chain | per-vantage scorecard, Lucy clean-route latency | `docs/MULTI-VANTAGE.md` runbook + future submission | pending (needs a second machine — 30-min runbook ready) |
+
+### Q8. Instrument trust
+
+| # | question | campaign/arm | stimulus | instrument | metric | records | status |
+|---|---|---|---|---|---|---|---|
+| Q8.1 | Does the VLM judge agree with humans? | blinded rating study | judged clips re-blinded | `rating_session.py` + `alpha_report.py` | Krippendorff α (judge-human, human-human, intra-rater) ≥ 0.67 gate | `data/judge-calibration.json` | pending (α tool built; needs a real human rating session — existing journal is a UI dry-run, excluded) |
+| Q8.2 | Is A/V lip-sync scoreable? | speech-forward arm (unbuilt) | speech reads | FaceMesh offset (exists) — **requires audio-capturing pipeline; current captures are video-only (0/214 have A/V data)** | offset ms vs anchors | — | pending (pipeline spec'd; needs audio-track capture + new sessions) |
+| Q8.3 | How does quality degrade under bandwidth loss? | netshape arms | conform reel + shaped network | netshape machinery (exists from floor studies) + full instrument chain | quality-vs-bandwidth curve | — | pending (needs healthy network window; same gate as hour-scale) |
 
 ---
 

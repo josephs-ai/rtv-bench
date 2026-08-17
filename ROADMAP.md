@@ -19,13 +19,13 @@ pointers to the academic suites, and every hour goes into Track 1 depth.
 - **Absolute quality axis completion**: artifact-burden component restored
   (audit re-runs with per-run keys), so the canonical score's experience
   term stops leaning on identity alone; pairwise stays exhibit-only.
-- **Cost & throughput axis**: $/streamed-minute and session overhead per
-  product, measured from billing during runs (we already learned billing
-  models the hard way).
+- **Cost & throughput axis — SHIPPED as exhibit 2026-08-18**
+  (`tools/cost_report.py`: $/delivered-minute, efficiency; registry Q5.3).
 - **Degradation behavior**: shaped-network arms (bandwidth drop mid-session)
   — the machinery (netshape) already exists from the floor studies.
 - **Lip-sync / A/V as a scored axis**: instruments exist (FaceMesh offsets,
-  missed-closure); needs speech-forward stimulus and anchors.
+  missed-closure) but ALL captures are video-only — needs an
+  audio-capturing pipeline + speech sessions (registry Q8.2).
 - **Finer edit taxonomy in scoring**: surgical vs global restyle split,
   post-edit identity drift, residue over time — the metrics already
   capture these; surface them as sub-scores.
