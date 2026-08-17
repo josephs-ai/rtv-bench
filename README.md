@@ -117,9 +117,15 @@ Then:
 
 ```bash
 .venv/bin/python tools/benchmark_run.py --list      # stages
-.venv/bin/python tools/benchmark_run.py reliability # or quality/editing/worlds
-.venv/bin/python tools/benchmark_run.py score       # scorecard + report
+.venv/bin/python tools/benchmark_run.py reliability # or quality/editing/refs/worlds
+.venv/bin/python tools/benchmark_run.py score       # scorecard + report + dashboard
+.venv/bin/python tools/dash.py                      # results dashboard (any time)
 ```
+
+Results are **handed to you by the machine**: `tools/dash.py` renders the
+canonical ladders, axes, buyer profiles, campaign coverage, question-registry
+status, and the claims-checker verdict straight from `data/` — the docs are
+prose over the same records, and `claims_check` keeps them honest.
 
 Every stage journals and resumes; rerunning is always safe. The wizard
 ends by telling you which campaigns your keys unlock.

@@ -169,12 +169,20 @@ def step_summary(keys):
         ("quality pairs + audits (needs judge)", have("ANTHROPIC_API_KEY")),
         ("live editing (campaign D)",
          have("DECART_API_KEY") or have("XMAX_API_KEY")),
+        ("ref-image control (campaign F)",
+         have("DECART_API_KEY") or have("XMAX_API_KEY")),
         ("worlds (campaign C: LingBot + HO)", have("REACTOR_API_KEY")),
     ]
     for name, ok in rows:
         say(OK if ok else SKIP, name)
-    print("\nnext:  .venv/bin/python tools/benchmark_run.py --list")
-    print("read:  BENCHMARK.md (ground rules)  ·  README.md (results)")
+    print("\nstimuli:  .venv/bin/python tools/build_stimulus_pack.py")
+    print("          (fetches, verifies, derives, and installs everything -")
+    print("           you never hand-fetch a stimulus)")
+    print("next:     .venv/bin/python tools/benchmark_run.py --list")
+    print("results:  .venv/bin/python tools/dash.py   <- the machine hands")
+    print("          you the results here (scores, coverage, claims verdict)")
+    print("read:     BENCHMARK.md (ground rules)  ·  spec/questions.md (the")
+    print("          question registry)  ·  docs/RESULTS.md (reference run)")
 
 
 def main():

@@ -64,6 +64,11 @@ STAGES = {
         [PY, "tools/benchmark_score.py"],
         [PY, "tools/benchmark_report.py"],
         [PY, "tools/claims_check.py", "docs/RESULTS.md"],
+        [PY, "tools/dash.py"],
+    ],
+    # the terminal results surface - the machine hands you the results
+    "dash": [
+        [PY, "tools/dash.py"],
     ],
     "rate": [
         [PY, "tools/rating_session.py"],

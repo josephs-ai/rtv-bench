@@ -62,6 +62,10 @@ official-scorecard tier.
 
 # consolidated scorecard from all journals
 .venv/bin/python tools/benchmark_score.py
+
+# the results, handed to you by the machine (scores, axes, profiles,
+# coverage, registry status, claims verdict - straight from data/)
+.venv/bin/python tools/dash.py
 ```
 
 Requirements: `.venv` (core) + `.venv-metrics` (torch/MPS) as in repo;
