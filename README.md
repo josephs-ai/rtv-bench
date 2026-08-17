@@ -144,6 +144,5 @@ data/                 the full evidence chain: journals, adjudications,
                       every judge verdict, every computed record, scorecard
 ```
 
-Built 2026-08-10 → 08-15 inside a six-product commercial evaluation from a
-mainland-China vantage. Every rule above exists because it caught a real
+Built from a mainland-China vantage. Every rule above exists because it caught a real
 mistake that week.
