@@ -153,18 +153,38 @@ async function main() {
                     requestAnimationFrame(draw); })();
   const rec = new MediaRecorder(cv.captureStream(30),
       {mimeType: "video/webm;codecs=vp8", videoBitsPerSecond: 12_000_000});
-  const chunks = [];
-  rec.ondataavailable = e => chunks.push(e.data);
-  const done = new Promise(res => rec.onstop = res);
-  rec.start();
-  log("recording " + seconds + "s");
-  await new Promise(r => setTimeout(r, seconds * 1000));
-  rec.stop(); await done;
-  const blob = new Blob(chunks, {type: "video/webm"});
-  log("uploading " + (blob.size / 1e6).toFixed(1) + "MB");
-  await fetch("/upload?run=" + (q.get("run") || "0"),
-              {method: "POST", body: blob});
-  log("DONE");
+  const run = q.get("run") || "0";
+  if (q.get("chunk")) {
+    // hour-scale mode: stream 10 s chunks to the driver as they land so
+    // memory stays flat and a crash loses seconds, not the session
+    let seq = 0, inflight = Promise.resolve();
+    rec.ondataavailable = e => {
+      const s = seq++;
+      inflight = inflight.then(() =>
+        fetch("/upload_chunk?run=" + run + "&seq=" + s,
+              {method: "POST", body: e.data}).catch(() => {}));
+    };
+    const done = new Promise(res => rec.onstop = res);
+    rec.start(10000);
+    log("recording " + seconds + "s (chunked)");
+    await new Promise(r => setTimeout(r, seconds * 1000));
+    rec.stop(); await done; await inflight;
+    await fetch("/upload_chunk?run=" + run + "&seq=-1", {method: "POST",
+                body: new Blob([])});   // final marker
+    log("DONE");
+  } else {
+    const chunks = [];
+    rec.ondataavailable = e => chunks.push(e.data);
+    const done = new Promise(res => rec.onstop = res);
+    rec.start();
+    log("recording " + seconds + "s");
+    await new Promise(r => setTimeout(r, seconds * 1000));
+    rec.stop(); await done;
+    const blob = new Blob(chunks, {type: "video/webm"});
+    log("uploading " + (blob.size / 1e6).toFixed(1) + "MB");
+    await fetch("/upload?run=" + run, {method: "POST", body: blob});
+    log("DONE");
+  }
 }
 main().catch(e => log("FATAL: " + (e && e.message)));
 </script>
