@@ -217,6 +217,17 @@ SCORE     rates with Wilson CIs -> anchored axis scores -> declared-weight
 
 ## 5. Quickstart
 
+One command sets everything up — prerequisites, both virtualenvs,
+dependencies, `.env`, live key validation, and a self-test:
+
+```bash
+python3 setup.py          # guided setup; safe to re-run
+python3 setup.py --check  # report-only health check
+```
+
+It ends by telling you which campaigns your keys unlock. Manual
+equivalent, if you prefer:
+
 ```bash
 python3.12 -m venv .venv && uv pip install --python .venv/bin/python -r requirements.txt
 python3.12 -m venv .venv-metrics && uv pip install --python .venv-metrics/bin/python -r requirements-metrics.txt
