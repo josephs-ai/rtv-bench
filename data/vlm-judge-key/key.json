@@ -1,441 +1,371 @@
 {
-  "fb8c28b7efd1": {
+  "c4b9a2c8d04c": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G1-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G1-r1.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0258.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0258.mkv",
       "category": "generation",
-      "prompt_text": "three red lanterns hanging to the left of a tall wooden door"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "1d659a042a86": {
+  "be905e285be4": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G4-r2.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G4-r2.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0237.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0237.mkv",
       "category": "generation",
-      "prompt_text": "the camera slowly pushes forward toward the wooden structure, nothing else moves"
-    },
-    "is_hidden_repeat": false
-  },
-  "b23cf7875551": {
-    "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G5-r3.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G5-r3.mkv",
-      "category": "generation",
-      "prompt_text": "a man in a yellow coat and a woman in a green dress stand in front of the wooden structure; a white bird perches between them"
-    },
-    "is_hidden_repeat": false
-  },
-  "b33cbd392040": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G1-r2.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G1-r2.mkv",
-      "category": "generation",
-      "prompt_text": "three red lanterns hanging to the left of a tall wooden door"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": true
   },
-  "f12b9b14deed": {
+  "f23a932d6b42": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G6-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G6-r1.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0279.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0279.mkv",
       "category": "generation",
-      "prompt_text": "a calm village square with a central fountain at golden hour"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "ca8a3a3e4365": {
+  "4e96008a3099": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G4-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G4-r1.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0238.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0238.mkv",
       "category": "generation",
-      "prompt_text": "the camera slowly pushes forward toward a stone fountain, nothing else moves"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "547f953e69b1": {
+  "70d8aaabe3dc": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G2-r2.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G2-r2.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0258.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0258.mkv",
       "category": "generation",
-      "prompt_text": "a large blue ball drops from the sky, bounces twice on the stone ground, and rolls to a stop"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "b475ed590fbe": {
+  "ab21b03d3f76": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G5-r2.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G5-r2.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0239.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0239.mkv",
       "category": "generation",
-      "prompt_text": "a man in a yellow coat and a woman in a green dress stand in front of the wooden structure; a white bird perches between them"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "66370b6bd09f": {
+  "000ab904df53": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G5-r1.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G5-r1.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0218.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0218.mkv",
       "category": "generation",
-      "prompt_text": "a man in a yellow coat and a woman in a green dress stand in front of the wooden structure; a white bird perches between them"
-    },
-    "is_hidden_repeat": false
-  },
-  "c007dd38f880": {
-    "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G7-r2.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G7-r2.mkv",
-      "category": "generation",
-      "prompt_text": "the quiet landscape with the wooden structure on a sunny day"
-    },
-    "is_hidden_repeat": false
-  },
-  "231fe0ed05f7": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G7-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G7-r1.mkv",
-      "category": "generation",
-      "prompt_text": "a sunny meadow with a single oak tree"
-    },
-    "is_hidden_repeat": false
-  },
-  "88354b9cc7b7": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-D1-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-D1-r1.mkv",
-      "category": "generation",
-      "prompt_text": null
-    },
-    "is_hidden_repeat": false
-  },
-  "6965325fa788": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-D5-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-D5-r1.mkv",
-      "category": "generation",
-      "prompt_text": null
-    },
-    "is_hidden_repeat": false
-  },
-  "a81d6918b4b2": {
-    "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G1-r3.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G1-r3.mkv",
-      "category": "generation",
-      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": true
   },
-  "63b02581344c": {
+  "bde009f2803f": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G2-r2.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G2-r2.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0217.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0217.mkv",
       "category": "generation",
-      "prompt_text": "a large blue ball drops from the sky in front of the wooden structure, bounces twice, and rolls to a stop"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "c284538b86cb": {
+  "d9756cfb79f2": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G1-r3.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G1-r3.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0217.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0217.mkv",
       "category": "generation",
-      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "45bcd8b7cd45": {
+  "e26d75f3c2b1": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G6-r1.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G6-r1.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0237.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0237.mkv",
       "category": "generation",
-      "prompt_text": "the quiet landscape with the wooden structure under a hazy sky"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "5a4051d7e53e": {
+  "4ac21b0a4cca": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G3-r2.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G3-r2.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0237.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0237.mkv",
       "category": "generation",
-      "prompt_text": "a black dog walks past the wooden structure and out of frame right; the scene holds; the same dog re-enters from the right"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "d37610050db1": {
+  "61623ef6a882": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G6-r2.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G6-r2.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0219.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0219.mkv",
       "category": "generation",
-      "prompt_text": "the quiet landscape with the wooden structure under a hazy sky"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": true
   },
-  "9f4431f58707": {
+  "315d0ae90e49": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G3-r1.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G3-r1.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0216.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0216.mkv",
       "category": "generation",
-      "prompt_text": "a black dog walks past the wooden structure and out of frame right; the scene holds; the same dog re-enters from the right"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "25131b87d79f": {
+  "e936c66df38b": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G4-r2.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G4-r2.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0277.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0277.mkv",
       "category": "generation",
-      "prompt_text": "the camera slowly pushes forward toward a stone fountain, nothing else moves"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "671d09e4426f": {
+  "de72edf21e08": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-D1-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-D1-r1.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0296.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0296.mkv",
       "category": "generation",
-      "prompt_text": null
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "a0e1b6a896b4": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0219.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0219.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "718ae4302e42": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0278.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0278.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "81b6529c70d4": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0236.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0236.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "4746b5eb9339": {
+    "item": {
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0257.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0257.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "0fa31683d1f2": {
+    "item": {
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0218.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0218.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "572e9e333ab5": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0276.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0276.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "3dd2bb375366": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0297.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0297.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "c10968907d59": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0298.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0298.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "1818ba858bde": {
+    "item": {
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0296.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0296.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "65e9137c09c0": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0218.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0218.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "ba09d6684314": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0299.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0299.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "7395cc261689": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0257.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0257.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
+    },
+    "is_hidden_repeat": false
+  },
+  "f11d8902c8f5": {
+    "item": {
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0218.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0218.mkv",
+      "category": "generation",
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": true
   },
-  "6bf6ba52c645": {
+  "3376ecd31b0c": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G2-r3.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G2-r3.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0259.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0259.mkv",
       "category": "generation",
-      "prompt_text": "a large blue ball drops from the sky in front of the wooden structure, bounces twice, and rolls to a stop"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "ebedf99f9008": {
+  "ab0bd0d0c135": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G3-r3.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G3-r3.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0259.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0259.mkv",
       "category": "generation",
-      "prompt_text": "a black dog walks past the wooden structure and out of frame right; the scene holds; the same dog re-enters from the right"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "074dba369940": {
+  "acdbe0a26e59": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G1-r2.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G1-r2.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0276.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0276.mkv",
       "category": "generation",
-      "prompt_text": "three red lanterns hanging to the left of a tall wooden door"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "3ba2cf6d6523": {
+  "615c20e9a2ea": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-D2-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-D2-r1.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0256.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0256.mkv",
       "category": "generation",
-      "prompt_text": null
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "b80f60ca91ef": {
+  "a3b71b074236": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G2-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G2-r1.mkv",
+      "product_key": "xmax-x2.0",
+      "run_id": "B-xmax-x2.0-C0-r0216.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-xmax-x2.0-C0-r0216.mkv",
       "category": "generation",
-      "prompt_text": "a large blue ball drops from the sky, bounces twice on the stone ground, and rolls to a stop"
-    },
-    "is_hidden_repeat": false
-  },
-  "77449449e056": {
-    "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G1-r1.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G1-r1.mkv",
-      "category": "generation",
-      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
-    },
-    "is_hidden_repeat": false
-  },
-  "cd077b649baf": {
-    "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G6-r3.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G6-r3.mkv",
-      "category": "generation",
-      "prompt_text": "the quiet landscape with the wooden structure under a hazy sky"
-    },
-    "is_hidden_repeat": false
-  },
-  "454e400b277c": {
-    "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G6-r2.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G6-r2.mkv",
-      "category": "generation",
-      "prompt_text": "the quiet landscape with the wooden structure under a hazy sky"
-    },
-    "is_hidden_repeat": false
-  },
-  "e41c28b8dbd5": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-D4-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-D4-r1.mkv",
-      "category": "generation",
-      "prompt_text": null
-    },
-    "is_hidden_repeat": false
-  },
-  "08690d6586f6": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G3-r2.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G3-r2.mkv",
-      "category": "generation",
-      "prompt_text": "a black dog walks out of frame to the right; the scene holds still; the same black dog re-enters from the right"
-    },
-    "is_hidden_repeat": false
-  },
-  "7ae895bf8521": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G5-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G5-r1.mkv",
-      "category": "generation",
-      "prompt_text": "a man in a yellow coat stands beside a woman in a green dress; a white bird perches between them"
-    },
-    "is_hidden_repeat": false
-  },
-  "bea5a0d41380": {
-    "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G7-r3.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G7-r3.mkv",
-      "category": "generation",
-      "prompt_text": "the quiet landscape with the wooden structure on a sunny day"
-    },
-    "is_hidden_repeat": false
-  },
-  "2d420f82753e": {
-    "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G7-r1.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G7-r1.mkv",
-      "category": "generation",
-      "prompt_text": "the quiet landscape with the wooden structure on a sunny day"
-    },
-    "is_hidden_repeat": false
-  },
-  "24c745aece25": {
-    "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G1-r1.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G1-r1.mkv",
-      "category": "generation",
-      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": true
   },
-  "5f5991a25f1b": {
+  "94d41529d4df": {
     "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-W1-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-W1-r1.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0256.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0256.mkv",
       "category": "generation",
-      "prompt_text": null
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "aa22ad33d466": {
+  "71b3df214421": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G1-r2.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G1-r2.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0279.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0279.mkv",
       "category": "generation",
-      "prompt_text": "three red lanterns hanging on the wooden structure, to the left of its dark doorway"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "b0bec157573d": {
+  "e2c097af6200": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G4-r2.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G4-r2.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0236.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0236.mkv",
       "category": "generation",
-      "prompt_text": "the camera slowly pushes forward toward the wooden structure, nothing else moves"
-    },
-    "is_hidden_repeat": true
-  },
-  "35319320b14d": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G2-r2.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G2-r2.mkv",
-      "category": "generation",
-      "prompt_text": "a large blue ball drops from the sky, bounces twice on the stone ground, and rolls to a stop"
-    },
-    "is_hidden_repeat": true
-  },
-  "937fce5daeb7": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G3-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G3-r1.mkv",
-      "category": "generation",
-      "prompt_text": "a black dog walks out of frame to the right; the scene holds still; the same black dog re-enters from the right"
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   },
-  "bffaded547f9": {
+  "8131df954245": {
     "item": {
-      "product_key": "lingbot",
-      "run_id": "lingbot-G2-r1.mkv",
-      "capture_path": "data/campaign-c-gen/lingbot-G2-r1.mkv",
+      "product_key": "lucy-2.5",
+      "run_id": "B-lucy-2.5-C0-r0219.mkv",
+      "capture_path": "data/campaign-b/captures-long/B-lucy-2.5-C0-r0219.mkv",
       "category": "generation",
-      "prompt_text": "a large blue ball drops from the sky in front of the wooden structure, bounces twice, and rolls to a stop"
-    },
-    "is_hidden_repeat": false
-  },
-  "ac0662ee92d0": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-G1-r99.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-G1-r99.mkv",
-      "category": "generation",
-      "prompt_text": "three red lanterns hanging to the left of a tall wooden door"
-    },
-    "is_hidden_repeat": false
-  },
-  "ff296d7122c0": {
-    "item": {
-      "product_key": "happy-oyster",
-      "run_id": "happy-oyster-D3-r1.mkv",
-      "capture_path": "data/campaign-c-gen/happy-oyster-D3-r1.mkv",
-      "category": "generation",
-      "prompt_text": null
+      "prompt_text": "oil painting style, thick impasto brush strokes, warm palette"
     },
     "is_hidden_repeat": false
   }
