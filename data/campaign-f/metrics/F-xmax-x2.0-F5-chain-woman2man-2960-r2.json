@@ -1,0 +1,135 @@
+{
+  "summary": {
+    "run_id": "F-xmax-x2.0-F5-chain-woman2man-2960-r2",
+    "product": "xmax-x2.0",
+    "lens": "P-browser",
+    "arm": "chain",
+    "ref": "ref-woman.jpg",
+    "ref2": "ref-man.jpg",
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 19,
+    "apply_at_s": 15.0,
+    "sim_ref_post_mean": 0.0298,
+    "sim_ref2_post_mean": 0.073,
+    "sim_input_post_mean": 0.8551,
+    "sim_ref_pre_mean": 0.3599,
+    "switch_key": "sim_ref2",
+    "switch_latency_s": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.0328,
+      "sim_ref": 0.251,
+      "sim_ref2": -0.0014
+    },
+    {
+      "t": 3.0,
+      "sim_input": 0.0236,
+      "sim_ref": 0.2362,
+      "sim_ref2": 0.063
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.0818,
+      "sim_ref": 0.3659,
+      "sim_ref2": 0.0756
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.0301,
+      "sim_ref": 0.3547,
+      "sim_ref2": -0.0249
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.0283,
+      "sim_ref": 0.4774,
+      "sim_ref2": 0.0232
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.0016,
+      "sim_ref": 0.4356,
+      "sim_ref2": -0.0074
+    },
+    {
+      "t": 13.0,
+      "sim_input": 0.0241,
+      "sim_ref": 0.3986,
+      "sim_ref2": -0.0006
+    },
+    {
+      "t": 15.0,
+      "sim_input": 0.0582,
+      "sim_ref": 0.3663,
+      "sim_ref2": 0.0857
+    },
+    {
+      "t": 17.0,
+      "sim_input": 0.8754,
+      "sim_ref": 0.027,
+      "sim_ref2": 0.0967
+    },
+    {
+      "t": 19.0,
+      "sim_input": 0.9253,
+      "sim_ref": 0.042,
+      "sim_ref2": 0.09
+    },
+    {
+      "t": 21.0,
+      "sim_input": 0.8394,
+      "sim_ref": 0.0198,
+      "sim_ref2": 0.0776
+    },
+    {
+      "t": 23.0,
+      "sim_input": 0.835,
+      "sim_ref": -0.0303,
+      "sim_ref2": 0.0394
+    },
+    {
+      "t": 25.0,
+      "sim_input": 0.8429,
+      "sim_ref": 0.0316,
+      "sim_ref2": 0.0576
+    },
+    {
+      "t": 27.0,
+      "sim_input": 0.8078,
+      "sim_ref": 0.0504,
+      "sim_ref2": 0.0819
+    },
+    {
+      "t": 29.0,
+      "sim_input": 0.852,
+      "sim_ref": 0.0237,
+      "sim_ref2": 0.0836
+    },
+    {
+      "t": 31.0,
+      "sim_input": 0.8251,
+      "sim_ref": 0.0473,
+      "sim_ref2": 0.0566
+    },
+    {
+      "t": 33.0,
+      "sim_input": 0.8426,
+      "sim_ref": 0.0304,
+      "sim_ref2": 0.0683
+    },
+    {
+      "t": 35.0,
+      "sim_input": 0.9151,
+      "sim_ref": 0.0309,
+      "sim_ref2": 0.0592
+    },
+    {
+      "t": 37.0,
+      "sim_input": 0.8457,
+      "sim_ref": 0.0553,
+      "sim_ref2": 0.0918
+    }
+  ]
+}

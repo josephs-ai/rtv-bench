@@ -11,22 +11,22 @@
   "apply_at_s": 15.0,
   "record_s": 45.0,
   "page_log": [
-    "REF UPLOADED to COS (/ref2.jpg): https://xmax-nj-1256661457.cos.ap-nanjing.myqcloud.com/open-image-passed/open/resource/user/c60d3d7a5c084287bd8607adb2dd18cf/1786960999280_ref2.jpg",
+    "REF UPLOADED to COS (/ref2.jpg): https://xmax-nj-1256661457.cos.ap-nanjing.myqcloud.com/open-image-passed/open/resource/user/c60d3d7a5c084287bd8607adb2dd18cf/1786964004034_ref2.jpg",
     "stream up",
     "connected",
-    "recording 45s",
     "stream up",
+    "recording 45s",
     "DISCONNECTED for reconnect",
     "stream up (reconnected)",
     "EDIT SENT (reconnect) at 15s: replace the person with the person from the reference image,",
     "stream up (reconnected)",
-    "uploading 47.3MB",
+    "uploading 36.2MB",
     "DONE"
   ],
   "fps": 30.0,
-  "frames": 1297,
+  "frames": 1270,
   "ttff_s": 0.03,
-  "delivered_s": 43.23,
-  "max_frozen_s": 3.1,
-  "timestamp_utc": "2026-08-17T10:04:19Z"
+  "delivered_s": 42.33,
+  "max_frozen_s": 6.73,
+  "timestamp_utc": "2026-08-17T10:54:23Z"
 }

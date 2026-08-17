@@ -1,0 +1,114 @@
+{
+  "summary": {
+    "run_id": "F-xmax-x2.0-F4-compose-style-anime-2960-r2",
+    "product": "xmax-x2.0",
+    "lens": "P-browser",
+    "arm": "compose",
+    "ref": "ref-woman.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 19,
+    "apply_at_s": 15.0,
+    "sim_ref_post_mean": 0.3268,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": 0.0073,
+    "sim_ref_pre_mean": 0.2033
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.3419,
+      "sim_ref": 0.0282
+    },
+    {
+      "t": 3.0,
+      "sim_input": 0.3463,
+      "sim_ref": 0.0814
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.2639,
+      "sim_ref": 0.1716
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.1853,
+      "sim_ref": 0.1801
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.243,
+      "sim_ref": 0.261
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.181,
+      "sim_ref": 0.3279
+    },
+    {
+      "t": 13.0,
+      "sim_input": 0.1861,
+      "sim_ref": 0.3729
+    },
+    {
+      "t": 15.0,
+      "sim_input": 0.0774,
+      "sim_ref": 0.4287
+    },
+    {
+      "t": 17.0,
+      "sim_input": -0.042,
+      "sim_ref": 0.2423
+    },
+    {
+      "t": 19.0,
+      "sim_input": -0.0057,
+      "sim_ref": 0.2941
+    },
+    {
+      "t": 21.0,
+      "sim_input": 0.002,
+      "sim_ref": 0.289
+    },
+    {
+      "t": 23.0,
+      "sim_input": 0.0269,
+      "sim_ref": 0.4043
+    },
+    {
+      "t": 25.0,
+      "sim_input": 0.0361,
+      "sim_ref": 0.3794
+    },
+    {
+      "t": 27.0,
+      "sim_input": 0.0889,
+      "sim_ref": 0.3679
+    },
+    {
+      "t": 29.0,
+      "sim_input": -0.0008,
+      "sim_ref": 0.3341
+    },
+    {
+      "t": 31.0,
+      "sim_input": -0.0159,
+      "sim_ref": 0.3037
+    },
+    {
+      "t": 33.0,
+      "sim_input": -0.0095,
+      "sim_ref": 0.3141
+    },
+    {
+      "t": 35.0,
+      "sim_input": -0.0372,
+      "sim_ref": 0.2968
+    },
+    {
+      "t": 37.0,
+      "sim_input": 0.0372,
+      "sim_ref": 0.3691
+    }
+  ]
+}

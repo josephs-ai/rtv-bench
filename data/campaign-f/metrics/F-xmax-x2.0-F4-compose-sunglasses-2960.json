@@ -1,0 +1,114 @@
+{
+  "summary": {
+    "run_id": "F-xmax-x2.0-F4-compose-sunglasses-2960",
+    "product": "xmax-x2.0",
+    "lens": "P-browser",
+    "arm": "compose",
+    "ref": "ref-woman.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 19,
+    "apply_at_s": 15.0,
+    "sim_ref_post_mean": 0.083,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": 0.5911,
+    "sim_ref_pre_mean": 0.3754
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": -0.0067,
+      "sim_ref": 0.2867
+    },
+    {
+      "t": 3.0,
+      "sim_input": -0.0236,
+      "sim_ref": 0.369
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.0229,
+      "sim_ref": 0.4566
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.0162,
+      "sim_ref": 0.3909
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.0547,
+      "sim_ref": 0.4204
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.0409,
+      "sim_ref": 0.3481
+    },
+    {
+      "t": 13.0,
+      "sim_input": -0.024,
+      "sim_ref": 0.3562
+    },
+    {
+      "t": 15.0,
+      "sim_input": -0.0393,
+      "sim_ref": 0.3903
+    },
+    {
+      "t": 17.0,
+      "sim_input": 0.6076,
+      "sim_ref": 0.0984
+    },
+    {
+      "t": 19.0,
+      "sim_input": 0.6499,
+      "sim_ref": 0.0935
+    },
+    {
+      "t": 21.0,
+      "sim_input": 0.6388,
+      "sim_ref": 0.0496
+    },
+    {
+      "t": 23.0,
+      "sim_input": 0.683,
+      "sim_ref": 0.0735
+    },
+    {
+      "t": 25.0,
+      "sim_input": 0.5273,
+      "sim_ref": 0.0721
+    },
+    {
+      "t": 27.0,
+      "sim_input": 0.5381,
+      "sim_ref": 0.1144
+    },
+    {
+      "t": 29.0,
+      "sim_input": 0.5733,
+      "sim_ref": 0.1023
+    },
+    {
+      "t": 31.0,
+      "sim_input": 0.6005,
+      "sim_ref": 0.0847
+    },
+    {
+      "t": 33.0,
+      "sim_input": 0.5924,
+      "sim_ref": 0.0396
+    },
+    {
+      "t": 35.0,
+      "sim_input": 0.5647,
+      "sim_ref": 0.121
+    },
+    {
+      "t": 37.0,
+      "sim_input": 0.5267,
+      "sim_ref": 0.0638
+    }
+  ]
+}

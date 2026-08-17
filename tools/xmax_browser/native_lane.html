@@ -105,6 +105,9 @@ async function main() {
           // the transition cost of the guaranteed-working mechanism
           try { await session.disconnect(); } catch (e2) {}
           log("DISCONNECTED for reconnect");
+          // settle: concurrent/overlapping sessions provably poison ref
+          // anchoring; give teardown time to complete server-side
+          await new Promise(r => setTimeout(r, 4000));
           // disconnect() stops the published tracks - a fresh capture
           // stream is required or the new session publishes dead tracks
           const stream2 = srcv.captureStream(30);

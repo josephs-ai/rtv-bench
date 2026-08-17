@@ -1,0 +1,116 @@
+{
+  "summary": {
+    "run_id": "F-xmax-x2.0-F3-woman-mixkit2960-r2",
+    "product": "xmax-x2.0",
+    "lens": "P-browser",
+    "arm": "switch",
+    "ref": "ref-woman.jpg",
+    "ref2": null,
+    "clip": "conform-mixkit2960.mp4",
+    "n_samples": 19,
+    "apply_at_s": 15.0,
+    "sim_ref_post_mean": 0.0228,
+    "sim_ref2_post_mean": null,
+    "sim_input_post_mean": 0.8471,
+    "sim_ref_pre_mean": 0.0272,
+    "switch_key": "sim_ref",
+    "switch_latency_s": null
+  },
+  "timeline": [
+    {
+      "t": 1.0,
+      "sim_input": 0.7938,
+      "sim_ref": 0.0371
+    },
+    {
+      "t": 3.0,
+      "sim_input": 0.8539,
+      "sim_ref": -0.0018
+    },
+    {
+      "t": 5.0,
+      "sim_input": 0.8157,
+      "sim_ref": 0.0431
+    },
+    {
+      "t": 7.0,
+      "sim_input": 0.8439,
+      "sim_ref": 0.0281
+    },
+    {
+      "t": 9.0,
+      "sim_input": 0.8729,
+      "sim_ref": 0.0174
+    },
+    {
+      "t": 11.0,
+      "sim_input": 0.8855,
+      "sim_ref": 0.0318
+    },
+    {
+      "t": 13.0,
+      "sim_input": 0.8127,
+      "sim_ref": 0.0349
+    },
+    {
+      "t": 15.0,
+      "sim_input": 0.8377,
+      "sim_ref": 0.0118
+    },
+    {
+      "t": 17.0,
+      "sim_input": 0.8223,
+      "sim_ref": 0.0209
+    },
+    {
+      "t": 19.0,
+      "sim_input": 0.8432,
+      "sim_ref": 0.0534
+    },
+    {
+      "t": 21.0,
+      "sim_input": 0.8791,
+      "sim_ref": 0.0245
+    },
+    {
+      "t": 23.0,
+      "sim_input": 0.8974,
+      "sim_ref": 0.0279
+    },
+    {
+      "t": 25.0,
+      "sim_input": 0.8111,
+      "sim_ref": 0.0402
+    },
+    {
+      "t": 27.0,
+      "sim_input": 0.8457,
+      "sim_ref": 0.0032
+    },
+    {
+      "t": 29.0,
+      "sim_input": 0.8535,
+      "sim_ref": 0.0351
+    },
+    {
+      "t": 31.0,
+      "sim_input": 0.8329,
+      "sim_ref": 0.03
+    },
+    {
+      "t": 33.0,
+      "sim_input": 0.802,
+      "sim_ref": 0.0024
+    },
+    {
+      "t": 35.0,
+      "sim_input": 0.8647,
+      "sim_ref": 0.0225
+    },
+    {
+      "t": 37.0,
+      "sim_input": 0.8667,
+      "sim_ref": -0.0097
+    }
+  ]
+}
