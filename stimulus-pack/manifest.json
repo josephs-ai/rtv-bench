@@ -1,163 +1,175 @@
 {
-  "pack": "rtv-bench-stimulus",
-  "version": "1.0",
-  "note": "Sources are fetched from their hosts (licenses permit use, not raw redistribution); this manifest pins exact bytes by sha256 and the builder derives conforms deterministically. Output hashes included so a rebuilt pack is verifiable bit-for-bit. Output hashes are from the reference ffmpeg build; a different ffmpeg may produce non-identical bytes from identical sources - source-hash match + recipe compliance is the portable guarantee.",
-  "sources": {
-    "mixkit-2960.mp4": {
-      "url": "https://assets.mixkit.co/videos/2960/2960-720.mp4",
-      "sha256": "4839fb4415a552efade80e4a93c17026d28881a7667965948c5c609dca1e5869",
-      "license": "Mixkit License"
-    },
-    "mixkit-23117.mp4": {
-      "url": "https://assets.mixkit.co/videos/23117/23117-720.mp4",
-      "sha256": "5bd6573c7a646adb69d13550cff59e825d74922a96ea3c94d022e84df193ff4a",
-      "license": "Mixkit License"
-    },
-    "mixkit-50117.mp4": {
-      "url": "https://assets.mixkit.co/videos/50117/50117-720.mp4",
-      "sha256": "29827351b18caa103027304af9cff1e73fb2f59f09babbaf4174884b45bb2ea6",
-      "license": "Mixkit License"
-    },
-    "mixkit-12892.mp4": {
-      "url": "https://assets.mixkit.co/videos/12892/12892-720.mp4",
-      "sha256": "c12f86178bfb6a97ca786b6ce9711004fce86f57d3042f88817dcc9b6f285509",
-      "license": "Mixkit License"
-    },
-    "ref-man.jpg": {
-      "url": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?w=1024",
-      "sha256": "f30d0d334b4ecfd11bec213e1d391db914ea320fbbd68a663362d6fc548f0321",
-      "license": "Pexels License"
-    },
-    "ref-woman.jpg": {
-      "url": "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?w=1024",
-      "sha256": "f11b88af2a7cbece99634c9879e43dc0f513f036577b6b9de98244a0cfb3e277",
-      "license": "Pexels License"
-    }
+ "pack": "rtv-bench-stimulus",
+ "version": "1.0",
+ "note": "Sources are fetched from their hosts (licenses permit use, not raw redistribution); this manifest pins exact bytes by sha256 and the builder derives conforms deterministically. Output hashes included so a rebuilt pack is verifiable bit-for-bit. Output hashes are from the reference ffmpeg build; a different ffmpeg may produce non-identical bytes from identical sources - source-hash match + recipe compliance is the portable guarantee.",
+ "sources": {
+  "mixkit-2960.mp4": {
+   "url": "https://assets.mixkit.co/videos/2960/2960-720.mp4",
+   "sha256": "4839fb4415a552efade80e4a93c17026d28881a7667965948c5c609dca1e5869",
+   "license": "Mixkit License"
   },
-  "conform_recipe": {
-    "video": "scale=1280:720,fps=30",
-    "codec": "libx264 crf18 preset=fast",
-    "loop_to_s": 40,
-    "audio": "stripped",
-    "reference_ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers"
+  "mixkit-23117.mp4": {
+   "url": "https://assets.mixkit.co/videos/23117/23117-720.mp4",
+   "sha256": "5bd6573c7a646adb69d13550cff59e825d74922a96ea3c94d022e84df193ff4a",
+   "license": "Mixkit License"
   },
-  "conform_output_sha256": {
-    "conform-mixkit2960.mp4": "bc916b5a0645328d1e9d3bbe9b6fc5c851d012d6fd240f719bcfa47dc46a4cd1",
-    "conform-mixkit23117.mp4": "05122acdda40f13001534213c9663c836a3f83e927e875b7abef593c6bf82640",
-    "conform-mixkit50117.mp4": "774e079b65f672cadbb136d5dcc6bc90f46488c89c91ab2bea8ba172c8bda7fc",
-    "conform-mixkit12892.mp4": "c1a3140c3196498d27c32e80ad80f7c1d709fea4de7dd0cc04c002e7bcb0b1f9"
+  "mixkit-50117.mp4": {
+   "url": "https://assets.mixkit.co/videos/50117/50117-720.mp4",
+   "sha256": "29827351b18caa103027304af9cff1e73fb2f59f09babbaf4174884b45bb2ea6",
+   "license": "Mixkit License"
   },
-  "edit_protocol": {
-    "base_prompt": "photorealistic, natural colors",
-    "edit_at_s": 15.0,
-    "record_s": 35.0,
-    "edits": [
-      {
-        "id": "garment-hoodie",
-        "kind": "prompt",
-        "ref": null,
-        "instruction": "the person now wears a bright red hooded sweatshirt"
-      },
-      {
-        "id": "garment-suit",
-        "kind": "prompt",
-        "ref": null,
-        "instruction": "the person now wears a formal black business suit with a tie"
-      },
-      {
-        "id": "hair-blonde",
-        "kind": "prompt",
-        "ref": null,
-        "instruction": "the person now has long blonde hair"
-      },
-      {
-        "id": "accessory-sunglasses",
-        "kind": "prompt",
-        "ref": null,
-        "instruction": "the person now wears dark aviator sunglasses"
-      },
-      {
-        "id": "background-beach",
-        "kind": "prompt",
-        "ref": null,
-        "instruction": "the background is now a sunny tropical beach with ocean waves"
-      },
-      {
-        "id": "background-cyberpunk",
-        "kind": "prompt",
-        "ref": null,
-        "instruction": "the background is now a neon-lit cyberpunk city street at night"
-      },
-      {
-        "id": "style-anime",
-        "kind": "prompt",
-        "ref": null,
-        "instruction": "everything becomes Japanese anime style, cel-shaded, vibrant"
-      },
-      {
-        "id": "character-man",
-        "kind": "ref",
-        "ref": "ref-man.jpg",
-        "instruction": "replace the person with the man from the reference image, keeping the same pose and motion"
-      },
-      {
-        "id": "character-woman",
-        "kind": "ref",
-        "ref": "ref-woman.jpg",
-        "instruction": "replace the person with the woman from the reference image, keeping the same pose and motion"
-      }
-    ]
+  "mixkit-12892.mp4": {
+   "url": "https://assets.mixkit.co/videos/12892/12892-720.mp4",
+   "sha256": "c12f86178bfb6a97ca786b6ce9711004fce86f57d3042f88817dcc9b6f285509",
+   "license": "Mixkit License"
   },
-  "world_prompts": [
-    {
-      "id": "G1",
-      "prompt": "three red lanterns hanging to the left of a tall wooden door",
-      "seed_variant": "three red lanterns hanging on the wooden structure, to the left of its dark doorway",
-      "record_s": 20,
-      "steer": null
-    },
-    {
-      "id": "G2",
-      "prompt": "a large blue ball drops from the sky, bounces twice on the stone ground, and rolls to a stop",
-      "seed_variant": "a large blue ball drops from the sky in front of the wooden structure, bounces twice, and rolls to a stop",
-      "record_s": 20,
-      "steer": null
-    },
-    {
-      "id": "G3",
-      "prompt": "a black dog walks out of frame to the right; the scene holds still; the same black dog re-enters from the right",
-      "seed_variant": "a black dog walks past the wooden structure and out of frame right; the scene holds; the same dog re-enters from the right",
-      "record_s": 25,
-      "steer": null
-    },
-    {
-      "id": "G4",
-      "prompt": "the camera slowly pushes forward toward a stone fountain, nothing else moves",
-      "seed_variant": "the camera slowly pushes forward toward the wooden structure, nothing else moves",
-      "record_s": 20,
-      "steer": null
-    },
-    {
-      "id": "G5",
-      "prompt": "a man in a yellow coat stands beside a woman in a green dress; a white bird perches between them",
-      "seed_variant": "a man in a yellow coat and a woman in a green dress stand in front of the wooden structure; a white bird perches between them",
-      "record_s": 20,
-      "steer": null
-    },
-    {
-      "id": "G6",
-      "prompt": "a calm village square with a central fountain at golden hour",
-      "seed_variant": "the quiet landscape with the wooden structure under a hazy sky",
-      "record_s": 60,
-      "steer": null
-    },
-    {
-      "id": "G7",
-      "prompt": "a sunny meadow with a single oak tree",
-      "seed_variant": "the quiet landscape with the wooden structure on a sunny day",
-      "record_s": 35,
-      "steer": "heavy snow begins falling over the whole scene"
-    }
-  ],
-  "private_extras_note": "the filmed-person instrumented reel used in the reference run contains a private likeness and is NOT in the public pack; a stock-built instrumented reel ships in pack v1.1"
+  "ref-man.jpg": {
+   "url": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?w=1024",
+   "sha256": "f30d0d334b4ecfd11bec213e1d391db914ea320fbbd68a663362d6fc548f0321",
+   "license": "Pexels License"
+  },
+  "ref-woman.jpg": {
+   "url": "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?w=1024",
+   "sha256": "f11b88af2a7cbece99634c9879e43dc0f513f036577b6b9de98244a0cfb3e277",
+   "license": "Pexels License"
+  },
+  "ref-blonde.jpg": {
+   "url": "https://images.pexels.com/photos/247322/pexels-photo-247322.jpeg?auto=compress&cs=tinysrgb&w=900",
+   "sha256": "f5e6c439533498fe95ef433f9c9fb067243f48c082474ddfc3403b35980fa3e7",
+   "license": "Pexels License",
+   "role": "campaign F ref portrait - long blonde hair (attribute-transfer probe)"
+  },
+  "ref-styl.jpg": {
+   "url": "https://commons.wikimedia.org/wiki/Special:FilePath/1665_Girl_with_a_Pearl_Earring.jpg?width=800",
+   "sha256": "6f1a0c80ad62afda389c5f3ac1da5adc5a6d08370287f1e2599b38c15391644e",
+   "license": "Public domain (Vermeer, 1665)",
+   "role": "campaign F stylized (non-photographic) ref portrait"
+  }
+ },
+ "conform_recipe": {
+  "video": "scale=1280:720,fps=30",
+  "codec": "libx264 crf18 preset=fast",
+  "loop_to_s": 40,
+  "audio": "stripped",
+  "reference_ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers"
+ },
+ "conform_output_sha256": {
+  "conform-mixkit2960.mp4": "bc916b5a0645328d1e9d3bbe9b6fc5c851d012d6fd240f719bcfa47dc46a4cd1",
+  "conform-mixkit23117.mp4": "05122acdda40f13001534213c9663c836a3f83e927e875b7abef593c6bf82640",
+  "conform-mixkit50117.mp4": "774e079b65f672cadbb136d5dcc6bc90f46488c89c91ab2bea8ba172c8bda7fc",
+  "conform-mixkit12892.mp4": "c1a3140c3196498d27c32e80ad80f7c1d709fea4de7dd0cc04c002e7bcb0b1f9"
+ },
+ "edit_protocol": {
+  "base_prompt": "photorealistic, natural colors",
+  "edit_at_s": 15.0,
+  "record_s": 35.0,
+  "edits": [
+   {
+    "id": "garment-hoodie",
+    "kind": "prompt",
+    "ref": null,
+    "instruction": "the person now wears a bright red hooded sweatshirt"
+   },
+   {
+    "id": "garment-suit",
+    "kind": "prompt",
+    "ref": null,
+    "instruction": "the person now wears a formal black business suit with a tie"
+   },
+   {
+    "id": "hair-blonde",
+    "kind": "prompt",
+    "ref": null,
+    "instruction": "the person now has long blonde hair"
+   },
+   {
+    "id": "accessory-sunglasses",
+    "kind": "prompt",
+    "ref": null,
+    "instruction": "the person now wears dark aviator sunglasses"
+   },
+   {
+    "id": "background-beach",
+    "kind": "prompt",
+    "ref": null,
+    "instruction": "the background is now a sunny tropical beach with ocean waves"
+   },
+   {
+    "id": "background-cyberpunk",
+    "kind": "prompt",
+    "ref": null,
+    "instruction": "the background is now a neon-lit cyberpunk city street at night"
+   },
+   {
+    "id": "style-anime",
+    "kind": "prompt",
+    "ref": null,
+    "instruction": "everything becomes Japanese anime style, cel-shaded, vibrant"
+   },
+   {
+    "id": "character-man",
+    "kind": "ref",
+    "ref": "ref-man.jpg",
+    "instruction": "replace the person with the man from the reference image, keeping the same pose and motion"
+   },
+   {
+    "id": "character-woman",
+    "kind": "ref",
+    "ref": "ref-woman.jpg",
+    "instruction": "replace the person with the woman from the reference image, keeping the same pose and motion"
+   }
+  ]
+ },
+ "world_prompts": [
+  {
+   "id": "G1",
+   "prompt": "three red lanterns hanging to the left of a tall wooden door",
+   "seed_variant": "three red lanterns hanging on the wooden structure, to the left of its dark doorway",
+   "record_s": 20,
+   "steer": null
+  },
+  {
+   "id": "G2",
+   "prompt": "a large blue ball drops from the sky, bounces twice on the stone ground, and rolls to a stop",
+   "seed_variant": "a large blue ball drops from the sky in front of the wooden structure, bounces twice, and rolls to a stop",
+   "record_s": 20,
+   "steer": null
+  },
+  {
+   "id": "G3",
+   "prompt": "a black dog walks out of frame to the right; the scene holds still; the same black dog re-enters from the right",
+   "seed_variant": "a black dog walks past the wooden structure and out of frame right; the scene holds; the same dog re-enters from the right",
+   "record_s": 25,
+   "steer": null
+  },
+  {
+   "id": "G4",
+   "prompt": "the camera slowly pushes forward toward a stone fountain, nothing else moves",
+   "seed_variant": "the camera slowly pushes forward toward the wooden structure, nothing else moves",
+   "record_s": 20,
+   "steer": null
+  },
+  {
+   "id": "G5",
+   "prompt": "a man in a yellow coat stands beside a woman in a green dress; a white bird perches between them",
+   "seed_variant": "a man in a yellow coat and a woman in a green dress stand in front of the wooden structure; a white bird perches between them",
+   "record_s": 20,
+   "steer": null
+  },
+  {
+   "id": "G6",
+   "prompt": "a calm village square with a central fountain at golden hour",
+   "seed_variant": "the quiet landscape with the wooden structure under a hazy sky",
+   "record_s": 60,
+   "steer": null
+  },
+  {
+   "id": "G7",
+   "prompt": "a sunny meadow with a single oak tree",
+   "seed_variant": "the quiet landscape with the wooden structure on a sunny day",
+   "record_s": 35,
+   "steer": "heavy snow begins falling over the whole scene"
+  }
+ ],
+ "private_extras_note": "the filmed-person instrumented reel used in the reference run contains a private likeness and is NOT in the public pack; a stock-built instrumented reel ships in pack v1.1"
 }

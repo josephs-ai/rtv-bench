@@ -11,6 +11,7 @@ staying up, looking right, reacting fast, and taking mid-stream direction.
 | V2V reliability | B | Does a live session survive 15 s / 60 s / 3 min? (S/D/F/T/R/E outcomes, Wilson CIs) |
 | V2V quality | B v2 | Same-input blinded pairs: temporal coherence, structure, style adherence, detail (+ artifact audit with onset times) |
 | Live editing | D | Mid-stream instruction at t=15 s: commit latency, targeting precision (collateral), residue, transition cost, stability, direction-aware identity |
+| Reference-image control | F | Does a ref portrait anchor the live character (adoption, attribute transfer, stylized refs), hold identity over minutes, and switch mid-stream? Computational face-similarity timelines vs input-person baselines |
 | World generation | C | Prompt battery with checkable assertions: adherence, physics, permanence, long-horizon hold, steering |
 | Platform overhead | bridge | Same model native vs via aggregator → the middleman's ms tax |
 

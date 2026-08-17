@@ -9,6 +9,11 @@ pointers to the academic suites, and every hour goes into Track 1 depth.
 
 ## v1.1 — deepen the realtime track
 
+- **Reference-image control (Campaign F) — SHIPPED (Xmax arm)**: ref-driven
+  character anchoring / 3-min identity hold / mid-stream switch, measured by
+  computational face-similarity timelines against input-person baselines
+  (4 refs incl. attribute-transfer and stylized probes). Lucy arm queued on
+  provider credits. `benchmark_run.py refs`.
 - **Hour-scale sessions as first-class**: add 10 / 30 / 60-minute tiers to
   the duration mix. Live-avatar reality is hour-scale; nobody measures it.
 - **Absolute quality axis completion**: artifact-burden component restored

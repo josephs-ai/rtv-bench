@@ -53,6 +53,13 @@ STAGES = {
         [PY, "tools/benchmark_score.py"],
         [PY, "tools/benchmark_report.py"],
     ],
+    # Campaign F: reference-image control (anchor / hold / mid-stream
+    # switch) - the core interaction of preset-character products.
+    "refs": [
+        [PY, "tools/campaign_f.py", "--product", "lucy-2.5"],
+        [PY, "tools/campaign_f_xmax.py"],
+        [PYM, "tools/campaign_f_metrics.py"],
+    ],
     "score": [
         [PY, "tools/benchmark_score.py"],
         [PY, "tools/benchmark_report.py"],

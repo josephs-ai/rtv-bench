@@ -44,15 +44,23 @@ async function main() {
   // other keys, incl. refImage which is internal-only). The 2026-08-15
   // zero-effect ref arms passed refImage and were therefore invalid tests.
   let refUrl = q.get("ref") || null;
-  if (q.get("ref_upload")) {
-    // definitive path: put the image on THEIR COS via the SDK's own flow
+  const cosUpload = async (path) => {
+    // put the image on THEIR COS via the SDK's own flow
     // (client.files.uploadAndCheckImage) - kills the reachability confound
-    try {
-      const rb = await (await fetch("/ref.jpg")).blob();
-      const file = new File([rb], "ref.jpg", {type: "image/jpeg"});
-      refUrl = await client.files.uploadAndCheckImage(file);
-      log("REF UPLOADED to COS: " + refUrl);
-    } catch (e) { log("REF UPLOAD FAILED: " + (e && e.message)); }
+    const rb = await (await fetch(path)).blob();
+    const file = new File([rb], path.slice(1), {type: "image/jpeg"});
+    const u = await client.files.uploadAndCheckImage(file);
+    log("REF UPLOADED to COS (" + path + "): " + u);
+    return u;
+  };
+  let ref2Url = null;   // chain arms: a SECOND ref used by the live edit
+  if (q.get("ref_upload")) {
+    try { refUrl = await cosUpload("/ref.jpg"); }
+    catch (e) { log("REF UPLOAD FAILED: " + (e && e.message)); }
+  }
+  if (q.get("ref2_upload")) {
+    try { ref2Url = await cosUpload("/ref2.jpg"); }
+    catch (e) { log("REF2 UPLOAD FAILED: " + (e && e.message)); }
   }
   if (refUrl) log("REF URL: " + refUrl.slice(0, 90));
   const connCtx = {prompt: q.get("prompt") || ""};
@@ -75,9 +83,10 @@ async function main() {
         const form = q.get("edit_form") || "context";
         let payload = form === "flat" ? {prompt: editText}
                                         : {context: {prompt: editText}};
-        if (refUrl && q.get("ref_live")) payload = form === "flat"
-          ? {prompt: editText, refImageUrl: refUrl}
-          : {context: {prompt: editText, refImageUrl: refUrl}};
+        const liveRef = ref2Url || refUrl;   // chain arms switch to ref2
+        if (liveRef && q.get("ref_live")) payload = form === "flat"
+          ? {prompt: editText, refImageUrl: liveRef}
+          : {context: {prompt: editText, refImageUrl: liveRef}};
         if (session && session.set) await session.set(payload);
         else if (client.realtime.set) await client.realtime.set(payload);
         else throw new Error("no set() on session or realtime");
