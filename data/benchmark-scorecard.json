@@ -276,11 +276,35 @@
     }
   },
   "rtvbench_score": {
-    "lucy-2.5 (lens P)": 79.2,
-    "xmax-x2.0 (lens M)": 53.0,
-    "xmax-x2.0 (lens P-browser)": 48.7,
-    "happy-oyster (track 2)": 51.8,
-    "lingbot (track 2)": 37.4
+    "track1": {
+      "lucy-2.5 (lens P)": {
+        "score": 65.8,
+        "delivery": 0.543,
+        "coverage_pct": 80.0,
+        "note": "experience awaits artifact-audit component"
+      },
+      "xmax-x2.0 (lens P-browser)": {
+        "score": 54.3,
+        "delivery": 0.626,
+        "coverage_pct": 100.0,
+        "note": "experience awaits artifact-audit component"
+      }
+    },
+    "track2": {
+      "happy-oyster": {
+        "score": 50.5,
+        "build_success": 0.85,
+        "build_speed_s_exhibited": 138,
+        "coverage_pct": 100.0
+      },
+      "lingbot": {
+        "score": 29.3,
+        "build_success": 0.91,
+        "build_speed_s_exhibited": 55,
+        "coverage_pct": 100.0
+      }
+    },
+    "formula": "100*sqrt(delivery)*(0.45*experience+0.35*interaction+0.20*latency); absolute components only"
   },
   "composite": {
     "axis_weights": {

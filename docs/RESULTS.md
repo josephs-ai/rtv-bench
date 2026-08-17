@@ -10,6 +10,10 @@
 
 ## Track 1 — Interactive video (Lucy 2.5 vs Xmax X2.0)
 
+**RTV-Score (canonical): Lucy 65.8 · Xmax 54.3** — formula
+`100 × √delivery × (0.45·experience + 0.35·interaction + 0.20·latency)`,
+absolute components only; the pairwise sweep below is the relative exhibit.
+
 ### Composite scores (declared-weight profiles, per lens)
 
 | Profile | asks | Lucy 2.5 (native) | Xmax X2.0 (native/browser) |
@@ -98,9 +102,10 @@ For a China-market product, the V2V field effectively has one entrant.
 
 ## Track 2 — Interactive worlds (LingBot-World 2 vs Happy Oyster)
 
-**Track-2 RTV-Bench Score** (adherence 30 / physics 20 / long-horizon 25 /
-steering 15 / build-speed 10): **Happy Oyster 51.8 · LingBot 37.4** —
-HO's adherence, hold, and steering outweigh LingBot's 2.5× build speed.
+**Track-2 RTV-Score** = 100 × √(build-success) × (adherence 35 /
+long-horizon 25 / physics 20 / steering 20): **Happy Oyster 50.5 ·
+LingBot 29.3** — HO's adherence, hold, and steering outweigh LingBot's
+2.5× build speed (speed is exhibited beside the score, not inside it).
 
 Frame-computed metrics (direct measurement, no judging involved):
 

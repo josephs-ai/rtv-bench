@@ -434,15 +434,58 @@ def composite(out):
     except Exception as e:
         t2 = {"error": str(e)[:120]}
     out["track2_composite"] = t2
-    # canonical single number per product (capability profile / composite)
-    out["rtvbench_score"] = {}
+    # ---------- canonical RTV-Score (per track, absolute-only) ----------
+    # Score = 100 * sqrt(D) * (0.45*E + 0.35*I + 0.20*L)
+    #   D = delivery rate (S + 0.5*Deg)/N, adjudicated, E-excluded (the gate;
+    #       sqrt damps vantage influence). Absolute components only - the
+    #       pairwise head-to-head is published separately, never in here.
+    import math as _m
+    out["rtvbench_score"] = {"track1": {}, "track2": {},
+        "formula": "100*sqrt(delivery)*(0.45*experience+0.35*interaction"
+                   "+0.20*latency); absolute components only"}
+    preserved = {}
+    pt = os.path.join(REPO, "data", "campaign-b", "preserved-tally.json")
+    if os.path.exists(pt):
+        preserved = {k: v for k, v in json.load(open(pt)).items()
+                     if isinstance(v, dict)}
     for ent, d in result.items():
-        lab = d["profiles"].get("LAB")
-        if lab:
-            out["rtvbench_score"][ent] = lab["score"]
-    for pk, v in (t2.items() if isinstance(t2, dict) else []):
-        if isinstance(v, dict) and "score" in v:
-            out["rtvbench_score"][pk + " (track 2)"] = v["score"]
+        ax = d["axes"]
+        rel = preserved.get(ent) or out["reliability"].get(ent)
+        if not rel:
+            continue
+        Dv = (rel["S"] + 0.5 * rel["D"]) / rel["N"]
+        parts = {"experience": (ax.get("C"), 0.45),
+                 "interaction": (ax.get("D"), 0.35),
+                 "latency": (ax.get("E"), 0.20)}
+        avail = {k: v for k, v in parts.items() if v[0] is not None}
+        if not avail:
+            continue
+        tot = sum(w for _, w in avail.values())
+        core = sum(s / 100.0 * w / tot for s, w in avail.values())
+        out["rtvbench_score"]["track1"][ent] = {
+            "score": round(100 * _m.sqrt(Dv) * core, 1),
+            "delivery": round(Dv, 3),
+            "coverage_pct": round(100 * tot, 0),
+            "note": "experience awaits artifact-audit component" }
+    if isinstance(t2, dict):
+        BUILD_OK = {"lingbot": 21 / 23, "happy-oyster": 11 / 13}
+        for pk, v in t2.items():
+            if not isinstance(v, dict) or "parts" in v is None:
+                pass
+            if not isinstance(v, dict) or "parts" not in v:
+                continue
+            pr = v["parts"]
+            w = {"adherence": 0.35, "long_horizon": 0.25,
+                 "physics": 0.20, "steering": 0.20}
+            avail = {k: pr[k] for k in w if pr.get(k) is not None}
+            tot = sum(w[k] for k in avail)
+            core = sum(pr[k] / 100.0 * w[k] / tot for k in avail)
+            B = BUILD_OK.get(pk, 1.0)
+            out["rtvbench_score"]["track2"][pk] = {
+                "score": round(100 * _m.sqrt(B) * core, 1),
+                "build_success": round(B, 2),
+                "build_speed_s_exhibited": (55 if pk == "lingbot" else 138),
+                "coverage_pct": round(100 * tot, 0)}
 
     out["composite"] = {"axis_weights": AXIS_WEIGHTS,
                         "edit_relevance": EDIT_RELEVANCE,

@@ -1,0 +1,4 @@
+{
+  "_provenance": "authoritative adjudicated tallies computed from the FULL journals on 2026-08-15 before the filter-repo working-tree reset (see JOURNAL-LOSS-NOTE.md); the scorer prefers these over the truncated journal recount",
+  "lucy-2.5 (lens P)": {"N": 210, "S": 75, "D": 78, "F": 55, "T": 2, "excluded_E": 356}
+}
