@@ -189,7 +189,18 @@ def facts():
     except Exception as e:
         p6 = False
         print(f"[FAIL] replayable-example check errored: {str(e)[:80]}")
-    allp = all([p1, p2, p3, p4, p5, p6])
+    # 3. hair row: lucy 3/3 full (1 oscillates), xmax 0/3 (all none)
+    ej = collections.defaultdict(collections.Counter)
+    es = collections.defaultdict(collections.Counter)
+    for l in open(f"{REPO}/data/edit-judge/records.jsonl"):
+        r = json.loads(l)
+        if r["edit_id"].startswith("hair"):
+            ej[r["product"]][r["verdict"]["application"]] += 1
+            es[r["product"]][r["verdict"]["stability"]] += 1
+    p7 = (ej["lucy-2.5"]["full"] == 3 and es["lucy-2.5"]["oscillates"] == 1
+          and ej["xmax-x2.0"]["none"] == 3)
+    print(f"[{'ok' if p7 else 'FAIL'}] hair row: lucy apply={dict(ej['lucy-2.5'])} stab={dict(es['lucy-2.5'])} | xmax apply={dict(ej['xmax-x2.0'])} (claim: 3/3 full w/ 1 osc vs total failure)")
+    allp = all([p1, p2, p3, p4, p5, p6, p7])
     print("\n%s" % ("BOTH DEFECT CLAIMS MACHINE-VERIFIED" if allp else "CLAIM(S) NOT SUPPORTED - REVISE DOC"))
     return allp
 
