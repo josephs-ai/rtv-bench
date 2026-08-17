@@ -161,6 +161,21 @@ def layer3(s, main_ents):
                                else "-")
         print(line + col("d", note))
 
+    # cost & throughput exhibit (data/cost-report.json)
+    cr_p = os.path.join(REPO, "data", "cost-report.json")
+    if os.path.exists(cr_p):
+        cr = json.load(open(cr_p))
+        print("\n  " + col("c", "cost & throughput (exhibit, not scored)") +
+              col("d", "  $/deliv-min · $/value-min · efficiency"))
+        for ent, r in cr.get("entities", {}).items():
+            print("  %-26s %s · %s · %s%%   %s" % (
+                ent, fmt(r.get("usd_per_delivered_min"), 3),
+                fmt(r.get("usd_per_value_min"), 3),
+                fmt(r.get("delivery_efficiency_pct")),
+                col("d", cr.get("caveats", {}).get(ent, ""))))
+        print(col("d", "  %-26s %s" % ("xmax-x2.0 (P-browser)",
+              "vendor points, not USD-metered - excluded")))
+
     # D: per-edit-type breakdown from the campaign-D scorecard
     prods = [e[0].split(" (")[0] for e in main_ents]
     types = sorted({t for p in prods for t in dsc.get(p, {})})

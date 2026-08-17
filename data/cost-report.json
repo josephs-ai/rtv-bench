@@ -1,0 +1,32 @@
+{
+ "note": "    .venv/bin/python tools/cost_report.py",
+ "caveats": {
+  "lucy-2.5 (lens P)": "native metered billing (Decart)",
+  "xmax-x2.0 (lens M)": "Reactor platform pricing, not the vendor's unit price",
+  "xmax-x2.0 (lens P-browser)": "vendor-account points, not USD-metered - excluded"
+ },
+ "entities": {
+  "lucy-2.5 (lens P)": {
+   "reconciled_usd": 11.57,
+   "billed_sessions": 57,
+   "attempted_min": 25.2,
+   "value_min": 17.2,
+   "delivered_min": 23.7,
+   "usd_per_attempted_min": 0.46,
+   "usd_per_delivered_min": 0.488,
+   "usd_per_value_min": 0.673,
+   "delivery_efficiency_pct": 94.3
+  },
+  "xmax-x2.0 (lens M)": {
+   "reconciled_usd": 11.11,
+   "billed_sessions": 56,
+   "attempted_min": 24.2,
+   "value_min": 17.9,
+   "delivered_min": 24.5,
+   "usd_per_attempted_min": 0.46,
+   "usd_per_delivered_min": 0.453,
+   "usd_per_value_min": 0.622,
+   "delivery_efficiency_pct": 101.4
+  }
+ }
+}

@@ -131,12 +131,26 @@ async def main_async(args):
     est_min = sum(tiers) * args.reps
     print("plan: tiers %s x%d reps = ~%.0f min of Lucy streaming"
           % (tiers, args.reps, est_min))
+    from tools.campaign_b import upload_mbps
     for rep in range(1, args.reps + 1):
         for m in tiers:
             name = "E-lucy-2.5-%dmin-r%d" % (m, rep)
             if os.path.exists(os.path.join(OUT, name)):
                 print("skip (exists):", name)
                 continue
+            # throughput gate: hour-scale sessions are worthless on a
+            # sagged uplink (2026-08-18: 1.2 Mbps produced 1-3% survival
+            # stalls) - hold until the window is healthy, don't burn runs
+            while True:
+                mbps = upload_mbps()
+                if mbps >= args.min_mbps:
+                    print("uplink %.1f Mbps >= %.0f - go" % (mbps,
+                                                             args.min_mbps))
+                    break
+                print("uplink %.1f Mbps < %.0f - holding 5 min" % (
+                    mbps, args.min_mbps), flush=True)
+                import time as _t
+                _t.sleep(300)
             print("session %s ..." % name)
             row = await session(m, rep)
             print("  survived %.0f%% (%.0fs of %.0fs) fps=%s stop=%s"
@@ -150,6 +164,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tiers", default="10,30,60")
     ap.add_argument("--reps", type=int, default=1)
+    ap.add_argument("--min-mbps", type=float, default=8.0,
+                    help="uplink gate: hold until throughput >= this")
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
     load_env()

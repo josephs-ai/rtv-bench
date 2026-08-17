@@ -101,7 +101,7 @@ one win — happens to be the core interaction of its own product plan.
 | entity | N | clean | degraded | failed | note |
 |---|---|---|---|---|---|
 | Lucy 2.5 · native | 210 | 36% | 37% | 26% | failures cluster in tunnel-sag windows; +356 runs excluded as network-fault |
-| Xmax · via aggregator | 85 | 55% | 33% | 12% | tail still accruing |
+| Xmax · via aggregator | 85 | 55% | 33% | 12% | final N: tail supervisor found hung since 08-11, retired 08-18 |
 | Xmax · native browser | 91 | 25% | 75% | 0% | the ~2 s start-freeze marks sessions degraded |
 
 ### Hour-scale preview (campaign E, v1.1 — first datapoint)
@@ -194,6 +194,16 @@ which machine-verifies the working-channel finding.
   non-tunneled vantage (v1.1).
 - Same model through the Reactor aggregator: **+650–710 ms** — the
   measured cost of the middleman, and the reason lenses never share tables.
+
+### Cost & throughput (exhibit — not scored; pricing moves faster than capability)
+
+Reconciled billing joined to run journals (`data/cost-report.json`):
+Lucy 2.5 native-metered at **$0.49 per delivered minute** ($0.67 per
+value-minute after failures; 94.3% delivery efficiency); Xmax via Reactor
+at **$0.45 per delivered minute** ($0.62 value) — note that is the
+*aggregator's* price, not the vendor's unit price. Xmax native runs on
+vendor-account points and is not USD-metered here — excluded rather than
+guessed.
 
 ### Market access (often the deciding row)
 

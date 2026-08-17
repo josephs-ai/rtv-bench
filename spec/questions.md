@@ -23,7 +23,7 @@ P-browser; lens M = via-Reactor), LingBot-World 2, Happy Oyster.
 
 | # | question | campaign/arm | stimulus | instrument | metric | records | status |
 |---|---|---|---|---|---|---|---|
-| Q1.1 | Does a session survive 15 s / 60 s / 3 min? | B (300-round duration mix) | conform reel | outcome taxonomy | S/D/F/T/R/E rates + Wilson CIs | `data/campaign-b/runs.jsonl`, `data/campaign-b-native/runs.jsonl`, preserved-tally.json | answered (Lucy N=210, Xmax-browser N=91, Xmax-M N=85 tail pending) |
+| Q1.1 | Does a session survive 15 s / 60 s / 3 min? | B (300-round duration mix) | conform reel | outcome taxonomy | S/D/F/T/R/E rates + Wilson CIs | `data/campaign-b/runs.jsonl`, `data/campaign-b-native/runs.jsonl`, preserved-tally.json | answered (Lucy N=210, Xmax-browser N=91, Xmax-M N=85 final - tail supervisor hung since 08-11, retired) |
 | Q1.2 | How fast does first content arrive (TTFF)? | B | conform reel | capture analyzer (first non-black frame) | ttff_s | same journals | answered |
 | Q1.3 | Are failures the product's fault? | B adjudication | — | 3-layer attribution (sentinel, in-run guards, cross-product correlation) | E-class exclusions w/ evidence | `data/campaign-b/adjudications.json` | answered |
 | Q1.4 | Does a session survive 10 / 30 / 60 minutes? | E (hour-scale) | 65-min single-shot loop | per-frame telemetry + net probes | survival_frac, mean_fps | `data/campaign-e/runs.jsonl` | partial (Lucy 10-min r1 only; 30/60 + Xmax pending) |
@@ -69,6 +69,7 @@ P-browser; lens M = via-Reactor), LingBot-World 2, Happy Oyster.
 |---|---|---|---|---|---|---|---|
 | Q5.1 | Motion-to-glass latency, styled? | latency arm | flash-reel | motion cross-correlation | ms | `data/campaign-b/vantage.json` + latency records | answered Xmax-native (983 ms); Lucy vantage-bound (~2.6–2.7 s through tunnel — excluded from axis, needs clean vantage) |
 | Q5.2 | What does an aggregator cost in ms? | bridge (dual-route) | same | same model dual-routed | overhead ms | `data/bridge-measurement.json` | answered |
+| Q5.3 | What does a streamed minute cost? | cost report (spend join) | — | reconciled billing × run journals | $/attempted, $/delivered, $/value minute + efficiency | `data/cost-report.json`, `data/campaign-b/spend.jsonl` | answered (exhibit: Lucy $0.49/deliv-min native-metered; Xmax $0.45 via Reactor platform pricing; Xmax-native points-billed, excluded) |
 
 ### Q6. Market access
 
