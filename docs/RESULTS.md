@@ -23,7 +23,7 @@ absolute components only; the pairwise sweep below is the relative exhibit.
 | **LAB** | "pure capability, no market weighting" | **79.4** | 48.7 |
 
 **Lucy wins every profile, but the gap collapses from 46 points (creative
-use) to 12.7 (China streaming use)** — Xmax's instant whole-scene restyle,
+use) to 11.7 (China streaming use)** — Xmax's instant whole-scene restyle,
 China-direct availability, and edit-time identity stability are worth that
 much in its home market.
 
