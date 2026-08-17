@@ -86,7 +86,13 @@ one win — happens to be the core interaction of its own product plan.
 
 ### Latency & platform tax
 
-- Xmax native styled motion-to-glass: **~983 ms** (instrumented).
+- Xmax native styled motion-to-glass: **~983 ms** (instrumented, direct
+  domestic route).
+- Lucy styled motion-to-glass **measured ≈2.6–2.7 s from this vantage**
+  (two concordant timestamped probes, z≈3.7) — but that path rides the VPN
+  tunnel + TCP relay, so it is **not comparable** to Xmax's direct-route
+  figure and is excluded from axis scoring; her clean-route latency needs a
+  non-tunneled vantage (v1.1).
 - Same model through the Reactor aggregator: **+650–710 ms** — the
   measured cost of the middleman, and the reason lenses never share tables.
 
