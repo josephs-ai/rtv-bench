@@ -23,12 +23,12 @@ nobody is close to ceiling on sustained transformed video.
 
 | Profile | asks | Lucy 2.5 (native) | Xmax X2.0 (native/browser) |
 |---|---|---|---|
-| **STREAMER-CN** | "power a China-market live-avatar product" | **74.1** | 62.4 |
-| **CREATOR-GLOBAL** | "power a creative restyling tool" | **86.0** | 39.9 |
-| **LAB** | "pure capability, no market weighting" | **79.4** | 48.7 |
+| **STREAMER-CN** | "power a China-market live-avatar product" | **73.9** | 62.4 |
+| **CREATOR-GLOBAL** | "power a creative restyling tool" | **85.8** | 39.9 |
+| **LAB** | "pure capability, no market weighting" | **79.2** | 48.7 |
 
-**Lucy wins every profile, but the gap collapses from 46 points (creative
-use) to 11.7 (China streaming use)** — Xmax's instant whole-scene restyle,
+**Lucy wins every profile, but the gap collapses from 45.9 points (creative
+use) to 11.5 (China streaming use)** — Xmax's instant whole-scene restyle,
 China-direct availability, and edit-time identity stability are worth that
 much in its home market.
 
@@ -155,7 +155,7 @@ is fire-and-forget.
 
 The trade-off, plainly: **Happy Oyster builds better, steadier, more
 steerable worlds; LingBot builds worlds 2.5× faster.** Samples: LingBot
-21/21, HO 11/21 (remainder limited by the vantage's network, not the
+19/21, HO 11/21 (remainder limited by the vantage's network, not the
 product).
 
 ---

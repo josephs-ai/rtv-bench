@@ -252,17 +252,6 @@
   },
   "platform_overhead_note": "xmax native vs via-Reactor delta ~650-710 ms; see docs/final-report.md",
   "track2_composite": {
-    "happy-oyster": {
-      "score": 51.8,
-      "parts": {
-        "adherence": 50.0,
-        "physics": 25.0,
-        "long_horizon": 57.4,
-        "steering": 90,
-        "build_speed": 39.9
-      },
-      "coverage_pct": 100.0
-    },
     "lingbot": {
       "score": 37.4,
       "parts": {
@@ -271,6 +260,17 @@
         "long_horizon": 35.7,
         "steering": 40,
         "build_speed": 100
+      },
+      "coverage_pct": 100.0
+    },
+    "happy-oyster": {
+      "score": 51.8,
+      "parts": {
+        "adherence": 50.0,
+        "physics": 25.0,
+        "long_horizon": 57.4,
+        "steering": 90,
+        "build_speed": 39.9
       },
       "coverage_pct": 100.0
     }
@@ -301,16 +301,16 @@
       }
     },
     "track2": {
-      "happy-oyster": {
-        "score": 50.5,
-        "build_success": 0.85,
-        "build_speed_s_exhibited": 138,
-        "coverage_pct": 100.0
-      },
       "lingbot": {
         "score": 29.3,
         "build_success": 0.91,
         "build_speed_s_exhibited": 55,
+        "coverage_pct": 100.0
+      },
+      "happy-oyster": {
+        "score": 50.5,
+        "build_success": 0.85,
+        "build_speed_s_exhibited": 138,
         "coverage_pct": 100.0
       }
     },
