@@ -110,6 +110,11 @@ def truths():
     A(("garment lucy commit", r"1\.4\s*(?:s|秒)",
        d["lucy-2.5"]["garment"]["commit_latency_s_med"], 0.05))
     A(("identity axis lucy", r"93\b", round(lucy["axes"]["C"]), 0.5))
+    gden = (s.get("interaction_density") or {}).get("products", {}).get("xmax-x2.0", {})
+    A(("density commit frac", r"\*\*(\d+)% of edits commit",
+       (gden.get("edits_committed_frac_mean") or 0) * 100, 0.5))
+    A(("density commit latency", r"median commit latency\s*\*\*(\d+\.\d+) s",
+       gden.get("commit_latency_median_s"), 0.05))
     A(("identity axis xmax", r"85\b", round(xm["axes"]["C"]), 0.5))
     return C
 
