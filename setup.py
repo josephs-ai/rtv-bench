@@ -171,6 +171,8 @@ def step_summary(keys):
          have("DECART_API_KEY") or have("XMAX_API_KEY")),
         ("ref-image control (campaign F)",
          have("DECART_API_KEY") or have("XMAX_API_KEY")),
+        ("interaction density (campaign G)",
+         have("DECART_API_KEY") or have("XMAX_API_KEY")),
         ("worlds (campaign C: LingBot + HO)", have("REACTOR_API_KEY")),
     ]
     for name, ok in rows:

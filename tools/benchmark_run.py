@@ -67,6 +67,13 @@ STAGES = {
         [PY, "tools/claims_check.py", "docs/RESULTS.md"],
         [PY, "tools/dash.py"],
     ],
+    # Campaign G: interaction density (sustained direction - the moat
+    # arm) + closed-loop responsiveness first pass
+    "density": [
+        [PY, "tools/campaign_g.py", "--product", "lucy-2.5"],
+        [PY, "tools/campaign_g_xmax.py"],
+        [PYM, "tools/campaign_g_metrics.py"],
+    ],
     # the terminal results surface - the machine hands you the results
     "dash": [
         [PY, "tools/dash.py"],

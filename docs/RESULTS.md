@@ -136,6 +136,31 @@ These rows feed axis A's long-session sub-metric (content-freeze-aware:
 a permanent freeze ends the session at onset regardless of frames still
 arriving).
 
+### Interaction density (Campaign G, exhibit — first arm 2026-08-18)
+
+The moat measurement: 8 edits in 90 seconds of sustained direction
+(garment → background → accessory → style flip → revert → suit →
+background), 2 clips × 3 reps per product, per-edit CLIP commit windows.
+
+**Xmax X2.0 (first arm):** **75% of edits commit under sustained
+direction** (36/48), median commit latency **2.0 s** — edit throughput
+does not collapse when directed continuously. **Identity does not
+survive it**: similarity-to-start floors near zero (−0.03 mean) across
+every session. Caveat stated plainly: the sequence deliberately includes
+a full style flip and a revert, so part of that floor is the style flip
+*working*; what the number still shows is that the person you started
+with is gone at some point in every sustained-direction session, and the
+revert does not restore them. A post-revert identity-recovery metric is
+the analyzer's next refinement. Lucy's arm runs when credits allow.
+Exhibit only (scoring requires an amendment); machine-ingested into the
+scorecard as `interaction_density` and rendered on the dashboard.
+
+**Closed-loop responsiveness (Q5.4, first pass):** the windowed
+cross-correlation tool ran over a 30-minute capture — mechanically sound
+(60 windows), but the looped stimulus is periodic, which makes absolute
+lag ambiguous (peak-r ≈ 0.1). Trustworthy numbers need the aperiodic
+flash-reel as input; scheduled with the next latency session.
+
 ### Reference-image control (Campaign F, v1.1 — BOTH ARMS COMPLETE 2026-08-17)
 
 The dedicated ref-image campaign (the core interaction of preset-character

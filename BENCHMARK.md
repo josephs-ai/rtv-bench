@@ -172,6 +172,23 @@ frames of a frozen image are not survival. Confound controls are part of
 the method: the 60-min freeze finding shipped only after a 20×
 points-budget control excluded temp-key exhaustion.
 
+## 8b. Campaign G — interaction density (Q3.5)
+
+The moat arm: a clip streams 90 s while an edit fires **every 10 s** —
+8 edits, a fixed ordered sequence (garment → background → accessory →
+style flip → revert-to-photoreal → suit → background) through each
+product's native channel, every send logged with wall-time offset and
+frame index. The analyzer (`tools/campaign_g_metrics.py`) computes
+per-edit commit via CLIP-similarity windows (8 s pre vs post, threshold
++0.02, first-crossing = commit latency), an identity-to-start timeline
+across the whole session (floor + slope — does the face survive eight
+consecutive redirections?), and a frame-detail trend. Wall/file
+time-base correction applied per product (Lucy FFV1 is CFR-labelled at
+~half delivery rate). Exhibit first; scoring requires an amendment.
+**Closed-loop responsiveness** (Q5.4, `tools/latency_timeline.py`)
+complements it: motion-energy cross-correlation in 30 s windows over any
+input/capture pair → per-window lag and drift.
+
 ## 9. Latency & platform tax (Q5)
 
 Motion-to-glass: a reel with timing flashes baked into its pixels is

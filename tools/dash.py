@@ -176,6 +176,24 @@ def layer3(s, main_ents):
         print(col("d", "  %-26s %s" % ("xmax-x2.0 (P-browser)",
               "vendor points, not USD-metered - excluded")))
 
+    # interaction-density exhibit (campaign G)
+    gd = os.path.join(REPO, "data", "campaign-g", "metrics", "summary.json")
+    if os.path.exists(gd):
+        try:
+            gsum = json.load(open(gd))
+            print("\n  " + col("c", "G' · interaction density (exhibit)") +
+                  col("d", "  8 edits / 90 s sustained direction"))
+            for pk, a in (gsum.get("products") or {}).items():
+                if not isinstance(a, dict):
+                    continue
+                print("  %-26s committed %s · med commit %ss · "
+                      "identity floor %s" % (
+                          pk, fmt(a.get("edits_committed_frac_mean"), 2),
+                          fmt(a.get("commit_latency_median_s")),
+                          fmt(a.get("identity_floor_mean"), 2)))
+        except Exception:
+            pass
+
     # D: per-edit-type breakdown from the campaign-D scorecard
     prods = [e[0].split(" (")[0] for e in main_ents]
     types = sorted({t for p in prods for t in dsc.get(p, {})})
@@ -202,6 +220,7 @@ def footer():
         ("D live edits", len(glob.glob(f"{REPO}/data/campaign-d/captures/*.json"))),
         ("F ref control", len(glob.glob(f"{REPO}/data/campaign-f/captures/*.json"))
          + len(glob.glob(f"{REPO}/data/campaign-f/captures-probe/*.json"))),
+        ("G density", len(glob.glob(f"{REPO}/data/campaign-g/captures/*.json"))),
         ("E hour-scale", count_lines(f"{REPO}/data/campaign-e/runs.jsonl")),
         ("C worlds", len(glob.glob(f"{REPO}/data/campaign-c-gen/*-r[123].json"))),
     ]
@@ -250,6 +269,8 @@ EVIDENCE = {
           "data/edit-metrics/"],
     "E": ["data/campaign-b/vantage.json", "data/bridge-measurement.json"],
     "F": ["vantage records (route/DNS/VPN matrix)"],
+    "G'": ["data/campaign-g/metrics/summary.json",
+           "data/campaign-g/runs.jsonl (interaction density exhibit)"],
     "G": ["data/campaign-f/metrics/summary.json",
           "data/campaign-f/probe-verdicts.json",
           "data/campaign-f/runs.jsonl"],
@@ -472,6 +493,7 @@ STAGE_KEYS = {   # stage -> (required key sets: ANY-of within a tuple)
     "quality": [("ANTHROPIC_API_KEY",)],
     "editing": [("DECART_API_KEY", "XMAX_API_KEY")],
     "refs": [("DECART_API_KEY", "XMAX_API_KEY")],
+    "density": [("DECART_API_KEY", "XMAX_API_KEY")],
     "worlds": [("REACTOR_API_KEY",)],
     "core": [("DECART_API_KEY",), ("XMAX_API_KEY",)],
     "score": [()],
@@ -483,6 +505,7 @@ STAGE_BLURB = {
     "quality": "metrics + blinded pairs + artifact audit (judge key needed)",
     "editing": "campaign D: mid-stream text edits, both products",
     "refs": "campaign F: reference-image control, both products",
+    "density": "campaign G: 8 edits/90s sustained direction (the moat arm)",
     "worlds": "campaign C: LingBot + Happy Oyster world generation",
     "core": "the ~2h affordable reproduction of the whole benchmark",
     "score": "scorecard -> cost report -> claims check -> this board",

@@ -68,7 +68,9 @@ same-input side-by-sides · identity persistence over minutes · live
 mid-stream editing (clothes, hair, background, style, whole characters) ·
 **reference-image character control** (anchor, attribute transfer,
 multi-minute identity hold, mid-video switching — scored by face-identity
-timelines, campaign F) · motion-to-glass latency · market reachability.
+timelines, campaign F) · **interaction density** (8 edits in 90 s — does
+the product survive sustained direction? campaign G) · motion-to-glass
+latency (incl. per-window responsiveness drift) · market reachability.
 
 **Track 2 — Interactive worlds.** *A prompt in, an explorable world
 out, steered as it runs.* Scored on: did it build what was asked (counts,

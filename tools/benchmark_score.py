@@ -607,6 +607,15 @@ def composite(out):
     except Exception as e:
         art = {"error": str(e)[:120]}
     out["artifact_burden"] = art
+    # interaction-density exhibit (campaign G) - the machine extractor
+    # accepts these results as soon as the analyzer writes them; exhibit
+    # only until an amendment scores them
+    gd = os.path.join(REPO, "data", "campaign-g", "metrics", "summary.json")
+    if os.path.exists(gd):
+        try:
+            out["interaction_density"] = json.load(open(gd))
+        except Exception as e:
+            out["interaction_density"] = {"error": str(e)[:100]}
     out["rtvbench_score"] = {"track1": {}, "track2": {},
         "formula": "100*sqrt(delivery)*(0.40*experience+0.25*interaction"
                    "+0.20*ref_control+0.15*latency); experience = mean("

@@ -1,0 +1,104 @@
+{
+  "runs": [
+    {
+      "run_id": "G-xmax-x2.0-G1-mixkit2960-rep1",
+      "product": "xmax-x2.0",
+      "lens": "P-browser",
+      "arm": null,
+      "n_samples": 89,
+      "n_edits": 8,
+      "edits_scored": 8,
+      "edits_committed": 6,
+      "edits_committed_frac": 0.75,
+      "identity_floor": -0.0836,
+      "identity_slope_per_min": -0.2179,
+      "frame_std_mean": 54.82,
+      "frame_std_slope_per_min": 0.4182
+    },
+    {
+      "run_id": "G-xmax-x2.0-G1-mixkit2960-rep2",
+      "product": "xmax-x2.0",
+      "lens": "P-browser",
+      "arm": null,
+      "n_samples": 89,
+      "n_edits": 8,
+      "edits_scored": 8,
+      "edits_committed": 6,
+      "edits_committed_frac": 0.75,
+      "identity_floor": -0.0624,
+      "identity_slope_per_min": -0.2029,
+      "frame_std_mean": 55.3,
+      "frame_std_slope_per_min": 2.2741
+    },
+    {
+      "run_id": "G-xmax-x2.0-G1-mixkit2960-rep3",
+      "product": "xmax-x2.0",
+      "lens": "P-browser",
+      "arm": null,
+      "n_samples": 89,
+      "n_edits": 8,
+      "edits_scored": 8,
+      "edits_committed": 4,
+      "edits_committed_frac": 0.5,
+      "identity_floor": -0.0485,
+      "identity_slope_per_min": -0.1187,
+      "frame_std_mean": 54.35,
+      "frame_std_slope_per_min": 1.5249
+    },
+    {
+      "run_id": "G-xmax-x2.0-G1-mixkit50117-rep1",
+      "product": "xmax-x2.0",
+      "lens": "P-browser",
+      "arm": null,
+      "n_samples": 89,
+      "n_edits": 8,
+      "edits_scored": 8,
+      "edits_committed": 7,
+      "edits_committed_frac": 0.875,
+      "identity_floor": -0.0504,
+      "identity_slope_per_min": -0.236,
+      "frame_std_mean": 60.81,
+      "frame_std_slope_per_min": 0.6297
+    },
+    {
+      "run_id": "G-xmax-x2.0-G1-mixkit50117-rep2",
+      "product": "xmax-x2.0",
+      "lens": "P-browser",
+      "arm": null,
+      "n_samples": 89,
+      "n_edits": 8,
+      "edits_scored": 8,
+      "edits_committed": 6,
+      "edits_committed_frac": 0.75,
+      "identity_floor": 0.0214,
+      "identity_slope_per_min": -0.1829,
+      "frame_std_mean": 59.41,
+      "frame_std_slope_per_min": 2.9738
+    },
+    {
+      "run_id": "G-xmax-x2.0-G1-mixkit50117-rep3",
+      "product": "xmax-x2.0",
+      "lens": "P-browser",
+      "arm": null,
+      "n_samples": 89,
+      "n_edits": 8,
+      "edits_scored": 8,
+      "edits_committed": 7,
+      "edits_committed_frac": 0.875,
+      "identity_floor": 0.0252,
+      "identity_slope_per_min": -0.2326,
+      "frame_std_mean": 60.99,
+      "frame_std_slope_per_min": -0.2338
+    }
+  ],
+  "products": {
+    "xmax-x2.0": {
+      "n_runs": 6,
+      "n_edits_scored": 48,
+      "edits_committed_frac_mean": 0.75,
+      "commit_latency_median_s": 2.0,
+      "identity_floor_mean": -0.0331
+    }
+  },
+  "commit_delta_threshold": 0.02
+}
