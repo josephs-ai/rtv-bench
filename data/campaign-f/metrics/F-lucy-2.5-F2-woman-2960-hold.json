@@ -9,66 +9,66 @@
     "clip": "conform-mixkit2960.mp4",
     "n_samples": 11,
     "apply_at_s": 1.0,
-    "sim_ref_post_mean": 0.4948,
+    "sim_ref_post_mean": 0.5011,
     "sim_ref2_post_mean": null,
-    "sim_input_post_mean": 0.0738,
+    "sim_input_post_mean": 0.1675,
     "sim_ref_pre_mean": null
   },
   "timeline": [
     {
       "t": 1.0,
-      "sim_input": 0.7094,
-      "sim_ref": -0.052
+      "sim_input": 0.8799,
+      "sim_ref": -0.0055
     },
     {
       "t": 3.0,
-      "sim_input": 0.0697,
-      "sim_ref": 0.6647
+      "sim_input": 0.8809,
+      "sim_ref": 0.0175
     },
     {
       "t": 5.0,
-      "sim_input": 0.1369,
-      "sim_ref": 0.6119
+      "sim_input": 0.0634,
+      "sim_ref": 0.5546
     },
     {
       "t": 7.0,
-      "sim_input": 0.0676,
-      "sim_ref": 0.5439
+      "sim_input": 0.0532,
+      "sim_ref": 0.6771
     },
     {
       "t": 9.0,
-      "sim_input": 0.0662,
-      "sim_ref": 0.4468
+      "sim_input": 0.1306,
+      "sim_ref": 0.5173
     },
     {
       "t": 11.0,
-      "sim_input": 0.0662,
-      "sim_ref": 0.4468
+      "sim_input": 0.1129,
+      "sim_ref": 0.573
     },
     {
       "t": 13.0,
-      "sim_input": 0.0662,
-      "sim_ref": 0.4468
+      "sim_input": 0.1195,
+      "sim_ref": 0.556
     },
     {
       "t": 15.0,
-      "sim_input": 0.0662,
-      "sim_ref": 0.4468
+      "sim_input": 0.1426,
+      "sim_ref": 0.5586
     },
     {
       "t": 17.0,
-      "sim_input": 0.0662,
-      "sim_ref": 0.4468
+      "sim_input": 0.0294,
+      "sim_ref": 0.571
     },
     {
       "t": 19.0,
-      "sim_input": 0.0662,
-      "sim_ref": 0.4468
+      "sim_input": 0.0992,
+      "sim_ref": 0.6328
     },
     {
       "t": 21.0,
-      "sim_input": 0.0662,
-      "sim_ref": 0.4468
+      "sim_input": 0.0434,
+      "sim_ref": 0.3532
     }
   ]
 }

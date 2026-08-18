@@ -1,0 +1,41 @@
+{
+  "run_id": "lingbot-G4-r5",
+  "n_frames": 400,
+  "fps_assumed": 16.0,
+  "sweep": {
+    "flicker_lpips": 0.036216038659700474,
+    "flicker_masked_out": false,
+    "identity": null,
+    "clip_adherence": 0.25910467626871886,
+    "motion_epe": null,
+    "blink": null
+  },
+  "vbench": {
+    "temporal_flickering": 0.9929216123658254,
+    "subject_consistency": 0.9779973080524574
+  },
+  "models_present": [
+    "clip_fn",
+    "face_embed_fn",
+    "flow_fn",
+    "lpips_fn"
+  ],
+  "note": "raw supporting values; anchor-relative 1-5 scoring requires Anchor-0/Anchor-R footage (Spec D.1)",
+  "motion_jerk": {
+    "pops_per_min": 64.8,
+    "n_pops": 27,
+    "n_frames": 200
+  },
+  "long_horizon": {
+    "early_vs_last": 0.9384748339653015,
+    "min": 0.9384748339653015,
+    "drift": [
+      -0.04040221939838441,
+      0.9718997076153755,
+      0.979621171951294,
+      0.9384748339653015,
+      40
+    ]
+  },
+  "wall_s": 176.6
+}

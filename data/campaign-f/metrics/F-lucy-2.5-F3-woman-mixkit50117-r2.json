@@ -7,23 +7,18 @@
     "ref": "ref-woman.jpg",
     "ref2": null,
     "clip": "conform-mixkit50117.mp4",
-    "n_samples": 2,
+    "n_samples": 1,
     "apply_at_s": 0.0,
-    "sim_ref_post_mean": -0.0167,
+    "sim_ref_post_mean": null,
     "sim_ref2_post_mean": null,
-    "sim_input_post_mean": 0.2634,
+    "sim_input_post_mean": null,
     "sim_ref_pre_mean": null
   },
   "timeline": [
     {
       "t": 1.0,
-      "sim_input": 0.2634,
-      "sim_ref": -0.0167
-    },
-    {
-      "t": 3.0,
-      "sim_input": 0.2634,
-      "sim_ref": -0.0167
+      "sim_input": 0.4816,
+      "sim_ref": 0.0348
     }
   ]
 }

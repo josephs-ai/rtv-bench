@@ -9,21 +9,21 @@
     "clip": "conform-mixkit2960.mp4",
     "n_samples": 2,
     "apply_at_s": 0.0,
-    "sim_ref_post_mean": 0.0836,
+    "sim_ref_post_mean": 0.0849,
     "sim_ref2_post_mean": null,
-    "sim_input_post_mean": 0.7698,
+    "sim_input_post_mean": 0.8886,
     "sim_ref_pre_mean": null
   },
   "timeline": [
     {
       "t": 1.0,
-      "sim_input": 0.7698,
-      "sim_ref": 0.0836
+      "sim_input": 0.8271,
+      "sim_ref": 0.0519
     },
     {
       "t": 3.0,
-      "sim_input": 0.7698,
-      "sim_ref": 0.0836
+      "sim_input": 0.8886,
+      "sim_ref": 0.0849
     }
   ]
 }

@@ -10,7 +10,7 @@
 
 ## Track 1 — Interactive video (Lucy 2.5 vs Xmax X2.0)
 
-**RTV-Score (canonical, spec v1.1): Lucy 47.4 · Xmax 42.4** — formula
+**RTV-Score (canonical, spec v1.1): Lucy 47.0 · Xmax 42.5** — formula
 `100 × √delivery × (0.40·experience + 0.25·interaction + 0.20·ref-control + 0.15·latency)`;
 experience = mean(identity integrity, artifact burden), all absolute;
 ref-control is the new v1.1 axis from campaign F (see Amendment 2 in
@@ -26,12 +26,12 @@ nobody is close to ceiling on sustained transformed video.
 
 | Profile | asks | Lucy 2.5 (native) | Xmax X2.0 (native/browser) |
 |---|---|---|---|
-| **STREAMER-CN** | "power a China-market live-avatar product" | **67.7** | 59.9 |
-| **CREATOR-GLOBAL** | "power a creative restyling tool" | **78.1** | 40.5 |
-| **LAB** | "pure capability, no market weighting" | **74.7** | 45.9 |
+| **STREAMER-CN** | "power a China-market live-avatar product" | **67.3** | 59.9 |
+| **CREATOR-GLOBAL** | "power a creative restyling tool" | **77.7** | 40.5 |
+| **LAB** | "pure capability, no market weighting" | **74.4** | 46.3 |
 
-**Lucy wins every profile, but the gap collapses from 37.6 points (creative
-use) to 7.8 (China streaming use)** — Xmax's instant whole-scene restyle,
+**Lucy wins every profile, but the gap collapses from 37.2 points (creative
+use) to 7.4 (China streaming use)** — Xmax's instant whole-scene restyle,
 China-direct availability, edit-time identity stability, and its win on
 the new reference-control axis are worth that much in its home market.
 
@@ -41,14 +41,14 @@ the new reference-control axis are worth that much in its home market.
 
 | Axis (0–100) | Lucy 2.5 (P) | Xmax X2.0 (P-browser) | what it measures |
 |---|---|---|---|
-| A Reliability | 48.7 | 63.8 | session value rate (S + ½·D), long-session robustness, TTFF |
+| A Reliability | 50.7 | 65.8 | session value rate (S + ½·D), long-session robustness, TTFF |
 | B Head-to-head preference* | 97.9 | 2.1 | blinded same-input pairwise wins (relative, two-product field) |
-| B′ Artifact burden (absolute) | 31.9 | 21.5 | audited median window burden 12.3 / 14.1 of max 18, inverted |
+| B′ Artifact burden (absolute) | 31.9 | 22.2 | audited median window burden 12.25 / 14.0 of max 18, inverted (n=25/45 windows after key-merge recovery) |
 | C Identity | 92.7 | 84.7 | long-horizon embedding drift + face-through-edits |
 | D Live editing | 84.8 | 54.0 | commit latency, application, precision, hold, transition |
 | E Latency | n/a† | 58.0 | instrumented motion-to-glass (983 ms styled, Xmax native) |
 | F Deploy-CN | 50 | 100 | China-market reachability (direct / VPN-viable / blocked) |
-| **G Ref control (v1.1)** | 42.6 | **50.5** | campaign F: adoption 0.35 · hold 0.20 · switch 0.25 · compose 0.20 (sub-scores below) |
+| **G Ref control (v1.1)** | 40.7 | **50.5** | campaign F: adoption 0.35 · hold 0.20 · switch 0.25 · compose 0.20 (sub-scores below) |
 
 \* B is currently pairwise-only (its absolute artifact-burden component
 awaits an audit re-run after a blinding-key incident) — read it as "how
@@ -150,11 +150,11 @@ Lucy mirror arm ran the identical 65-job matrix (2 parallel lanes,
 
 | G component (weight) | Lucy 2.5 | Xmax X2.0 | reading |
 |---|---|---|---|
-| Adoption across full input matrix (.35) | **60.0** | 37.5 | Lucy anchors even on the 5-person crowd (0.39–0.76) and hits higher sims (up to 0.76); both fail wide-shot small-face; stylized refs mostly fail on both |
+| Adoption across full input matrix (.35) | **56.7** | 37.5 | Lucy anchors even on the 5-person crowd (0.39–0.76) and hits higher sims (up to 0.76); both fail wide-shot small-face; stylized refs mostly fail on both |
 | Anchored-identity hold (.20) | 50.0 | **66.7** | Xmax 180 s holds are flat both reps; one Lucy hold capture lost to a no-face segment |
-| Mid-video switch (.25) | 46.4 | **56.1** | Lucy switches **in-session in ~2 s** via `set_image` but only ~58% reliably; Xmax cannot switch in-session (0/16) but its re-session mechanism is 2/2 with a ~7 s transition |
+| Mid-video switch (.25) | 43.4 | **56.1** | Lucy switches **in-session in 2–10 s (median ~3 s wall-time, time-base corrected 08-18)** via `set_image` but only ~58% reliably; Xmax cannot switch in-session (0/16) but its re-session mechanism is 2/2 with a ~7 s transition |
 | Text edit on anchored character (.20) | 0.0 | **50.0** | Xmax scene-level edits keep the character (person-level edits reset it); ANY Lucy text edit evicts her anchor |
-| **Axis G** | 42.6 | **50.5** | Xmax's first capability-axis win — on its sector's core interaction |
+| **Axis G** | 40.7 | **50.5** | Xmax's first capability-axis win — on its sector's core interaction |
 
 **Confirmed working (Xmax X2.0, native browser lens):**
 
@@ -239,6 +239,13 @@ For a China-market product, the V2V field effectively has one entrant.
 
 ## Track 2 — Interactive worlds (LingBot-World 2 vs Happy Oyster)
 
+> **SUPERSEDED (2026-08-18, same day):** the proper-seed, downlink-gated
+> LingBot rerun (21/21 captures, corruption-screened, re-judged) replaced
+> the invalidated rows. **Rebuilt Track-2 composites: Happy Oyster 47.6 ·
+> LingBot 37.6** — LingBot's long-horizon jumped to 70.2 with a real
+> anchor (the handicap was ours), adherence stays weak (25), steering
+> unchanged. Original invalidation kept below for the record.
+>
 > **INVALIDATION NOTICE (2026-08-18, diagnosis corrected same day).**
 > All LingBot rows below are **invalid as quality evidence**, for two
 > benchmark-side reasons: (1) the run anchored this image-anchored model
@@ -264,9 +271,9 @@ Frame-computed metrics (direct measurement, no judging involved):
 
 | metric | LingBot-World 2 | Happy Oyster | edge |
 |---|---|---|---|
-| subject consistency (same scene stays same) | 0.836 | **0.900** | HO |
-| long-horizon hold (start vs 1 min later) | 0.685 | **0.759** | HO |
-| motion pops (teleports/min, lower better) | 37.3 | **23.3** | HO |
+| subject consistency (same scene stays same) | 0.929 | **0.900** | HO |
+| long-horizon hold (start vs 1 min later) | 0.861 | **0.759** | HO |
+| motion pops (teleports/min, lower better) | 79.2 | **23.3** | HO |
 | temporal flicker score (higher steadier) | **0.997** | 0.985 | LingBot |
 | world build+capture time (median) | **~55 s** | ~138 s | LingBot 2.5× faster |
 
@@ -327,8 +334,8 @@ product).
 
 | Track 1 | RTV-Score | | Track 2 | RTV-Score |
 |---|---|---|---|---|
-| lucy-2.5 (lens P) | 47.4 | | happy-oyster | 50.5 |
-| xmax-x2.0 (lens P-browser) | 42.4 | | lingbot | 29.3 |
+| lucy-2.5 (lens P) | 47.0 | | happy-oyster | 47.6 |
+| xmax-x2.0 (lens P-browser) | 42.5 | | lingbot | 37.6 |
 
 | axis | lucy-2.5·P | xmax-x2.0·P-browser |
 |---|---|---|
@@ -338,13 +345,13 @@ product).
 | D live editing | 84.8 | 54.0 |
 | E latency | - | 58.0 |
 | F deploy-CN | 50 | 100 |
-| G ref control | 42.6 | 50.5 |
+| G ref control | 40.7 | 50.5 |
 
 | profile | lucy-2.5·P | xmax-x2.0·P-browser |
 |---|---|---|
-| CREATOR-GLOBAL | 78.1 | 40.5 |
-| LAB | 74.7 | 46.3 |
-| STREAMER-CN | 67.7 | 59.9 |
+| CREATOR-GLOBAL | 77.7 | 40.5 |
+| LAB | 74.4 | 46.3 |
+| STREAMER-CN | 67.3 | 59.9 |
 
 ### Sub-metric drill-down
 
@@ -354,17 +361,17 @@ product).
 | A | long-session value | 8.3 | 55.6 |
 | A | time-to-first-frame score | 76.0 | 100 |
 | B | pairwise wins (exhibit) | 97.9 | 2.1 |
-| B' | artifact score | 31.9 | 21.5 |
-| B' | artifact burden /18 (lower better) | 12.2 | 14.1 |
+| B' | artifact score | 31.9 | 22.2 |
+| B' | artifact burden /18 (lower better) | 12.2 | 14 |
 | C | scene/identity drift | 100 | 72.1 |
 | C | face through edits | 83.8 | 100 |
 | D | aggregate | 84.8 | 54.0 |
 | E | motion-to-glass score | - | 58.0 |
 | F | CN-market | 50 | 100 |
-| G | adoption (full matrix) | 60.0 | 37.5 |
+| G | adoption (full matrix) | 56.7 | 37.5 |
 | G | anchored hold | 50.0 | 66.7 |
-| G | mid-video switch | 46.4 | 56.1 |
-| G | · switch in-session | 46.4 | 0.0 |
+| G | mid-video switch | 43.4 | 56.1 |
+| G | · switch in-session | 43.4 | 0.0 |
 | G | · switch re-session mech | - | 56.1 |
 | G | edit on anchored character | 0.0 | 50.0 |
 

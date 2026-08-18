@@ -12,50 +12,50 @@
     "sim_ref_post_mean": null,
     "sim_ref2_post_mean": null,
     "sim_input_post_mean": null,
-    "sim_ref_pre_mean": 0.498
+    "sim_ref_pre_mean": 0.3653
   },
   "timeline": [
     {
       "t": 1.0,
-      "sim_input": 0.9053,
-      "sim_ref": 0.0287,
-      "sim_ref2": 0.0784
+      "sim_input": 0.9061,
+      "sim_ref": 0.0435,
+      "sim_ref2": 0.0743
     },
     {
       "t": 3.0,
-      "sim_input": 0.1024,
-      "sim_ref": 0.7167,
-      "sim_ref2": 0.0399
+      "sim_input": 0.8539,
+      "sim_ref": 0.0456,
+      "sim_ref2": 0.0852
     },
     {
       "t": 5.0,
-      "sim_input": 0.0918,
-      "sim_ref": 0.4473,
-      "sim_ref2": 0.1058
+      "sim_input": 0.0512,
+      "sim_ref": 0.3967,
+      "sim_ref2": 0.0236
     },
     {
       "t": 7.0,
-      "sim_input": 0.1111,
-      "sim_ref": 0.5734,
-      "sim_ref2": 0.0716
+      "sim_input": 0.1163,
+      "sim_ref": 0.5818,
+      "sim_ref2": 0.0426
     },
     {
       "t": 9.0,
-      "sim_input": 0.1111,
-      "sim_ref": 0.5734,
-      "sim_ref2": 0.0716
+      "sim_input": 0.0839,
+      "sim_ref": 0.4843,
+      "sim_ref2": 0.0467
     },
     {
       "t": 11.0,
-      "sim_input": 0.1111,
-      "sim_ref": 0.5734,
-      "sim_ref2": 0.0716
+      "sim_input": 0.1381,
+      "sim_ref": 0.4254,
+      "sim_ref2": 0.0662
     },
     {
       "t": 13.0,
-      "sim_input": 0.1111,
-      "sim_ref": 0.5734,
-      "sim_ref2": 0.0716
+      "sim_input": 0.0733,
+      "sim_ref": 0.5798,
+      "sim_ref2": 0.0621
     }
   ]
 }

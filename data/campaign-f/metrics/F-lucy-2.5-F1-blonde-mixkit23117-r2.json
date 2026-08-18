@@ -7,73 +7,68 @@
     "ref": "ref-blonde.jpg",
     "ref2": null,
     "clip": "conform-mixkit23117.mp4",
-    "n_samples": 12,
+    "n_samples": 11,
     "apply_at_s": 1.0,
-    "sim_ref_post_mean": -0.0501,
+    "sim_ref_post_mean": -0.0516,
     "sim_ref2_post_mean": null,
-    "sim_input_post_mean": 0.0719,
+    "sim_input_post_mean": 0.0492,
     "sim_ref_pre_mean": null
   },
   "timeline": [
     {
       "t": 1.0,
-      "sim_input": 0.3384,
-      "sim_ref": -0.1085
+      "sim_input": 0.3119,
+      "sim_ref": -0.0541
     },
     {
       "t": 3.0,
-      "sim_input": -0.0463,
-      "sim_ref": 0.0195
+      "sim_input": 0.2385,
+      "sim_ref": -0.0954
     },
     {
       "t": 5.0,
-      "sim_input": -0.0248,
-      "sim_ref": -0.0801
+      "sim_input": -0.0077,
+      "sim_ref": 0.0814
     },
     {
       "t": 7.0,
-      "sim_input": 0.0958,
-      "sim_ref": -0.0545
+      "sim_input": 0.0024,
+      "sim_ref": -0.0165
     },
     {
       "t": 9.0,
-      "sim_input": 0.0958,
-      "sim_ref": -0.0545
+      "sim_input": -0.0071,
+      "sim_ref": 0.0303
     },
     {
       "t": 11.0,
-      "sim_input": 0.0958,
-      "sim_ref": -0.0545
+      "sim_input": 0.0219,
+      "sim_ref": -0.192
     },
     {
       "t": 13.0,
-      "sim_input": 0.0958,
-      "sim_ref": -0.0545
+      "sim_input": 0.041,
+      "sim_ref": -0.1249
     },
     {
       "t": 15.0,
-      "sim_input": 0.0958,
-      "sim_ref": -0.0545
+      "sim_input": 0.1283,
+      "sim_ref": -0.0056
     },
     {
       "t": 17.0,
-      "sim_input": 0.0958,
-      "sim_ref": -0.0545
-    },
-    {
-      "t": 19.0,
-      "sim_input": 0.0958,
-      "sim_ref": -0.0545
+      "sim_input": 0.0571,
+      "sim_ref": -0.0779
     },
     {
       "t": 21.0,
-      "sim_input": 0.0958,
-      "sim_ref": -0.0545
+      "sim_input": 0.0335,
+      "sim_ref": -0.1128
     },
     {
       "t": 23.0,
-      "sim_input": 0.0958,
-      "sim_ref": -0.0545
+      "sim_input": -0.0156,
+      "sim_ref": -0.0022
     }
   ]
 }

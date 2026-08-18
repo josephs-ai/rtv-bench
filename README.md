@@ -23,33 +23,32 @@ sports and never share a ladder:
 
 | Track 1 · Interactive video | RTV-Score | | Track 2 · Interactive worlds | RTV-Score |
 |---|---|---|---|---|
-| **Lucy 2.5** (native) | **47.4** | | **Happy Oyster** | **50.5** |
-| Xmax X2.0 (native/browser) | 42.4 | | LingBot-World 2 | 29.3† |
+| **Lucy 2.5** (native) | **47.0** | | **Happy Oyster** | **47.6** |
+| Xmax X2.0 (native/browser) | 42.5 | | LingBot-World 2 | 37.6† |
 
 `RTV-Score = 100 × √delivery × (0.40·experience + 0.25·editing +
 0.20·ref-control + 0.15·latency)` — availability gates multiplicatively
 (√-damped for vantage fairness); the core uses only **absolute-anchored**
 components, so scores don't shift when the field changes. **v1.1 adds
 reference-image control as a scored axis** (campaign F, 130 sessions) —
-notably Xmax's first capability-axis win (50.5 vs 42.6) while Lucy leads
+notably Xmax's first capability-axis win (50.5 vs 40.7) while Lucy leads
 overall. Relative results — like Lucy's 64–0 blind head-to-head sweep —
 are published beside the ladder, never inside it.
 
-† LingBot's score is **flagged invalid (2026-08-18)**: the reference run
-anchored this image-anchored model on a degenerate synthetic seed image
-(a featureless mockup — the seed IS the world's visual identity), with
-transport corruption on top — benchmark-side stimulus/rig bugs caught by
-a human rater during judge calibration. (First diagnosis said the anchor
-was never sent; corrected same day — it was sent, but degenerate.) The
-score stays visible, struck, pending a proper-seed rerun
-(`spec/invocation-playbooks.md`, rule zero: our mistakes stay documented,
-not scrubbed).
+† LingBot's score is from the **proper-seed rerun** (2026-08-18): the
+original run anchored this image-anchored model on a degenerate synthetic
+seed — a benchmark-side bug caught by a human rater during judge
+calibration and fixed the same day (photographic seed, downlink gate,
+corruption screen; invalid rows excluded by scorer filter). Long-horizon
+consistency jumped from 0.69 to 0.83 once the handicap was removed. Full
+audit trail in `docs/RESULTS.md` — our mistakes stay documented, not
+scrubbed.
 
 | Buyer profile | Lucy 2.5 | Xmax X2.0 |
 |---|---|---|
-| STREAMER-CN (China live-avatar) | **67.7** | 59.9 |
-| CREATOR-GLOBAL (creative tool) | **78.1** | 40.5 |
-| LAB (unweighted capability) | **74.7** | 45.9 |
+| STREAMER-CN (China live-avatar) | **67.3** | 59.9 |
+| CREATOR-GLOBAL (creative tool) | **77.7** | 40.5 |
+| LAB (unweighted capability) | **74.4** | 46.3 |
 
 Buyer-weighted views (China-streaming, creative-tool), axis breakdowns,
 and every number's evidence: **[`docs/RESULTS.md`](docs/RESULTS.md)** ·

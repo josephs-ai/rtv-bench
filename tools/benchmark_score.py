@@ -560,10 +560,17 @@ def composite(out):
     art = {}
     try:
         import glob as _g, statistics as _s2
-        kf = sorted(_g.glob(os.path.join(REPO, "data", "vlm-judge-key",
-                                         "key-*.json")))[-1]
-        akey = {k: v["item"] for k, v in json.load(open(kf)).items()
-                if "item" in v}
+        # merge ALL key files: later judge runs (e.g. campaign-C re-judging)
+        # write new keys that don't contain the B-audit items - reading
+        # only the latest silently emptied the artifact axis (08-18)
+        akey = {}
+        for kf in sorted(_g.glob(os.path.join(REPO, "data", "vlm-judge-key",
+                                              "key*.json"))):
+            try:
+                akey.update({k: v["item"] for k, v in
+                             json.load(open(kf)).items() if "item" in v})
+            except Exception:
+                pass
         alat = {}
         for line in open(os.path.join(REPO, "data", "vlm-judge-audit",
                                       "records.jsonl")):

@@ -9,41 +9,41 @@
     "clip": "conform-mixkit2960.mp4",
     "n_samples": 5,
     "apply_at_s": 1.0,
-    "sim_ref_post_mean": 0.5867,
-    "sim_ref2_post_mean": -0.005,
-    "sim_input_post_mean": 0.0091,
+    "sim_ref_post_mean": 0.3117,
+    "sim_ref2_post_mean": 0.0075,
+    "sim_input_post_mean": 0.3613,
     "sim_ref_pre_mean": null
   },
   "timeline": [
     {
       "t": 1.0,
-      "sim_input": 0.7837,
-      "sim_ref": 0.0564,
-      "sim_ref2": 0.05
+      "sim_input": 0.8605,
+      "sim_ref": 0.0651,
+      "sim_ref2": 0.0032
     },
     {
       "t": 3.0,
-      "sim_input": 0.0091,
-      "sim_ref": 0.5867,
-      "sim_ref2": -0.005
+      "sim_input": 0.7849,
+      "sim_ref": 0.0222,
+      "sim_ref2": 0.0336
     },
     {
       "t": 5.0,
-      "sim_input": 0.0091,
-      "sim_ref": 0.5867,
-      "sim_ref2": -0.005
+      "sim_input": 0.6207,
+      "sim_ref": 0.0154,
+      "sim_ref2": 0.0158
     },
     {
       "t": 7.0,
-      "sim_input": 0.0091,
-      "sim_ref": 0.5867,
-      "sim_ref2": -0.005
+      "sim_input": 0.0194,
+      "sim_ref": 0.6332,
+      "sim_ref2": -0.0204
     },
     {
       "t": 9.0,
-      "sim_input": 0.0091,
-      "sim_ref": 0.5867,
-      "sim_ref2": -0.005
+      "sim_input": 0.0203,
+      "sim_ref": 0.5759,
+      "sim_ref2": 0.0012
     }
   ]
 }

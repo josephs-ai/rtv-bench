@@ -91,11 +91,23 @@ def main():
         fps = meta.get("fps") or 30.0
         n_frames = meta.get("frames", 0)
         span = n_frames / fps if fps else dur
+        # WALL vs FILE ratio fix (08-18, found by campaign-G review): lucy
+        # FFV1 is CFR-30-labelled at ~15 fps delivery, so ffmpeg -ss seeks
+        # FILE seconds while apply_at/timeline are WALL seconds. Convert
+        # only at the seek; xmax webm->mkv keeps real-time pts (ratio~1).
+        try:
+            fd = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
+                                 "format=duration", "-of", "csv=p=0", mkv],
+                                capture_output=True, text=True)
+            file_dur = float(fd.stdout.strip())
+        except Exception:
+            file_dur = 0.0
+        ratio = (file_dur / span) if (file_dur and span) else 1.0
         tl = []
         t = 1.0
         while t < min(span, dur) - 0.5:
             f = os.path.join(td, "f.png")
-            if frame_at(mkv, t, f):
+            if frame_at(mkv, t * ratio, f):
                 e = emb(f)
                 if e is not None:
                     s = {"t": round(t, 1),

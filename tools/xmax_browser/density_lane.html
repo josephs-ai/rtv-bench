@@ -1,0 +1,108 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>xmax density lane</title>
+<style>body{margin:0;background:#000}video{width:640px;height:360px;background:#111}</style>
+<video id="srcv" src="/clip.mp4" muted autoplay playsinline loop></video>
+<video id="out" muted autoplay playsinline></video>
+<canvas id="rec" width="1280" height="720" style="display:none"></canvas>
+<script src="./vendor/cos-umd.js"></script>
+<script type="importmap">
+{"imports": {
+  "@volcengine/rtc": "./vendor/volc-rtc.esm.js",
+  "cos-js-sdk-v5": "./vendor/cos-real.js",
+  "heic-to/csp": "./vendor/stub-heic.js"
+}}
+</script>
+<script type="module">
+/* Campaign G interaction-density lane driver (Lens P-browser).
+   ?key=tk-...&prompt=...&seconds=90&run=G-xmax-...
+   &edits=<url-encoded JSON [{"at":10,"text":"..."},...]>
+   Copy of native_lane.html with the single edit_at edit replaced by a
+   full schedule: each edit fires at its wall-time from stream-up via the
+   PROVEN flat-form session.set({prompt}) - {context:{prompt}} silently
+   no-ops mid-stream (mirror of the connect-time trap, see playbook).
+   Recording starts the moment connect() resolves (canvas rig, leading
+   black = ttff); 90 s fits memory so the chunked path is dropped and the
+   webm goes back in a single POST. */
+const q = new URLSearchParams(location.search);
+const seconds = parseFloat(q.get("seconds") || "90");
+const log = t => fetch("/log?m=" + encodeURIComponent(t)).catch(() => {});
+window.addEventListener("error", e => log("JS ERROR: " + e.message));
+window.addEventListener("unhandledrejection",
+                        e => log("REJECTION: " + (e.reason?.message || e.reason)));
+
+const srcv = document.getElementById("srcv");
+const out = document.getElementById("out");
+
+async function main() {
+  const key = q.get("key");
+  if (!key) { log("FATAL: no key"); return; }
+  let edits = [];
+  try { edits = JSON.parse(q.get("edits") || "[]"); }
+  catch (e) { log("FATAL: bad edits JSON: " + e.message); return; }
+  await srcv.play().catch(() => {});
+  // wait until the clip is actually decoding
+  await new Promise(r => srcv.readyState >= 2 ? r() : srcv.onloadeddata = r);
+  const {createXmaxClient, models} = await import("./vendor/index.js");
+  const client = createXmaxClient({apiKey: key});
+  const stream = srcv.captureStream(30);
+  const session = await client.realtime.connect(stream, {
+    model: models.realtime("x2.0"),
+    context: {prompt: q.get("prompt") || ""},
+    onRemoteStream: s => {
+      if (s.getVideoTracks().length > 0) { out.srcObject = s; log("stream up"); }
+    },
+  });
+  // Edit schedule: t counted on WALL TIME from stream-up (never frame
+  // counts - delivered fps drifts below the capture label). rec offset is
+  // logged alongside so the driver can map each send onto a capture frame
+  // (the recorder canvas runs at a steady 30 fps regardless of delivery).
+  let recStart = null;
+  const fire = (k, ed, tUp) => setTimeout(async () => {
+    const tSent = (performance.now() - tUp) / 1000;
+    const recS = recStart === null ? -1 : (performance.now() - recStart) / 1000;
+    try {
+      if (session && session.set) await session.set({prompt: ed.text});
+      else if (client.realtime.set) await client.realtime.set({prompt: ed.text});
+      else throw new Error("no set() on session or realtime");
+      log("EDIT " + k + " SENT at " + tSent.toFixed(2) + "s rec="
+          + recS.toFixed(2) + "s: " + ed.text.slice(0, 60));
+    } catch (e) {
+      log("EDIT " + k + " FAILED at " + tSent.toFixed(2) + "s rec="
+          + recS.toFixed(2) + "s: " + (e && e.message));
+    }
+  }, ed.at * 1000);
+  const waitUp = setInterval(() => {
+    if (out.srcObject) {
+      clearInterval(waitUp);
+      const tUp = performance.now();
+      edits.forEach((ed, k) => fire(k, ed, tUp));
+      log("edit schedule armed (" + edits.length + " edits)");
+    }
+  }, 200);
+  log("connected");
+  // A <video> with no srcObject emits no frames, so captureStream on it
+  // would start the file at first REAL frame and destroy the ttff signal.
+  // A canvas emits frames unconditionally: black until the stream lands,
+  // so the leading black run in the file IS the ttff measurement.
+  const cv = document.getElementById("rec"), ctx = cv.getContext("2d");
+  (function draw(){ ctx.drawImage(out, 0, 0, 1280, 720);
+                    requestAnimationFrame(draw); })();
+  const rec = new MediaRecorder(cv.captureStream(30),
+      {mimeType: "video/webm;codecs=vp8", videoBitsPerSecond: 12_000_000});
+  const run = q.get("run") || "0";
+  const chunks = [];
+  rec.ondataavailable = e => chunks.push(e.data);
+  const done = new Promise(res => rec.onstop = res);
+  rec.start();
+  recStart = performance.now();
+  log("recording " + seconds + "s");
+  await new Promise(r => setTimeout(r, seconds * 1000));
+  rec.stop(); await done;
+  const blob = new Blob(chunks, {type: "video/webm"});
+  log("uploading " + (blob.size / 1e6).toFixed(1) + "MB");
+  await fetch("/upload?run=" + run, {method: "POST", body: blob});
+  log("DONE");
+}
+main().catch(e => log("FATAL: " + (e && e.message)));
+</script>

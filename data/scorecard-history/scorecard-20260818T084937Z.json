@@ -1,0 +1,536 @@
+{
+  "benchmark": "RTV-Bench",
+  "spec": "1.0",
+  "reliability": {
+    "lucy-2.5 (lens P)": {
+      "N": 46,
+      "S": 27,
+      "D": 13,
+      "F": 6,
+      "T": 0,
+      "excluded_E": 50,
+      "clean_rate": 0.587,
+      "clean_ci95": [
+        0.443,
+        0.717
+      ],
+      "fail_rate": 0.13,
+      "fail_ci95": [
+        0.061,
+        0.257
+      ]
+    },
+    "xmax-x2.0 (lens M)": {
+      "N": 113,
+      "S": 53,
+      "D": 43,
+      "F": 17,
+      "T": 0,
+      "excluded_E": 76,
+      "clean_rate": 0.469,
+      "clean_ci95": [
+        0.38,
+        0.561
+      ],
+      "fail_rate": 0.15,
+      "fail_ci95": [
+        0.096,
+        0.228
+      ]
+    },
+    "xmax-x2.0 (lens P-browser)": {
+      "N": 91,
+      "S": 23,
+      "D": 68,
+      "F": 0,
+      "T": 0,
+      "excluded_E": 0,
+      "clean_rate": 0.253,
+      "clean_ci95": [
+        0.175,
+        0.351
+      ],
+      "fail_rate": 0.0,
+      "fail_ci95": [
+        0,
+        0.041
+      ]
+    }
+  },
+  "pairwise_quality": {
+    "pairs": 64,
+    "clip_majority": {
+      "lucy-2.5": 64
+    },
+    "dimensions": {
+      "E1": {
+        "lucy-2.5": 64
+      },
+      "E2": {
+        "lucy-2.5": 60,
+        "xmax-x2.0": 4
+      },
+      "E3": {
+        "lucy-2.5": 61,
+        "tie": 3
+      },
+      "E4": {
+        "lucy-2.5": 64
+      }
+    }
+  },
+  "live_editing": {
+    "lucy-2.5": {
+      "accessory": {
+        "n": 3,
+        "commit_latency_s_med": 1.24,
+        "committed_frac": 1.0,
+        "collateral_med": 0.263,
+        "residue_med": 0.761,
+        "hold_med": 1.0,
+        "transition_glitch_excess_med": 0.0,
+        "judged": 3,
+        "judge_full_apply": 1.0,
+        "judge_residue_med": 1,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 2,
+        "judge_holds": 1.0
+      },
+      "background": {
+        "n": 6,
+        "commit_latency_s_med": 1.36,
+        "committed_frac": 0.67,
+        "collateral_med": 0.408,
+        "residue_med": 0.565,
+        "hold_med": 1.0,
+        "transition_glitch_excess_med": 0.0,
+        "judged": 6,
+        "judge_full_apply": 1.0,
+        "judge_residue_med": 1,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 2,
+        "judge_holds": 1.0
+      },
+      "character": {
+        "n": 6,
+        "commit_latency_s_med": 3.44,
+        "committed_frac": 1.0,
+        "collateral_med": 0.338,
+        "residue_med": 0.845,
+        "hold_med": 1.0,
+        "transition_glitch_excess_med": 0.029,
+        "judged": 6,
+        "judge_full_apply": 1.0,
+        "judge_residue_med": 1,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 2,
+        "judge_holds": 1.0
+      },
+      "garment": {
+        "n": 6,
+        "commit_latency_s_med": 1.36,
+        "committed_frac": 1.0,
+        "collateral_med": 0.167,
+        "residue_med": 0.639,
+        "hold_med": 0.994,
+        "transition_glitch_excess_med": 0.0,
+        "judged": 6,
+        "judge_full_apply": 1.0,
+        "judge_residue_med": 1,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 1,
+        "judge_holds": 1.0
+      },
+      "hair": {
+        "n": 3,
+        "commit_latency_s_med": 8.31,
+        "committed_frac": 0.67,
+        "collateral_med": 0.425,
+        "residue_med": 0.917,
+        "hold_med": 0.346,
+        "transition_glitch_excess_med": 0.0,
+        "judged": 3,
+        "judge_full_apply": 1.0,
+        "judge_residue_med": 1,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 1,
+        "judge_holds": 0.67
+      },
+      "style": {
+        "n": 2,
+        "commit_latency_s_med": 4.55,
+        "committed_frac": 1.0,
+        "collateral_med": 0.0,
+        "residue_med": 0.481,
+        "hold_med": 1.0,
+        "transition_glitch_excess_med": 0.034,
+        "judged": 2,
+        "judge_full_apply": 1.0,
+        "judge_residue_med": 0,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 3,
+        "judge_holds": 1.0
+      }
+    },
+    "xmax-x2.0": {
+      "accessory": {
+        "n": 3,
+        "commit_latency_s_med": 13.4,
+        "committed_frac": 0.33,
+        "collateral_med": 0.758,
+        "residue_med": 0.985,
+        "hold_med": 1.0,
+        "transition_glitch_excess_med": 0.027,
+        "judged": 3,
+        "judge_full_apply": 0.0,
+        "judge_residue_med": 3,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 2,
+        "judge_holds": 0.0
+      },
+      "background": {
+        "n": 6,
+        "commit_latency_s_med": 1.0,
+        "committed_frac": 0.5,
+        "collateral_med": 0.984,
+        "residue_med": 0.994,
+        "hold_med": 1.0,
+        "transition_glitch_excess_med": 0.054,
+        "judged": 6,
+        "judge_full_apply": 0.5,
+        "judge_residue_med": 2,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 1,
+        "judge_holds": 0.67
+      },
+      "garment": {
+        "n": 6,
+        "commit_latency_s_med": 6.6,
+        "committed_frac": 1.0,
+        "collateral_med": 0.397,
+        "residue_med": 0.74,
+        "hold_med": 0.909,
+        "transition_glitch_excess_med": 0.027,
+        "judged": 6,
+        "judge_full_apply": 0.33,
+        "judge_residue_med": 2,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 1,
+        "judge_holds": 0.83
+      },
+      "hair": {
+        "n": 3,
+        "commit_latency_s_med": null,
+        "committed_frac": 0.0,
+        "collateral_med": 0.955,
+        "residue_med": 0.991,
+        "hold_med": null,
+        "transition_glitch_excess_med": 0.0,
+        "judged": 3,
+        "judge_full_apply": 0.0,
+        "judge_residue_med": 3,
+        "judge_collateral_med": 1,
+        "judge_transition_med": 1,
+        "judge_holds": 0.0
+      },
+      "style": {
+        "n": 3,
+        "commit_latency_s_med": 1.0,
+        "committed_frac": 1.0,
+        "collateral_med": 0.0,
+        "residue_med": 0.519,
+        "hold_med": 1.0,
+        "transition_glitch_excess_med": 0.0,
+        "judged": 3,
+        "judge_full_apply": 1.0,
+        "judge_residue_med": 0,
+        "judge_collateral_med": 2,
+        "judge_transition_med": 1,
+        "judge_holds": 1.0
+      }
+    }
+  },
+  "platform_overhead_note": "xmax native vs via-Reactor delta ~650-710 ms; see docs/final-report.md",
+  "track2_composite": {
+    "happy-oyster": {
+      "score": 48.7,
+      "parts": {
+        "adherence": 50.0,
+        "physics": 25.0,
+        "long_horizon": 44.9,
+        "steering": 90,
+        "build_speed": 39.9
+      },
+      "coverage_pct": 100.0
+    },
+    "lingbot": {
+      "score": 46.0,
+      "parts": {
+        "adherence": 25.0,
+        "physics": 25.0,
+        "long_horizon": 70.2,
+        "steering": 40,
+        "build_speed": 100
+      },
+      "coverage_pct": 100.0
+    }
+  },
+  "artifact_burden": {},
+  "rtvbench_score": {
+    "track1": {
+      "lucy-2.5 (lens P)": {
+        "score": 66.1,
+        "delivery": 0.543,
+        "coverage_pct": 65.0
+      },
+      "xmax-x2.0 (lens P-browser)": {
+        "score": 55.5,
+        "delivery": 0.626,
+        "coverage_pct": 80.0
+      }
+    },
+    "track2": {
+      "happy-oyster": {
+        "score": 47.6,
+        "build_success": 0.85,
+        "build_speed_s_exhibited": 138,
+        "coverage_pct": 100.0
+      },
+      "lingbot": {
+        "score": 37.6,
+        "build_success": 0.91,
+        "build_speed_s_exhibited": 55,
+        "coverage_pct": 100.0
+      }
+    },
+    "formula": "100*sqrt(delivery)*(0.40*experience+0.25*interaction+0.20*ref_control+0.15*latency); experience = mean(identity, artifact-burden); absolute components only; v1.1 adds ref_control (campaign F)"
+  },
+  "composite": {
+    "axis_weights": {
+      "A": {
+        "value_rate": 0.5,
+        "long_value_rate": 0.35,
+        "ttff": 0.15
+      },
+      "B": {
+        "pairwise": 0.6,
+        "artifact": 0.4
+      },
+      "C": {
+        "drift": 0.55,
+        "face_through_edits": 0.45
+      },
+      "D": {
+        "apply": 0.3,
+        "commit": 0.25,
+        "precision": 0.2,
+        "hold": 0.15,
+        "transition": 0.1
+      },
+      "G": {
+        "adoption": 0.35,
+        "hold": 0.2,
+        "switch": 0.25,
+        "compose": 0.2
+      }
+    },
+    "edit_relevance": {
+      "garment": 20,
+      "style": 20,
+      "character": 20,
+      "hair": 15,
+      "background": 15,
+      "accessory": 10
+    },
+    "profiles": {
+      "STREAMER-CN": {
+        "A": 20,
+        "B": 10,
+        "C": 15,
+        "D": 20,
+        "E": 5,
+        "F": 10,
+        "G": 20
+      },
+      "CREATOR-GLOBAL": {
+        "A": 15,
+        "B": 35,
+        "C": 10,
+        "D": 15,
+        "E": 10,
+        "F": 0,
+        "G": 15
+      },
+      "LAB": {
+        "A": 20,
+        "B": 25,
+        "C": 10,
+        "D": 20,
+        "E": 10,
+        "F": 0,
+        "G": 15
+      }
+    },
+    "floors": [
+      "reliability floor: total capped at A+15",
+      "identity floor: capped at 55"
+    ],
+    "entities": {
+      "lucy-2.5 (lens P)": {
+        "axes": {
+          "A": 50.7,
+          "B": 97.9,
+          "C": 92.7,
+          "D": 84.8,
+          "E": null,
+          "F": 50,
+          "G": null
+        },
+        "profiles": {
+          "STREAMER-CN": {
+            "score": 74.4,
+            "coverage_pct": 75.0,
+            "caps_applied": []
+          },
+          "CREATOR-GLOBAL": {
+            "score": 85.1,
+            "coverage_pct": 75.0,
+            "caps_applied": []
+          },
+          "LAB": {
+            "score": 81.1,
+            "coverage_pct": 75.0,
+            "caps_applied": []
+          }
+        },
+        "subs": {
+          "A": {
+            "value_rate": 72.8,
+            "long_value_rate": 8.3,
+            "ttff": 76.0
+          },
+          "B": {
+            "pairwise": 97.9,
+            "artifact": null
+          },
+          "C": {
+            "drift": 100,
+            "face_through_edits": 83.8
+          },
+          "D": {
+            "aggregate": 84.8
+          },
+          "E": {
+            "motion_to_glass": null
+          },
+          "F": {
+            "cn_market": 50
+          }
+        },
+        "notes": [
+          "B.artifact N/A (audit blinding key overwritten); B=pairwise only",
+          "E N/A (not instrumented on this lens); renormalized"
+        ]
+      },
+      "xmax-x2.0 (lens M)": {
+        "axes": {
+          "A": 52.6,
+          "B": null,
+          "C": null,
+          "D": null,
+          "E": null,
+          "F": 50,
+          "G": null
+        },
+        "profiles": {
+          "STREAMER-CN": {
+            "score": 51.7,
+            "coverage_pct": 30.0,
+            "caps_applied": []
+          },
+          "CREATOR-GLOBAL": {
+            "score": 52.6,
+            "coverage_pct": 15.0,
+            "caps_applied": []
+          },
+          "LAB": {
+            "score": 52.6,
+            "coverage_pct": 20.0,
+            "caps_applied": []
+          }
+        },
+        "subs": {
+          "A": {
+            "value_rate": 65.9,
+            "long_value_rate": 13.2,
+            "ttff": 100
+          },
+          "E": {
+            "motion_to_glass": null
+          },
+          "F": {
+            "cn_market": 50
+          }
+        },
+        "notes": [
+          "E N/A (not instrumented on this lens); renormalized"
+        ]
+      },
+      "xmax-x2.0 (lens P-browser)": {
+        "axes": {
+          "A": 65.8,
+          "B": 2.1,
+          "C": 84.7,
+          "D": 54.0,
+          "E": 58.0,
+          "F": 100,
+          "G": null
+        },
+        "profiles": {
+          "STREAMER-CN": {
+            "score": 62.2,
+            "coverage_pct": 80.0,
+            "caps_applied": []
+          },
+          "CREATOR-GLOBAL": {
+            "score": 38.8,
+            "coverage_pct": 85.0,
+            "caps_applied": []
+          },
+          "LAB": {
+            "score": 45.6,
+            "coverage_pct": 85.0,
+            "caps_applied": []
+          }
+        },
+        "subs": {
+          "A": {
+            "value_rate": 62.6,
+            "long_value_rate": 55.6,
+            "ttff": 100
+          },
+          "B": {
+            "pairwise": 2.1,
+            "artifact": null
+          },
+          "C": {
+            "drift": 72.1,
+            "face_through_edits": 100
+          },
+          "D": {
+            "aggregate": 54.0
+          },
+          "E": {
+            "motion_to_glass": 58.0
+          },
+          "F": {
+            "cn_market": 100
+          }
+        },
+        "notes": [
+          "B.artifact N/A (audit blinding key overwritten); B=pairwise only"
+        ]
+      }
+    }
+  }
+}

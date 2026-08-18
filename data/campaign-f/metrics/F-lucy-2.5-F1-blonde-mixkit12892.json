@@ -9,41 +9,41 @@
     "clip": "conform-mixkit12892.mp4",
     "n_samples": 6,
     "apply_at_s": 1.0,
-    "sim_ref_post_mean": 0.5445,
+    "sim_ref_post_mean": 0.5503,
     "sim_ref2_post_mean": null,
-    "sim_input_post_mean": -0.0277,
+    "sim_input_post_mean": -0.0121,
     "sim_ref_pre_mean": null
   },
   "timeline": [
     {
       "t": 1.0,
-      "sim_input": -0.016,
-      "sim_ref": 0.5762
+      "sim_input": 0.8932,
+      "sim_ref": 0.0393
     },
     {
       "t": 3.0,
-      "sim_input": -0.0277,
-      "sim_ref": 0.5445
+      "sim_input": -0.016,
+      "sim_ref": 0.573
     },
     {
       "t": 5.0,
-      "sim_input": -0.0277,
-      "sim_ref": 0.5445
+      "sim_input": -0.0014,
+      "sim_ref": 0.5613
     },
     {
       "t": 7.0,
-      "sim_input": -0.0277,
-      "sim_ref": 0.5445
+      "sim_input": -0.007,
+      "sim_ref": 0.5238
     },
     {
       "t": 9.0,
-      "sim_input": -0.0277,
-      "sim_ref": 0.5445
+      "sim_input": -0.0212,
+      "sim_ref": 0.5464
     },
     {
       "t": 11.0,
-      "sim_input": -0.0277,
-      "sim_ref": 0.5445
+      "sim_input": -0.0149,
+      "sim_ref": 0.5469
     }
   ]
 }

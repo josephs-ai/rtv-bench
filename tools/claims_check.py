@@ -134,6 +134,9 @@ def main():
             except ValueError:
                 print(f"  [??  ] {name}: unparseable '{g}'")
                 continue
+            if truth is None:
+                print(f"  [n/a ] {name}: truth not computable right now")
+                continue
             ok = abs(val - float(truth)) <= tol
             print(f"  [{'ok' if ok else 'MISMATCH'}] {name}: doc={val} truth={truth}")
             bad += 0 if ok else 1

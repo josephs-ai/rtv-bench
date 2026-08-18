@@ -17,8 +17,8 @@
   "timeline": [
     {
       "t": 1.0,
-      "sim_input": -0.0726,
-      "sim_ref": 0.5001
+      "sim_input": 0.8851,
+      "sim_ref": 0.0033
     }
   ]
 }
