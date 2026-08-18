@@ -160,6 +160,13 @@ wizard instead of erroring.
 Every stage journals and resumes; rerunning is always safe. The wizard
 ends by telling you which campaigns your keys unlock.
 
+## Open contributions
+
+Two ready-to-run datapoints await anyone with an hour: a **second
+vantage** (cloud VM, `docs/MULTI-VANTAGE.md`) and **judge-calibration
+ratings** (blinded browser UI, `docs/SUBMITTING.md` §standing open
+contributions). Tooling is complete; results slot in as first-class data.
+
 ## Add a product
 
 Implement one adapter (`connect / run / close`, frames via `frame_tap`) —

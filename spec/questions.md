@@ -76,13 +76,13 @@ P-browser; lens M = via-Reactor), LingBot-World 2, Happy Oyster.
 | # | question | campaign/arm | stimulus | instrument | metric | records | status |
 |---|---|---|---|---|---|---|---|
 | Q6.1 | Reachable from mainland China? | deploy probe | — | route/DNS/VPN matrix | direct / VPN-viable / blocked | vantage records | answered |
-| Q6.2 | Do results reproduce from a second vantage? | core suite on a cloud VM | stimulus pack (hash-verified) | full instrument chain | per-vantage scorecard, Lucy clean-route latency | `docs/MULTI-VANTAGE.md` runbook + future submission | pending (needs a second machine — 30-min runbook ready) |
+| Q6.2 | Do results reproduce from a second vantage? | core suite on a cloud VM | stimulus pack (hash-verified) | full instrument chain | per-vantage scorecard, Lucy clean-route latency | `docs/MULTI-VANTAGE.md` runbook + future submission | pending — **open community contribution** (tooling complete: `docs/MULTI-VANTAGE.md` runbook; ~30 min + a cloud VM) |
 
 ### Q8. Instrument trust
 
 | # | question | campaign/arm | stimulus | instrument | metric | records | status |
 |---|---|---|---|---|---|---|---|
-| Q8.1 | Does the VLM judge agree with humans? | blinded rating study | judged clips re-blinded | `rating_session.py` + `alpha_report.py` | Krippendorff α (judge-human, human-human, intra-rater) ≥ 0.67 gate | `data/judge-calibration.json` | pending (α tool built; needs a real human rating session — existing journal is a UI dry-run, excluded) |
+| Q8.1 | Does the VLM judge agree with humans? | blinded rating study | judged clips re-blinded | `rating_session.py` + `alpha_report.py` | Krippendorff α (judge-human, human-human, intra-rater) ≥ 0.67 gate | `data/judge-calibration.json` | pending — **open community contribution** (tooling complete: blinded rating UI + `alpha_report.py`; any rater can contribute, see `docs/SUBMITTING.md`) |
 | Q8.2 | Is A/V lip-sync scoreable? | speech-forward arm (unbuilt) | speech reads | FaceMesh offset (exists) — **requires audio-capturing pipeline; current captures are video-only (0/214 have A/V data)** | offset ms vs anchors | — | pending (pipeline spec'd; needs audio-track capture + new sessions) |
 | Q8.3 | How does quality degrade under bandwidth loss? | netshape arms | conform reel + shaped network | netshape machinery (exists from floor studies) + full instrument chain | quality-vs-bandwidth curve | — | pending (needs healthy network window; same gate as hour-scale) |
 

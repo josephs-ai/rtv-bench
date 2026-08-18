@@ -55,6 +55,24 @@ Declare the lens honestly (native / aggregator / browser-capture). First
 submissions for a new product get extra verification attention — expect
 questions.
 
+## Standing open contributions (tooling complete — bring a human or a VM)
+
+Two datapoints the maintainers deliberately left open; either is a
+complete, self-contained contribution:
+
+1. **Second vantage** (closes the last v1.2 critical-path gate): any
+   cloud VM + ~30 min + ~$40 of provider credits. Full runbook:
+   `docs/MULTI-VANTAGE.md`. Submit as above; your vantage is published as
+   a first-class dimension.
+2. **Judge calibration ratings** (turns the judge's trust gate from
+   asserted to measured): run
+   `.venv/bin/python tools/rating_session.py --rater <you> --session rating-<you> --captures data/campaign-c-gen`
+   — a blinded browser UI, ~30-45 min, ≥50 ratings is a solid session;
+   then `tools/alpha_report.py` computes Krippendorff α (judge-human,
+   human-human, intra-rater via hidden repeats) against the ≥0.67 gate.
+   Submit the journal + key dir. Multiple independent raters compound:
+   the report handles any number.
+
 ## Status of this protocol
 
 v0 — accepted via GitHub PRs to this repo, manually verified by the
