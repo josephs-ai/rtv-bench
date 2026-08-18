@@ -50,31 +50,50 @@ def krippendorff_alpha(units):
 
 
 def main():
-    # ---- human ratings ----
-    human = collections.defaultdict(dict)   # (dim,item) -> {rater: [scores]}
+    # ---- human ratings (blind ids translated to run_ids via key files:
+    # rating and judge runs blind independently, so the join is on the
+    # underlying item, never on the blind name) ----
+    human = collections.defaultdict(dict)   # (dim,run_id) -> {rater: [scores]}
     n_rows = 0
     raters = set()
     for jp in glob.glob(os.path.join(REPO, "data", "rating-*", "journal.jsonl")):
         if "dryrun" in jp:
             continue  # UI trial, pre-registered as non-evidence
+        sess = os.path.basename(os.path.dirname(jp))
+        kf = os.path.join(REPO, "data", sess + "-key", "key.json")
+        rkey = {}
+        if os.path.exists(kf):
+            rkey = {b: v.get("run_id") for b, v in
+                    json.load(open(kf)).items() if isinstance(v, dict)}
         for l in open(jp):
             r = json.loads(l)
             n_rows += 1
             raters.add(r["rater_id"])
-            key = (r["dimension"], r["blind_id"])
+            rid = rkey.get(r["blind_id"], r["blind_id"])
+            key = (r["dimension"], rid)
             human[key].setdefault(r["rater_id"], []).append(r["score"])
 
-    # ---- judge scores on the same blinded items ----
+    # ---- judge scores, translated to run_ids via the judge key files ----
+    jkey = {}
+    for kf in glob.glob(os.path.join(REPO, "data", "vlm-judge-key",
+                                     "key*.json")):
+        for b, v in json.load(open(kf)).items():
+            if isinstance(v, dict):
+                item = v.get("item", v)
+                rid = item.get("run_id")
+                if rid:
+                    jkey[b] = rid
     judge = {}
     for jp in glob.glob(os.path.join(REPO, "data", "vlm-judge-*",
                                      "records.jsonl")):
         for l in open(jp):
             r = json.loads(l)
             res = r.get("result")
+            rid = jkey.get(r.get("blind_id"), r.get("blind_id"))
             if isinstance(res, dict):
                 for dim, v in res.items():
                     if isinstance(v, (int, float)):
-                        judge[(dim, r.get("blind_id"))] = v
+                        judge[(dim, rid)] = v
 
     out = {"human_rows": n_rows, "raters": sorted(raters),
            "verdict": None, "alphas": {}}

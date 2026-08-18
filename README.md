@@ -18,7 +18,7 @@ sports and never share a ladder:
 | Track 1 · Interactive video | RTV-Score | | Track 2 · Interactive worlds | RTV-Score |
 |---|---|---|---|---|
 | **Lucy 2.5** (native) | **47.4** | | **Happy Oyster** | **50.5** |
-| Xmax X2.0 (native/browser) | 42.4 | | LingBot-World 2 | 29.3 |
+| Xmax X2.0 (native/browser) | 42.4 | | LingBot-World 2 | 29.3† |
 
 `RTV-Score = 100 × √delivery × (0.40·experience + 0.25·editing +
 0.20·ref-control + 0.15·latency)` — availability gates multiplicatively
@@ -28,6 +28,13 @@ reference-image control as a scored axis** (campaign F, 130 sessions) —
 notably Xmax's first capability-axis win (50.5 vs 42.6) while Lucy leads
 overall. Relative results — like Lucy's 64–0 blind head-to-head sweep —
 are published beside the ladder, never inside it.
+
+† LingBot's score is **flagged invalid (2026-08-18)**: the reference run
+drove this image-anchored model without its required `set_image` anchor —
+a benchmark-side invocation bug caught by a human rater during judge
+calibration. It stays visible, struck, pending a correct-invocation rerun
+(`spec/invocation-playbooks.md`, rule zero: our mistakes stay documented,
+not scrubbed).
 
 | Buyer profile | Lucy 2.5 | Xmax X2.0 |
 |---|---|---|

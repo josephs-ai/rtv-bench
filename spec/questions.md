@@ -92,12 +92,12 @@ P-browser; lens M = via-Reactor), LingBot-World 2, Happy Oyster.
 
 | # | question | campaign/arm | stimulus | instrument | metric | records | status |
 |---|---|---|---|---|---|---|---|
-| Q7.1 | Did it build what was asked? | C (prompt battery) | world-prompts w/ checkable assertions | assertion checks + blinded judge | adherence | `data/campaign-c-gen/` | answered (HO via dedicated SDK; LingBot 19/21 frames) |
-| Q7.2 | Is the physics plausible? | C | same | judge + computed physics | physics score | same | answered |
-| Q7.3 | Object permanence? | C | same | judge | permanence | same | answered |
-| Q7.4 | Same world after a minute? | C long-horizon | same | judged + computed blend | long-horizon hold | same | answered |
-| Q7.5 | Does a text direction steer the story? | C steering (instruct) | steer prompts | judge | steering | same | answered |
-| Q7.6 | Build speed? | C | — | wall-clock | s | same | answered (exhibited, not scored) |
+| Q7.1 | Did it build what was asked? | C (prompt battery) | world-prompts w/ checkable assertions | assertion checks + blinded judge | adherence | `data/campaign-c-gen/` | partial (HO valid; **LingBot rows INVALID — driven without required set_image anchor, rerun needed**) |
+| Q7.2 | Is the physics plausible? | C | same | judge + computed physics | physics score | same | partial (HO valid; **LingBot rows INVALID — driven without required set_image anchor, rerun needed**) |
+| Q7.3 | Object permanence? | C | same | judge | permanence | same | partial (HO valid; **LingBot rows INVALID — driven without required set_image anchor, rerun needed**) |
+| Q7.4 | Same world after a minute? | C long-horizon | same | judged + computed blend | long-horizon hold | same | partial (HO valid; **LingBot rows INVALID — driven without required set_image anchor, rerun needed**) |
+| Q7.5 | Does a text direction steer the story? | C steering (instruct) | steer prompts | judge | steering | same | partial (HO valid; **LingBot rows INVALID — driven without required set_image anchor, rerun needed**) |
+| Q7.6 | Build speed? | C | — | wall-clock | s | same | partial (HO valid; **LingBot rows INVALID — driven without required set_image anchor, rerun needed**) |
 
 Track 2 moves to **maintenance mode after boss sign-off** (user decision:
 focus on realtime videogen).

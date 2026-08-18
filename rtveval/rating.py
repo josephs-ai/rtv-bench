@@ -92,9 +92,10 @@ def normalize_and_blind(items: Sequence[RatingItem], secret: bytes,
     for item in items:
         bid = blind_id(secret, item.product_key, item.run_id)
         out = os.path.join(out_dir, bid + ".mp4")
-        runner(["ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
-                "-i", item.capture_path, "-vf", vf, *NORMALIZE_ARGS, out],
-               check=True)
+        if not (os.path.exists(out) and os.path.getsize(out) > 0):
+            runner(["ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
+                    "-i", item.capture_path, "-vf", vf, *NORMALIZE_ARGS, out],
+                   check=True)
         clips.append(BlindClip(bid, out, item.clip_id))
         key[bid] = {"product_key": item.product_key, "run_id": item.run_id}
 

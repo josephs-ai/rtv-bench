@@ -37,7 +37,8 @@ PAGE = """<!doctype html>
  #top{padding:10px 16px;color:#9aa3b8;font-size:13px}
  #main{display:flex;flex:1;min-height:0;gap:12px;padding:0 16px 16px}
  video{flex:1;min-width:0;background:#000;border-radius:12px;
-   border:1px solid var(--line);object-fit:contain}
+   border:1px solid var(--line);object-fit:contain;
+   aspect-ratio:16/9;align-self:center;max-height:100%}
  #panel{width:430px;overflow-y:auto;background:var(--panel);
    border:1px solid var(--line);border-radius:12px;padding:16px}
  h3{margin:.2rem 0 .6rem;font-size:15px}
@@ -110,8 +111,8 @@ def build(args):
                                 session_plan)
     from rtveval.vlm_judge import DIMENSION_SETS
 
-    outdir = os.path.join(REPO, "data", "rating-dryrun")
-    keydir = os.path.join(REPO, "data", "rating-dryrun-key")
+    outdir = os.path.join(REPO, "data", args.session)
+    keydir = os.path.join(REPO, "data", args.session + "-key")
     clipdir = os.path.join(outdir, "clips")
     os.makedirs(keydir, exist_ok=True)
 
@@ -137,11 +138,21 @@ def build(args):
         run_id = os.path.basename(mkv)
         items.append(RatingItem(meta.get("product", "?"), run_id, mkv,
                                 clip_id=meta.get("content", run_id)))
-        prompts[run_id] = meta.get("prompt")
+        prompts[run_id] = (meta.get("prompt") or meta.get("world_description")
+                           or meta.get("instruction"))
+        if meta.get("directing"):
+            prompts[run_id] = (prompts[run_id] or "") + \
+                "\n[mid-run direction] " + str(meta["directing"])
     if not items:
         print("no usable captures"); return None
 
-    secret = os.urandom(16)
+    secret_p = os.path.join(keydir, "secret.bin")
+    if os.path.exists(secret_p):
+        secret = open(secret_p, "rb").read()
+    else:
+        secret = os.urandom(16)
+        with open(secret_p, "wb") as sf:
+            sf.write(secret)
     clips = normalize_and_blind(items, secret, clipdir,
                                 os.path.join(keydir, "key.json"),
                                 display=(1280, 720), crop_margin=0.07)
@@ -166,6 +177,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rater", required=True)
     ap.add_argument("--seed", type=int, default=20260811)
+    ap.add_argument("--session", default="rating-dryrun",
+                    help="output dir under data/ (use rating-r1 for the "
+                         "REAL calibration run - alpha_report excludes "
+                         "anything named *dryrun*)")
     ap.add_argument("--captures", default=os.path.join(REPO, "data", "pilot-captures"))
     args = ap.parse_args()
 

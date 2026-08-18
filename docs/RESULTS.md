@@ -239,6 +239,16 @@ For a China-market product, the V2V field effectively has one entrant.
 
 ## Track 2 — Interactive worlds (LingBot-World 2 vs Happy Oyster)
 
+> **INVALIDATION NOTICE (2026-08-18).** All LingBot rows below are
+> **invalid tests**: the reference run drove this image-anchored model
+> without its required `set_image` reference anchor (Reactor model guide),
+> so its output degenerated out-of-contract — a benchmark-side invocation
+> bug (same class as the retracted 08-15 ref-image claim), caught when a
+> human rater flagged macroblock corruption during the judge-calibration
+> session. LingBot numbers remain visible for the record but carry no
+> comparative weight until a correct-invocation rerun. Happy Oyster rows
+> are unaffected (dedicated SDK, documented flow, captures verified clean).
+
 **Track-2 RTV-Score** = 100 × √(build-success) × (adherence 35 /
 long-horizon 25 / physics 20 / steering 20): **Happy Oyster 50.5 ·
 LingBot 29.3** — HO's adherence, hold, and steering outweigh LingBot's
