@@ -193,16 +193,28 @@ async def main_async(args):
                     print("skip (exists):", name)
                     continue
                 prompt = lb_prompt if product == "lingbot" else ho_prompt
-                # uplink gate: the 48fps 1664x960 stream smears into
-                # macroblock garbage on a sagged tunnel (08-18 finding) -
-                # hold rather than capture corruption
+                # DOWNLINK gate: generation streams flow DOWN to us -
+                # sender ABR crushes bitrate into macroblock mush when the
+                # receive path is congested (08-18 finding; original gate
+                # measured uplink, the wrong direction for this campaign)
                 if args.min_mbps:
-                    from tools.campaign_b import upload_mbps
+                    import subprocess as _sp
                     while True:
-                        mbps = upload_mbps()
+                        r_ = _sp.run(["curl", "-sL", "-o", "/dev/null",
+                                      "-w", "%{speed_download}",
+                                      "--max-time", "20",
+                                      "https://codeload.github.com/git/git/"
+                                      "tar.gz/refs/tags/v2.39.0"],
+                                     capture_output=True, text=True)
+                        try:
+                            mbps = float(r_.stdout.strip()) * 8 / 1e6
+                        except ValueError:
+                            mbps = 0.0
                         if mbps >= args.min_mbps:
+                            print("downlink %.1f Mbps >= %.0f - go" % (
+                                mbps, args.min_mbps), flush=True)
                             break
-                        print("uplink %.1f < %.0f Mbps - holding 5 min"
+                        print("downlink %.1f < %.0f Mbps - holding 5 min"
                               % (mbps, args.min_mbps), flush=True)
                         await asyncio.sleep(300)
                 print("capture %s ..." % name)

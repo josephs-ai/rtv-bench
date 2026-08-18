@@ -39,6 +39,10 @@ def truths():
               "happy-oyster" if m["run_id"].startswith("happy-oyster") else None)
         if not pk:
             continue
+        # lingbot r1-r3 = invalidated reference-run rows (degenerate seed,
+        # 08-18); only proper-seed reruns (r4+) count
+        if pk == "lingbot" and re.search(r"-r[123]\b", m["run_id"]):
+            continue
         v = m.get("vbench", {})
         for k, kk in (("sc", "subject_consistency"), ("fl", "temporal_flickering")):
             if v.get(kk) is not None:

@@ -489,9 +489,15 @@ def composite(out):
                 r = json.loads(line)
                 jlat[r["blind_id"]] = r
         jsc = collections.defaultdict(lambda: collections.defaultdict(list))
+        import re as _re2
+        def _valid_run(it):
+            rid_ = it.get("run_id", "")
+            # lingbot r1-r3 = invalidated (degenerate seed, 08-18)
+            return not (rid_.startswith("lingbot")
+                        and _re2.search(r"-r[123]\b", rid_))
         for bid, r in jlat.items():
             it = jkey.get(bid)
-            if not it:
+            if not it or not _valid_run(it):
                 continue
             for d, obj in (r["result"].get("dimensions") or {}).items():
                 if obj.get("assessable") and isinstance(obj.get("score"),
@@ -506,6 +512,8 @@ def composite(out):
                   "happy-oyster" if rid.startswith("happy-oyster") else None)
             if not pk:
                 continue
+            if pk == "lingbot" and _re2.search(r"-r[123]\b", rid):
+                continue  # invalidated reference-run rows
             lh = (m.get("long_horizon") or {}).get("early_vs_last")
             if lh is not None:
                 comp_m[pk]["lh"].append(lh)

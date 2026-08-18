@@ -25,12 +25,21 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUTDIR = os.path.join(REPO, "data", "quality-metrics")
 
 
-def load_frames(path, max_frames=400):
+def load_frames(path, max_frames=400, max_width=1280):
+    # cap width at 1280: the corpus was measured at <=1280w; native
+    # 1664x960 captures run 2.6x slower AND would be metric-incomparable
+    # at full res. No-op for legacy files.
     import av
+    import cv2
     frames = []
     with av.open(path) as c:
         for f in c.decode(c.streams.video[0]):
-            frames.append(f.to_ndarray(format="rgb24"))
+            fr = f.to_ndarray(format="rgb24")
+            if fr.shape[1] > max_width:
+                h = int(fr.shape[0] * max_width / fr.shape[1])
+                fr = cv2.resize(fr, (max_width, h),
+                                interpolation=cv2.INTER_AREA)
+            frames.append(fr)
             if len(frames) >= max_frames:
                 break
     return frames
