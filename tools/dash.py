@@ -701,7 +701,11 @@ def main():
             footer()
         print(col("d", "─" * 74))
         print(col("d", "  full evidence: docs/RESULTS.md · "
-              "spec/questions.md · data/benchmark-scorecard.json\n"))
+              "spec/questions.md · data/benchmark-scorecard.json"))
+        print(col("b", "  commands ") + col("d",
+              "run (campaign menu) · run <stage> · --watch 15 · "
+              "--why <axis> ·\n            --weights '{...}' · "
+              "--vendor <name> · --layer 1|2|3 · --md · --json\n"))
 
     if not args.watch:
         render()
