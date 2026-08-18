@@ -268,3 +268,26 @@ if __name__ == "__main__":
             traceback.print_exc(limit=3)
     print("\n%d/%d passed" % (len(tests) - failed, len(tests)))
     sys.exit(1 if failed else 0)
+
+
+def test_bounded_slot_reservation_covers_kill_timer():
+    """Regression (ultrareview 08-18): a hung bounded slot bills until the
+    kill timer, so the reservation must bound the KILL cost, not the
+    intended duration - reserve $0.06 / reconcile $0.54 broke the cap
+    invariant on the 15s/135s tier."""
+    from rtveval.orchestrator.spend import estimate_max_cost_usd
+    assert estimate_max_cost_usd(15.0, 0.004, 135.0) == 135.0 * 0.004
+    assert estimate_max_cost_usd(None, 0.004, 135.0) == 135.0 * 0.004
+    assert estimate_max_cost_usd(200.0, 0.004, 135.0) == 200.0 * 0.004
+
+
+def test_reconcile_clamps_to_reservation(tmp_path):
+    from rtveval.orchestrator.spend import SpendCap
+    cap = SpendCap(10.0, str(tmp_path / "spend.jsonl"))
+    cap.reserve("r1", 0.06)
+    cap.reconcile("r1", 0.54)   # billing-model bug scenario
+    import json
+    rows = [json.loads(l) for l in open(str(tmp_path / "spend.jsonl"))]
+    rec = [r for r in rows if r["op"] == "reconcile"][0]
+    assert rec["usd"] == 0.06
+    assert rec["overshoot_usd"] == 0.48

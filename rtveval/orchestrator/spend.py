@@ -90,20 +90,32 @@ class SpendCap:
             self._journal({"op": "reserve", "run_id": run_id, "usd": max_cost_usd})
 
     def reconcile(self, run_id: str, actual_cost_usd: float) -> None:
-        """Replace the reservation with what the run actually cost."""
+        """Replace the reservation with what the run actually cost.
+
+        Clamped to the reservation: with estimate_max_cost_usd now the
+        true worst case, an actual above it means a billing-model bug -
+        journal the excess loudly rather than silently passing the cap."""
         with self._lock:
             if run_id not in self._open:
                 raise KeyError("no open reservation for %s" % run_id)
-            self._open.pop(run_id)
-            self._actual += actual_cost_usd
-            self._journal({"op": "reconcile", "run_id": run_id, "usd": actual_cost_usd})
+            reserved = self._open.pop(run_id)
+            booked = min(actual_cost_usd, reserved)
+            self._actual += booked
+            row = {"op": "reconcile", "run_id": run_id, "usd": booked}
+            if actual_cost_usd > reserved:
+                row["overshoot_usd"] = round(actual_cost_usd - reserved, 4)
+                row["note"] = "actual exceeded reservation - billing model bug"
+            self._journal(row)
 
 
 def estimate_max_cost_usd(duration_intended_s: Optional[float],
                           usd_per_second: float,
                           wall_clock_kill_s: float) -> float:
-    """A run's cost ceiling. For open-ended streams the kill timer IS the
-    bound - which is why the kill is not optional."""
-    bound_s = min(duration_intended_s, wall_clock_kill_s) if duration_intended_s \
-        else wall_clock_kill_s
+    """A run's cost ceiling. The kill timer IS the bound - which is why
+    the kill is not optional. For bounded slots too: a hung 15 s slot
+    still runs (and bills) until the kill timer fires, so reserving
+    against duration_intended understates the true maximum by
+    kill/intended (observed 9x on the 15 s/135 s tier - ultrareview
+    2026-08-18, proven in spend.jsonl r0084#2/r0125#2)."""
+    bound_s = max(duration_intended_s or 0.0, wall_clock_kill_s)
     return bound_s * usd_per_second
