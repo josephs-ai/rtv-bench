@@ -44,6 +44,12 @@
    "sha256": "6f1a0c80ad62afda389c5f3ac1da5adc5a6d08370287f1e2599b38c15391644e",
    "license": "Public domain (Vermeer, 1665)",
    "role": "campaign F stylized (non-photographic) ref portrait"
+  },
+  "seed-lingbot-src.jpg": {
+   "url": "https://images.pexels.com/photos/14337099/pexels-photo-14337099.jpeg?auto=compress&cs=tinysrgb&w=1664",
+   "sha256": "03541c9eeba03023906fce107c9932de360045dc3ca304db02aa355e3e6996c8",
+   "license": "Pexels License",
+   "role": "LingBot World 2 photographic seed source (image-anchored model; synthetic mockup seed invalidated 08-18)"
   }
  },
  "conform_recipe": {
@@ -182,6 +188,12 @@
    "from_conform": "conform-mixkit2960.mp4",
    "recipe": "ffmpeg -ss 5 -i <conform> -frames:v 1 -vf crop=749:720:294:0 -q:v 4 <out>",
    "role": "self-identity ref (campaign F anti-morph arm); deterministic crop pinned from the reference run (insightface bbox + margin, frozen as a fixed rect)"
+  },
+  "seed-lingbot-real.jpg": {
+   "from_source": "seed-lingbot-src.jpg",
+   "recipe": "ffmpeg -i <src> -vf crop=1664:960:0:1080 -q:v 3 <out>",
+   "install_to": "data/pilot-captures/seed-lingbot-real.jpg",
+   "role": "LingBot native-resolution (1664x960) anchor: wooden structure with dark doorway in quiet landscape - matches every G-prompt's referenced scene"
   }
  }
 }

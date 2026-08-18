@@ -84,14 +84,21 @@ Client: `rtveval/adapters/decart_webrtc.py` (aiortc), frames via
 
 ## LingBot-World 2
 
-- **`set_image` is REQUIRED before `start`** — the model is image-anchored
-  ("a reference image establishes visual identity", Reactor model guide).
-  The 2026-08 reference run drove it text-only: out of contract, output
-  degenerates into macroblock garbage. ALL of that run's LingBot rows are
-  invalid tests (caught 08-18 during the human rating session — a rater
-  flagged the corruption; the docs check took 10 minutes). Correct flow:
-  connect → set_image → set_prompt → start. Streams 1664×960@48 fps —
-  budget decode accordingly.
+- **`set_image` is REQUIRED before `start`** (image-anchored model;
+  flow: connect → set_image → set_prompt → start — `drive_lingbot`
+  implements it). **The seed image IS the world's visual identity: a
+  degenerate seed caps every quality dimension.** The 2026-08 reference
+  run anchored on a synthetic 640×360 gradient mockup — all its LingBot
+  rows are invalid as quality evidence (diagnosis corrected 08-18: first
+  written up as "set_image missing", actually "set_image sent with a
+  degenerate synthetic seed"; caught by a human rater flagging garbage
+  during judge calibration). Use the pinned photographic seed
+  (`seed-lingbot-real.jpg`, manifest-derived) at the model's native
+  1664×960.
+- **Transport: 1664×960@48 fps smears into macroblock corruption on a
+  sagged tunnel** (87-frame captures with checkerboard damage). Gate
+  reruns on uplink health (`--min-mbps`) and treat corrupted captures as
+  E-class, not product output.
 - Frames polled; count frames delivered vs promised — never assume the
   manifest.
 

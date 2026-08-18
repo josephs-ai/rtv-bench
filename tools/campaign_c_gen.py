@@ -112,7 +112,8 @@ async def one_capture(product, model, gid, prompt, record_s, steer, rep):
             errors.append(str(err)[:160])
 
         if product == "lingbot":
-            await drive_lingbot(a.reactor, prompt)
+            await drive_lingbot(a.reactor, prompt, seed_path=os.path.join(
+                REPO, "data", "pilot-captures", "seed-lingbot-real.jpg"))
         else:
             attached = {"done": False}
 
@@ -182,14 +183,28 @@ async def one_capture(product, model, gid, prompt, record_s, steer, rep):
 async def main_async(args):
     os.makedirs(OUT, exist_ok=True)
     results = []
-    for rep in range(1, args.reps + 1):
+    for rep in range(args.rep_from, args.reps + 1):
         for product, model in PRODUCTS:
+            if args.product and product != args.product:
+                continue
             for gid, ho_prompt, lb_prompt, secs, steer in GPROMPTS:
                 name = "%s-%s-r%d" % (product, gid, rep)
                 if os.path.exists(os.path.join(OUT, name + ".json")):
                     print("skip (exists):", name)
                     continue
                 prompt = lb_prompt if product == "lingbot" else ho_prompt
+                # uplink gate: the 48fps 1664x960 stream smears into
+                # macroblock garbage on a sagged tunnel (08-18 finding) -
+                # hold rather than capture corruption
+                if args.min_mbps:
+                    from tools.campaign_b import upload_mbps
+                    while True:
+                        mbps = upload_mbps()
+                        if mbps >= args.min_mbps:
+                            break
+                        print("uplink %.1f < %.0f Mbps - holding 5 min"
+                              % (mbps, args.min_mbps), flush=True)
+                        await asyncio.sleep(300)
                 print("capture %s ..." % name)
                 try:
                     m = await one_capture(product, model, gid, prompt,
@@ -209,6 +224,11 @@ async def main_async(args):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--reps", type=int, default=3)
+    ap.add_argument("--rep-from", type=int, default=1)
+    ap.add_argument("--product", default=None,
+                    help="lingbot | happy-oyster (default both)")
+    ap.add_argument("--min-mbps", type=float, default=0,
+                    help="uplink gate before each capture")
     args = ap.parse_args()
     load_env()
     os.environ.setdefault("RTVEVAL_FORCE_TURN_TCP", "1")

@@ -239,15 +239,21 @@ For a China-market product, the V2V field effectively has one entrant.
 
 ## Track 2 — Interactive worlds (LingBot-World 2 vs Happy Oyster)
 
-> **INVALIDATION NOTICE (2026-08-18).** All LingBot rows below are
-> **invalid tests**: the reference run drove this image-anchored model
-> without its required `set_image` reference anchor (Reactor model guide),
-> so its output degenerated out-of-contract — a benchmark-side invocation
-> bug (same class as the retracted 08-15 ref-image claim), caught when a
-> human rater flagged macroblock corruption during the judge-calibration
-> session. LingBot numbers remain visible for the record but carry no
-> comparative weight until a correct-invocation rerun. Happy Oyster rows
-> are unaffected (dedicated SDK, documented flow, captures verified clean).
+> **INVALIDATION NOTICE (2026-08-18, diagnosis corrected same day).**
+> All LingBot rows below are **invalid as quality evidence**, for two
+> benchmark-side reasons: (1) the run anchored this image-anchored model
+> on a **degenerate synthetic seed** (a featureless 640×360 gradient
+> mockup — per the vendor guide the seed image establishes the world's
+> visual identity, so every quality dimension was capped by our stimulus);
+> (2) several captures additionally carry **transport macroblock
+> corruption** from the tunnel vantage (48 fps 1664×960 stream; 87-frame
+> captures). Caught when a human rater flagged garbage frames during the
+> judge-calibration session. An earlier version of this notice
+> mis-stated the mechanism ("set_image never sent") — it was sent, with a
+> degenerate image; corrected within hours, both versions logged. LingBot
+> numbers remain visible for the record but carry no comparative weight
+> until the proper-seed, gated rerun. Happy Oyster rows are unaffected
+> (dedicated SDK, documented flow, captures verified clean).
 
 **Track-2 RTV-Score** = 100 × √(build-success) × (adherence 35 /
 long-horizon 25 / physics 20 / steering 20): **Happy Oyster 50.5 ·

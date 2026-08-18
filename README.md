@@ -30,9 +30,12 @@ overall. Relative results — like Lucy's 64–0 blind head-to-head sweep —
 are published beside the ladder, never inside it.
 
 † LingBot's score is **flagged invalid (2026-08-18)**: the reference run
-drove this image-anchored model without its required `set_image` anchor —
-a benchmark-side invocation bug caught by a human rater during judge
-calibration. It stays visible, struck, pending a correct-invocation rerun
+anchored this image-anchored model on a degenerate synthetic seed image
+(a featureless mockup — the seed IS the world's visual identity), with
+transport corruption on top — benchmark-side stimulus/rig bugs caught by
+a human rater during judge calibration. (First diagnosis said the anchor
+was never sent; corrected same day — it was sent, but degenerate.) The
+score stays visible, struck, pending a proper-seed rerun
 (`spec/invocation-playbooks.md`, rule zero: our mistakes stay documented,
 not scrubbed).
 

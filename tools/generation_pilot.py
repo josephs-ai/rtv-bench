@@ -117,12 +117,20 @@ def ensure_seed_image():
     Image.fromarray(base).save(SEED_IMAGE, quality=90)
 
 
-async def drive_lingbot(reactor, prompt):
+async def drive_lingbot(reactor, prompt, seed_path=None):
     """Full documented flow: upload seed -> set_image(FileRef) -> set_prompt
     -> start. (Prompt-and-start alone produced zero frames: the image is the
-    i2v seed, conditions_ready gates start on has_image.)"""
-    ensure_seed_image()
-    ref = await reactor.upload_file(SEED_IMAGE, name="seed.jpg",
+    i2v seed, conditions_ready gates start on has_image.)
+
+    seed_path: the anchor image. The 2026-08 reference run used the
+    synthetic mockup (SEED_IMAGE) - which anchors the world's visual
+    identity to a featureless gradient and caps every quality dimension
+    (invalidation, 08-18). Campaign reruns pass the pinned photographic
+    seed instead."""
+    if seed_path is None:
+        ensure_seed_image()
+        seed_path = SEED_IMAGE
+    ref = await reactor.upload_file(seed_path, name="seed.jpg",
                                     mime_type="image/jpeg")
     await reactor.send_command("set_image", {"image": ref})
     await reactor.send_command("set_prompt", {"prompt": prompt})
