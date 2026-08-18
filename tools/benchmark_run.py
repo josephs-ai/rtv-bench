@@ -64,6 +64,7 @@ STAGES = {
         [PY, "tools/benchmark_score.py"],
         [PY, "tools/cost_report.py"],
         [PY, "tools/benchmark_report.py"],
+        [PY, "tools/dash.py", "sync-results"],
         [PY, "tools/claims_check.py", "docs/RESULTS.md"],
         [PY, "tools/dash.py"],
     ],

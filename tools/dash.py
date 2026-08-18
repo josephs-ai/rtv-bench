@@ -590,9 +590,48 @@ def launcher(pick=None):
     return 0
 
 
+def sync_results():
+    """Regenerate the machine-rendered appendix inside docs/RESULTS.md
+    (between the AUTO-GENERATED markers) from the current scorecard -
+    part of the score stage, so shipped docs update without a human."""
+    import io, contextlib
+    if not os.path.exists(SC):
+        print("no scorecard - nothing to sync")
+        return 1
+    s = json.load(open(SC))
+    ents = s.get("composite", {}).get("entities", {})
+    main_ents = [(k, v) for k, v in ents.items()
+                 if sum(x is not None for x in v["axes"].values()) >= 4]
+    for k in C:
+        pass
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        export_md(s, main_ents)
+    md = buf.getvalue().replace(
+        "## RTV-Bench results (spec v1.1, machine-rendered)\n", "")
+    rp = os.path.join(REPO, "docs", "RESULTS.md")
+    t_ = open(rp).read()
+    B = ("\n<!-- AUTO-GENERATED STAT SHEET (tools/dash.py --md) - "
+         "do not hand-edit -->\n")
+    E = "\n<!-- END AUTO-GENERATED STAT SHEET -->\n"
+    if B not in t_:
+        print("no appendix markers in RESULTS.md")
+        return 1
+    block = (B + "\n# Appendix — full stat sheet (machine-rendered)\n\n"
+             + md + E)
+    t_ = t_[:t_.index(B)] + block + t_[t_.index(E) + len(E):]
+    open(rp, "w").write(t_)
+    print("RESULTS.md appendix synced from scorecard")
+    return 0
+
+
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == "run":
         return launcher(sys.argv[2] if len(sys.argv) > 2 else None)
+    if len(sys.argv) > 1 and sys.argv[1] == "sync-results":
+        for k in C:
+            C[k] = ""
+        return sync_results()
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-color", action="store_true")
     ap.add_argument("--color", action="store_true",
