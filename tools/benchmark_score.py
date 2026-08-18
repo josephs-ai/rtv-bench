@@ -205,6 +205,28 @@ def composite(out):
                     + 0.5 * sum(1 for r in sub if r["_o"] == "D")) / n if n else None
         longs = [r for r in meas if (r.get("duration_intended_s") or 0) >= 60]
         ttffs = [r["ttff_ms"] for r in meas if r.get("ttff_ms")]
+        # hour-scale rows (campaign E) join the long-session pool with
+        # content-freeze-aware outcomes: a permanent freeze ends the
+        # session at its onset regardless of frames still arriving
+        # (2026-08-18: xmax 60-min sessions froze at 11-35 min, 3/3,
+        # points-control excluded the temp-key confound). Credit-fault
+        # crashes are E-class, excluded.
+        ep = os.path.join(REPO, "data", "campaign-e", "runs.jsonl")
+        if os.path.exists(ep):
+            for line_ in open(ep):
+                r_ = json.loads(line_)
+                if (r_.get("product_key"), r_.get("lens")) != key:
+                    continue
+                if "Decart rejected" in (r_.get("stop_reason") or ""):
+                    continue
+                intended = r_.get("intended_s") or 1.0
+                if intended < 300:
+                    continue  # smoke tiers aren't long sessions
+                surv = r_.get("survived_s") or 0.0
+                frz = r_.get("max_frozen_s") or 0.0
+                eff = max(0.0, (surv - (frz if frz > 60 else 0.0))) / intended
+                o = "S" if eff >= 0.9 else "D" if eff >= 0.5 else "F"
+                longs.append({"_o": o})
         subs = {"value_rate": _lin(vrate(meas), 0, 1),
                 "long_value_rate": _lin(vrate(longs), 0, 1) if longs else None,
                 "ttff": _log_latency((statistics.median(ttffs) / 1000)

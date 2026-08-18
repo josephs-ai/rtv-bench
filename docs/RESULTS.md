@@ -26,12 +26,12 @@ nobody is close to ceiling on sustained transformed video.
 
 | Profile | asks | Lucy 2.5 (native) | Xmax X2.0 (native/browser) |
 |---|---|---|---|
-| **STREAMER-CN** | "power a China-market live-avatar product" | **67.1** | 59.5 |
-| **CREATOR-GLOBAL** | "power a creative restyling tool" | **77.6** | 40.2 |
-| **LAB** | "pure capability, no market weighting" | **74.1** | 45.9 |
+| **STREAMER-CN** | "power a China-market live-avatar product" | **67.7** | 59.9 |
+| **CREATOR-GLOBAL** | "power a creative restyling tool" | **78.1** | 40.5 |
+| **LAB** | "pure capability, no market weighting" | **74.7** | 45.9 |
 
-**Lucy wins every profile, but the gap collapses from 37.4 points (creative
-use) to 7.6 (China streaming use)** — Xmax's instant whole-scene restyle,
+**Lucy wins every profile, but the gap collapses from 37.6 points (creative
+use) to 7.8 (China streaming use)** — Xmax's instant whole-scene restyle,
 China-direct availability, edit-time identity stability, and its win on
 the new reference-control axis are worth that much in its home market.
 
@@ -104,14 +104,37 @@ one win — happens to be the core interaction of its own product plan.
 | Xmax · via aggregator | 85 | 55% | 33% | 12% | final N: tail supervisor found hung since 08-11, retired 08-18 |
 | Xmax · native browser | 91 | 25% | 75% | 0% | the ~2 s start-freeze marks sessions degraded |
 
-### Hour-scale preview (campaign E, v1.1 — first datapoint)
+### Hour-scale sessions (campaign E, v1.1 — Xmax tiers COMPLETE 2026-08-18)
 
-One 10-minute Lucy session on a single-shot looped face (telemetry +
-identity stills every 10 s): **no identity drift over 9 continuous
-minutes** — face similarity to t=0 median 0.86, never below 0.75, no
-decay trend — and delivery held a flat 17.2 fps throughout. Session ended
-at 536 s by provider credit exhaustion, not product failure. Xmax
-counterpart + 30/60-min tiers pending credits.
+Single-shot looped face, per-tier telemetry, identity stills every 10 s.
+
+| tier | Lucy 2.5 (P) | Xmax X2.0 (P-browser) |
+|---|---|---|
+| 10 min | 89% survival, 17.2 fps flat, no identity drift (median 0.86) | clean ×2 (98–99% delivery, ~3 s start-freeze only) |
+| 30 min | pending (uplink-gated + credit-limited) | **clean ×2**; identity holds (median 0.80–0.84, floor 0.74, no decay) |
+| 60 min | pending | **fails 3/3: permanent output freeze**, onset 11–35 min |
+
+**The 60-minute finding (vendor-actionable):** every Xmax session that ran
+past ~30 minutes froze permanently — output stops updating and never
+recovers while the connection stays up (onsets ≈11, ≈35, ≈35 min). A
+control session with a 20× temp-key points budget froze at the same ~35 min
+onset, excluding key-budget exhaustion; ≤30-minute sessions are 4/4 clean
+on the identical rig. Live-avatar reality is hour-scale — this is the #1
+new item for the vendor fix list.
+
+**The positive finding:** across 80 minutes of clean Xmax long-session
+footage, identity similarity-to-start stays at median 0.80–0.84 and never
+dips below 0.74 with no decay trend — the identity morph (§ above) is
+intermittent and stimulus-dependent, **not** a systematic long-horizon
+collapse. (Caveat: single-shot loop stimulus; morphs were observed on the
+varied reel.)
+
+Lucy's 30/60-min tiers hold behind an uplink gate (her long sessions are
+tunnel-bound from this vantage — long-session value 8.3/100 here is a
+vantage-entangled number; the multi-vantage run answers it cleanly).
+These rows feed axis A's long-session sub-metric (content-freeze-aware:
+a permanent freeze ends the session at onset regardless of frames still
+arriving).
 
 ### Reference-image control (Campaign F, v1.1 — BOTH ARMS COMPLETE 2026-08-17)
 
@@ -293,7 +316,7 @@ product).
 
 | axis | lucy-2.5·P | xmax-x2.0·P-browser |
 |---|---|---|
-| A reliability | 47.8 | 63.8 |
+| A reliability | 50.7 | 65.8 |
 | B pairwise* | 97.9 | 2.1 |
 | C identity | 92.7 | 84.7 |
 | D live editing | 84.8 | 54.0 |
@@ -303,16 +326,16 @@ product).
 
 | profile | lucy-2.5·P | xmax-x2.0·P-browser |
 |---|---|---|
-| CREATOR-GLOBAL | 77.6 | 40.2 |
-| LAB | 74.1 | 45.9 |
-| STREAMER-CN | 67.1 | 59.5 |
+| CREATOR-GLOBAL | 78.1 | 40.5 |
+| LAB | 74.7 | 46.3 |
+| STREAMER-CN | 67.7 | 59.9 |
 
 ### Sub-metric drill-down
 
 | axis | sub-metric | lucy-2.5·P | xmax-x2.0·P-browser |
 |---|---|---|---|
 | A | value rate (S+½D) | 72.8 | 62.6 |
-| A | long-session value | 0 | 50.0 |
+| A | long-session value | 8.3 | 55.6 |
 | A | time-to-first-frame score | 76.0 | 100 |
 | B | pairwise wins (exhibit) | 97.9 | 2.1 |
 | B' | artifact score | 31.9 | 21.5 |

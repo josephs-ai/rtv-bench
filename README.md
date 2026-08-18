@@ -31,9 +31,9 @@ are published beside the ladder, never inside it.
 
 | Buyer profile | Lucy 2.5 | Xmax X2.0 |
 |---|---|---|
-| STREAMER-CN (China live-avatar) | **67.1** | 59.5 |
-| CREATOR-GLOBAL (creative tool) | **77.6** | 40.2 |
-| LAB (unweighted capability) | **74.1** | 45.9 |
+| STREAMER-CN (China live-avatar) | **67.7** | 59.9 |
+| CREATOR-GLOBAL (creative tool) | **78.1** | 40.5 |
+| LAB (unweighted capability) | **74.7** | 45.9 |
 
 Buyer-weighted views (China-streaming, creative-tool), axis breakdowns,
 and every number's evidence: **[`docs/RESULTS.md`](docs/RESULTS.md)** ·

@@ -26,7 +26,7 @@ P-browser; lens M = via-Reactor), LingBot-World 2, Happy Oyster.
 | Q1.1 | Does a session survive 15 s / 60 s / 3 min? | B (300-round duration mix) | conform reel | outcome taxonomy | S/D/F/T/R/E rates + Wilson CIs | `data/campaign-b/runs.jsonl`, `data/campaign-b-native/runs.jsonl`, preserved-tally.json | answered (Lucy N=210, Xmax-browser N=91, Xmax-M N=85 final - tail supervisor hung since 08-11, retired) |
 | Q1.2 | How fast does first content arrive (TTFF)? | B | conform reel | capture analyzer (first non-black frame) | ttff_s | same journals | answered |
 | Q1.3 | Are failures the product's fault? | B adjudication | — | 3-layer attribution (sentinel, in-run guards, cross-product correlation) | E-class exclusions w/ evidence | `data/campaign-b/adjudications.json` | answered |
-| Q1.4 | Does a session survive 10 / 30 / 60 minutes? | E (hour-scale) | 65-min single-shot loop | per-frame telemetry + net probes | survival_frac, mean_fps | `data/campaign-e/runs.jsonl` | partial (Lucy 10-min r1 only; 30/60 + Xmax pending) |
+| Q1.4 | Does a session survive 10 / 30 / 60 minutes? | E (hour-scale) | 65-min single-shot loop | per-frame telemetry + net probes | survival_frac, mean_fps | `data/campaign-e/runs.jsonl` | partial (Xmax COMPLETE: 10/30 clean, **60-min fails 3/3 by permanent freeze onset 11–35 min, points-control excluded**; Lucy 30/60 uplink-gated + credit-limited) |
 
 ### Q2. Output quality — does it look right?
 
