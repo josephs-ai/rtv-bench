@@ -1,7 +1,11 @@
 # RTV-Bench Roadmap
 
 Direction decision (pending reference-run sign-off): **narrow to what we
-can be the world's best at — realtime interactive video.** The worlds
+can be the world's best at — realtime interactive video.** The standing
+strategic rule (2026-08-18): **interaction measurement is the moat** —
+interaction axes and arms (editing, ref control, latency, density,
+closed-loop responsiveness) outrank quality axes in every prioritization;
+quality-only measurement is a resource game larger suites win by default. The worlds
 track overlaps emerging academic suites (WorldMark, WBench et al.) with
 more resources behind them; realtime V2V measured live from real vantages
 has no serious owner. On sign-off, Track 2 goes to maintenance mode with

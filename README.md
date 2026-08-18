@@ -2,11 +2,17 @@
 
 **The benchmark for realtime video AI — measured live, or not at all.**
 
-Offline benchmarks judge cherry-picked renders. Realtime products live or
-die on things a render can't show: whether a session survives minute
-thirty, whether your face is still yours at minute two, whether "make it a
-red hoodie" lands mid-stream without breaking the world. RTV-Bench opens
-**real streaming sessions against real product endpoints**, records every
+Offline benchmarks judge cherry-picked renders — and the biggest eval
+suites in the world can only race each other at that game. Realtime
+products live or die on things **no render can show and no offline suite
+can measure**: whether a session survives minute thirty, whether your
+face is still yours at minute two, whether "make it a red hoodie" lands
+mid-stream without breaking the world, whether a reference image can
+anchor — and switch — a live character. **Interaction is this benchmark's
+home turf**: 60% of the canonical score is interaction axes (live
+editing, reference control, latency), and even the quality terms are
+measured *inside directed live sessions*. RTV-Bench opens **real
+streaming sessions against real product endpoints**, records every
 delivered frame, attributes every failure, and turns append-only journals
 into scores that survive hostile review.
 
