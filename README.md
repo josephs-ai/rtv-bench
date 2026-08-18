@@ -125,11 +125,13 @@ python3 setup.py --check  # health report only
 Then:
 
 ```bash
-.venv/bin/python tools/benchmark_run.py --list      # stages
-.venv/bin/python tools/benchmark_run.py reliability # or quality/editing/refs/worlds
-.venv/bin/python tools/benchmark_run.py score       # scorecard + report + dashboard
-.venv/bin/python tools/dash.py                      # results dashboard (any time)
+.venv/bin/python tools/dash.py run    # launch any campaign from a menu -
+                                      # readiness-checked, detached, logged
+.venv/bin/python tools/dash.py        # results dashboard (any time)
 ```
+
+(Raw stage commands — `tools/benchmark_run.py <stage>` — remain for
+scripting; every stage is resumable, so rerunning is always safe.)
 
 Results are **handed to you by the machine**: `tools/dash.py` renders three
 layers (canonical ladders → axes/profiles → sub-metric drill-down) straight

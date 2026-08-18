@@ -467,7 +467,109 @@ def export_md(s, main_ents):
           "per-run rows live in `data/` (walkable via `dash.py --why`).*")
 
 
+STAGE_KEYS = {   # stage -> (required key sets: ANY-of within a tuple)
+    "reliability": [("DECART_API_KEY", "XMAX_API_KEY", "REACTOR_API_KEY")],
+    "quality": [("ANTHROPIC_API_KEY",)],
+    "editing": [("DECART_API_KEY", "XMAX_API_KEY")],
+    "refs": [("DECART_API_KEY", "XMAX_API_KEY")],
+    "worlds": [("REACTOR_API_KEY",)],
+    "core": [("DECART_API_KEY",), ("XMAX_API_KEY",)],
+    "score": [()],
+    "rate": [()],
+    "dash": [()],
+}
+STAGE_BLURB = {
+    "reliability": "campaign B: session survival across durations",
+    "quality": "metrics + blinded pairs + artifact audit (judge key needed)",
+    "editing": "campaign D: mid-stream text edits, both products",
+    "refs": "campaign F: reference-image control, both products",
+    "worlds": "campaign C: LingBot + Happy Oyster world generation",
+    "core": "the ~2h affordable reproduction of the whole benchmark",
+    "score": "scorecard -> cost report -> claims check -> this board",
+    "rate": "human rating session (feeds the judge-alpha gate)",
+    "dash": "render this board",
+}
+
+
+def launcher(pick=None):
+    """dash.py run [stage] - start campaigns without memorizing commands.
+    Launches the stage detached (nohup) with a log under data/logs/ and
+    tells you how to watch. Checks keys and the stimulus pack first."""
+    sys.path.insert(0, os.path.join(REPO, "tools"))
+    import importlib
+    br = importlib.import_module("benchmark_run")
+    stages = list(br.STAGES)
+    envp = os.path.join(REPO, ".env")
+    keys = {}
+    if os.path.exists(envp):
+        for line in open(envp):
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, val = line.split("=", 1)
+                keys[k] = bool(val.strip())
+
+    def ready(stage):
+        for group in STAGE_KEYS.get(stage, [()]):
+            if group and not any(keys.get(k) for k in group):
+                return "missing key: " + "/".join(group)
+        return None
+
+    stim = os.path.join(REPO, "stimulus-pack", "conforms")
+    stim_ok = os.path.isdir(stim) and len(os.listdir(stim)) >= 4
+
+    if pick is None:
+        print(col("b", "LAUNCH A STAGE") + col("d",
+              "  (detached; logs to data/logs/; watch with dash.py --watch 15)"))
+        if not stim_ok:
+            print(col("y", "  ! stimulus pack not built - option 0 first"))
+        print("   0  build stimulus pack (fetch/verify/derive/install)")
+        for i, s in enumerate(stages, 1):
+            blocked = ready(s)
+            mark = col("r", " [" + blocked + "]") if blocked else ""
+            print("  %2d  %-12s %s%s" % (i, s,
+                                         col("d", STAGE_BLURB.get(s, "")),
+                                         mark))
+        if not sys.stdin.isatty():
+            print(col("d", "  (non-interactive: dash.py run <stage-name>)"))
+            return 0
+        try:
+            choice = input("stage number or name (enter to quit): ").strip()
+        except EOFError:
+            return 0
+        if not choice:
+            return 0
+        pick = (stages[int(choice) - 1] if choice.isdigit() and choice != "0"
+                else "stimulus" if choice == "0" else choice)
+
+    os.makedirs(os.path.join(REPO, "data", "logs"), exist_ok=True)
+    if pick == "stimulus":
+        cmd = [os.path.join(REPO, ".venv", "bin", "python"),
+               os.path.join(REPO, "tools", "build_stimulus_pack.py")]
+        logp = os.path.join(REPO, "data", "logs", "stimulus.log")
+    else:
+        if pick not in stages:
+            print("unknown stage %r (have: %s)" % (pick, ", ".join(stages)))
+            return 1
+        blocked = ready(pick)
+        if blocked:
+            print(col("r", "cannot launch %s: %s" % (pick, blocked)) +
+                  col("d", "  -> python3 setup.py"))
+            return 1
+        cmd = [os.path.join(REPO, ".venv", "bin", "python"),
+               os.path.join(REPO, "tools", "benchmark_run.py"), pick]
+        logp = os.path.join(REPO, "data", "logs", pick + ".log")
+    with open(logp, "ab") as lf:
+        proc = subprocess.Popen(cmd, stdout=lf, stderr=lf,
+                                start_new_session=True, cwd=REPO)
+    print(col("g", "launched %s (pid %d)" % (pick, proc.pid)))
+    print(col("d", "  log:   tail -f %s" % logp))
+    print(col("d", "  watch: .venv/bin/python tools/dash.py --watch 15"))
+    return 0
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "run":
+        return launcher(sys.argv[2] if len(sys.argv) > 2 else None)
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-color", action="store_true")
     ap.add_argument("--color", action="store_true",
