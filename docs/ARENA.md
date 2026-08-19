@@ -68,22 +68,38 @@ Text-to-Video analog.
 
 ## 3. Pages
 
-### 3.1 `/` — Vote
-- Category chips + filter row (as above), condition banner where needed
-  ("Input feed shown — you're judging obedience, not just looks")
-- **Paired players, frame-synced** (same clip timeline; one
-  play/pause/restart controls both; scrub allowed; loop on end)
-- Context strip above the players, per category:
-  - Text Direction: the instruction, revealed at its in-clip timestamp
-    (a small marker on the seek bar shows when the edit was sent)
-  - Image Direction: the reference portrait, always visible
-  - Sustained: the running instruction list, highlighted as each fires
-- Vote bar: **← A · → B · = Tie · ✗ Both bad**, then auto-advance.
-  Keyboard-first like AA; large tap targets on mobile
-- Preload next pair during current playback (clips are 10–90 s; without
+### 3.1 `/` — Vote  (layout: AA-style, decided 08-19)
+Design rule: **the two videos ARE the page.** Light, minimal chrome,
+exactly like the AA arena — no instrumented side columns, no console
+aesthetics. Everything that isn't the two players lives in a compact
+top strip.
+
+Top-to-bottom:
+1. Slim header: category chips + filter toggles (one row)
+2. **Context strip (top-center, symmetric)** — per category:
+   - Text Direction: the instruction in large quoted text
+     ("Change the jacket to red leather"), with a small marker on the
+     shared seek bar showing when it was sent
+   - Image Direction: the reference portrait as a modest thumbnail,
+     center-top (click to enlarge)
+   - Live Transform with input shown: small source-clip thumbnail,
+     center-top, synced
+   - Sustained: current instruction, updating as each fires
+3. **Two large side-by-side players** — dominant, equal size,
+   frame-synced (one play/pause/restart + shared scrub), loop on end;
+   neutral-color side markers (no A/B)
+4. One vote row directly beneath: **← Prefer left · Tie · Both bad ·
+   Prefer right →**, auto-advance on vote
+Center-top context placement keeps symmetry (equidistant from both
+players) — the fairness property, without a middle column stealing
+width from the videos.
+- Keyboard-first (←/→/=/x, space to pause); large tap targets, players
+  stack vertically on mobile with context strip persisting on top
+- Preload next pair during current playback (10–90 s clips; without
   preload the arena feels broken)
-- Session counter ("14 votes this session") and a soft prompt to
-  continue at 10+
+- Quiet vote counter in the corner; never a running result tally
+  (no per-vote reveal — two-model fields leak identity through reveals,
+  see §5)
 
 ### 3.2 `/leaderboard`
 - Tabs per category + Overall

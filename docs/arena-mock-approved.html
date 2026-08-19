@@ -1,0 +1,61 @@
+<!doctype html><meta charset="utf-8">
+<body style="margin:0;background:#fff;font:15px -apple-system,system-ui,sans-serif;color:#1a1a1a">
+<div style="max-width:1180px;margin:0 auto;padding:18px 24px">
+
+<!-- header row -->
+<div style="display:flex;align-items:center;gap:22px;padding-bottom:14px;border-bottom:1px solid #eee">
+  <div style="font-weight:800;font-size:17px">RTV&nbsp;Arena</div>
+  <div style="display:flex;gap:8px">
+    <span style="border:1.5px solid #ddd;color:#888;border-radius:10px;padding:7px 16px;font-weight:600">Live Transform</span>
+    <span style="border:1.5px solid #7c3aed;color:#7c3aed;background:#f6f1ff;border-radius:10px;padding:7px 16px;font-weight:700">Text Direction</span>
+    <span style="border:1.5px solid #ddd;color:#888;border-radius:10px;padding:7px 16px;font-weight:600">Image Direction</span>
+    <span style="border:1.5px dashed #ddd;color:#bbb;border-radius:10px;padding:7px 16px;font-weight:600">Direct Manipulation</span>
+    <span style="border:1.5px dashed #ddd;color:#bbb;border-radius:10px;padding:7px 16px;font-weight:600">Audio</span>
+  </div>
+  <div style="margin-left:auto;background:#f3f3f3;border-radius:10px;padding:4px;display:flex;gap:2px">
+    <span style="background:#fff;border-radius:8px;padding:5px 14px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)">Input shown</span>
+    <span style="padding:5px 14px;color:#999;font-weight:600">Hidden</span>
+  </div>
+</div>
+
+<!-- context strip: instruction + input, top-center -->
+<div style="display:flex;justify-content:center;align-items:center;gap:18px;padding:16px 0 14px">
+  <div style="width:104px;height:60px;background:#e9e9ee;border:1px solid #ddd;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">input feed</div>
+  <div style="text-align:center">
+    <div style="font-size:21px;font-weight:700">&ldquo;Change the jacket to red leather.&rdquo;</div>
+    <div style="color:#8a8a8a;font-size:12.5px;margin-top:3px">instruction sent at 0:07 · both models received the same input &amp; instruction</div>
+  </div>
+</div>
+
+<!-- two big players -->
+<div style="display:flex;gap:14px">
+  <div style="flex:1;aspect-ratio:16/9;background:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#666;position:relative">
+    <span style="position:absolute;top:10px;left:12px;width:12px;height:12px;border-radius:50%;background:#2bb8a3"></span>
+    output · left
+  </div>
+  <div style="flex:1;aspect-ratio:16/9;background:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#666;position:relative">
+    <span style="position:absolute;top:10px;left:12px;width:12px;height:12px;border-radius:50%;background:#e0a23c"></span>
+    output · right
+  </div>
+</div>
+
+<!-- shared seekbar with edit marker -->
+<div style="display:flex;align-items:center;gap:10px;padding:12px 2px 4px;color:#888;font-size:12px">
+  <span>▶</span><span>⟲</span>
+  <div style="flex:1;height:5px;background:#eee;border-radius:3px;position:relative">
+    <div style="width:38%;height:5px;background:#7c3aed;border-radius:3px"></div>
+    <span style="position:absolute;left:9%;top:-3.5px;width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid #7c3aed" title="instruction sent"></span>
+  </div>
+  <span>0:31 / 1:24</span>
+</div>
+
+<!-- vote row -->
+<div style="display:flex;gap:12px;justify-content:center;padding:16px 0 6px">
+  <span style="flex:1;max-width:300px;text-align:center;border:2px solid #2bb8a3;color:#0e7c6d;border-radius:12px;padding:13px;font-weight:700">← Prefer left</span>
+  <span style="border:1.5px solid #ddd;color:#777;border-radius:12px;padding:13px 22px;font-weight:600">Tie</span>
+  <span style="border:1.5px solid #ddd;color:#777;border-radius:12px;padding:13px 22px;font-weight:600">Both bad</span>
+  <span style="flex:1;max-width:300px;text-align:center;border:2px solid #e0a23c;color:#9a6a12;border-radius:12px;padding:13px;font-weight:700">Prefer right →</span>
+</div>
+<div style="text-align:center;color:#b5b5b5;font-size:12px;padding-top:4px">14 votes this session · next pair preloaded</div>
+
+</div></body>
