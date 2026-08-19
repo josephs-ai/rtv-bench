@@ -402,9 +402,46 @@ def composite(out):
                     (100.0 * _clamp((15.0 - m["transition_s"]) / 14.0, 0, 1)
                      if m.get("success") else 0.0)
                     for m in pve["runs"]) / len(pve["runs"])
-            switch = (None if in_session is None and mech is None
-                      else max(x for x in (in_session, mech)
-                               if x is not None))
+            switch_did = (None if in_session is None and mech is None
+                          else max(x for x in (in_session, mech)
+                                   if x is not None))
+            # Amendment 3 (v1.2): switch QUALITY weighs equal to switch
+            # success. Division of labour: face-sim verifies the RIGHT
+            # character took (the judge never sees the ref portrait);
+            # the 5-dim edit judge scores how CLEANLY it happened
+            # (transition/collateral/stability) over captures where the
+            # switch succeeded. No successful switches -> quality 0.
+            fsj = os.path.join(REPO, "data", "edit-judge",
+                               "f-switch-records.jsonl")
+            quality = None
+            if os.path.exists(fsj):
+                ok_names = set()
+                for r_ in rows:
+                    if r_["arm"] in ("switch", "chain"):
+                        tgt = (r_.get("sim_ref2_post_mean")
+                               if r_.get("ref2")
+                               else r_.get("sim_ref_post_mean"))
+                        if tgt is not None and tgt >= 0.25:
+                            ok_names.add(r_["run_id"])
+                qs = []
+                for line_ in open(fsj):
+                    j_ = json.loads(line_)
+                    if (j_.get("product") or "") != prod:
+                        continue
+                    is_probe = j_["name"].startswith("PROBE-")
+                    probe_ok = is_probe and "reconnect" in j_.get("arm", "")
+                    if j_["name"] not in ok_names and not probe_ok:
+                        continue
+                    v_ = j_["verdict"]
+                    stab = {"holds": 1.0, "oscillates": 0.5,
+                            "reverts": 0.0}.get(v_.get("stability"), 0.5)
+                    qs.append(((1 - v_.get("transition", 3) / 3.0) * 0.5
+                               + (1 - v_.get("collateral", 3) / 3.0) * 0.3
+                               + stab * 0.2) * 100.0)
+                quality = (sum(qs) / len(qs)) if qs else 0.0
+            switch = (switch_did if quality is None
+                      else None if switch_did is None
+                      else round(0.5 * switch_did + 0.5 * quality, 1))
             comp = [r for r in rows if r["arm"] == "compose"]
             compose = (100.0 * sum(ADOPT(r) for r in comp) / len(comp)
                        if comp else None)

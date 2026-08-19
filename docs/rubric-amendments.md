@@ -71,3 +71,24 @@ Format per entry (newest first):
   73.9/85.8/79.2 vs 62.4/39.9/48.7) remain re-derivable from the same
   journals by reverting the weights; v1.1 scores supersede them in all
   shipped docs.
+
+## Amendment 3 — 2026-08-19 — Benchmark v1.1 → v1.2: switch quality weighs equal to switch success
+
+- **What changed:** Axis G's mid-video-switch sub-metric becomes
+  `0.5·(success × transition-speed) + 0.5·judged-quality`, where quality
+  is the campaign-D 5-dim edit judge applied to switch captures
+  (transition .5 / collateral .3 / stability .2, over switches that
+  succeeded). Division of labour is explicit: face-similarity verifies
+  the RIGHT character took (the judge never sees the ref portrait); the
+  judge scores how CLEANLY it happened. New instrument:
+  `tools/f_switch_judge.py` → `data/edit-judge/f-switch-records.jsonl`
+  (32 blinded judgments over F3/F5 + mechanism probes).
+- **Why:** User directive — a switch that lands but visibly breaks the
+  stream is not equal to a clean one; "did it" without "how well" is
+  half a measurement. First data confirms the gap matters: Lucy's
+  in-session switches apply but rough (transition severity to 3/3);
+  Xmax's re-session switches are clean (1–2).
+- **What had already been collected:** all v1.1 numbers remain
+  re-derivable (drop the quality term). v1.1→v1.2 deltas: Lucy switch
+  43.4→44.8, axis G 40.7→41.0; Xmax switch 56.1→58.0, axis G 50.5→51.0;
+  canonical 47.0→47.1 / 42.5→42.6.

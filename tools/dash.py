@@ -402,7 +402,7 @@ def ticker():
 
 
 def export_json(s, main_ents):
-    out = {"spec": "v1.1", "canonical": s.get("rtvbench_score", {}),
+    out = {"spec": "v1.2", "canonical": s.get("rtvbench_score", {}),
            "entities": {k: {"axes": v["axes"], "subs": v["subs"],
                             "profiles": v.get("profiles", {})}
                         for k, v in main_ents}}
@@ -411,7 +411,7 @@ def export_json(s, main_ents):
 
 def export_md(s, main_ents):
     rs = s.get("rtvbench_score", {})
-    print("## RTV-Bench results (spec v1.1, machine-rendered)\n")
+    print("## RTV-Bench results (spec v1.2, machine-rendered)\n")
     print("| Track 1 | RTV-Score | | Track 2 | RTV-Score |")
     print("|---|---|---|---|---|")
     t1 = sorted(rs.get("track1", {}).items(), key=lambda kv: -kv[1]["score"])
@@ -608,7 +608,7 @@ def sync_results():
     with contextlib.redirect_stdout(buf):
         export_md(s, main_ents)
     md = buf.getvalue().replace(
-        "## RTV-Bench results (spec v1.1, machine-rendered)\n", "")
+        "## RTV-Bench results (spec v1.2, machine-rendered)\n", "")
     rp = os.path.join(REPO, "docs", "RESULTS.md")
     t_ = open(rp).read()
     B = ("\n<!-- AUTO-GENERATED STAT SHEET (tools/dash.py --md) - "
@@ -722,7 +722,7 @@ def main():
         return 0
 
     def render():
-        print(col("b", "\nRTV-Bench") + col("d", "  ·  spec v1.1  ·  "
+        print(col("b", "\nRTV-Bench") + col("d", "  ·  spec v1.2  ·  "
           "reference run 2026-08  ·  vantage: mainland-CN"))
         print(col("d", "─" * 74))
         if args.watch:

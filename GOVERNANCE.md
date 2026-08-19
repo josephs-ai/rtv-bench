@@ -4,7 +4,7 @@ How the benchmark changes, who decides, and what a number means over time.
 
 ## Versioning
 
-- Spec version lives in `BENCHMARK.md` (currently **v1.1**). The version
+- Spec version lives in `BENCHMARK.md` (currently **v1.2**). The version
   covers: axes and their weights, the canonical formula, stimulus recipes
   and hashes, prompt sets, and the question registry (`spec/questions.md`).
   Changing any of these bumps the minor version; changing what an existing

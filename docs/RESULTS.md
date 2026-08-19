@@ -10,7 +10,7 @@
 
 ## Track 1 — Interactive video (Lucy 2.5 vs Xmax X2.0)
 
-**RTV-Score (canonical, spec v1.1): Lucy 47.0 · Xmax 42.5** — formula
+**RTV-Score (canonical, spec v1.2): Lucy 47.1 · Xmax 42.6** — formula
 `100 × √delivery × (0.40·experience + 0.25·interaction + 0.20·ref-control + 0.15·latency)`;
 experience = mean(identity integrity, artifact burden), all absolute;
 ref-control is the new v1.1 axis from campaign F (see Amendment 2 in
@@ -26,9 +26,9 @@ nobody is close to ceiling on sustained transformed video.
 
 | Profile | asks | Lucy 2.5 (native) | Xmax X2.0 (native/browser) |
 |---|---|---|---|
-| **STREAMER-CN** | "power a China-market live-avatar product" | **67.3** | 59.9 |
-| **CREATOR-GLOBAL** | "power a creative restyling tool" | **77.7** | 40.5 |
-| **LAB** | "pure capability, no market weighting" | **74.4** | 46.3 |
+| **STREAMER-CN** | "power a China-market live-avatar product" | **67.4** | 60.0 |
+| **CREATOR-GLOBAL** | "power a creative restyling tool" | **77.8** | 40.6 |
+| **LAB** | "pure capability, no market weighting" | **74.4** | 46.4 |
 
 **Lucy wins every profile, but the gap collapses from 37.2 points (creative
 use) to 7.4 (China streaming use)** — Xmax's instant whole-scene restyle,
@@ -48,7 +48,7 @@ the new reference-control axis are worth that much in its home market.
 | D Live editing | 84.8 | 54.0 | commit latency, application, precision, hold, transition |
 | E Latency | n/a† | 58.0 | instrumented motion-to-glass (983 ms styled, Xmax native) |
 | F Deploy-CN | 50 | 100 | China-market reachability (direct / VPN-viable / blocked) |
-| **G Ref control (v1.1)** | 40.7 | **50.5** | campaign F: adoption 0.35 · hold 0.20 · switch 0.25 · compose 0.20 (sub-scores below) |
+| **G Ref control (v1.2)** | 41.0 | **51.0** | campaign F: adoption 0.35 · hold 0.20 · switch 0.25 · compose 0.20 (sub-scores below) |
 
 \* B is currently pairwise-only (its absolute artifact-burden component
 awaits an audit re-run after a blinding-key incident) — read it as "how
@@ -177,9 +177,9 @@ Lucy mirror arm ran the identical 65-job matrix (2 parallel lanes,
 |---|---|---|---|
 | Adoption across full input matrix (.35) | **56.7** | 37.5 | Lucy anchors even on the 5-person crowd (0.39–0.76) and hits higher sims (up to 0.76); both fail wide-shot small-face; stylized refs mostly fail on both |
 | Anchored-identity hold (.20) | 50.0 | **66.7** | Xmax 180 s holds are flat both reps; one Lucy hold capture lost to a no-face segment |
-| Mid-video switch (.25) | 43.4 | **56.1** | Lucy switches **in-session in 2–10 s (median ~3 s wall-time, time-base corrected 08-18)** via `set_image` but only ~58% reliably; Xmax cannot switch in-session (0/16) but its re-session mechanism is 2/2 with a ~7 s transition |
+| Mid-video switch (.25, ½ success·speed + ½ judged quality) | 44.8 | **58.0** | Lucy switches **in-session in 2–10 s (median ~3 s wall)** but only ~58% reliably **and roughly** (judged transition severity up to 3/3); Xmax cannot switch in-session (0/16) but its re-session mechanism is 2/2 with a ~7 s transition |
 | Text edit on anchored character (.20) | 0.0 | **50.0** | Xmax scene-level edits keep the character (person-level edits reset it); ANY Lucy text edit evicts her anchor |
-| **Axis G** | 40.7 | **50.5** | Xmax's first capability-axis win — on its sector's core interaction |
+| **Axis G** | 41.0 | **51.0** | Xmax's first capability-axis win — on its sector's core interaction |
 
 **Confirmed working (Xmax X2.0, native browser lens):**
 
@@ -359,8 +359,8 @@ product).
 
 | Track 1 | RTV-Score | | Track 2 | RTV-Score |
 |---|---|---|---|---|
-| lucy-2.5 (lens P) | 47.0 | | happy-oyster | 47.6 |
-| xmax-x2.0 (lens P-browser) | 42.5 | | lingbot | 37.6 |
+| lucy-2.5 (lens P) | 47.1 | | happy-oyster | 47.6 |
+| xmax-x2.0 (lens P-browser) | 42.6 | | lingbot | 37.6 |
 
 | axis | lucy-2.5·P | xmax-x2.0·P-browser |
 |---|---|---|
@@ -370,13 +370,13 @@ product).
 | D live editing | 84.8 | 54.0 |
 | E latency | - | 58.0 |
 | F deploy-CN | 50 | 100 |
-| G ref control | 40.7 | 50.5 |
+| G ref control | 41.0 | 51.0 |
 
 | profile | lucy-2.5·P | xmax-x2.0·P-browser |
 |---|---|---|
-| CREATOR-GLOBAL | 77.7 | 40.5 |
-| LAB | 74.4 | 46.3 |
-| STREAMER-CN | 67.3 | 59.9 |
+| CREATOR-GLOBAL | 77.8 | 40.6 |
+| LAB | 74.4 | 46.4 |
+| STREAMER-CN | 67.4 | 60.0 |
 
 ### Sub-metric drill-down
 
@@ -395,7 +395,7 @@ product).
 | F | CN-market | 50 | 100 |
 | G | adoption (full matrix) | 56.7 | 37.5 |
 | G | anchored hold | 50.0 | 66.7 |
-| G | mid-video switch | 43.4 | 56.1 |
+| G | mid-video switch | 44.8 | 58.0 |
 | G | · switch in-session | 43.4 | 0.0 |
 | G | · switch re-session mech | - | 56.1 |
 | G | edit on anchored character | 0.0 | 50.0 |
