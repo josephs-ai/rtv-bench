@@ -1,0 +1,11 @@
+{
+  "run_id": "B-xmax-x2.0-C0-r0196",
+  "product": "xmax-x2.0",
+  "prompt": "oil painting style, thick impasto brush strokes, warm palette",
+  "fps": 30.0,
+  "frames": 276,
+  "clip": "/Users/joseph/rtv-eval/data/reel/input-xmax-x2.0.mp4",
+  "duration_intended_s": 60.0,
+  "round_index": 196,
+  "lens": "M"
+}
